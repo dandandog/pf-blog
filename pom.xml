@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>com.dandandog.fastcode</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <groupId>com.dandandog.blog</groupId>
+    <artifactId>pf-blog</artifactId>
+    <name>pf :: blog</name>
+    <packaging>war</packaging>
+    <version>1.0.0</version>
+
+    <properties>
+        <ecuador-theme.version>4.0.0</ecuador-theme.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.dandandog.fastcode</groupId>
+            <artifactId>framework-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dandandog.fastcode</groupId>
+            <artifactId>framework-faces</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dandandog.fastcode</groupId>
+            <artifactId>framework-mapstruct</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>ecuador-theme</artifactId>
+            <version>${ecuador-theme.version}</version>
+        </dependency>
+        
+    </dependencies>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profileActive>dev</profileActive>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profileActive>test</profileActive>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profileActive>prod</profileActive>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+</project>

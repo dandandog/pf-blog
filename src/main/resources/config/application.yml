@@ -1,0 +1,64 @@
+server:
+  servlet:
+    context-path: /blog
+  port: 8081
+joinfaces:
+  jsf:
+    project-stage: Production
+    #facelets-refresh-period: -1
+    state-saving-method: server
+    facelets-suffix: .faces
+    #facelets-skip-comments: true
+    enable-validate-whole-bean: true
+    interpret-empty-string-submitted-values-as-null: true
+  primefaces:
+    theme: ecuador-#{guestPreferences.theme}
+    font-awesome: true
+    #transform-metadata: true
+    #client-side-validation: true
+    #move-scripts-to-bottom: true
+    uploader: auto
+    submit: partial
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 200MB #单个文件上传大小
+      max-request-size: 600MB #连续上传文件大小
+  messages:
+    basename: framework-messages, blog-messages
+  application:
+    name: pf-blog
+  profiles:
+    active: @profileActive@
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 1
+        max-active: 10
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: 'select 1'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: true
+        filters: stat,wall
+        async-init: true
+
+mybatis-plus:
+  type-aliases-package: com.dandandog.blog.**.entity
+  typeEnumsPackage: com.dandandog.blog.**.entity.enums
+  configuration:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    cache-enabled: true
+fast-code:
+  page:
+    not-found: /notfound
+  map-struct:
+    url-domain: http://image.myelephant.cn

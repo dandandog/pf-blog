@@ -13,7 +13,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
     </f:facet>
-    <title>PrimeFaces Ecuador - Access Denied</title>
+    <title>index</title>
+
+    <h:outputStylesheet name="css/primeflex.min.css" library="ecuador-layout"/>
+
+    <h:outputStylesheet>
+        .center-panel {
+            max-width: 500px;
+            margin: auto;
+            text-align: left
+        }
+    </h:outputStylesheet>
 </h:head>
 
 <h:body styleClass="exception-body">
@@ -24,38 +34,58 @@
     </div>
 
     <div class="exception-panel">
-        <h:form>
-            <p:messages id="messages" forType="messages" style="max-width: 500px;margin: auto;text-align: left">
-                <p:autoUpdate/>
-            </p:messages>
-            <div class="top">
-                <p:outputPanel styleClass="ui-fluid p-formgrid p-grid"
-                               style="max-width: 500px;margin: auto; text-align: left">
+
+        <div class="center-panel">
+            <h:form>
+                <h2>#{msg['blog']['databaseConfig']}</h2>
+                <p:messages id="messages" globalOnly="true"/>
+                <p:outputPanel id="inputPanel" styleClass="ui-fluid p-formgrid p-grid ">
                     <framework:label value="#{msg['blog']['poolName']}">
-                        <p:inputText value="#{viewScope.datasource.poolName}"/>
+                        <p:inputText value="#{viewScope.datasource.pollName}" required="true"/>
                     </framework:label>
-                    <framework:label value="#{msg['blog']['driverClassName']}">
-                        <p:inputText value="#{viewScope.datasource.driverClassName}"/>
+
+                    <framework:label value="#{msg['blog']['dataBase']}">
+                        <p:selectOneMenu value="#{viewScope.datasource.dataBaseDriver}" required="true">
+                            <f:selectItems value="#{viewScope.dataBaseDrivers}" var="dataBaseDriver"
+                                           itemValue="#{dataBaseDriver}" itemLabel="#{dataBaseDriver}"/>
+                        </p:selectOneMenu>
                     </framework:label>
-                    <framework:label value="#{msg['blog']['url']}">
-                        <p:inputText value="#{viewScope.datasource.url}"/>
+
+                    <framework:label value="#{msg['blog']['host']}">
+                        <p:inputText value="#{viewScope.datasource.host}" required="true"/>
+                    </framework:label>
+                    <framework:label value="#{msg['blog']['port']}">
+                        <p:inputText value="#{viewScope.datasource.port}" required="true"/>
                     </framework:label>
                     <framework:label value="#{msg['blog']['username']}">
-                        <p:inputText value="#{viewScope.datasource.username}"/>
+                        <p:inputText value="#{viewScope.datasource.username}" required="true"/>
                     </framework:label>
                     <framework:label value="#{msg['blog']['password']}">
-                        <p:inputText value="#{viewScope.datasource.password}"/>
+                        <p:inputText value="#{viewScope.datasource.password}" required="true"/>
                     </framework:label>
                 </p:outputPanel>
-                <div class="seperator"></div>
-            </div>
-            <div class="bottom">
-                <p:commandButton value="Test" styleClass="raised-btn" process="@this"
-                                 action="#{controller.testConnection}"/>
-            </div>
-        </h:form>
-    </div>
 
+                <p:divider/>
+
+                <p:outputPanel styleClass="p-d-flex p-jc-between ">
+                    <p:commandButton value="#{msg['blog']['testConnection']}" styleClass="raised-btn ui-button-success"
+                                     process="@form"
+                                     update="@form"
+                                     action="#{controller.onTest}"/>
+                    <p:outputPanel>
+                        <p:commandButton value="#{msg['framework']['cancel']}"
+                                         styleClass="raised-btn ui-button-secondary p-mr-2"
+                                         action="#{controller.onCancel}"
+                                         update="@form" immediate="true">
+                            <p:resetInput target="inputPanel"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{msg['framework']['confirm']}" styleClass="raised-btn" process="@form"
+                                         action="#{controller.onConfirm}"/>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </h:form>
+        </div>
+    </div>
     <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ecuador-layout"/>
 </h:body>
 

@@ -31,11 +31,14 @@ spring:
     name: pf-blog
   profiles:
     active: @profileActive@
+    include: datasource
   datasource:
     druid:
       stat-view-servlet:
         enabled: true
     dynamic:
+      primary: master
+      strict: false
       druid:
         initial-size: 1
         min-idle: 1

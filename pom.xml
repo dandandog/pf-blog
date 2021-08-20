@@ -38,7 +38,10 @@
             <artifactId>ecuador-theme</artifactId>
             <version>${ecuador-theme.version}</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>

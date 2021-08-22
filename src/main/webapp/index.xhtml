@@ -8,7 +8,7 @@
 
 <h:head>
     <f:facet name="first">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="x-ua-compatible" content="ie=edge"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -27,27 +27,23 @@
 </h:head>
 
 <h:body styleClass="exception-body">
-    <div class="exception-topbar">
-        <h:link outcome="/dashboard" class="logo">
-            <p:graphicImage name="images/ecuador-logo.png" library="ecuador-layout"/>
-        </h:link>
-    </div>
+    <h:form>
+        <div class="exception-topbar">
+            <p:link outcome="/dashboard" class="logo">
+                <p:graphicImage name="images/ecuador-logo.png" library="ecuador-layout"/>
+            </p:link>
+        </div>
 
-    <div class="exception-panel">
+        <div class="exception-panel">
+            <p:card class="card center-panel">
 
-        <div class="center-panel">
-            <h:form>
                 <h2>#{msg['blog']['databaseConfig']}</h2>
                 <p:messages id="messages" globalOnly="true"/>
                 <p:outputPanel id="inputPanel" styleClass="ui-fluid p-formgrid p-grid ">
-                    <framework:label value="#{msg['blog']['poolName']}">
-                        <p:inputText value="#{viewScope.datasource.pollName}" required="true"/>
-                    </framework:label>
-
-                    <framework:label value="#{msg['blog']['dataBase']}">
-                        <p:selectOneMenu value="#{viewScope.datasource.dataBaseDriver}" required="true">
-                            <f:selectItems value="#{viewScope.dataBaseDrivers}" var="dataBaseDriver"
-                                           itemValue="#{dataBaseDriver}" itemLabel="#{dataBaseDriver}"/>
+                    <framework:label value="#{msg['blog']['database']}">
+                        <p:selectOneMenu value="#{viewScope.datasource.databaseDriver}" required="true">
+                            <f:selectItems value="#{viewScope.databaseDrivers}" var="databaseDriver"
+                                           itemValue="#{databaseDriver}" itemLabel="#{databaseDriver}"/>
                         </p:selectOneMenu>
                     </framework:label>
 
@@ -80,13 +76,13 @@
                             <p:resetInput target="inputPanel"/>
                         </p:commandButton>
                         <p:commandButton value="#{msg['framework']['confirm']}" styleClass="raised-btn" process="@form"
+                                         update="@form"
                                          action="#{controller.onConfirm}"/>
                     </p:outputPanel>
                 </p:outputPanel>
-            </h:form>
+            </p:card>
         </div>
-    </div>
-    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ecuador-layout"/>
+        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ecuador-layout"/>
+    </h:form>
 </h:body>
-
 </html>

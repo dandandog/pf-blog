@@ -1,12 +1,10 @@
 package com.dandandog.blog.common.database;
 
-import lombok.Data;
-
 /**
  * @Author: JohnnyLiu
  * @Date: 2021/8/20 10:39
  */
-public enum DataBaseDriver {
+public enum DatabaseDriver {
 
     MYSQL("com.mysql.cj.jdbc.Driver", "jdbc:mysql://{0}:{1}/{2}"),
 
@@ -18,7 +16,7 @@ public enum DataBaseDriver {
 
     private final String urlFormat;
 
-    DataBaseDriver(String driverClassName, String urlFormat) {
+    DatabaseDriver(String driverClassName, String urlFormat) {
         this.driverClassName = driverClassName;
         this.urlFormat = urlFormat;
     }

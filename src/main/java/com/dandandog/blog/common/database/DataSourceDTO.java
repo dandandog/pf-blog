@@ -19,7 +19,7 @@ public class DataSourceDTO {
 
     private String port = "3306";
 
-    private DataBaseDriver dataBaseDriver;
+    private DatabaseDriver databaseDriver;
 
     private String username;
 
@@ -30,15 +30,15 @@ public class DataSourceDTO {
     private String url;
 
     public String getDriverClassName() {
-        if (dataBaseDriver != null) {
-            return dataBaseDriver.getDriverClassName();
+        if (databaseDriver != null) {
+            return databaseDriver.getDriverClassName();
         }
         return null;
     }
 
     public String getUrl() {
-        if (dataBaseDriver != null) {
-            return StrUtil.indexedFormat(dataBaseDriver.getUrlFormat(), this.host, this.port, "pf_blog");
+        if (databaseDriver != null) {
+            return StrUtil.indexedFormat(databaseDriver.getUrlFormat(), this.host, this.port, "pf_blog");
         }
         return null;
     }

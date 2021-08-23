@@ -3,6 +3,7 @@ package com.dandandog.blog.modules.system.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.blog.modules.system.entity.enums.UserGender;
 import com.dandandog.blog.modules.system.entity.enums.UserState;
+import com.dandandog.blog.modules.system.entity.enums.UserType;
 import com.dandandog.framework.core.entity.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +24,11 @@ import java.time.LocalDateTime;
 public class AuthUser extends AuditableEntity {
     private static final long serialVersionUID = -32722285353331566L;
 
+
+    public AuthUser(UserType type) {
+        this.type = type;
+    }
+
     /**
      * 昵称
      */
@@ -35,6 +41,10 @@ public class AuthUser extends AuditableEntity {
      * 密码
      */
     private String password;
+    /**
+     * 类型
+     */
+    private UserType type;
     /**
      * 盐
      */
@@ -72,6 +82,7 @@ public class AuthUser extends AuditableEntity {
      * 有效时间
      */
     private LocalDateTime expiredTime;
+
 
 //
 //    @TableField(exist = false)

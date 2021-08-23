@@ -36,10 +36,9 @@
 
         <div class="exception-panel">
             <p:card class="card center-panel">
-
-                <h2>#{msg['blog']['databaseConfig']}</h2>
+                <h2 style="text-align: center;">#{msg['blog']['databaseConfig']}</h2>
                 <p:messages id="messages" globalOnly="true"/>
-                <p:outputPanel id="inputPanel" styleClass="ui-fluid p-formgrid p-grid ">
+                <p:outputPanel id="inputPanel" styleClass="ui-fluid p-formgrid p-grid">
                     <framework:label value="#{msg['blog']['database']}">
                         <p:selectOneMenu value="#{viewScope.datasource.databaseDriver}" required="true">
                             <f:selectItems value="#{viewScope.databaseDrivers}" var="databaseDriver"

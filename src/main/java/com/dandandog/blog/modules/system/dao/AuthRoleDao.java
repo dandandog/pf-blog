@@ -2,7 +2,6 @@ package com.dandandog.blog.modules.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dandandog.blog.modules.system.entity.AuthRole;
-import com.myelephant.runningmom.modules.auth.entity.AuthRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

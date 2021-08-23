@@ -3,8 +3,6 @@ package com.dandandog.blog.modules.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dandandog.blog.modules.system.entity.AuthResource;
 import com.dandandog.blog.modules.system.entity.AuthRole;
-import com.myelephant.runningmom.modules.auth.entity.AuthResource;
-import com.myelephant.runningmom.modules.auth.entity.AuthRole;
 
 import java.util.List;
 

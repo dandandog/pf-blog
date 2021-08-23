@@ -21,9 +21,9 @@ public interface AuthUserService extends IService<AuthUser> {
 
     void save(AuthUser user, List<AuthRole> roles);
 
-    Optional<AuthUser> findByEmail(String email);
-
     Multimap<String, String> loadUserRole();
+
+    Optional<AuthUser> findByEmail(String email);
 
     void reloadUserRole();
 

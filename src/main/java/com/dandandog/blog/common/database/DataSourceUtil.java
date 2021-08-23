@@ -41,7 +41,7 @@ public class DataSourceUtil {
         DataSourceProperty dataSourceProperty = copyProperties(dto);
         dataSourceProperty.getDruid().setConnectionErrorRetryAttempts(3);
         DataSource dataSource = basicDataSourceCreator.createDataSource(dataSourceProperty);
-        Connection connection = null;
+        Connection connection;
         try {
             connection = Optional.ofNullable(dataSource.getConnection()).orElseThrow(RuntimeException::new);
         } catch (SQLException ignored) {

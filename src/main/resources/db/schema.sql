@@ -93,6 +93,7 @@ CREATE TABLE `auth_user`
     `salt`          varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '盐',
     `email`         varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
     `phone`         varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '手机号码',
+    `type`          int(1) NOT NULL  COMMENT '类型（0：管理员；1： 用户；)',
     `state`         int(1) NULL DEFAULT NULL COMMENT '状态（0：正常；1： 冻结；2：未激活)',
     `gender`        int(1) NULL DEFAULT NULL COMMENT '性别（0：男；1： 女；2：未知)',
     `avatar_url`    varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像',

@@ -42,21 +42,19 @@
                     <framework:label value="#{msg['framework']['username']}">
                         <p:inputText value="#{viewScope.user.username}" required="true"/>
                     </framework:label>
-                    <framework:label value="#{msg['framework']['inputPassword']}"
-                                     rendered="#{viewScope.vo.id == null}">
+                    <framework:label value="#{msg['framework']['inputPassword']}">
                         <p:password id="password1" match="@widgetVar(password2)" feedback="true"
                                     autocomplete="new-password" required="true"
                                     promptLabel="#{msg['framework']['promptPassword']}"
                                     weakLabel="#{msg['framework']['weakPassword']}"
                                     goodLabel="#{msg['framework']['goodPassword']}"
                                     strongLabel="#{msg['framework']['strongPassword']}"
-                                    value="#{viewScope.vo.password}"/>
+                                    value="#{viewScope.user.password}"/>
                     </framework:label>
-                    <framework:label value="#{msg['framework']['confirmPassword']}"
-                                     rendered="#{viewScope.vo.id == null}">
+                    <framework:label value="#{msg['framework']['confirmPassword']}">
                         <p:password id="password2" widgetVar="password2" autocomplete="new-password"
                                     required="true"
-                                    value="#{viewScope.vo.password}"/>
+                                    value="#{viewScope.user.password}"/>
                     </framework:label>
                 </p:outputPanel>
 
@@ -72,7 +70,7 @@
                         </p:commandButton>
                         <p:commandButton value="#{msg['framework']['confirm']}" styleClass="raised-btn" process="@form"
                                          update="@form"
-                                         action="#{controller.onConfirm}"/>
+                                         action="#{controller.save}"/>
                     </p:outputPanel>
                 </p:outputPanel>
             </p:card>

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.dandandog.blog.modules.system.entity.AuthRole;
 import com.dandandog.blog.modules.system.entity.AuthUser;
 import com.google.common.collect.Multimap;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +15,8 @@ import java.util.Optional;
  * @author JohnnyLiu
  * @since 2020-09-06 22:06:06
  */
-//UserDetailsService
-public interface AuthUserService extends IService<AuthUser> {
+//
+public interface AuthUserService extends IService<AuthUser>, UserDetailsService {
 
     List<String> findRoleByUser(String userId);
 

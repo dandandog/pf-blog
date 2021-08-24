@@ -95,14 +95,6 @@ public class AuthUserServiceImpl extends BaseServiceImpl<AuthUserDao, AuthUser> 
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AuthUser user = lambdaQuery().eq(AuthUser::getUsername, username)
-                .oneOpt().orElseThrow(() -> new UsernameNotFoundException("username not found"));
-        findUserAuthorities(user);
-        return user;
-    }
-
-    @Override
     public void findUserAuthorities(AuthUser user) {
         List<AuthUserRole> userRoles = roleService.lambdaQuery().eq(AuthUserRole::getUserId, user.getId()).list();
         List<GrantedAuthority> authorities = Lists.newArrayList();

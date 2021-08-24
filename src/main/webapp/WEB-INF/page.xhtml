@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+    </f:facet>
+    <title><ui:insert name="title">PrimeFaces Ecuador</ui:insert></title>
+    <h:outputStylesheet>
+        .login-panel {
+            padding: 10px 36px 70px 36px !important;
+            height: auto !important;
+            width: 400px !important;
+            text-align: left !important;
+            top: 20% !important;
+        }
+
+        .login-body .login-panel input {
+            width: 100%;
+            margin: 6px 0;
+        }
+
+        .ui-float-label > input:focus ~ label, .ui-float-label > input.ui-state-filled ~ label, .ui-float-label > textarea:focus ~ label, .ui-float-label > textarea.ui-state-filled ~ label, .ui-float-label > .ui-inputwrapper-focus ~ label, .ui-float-label > .ui-inputwrapper-filled ~ label {
+            top: -.1em !important;
+            font-size: 12px;
+        }
+
+        body .ui-float-label > label {
+            margin-left: 0.8rem;
+            color: #6c757d;
+        }
+
+    </h:outputStylesheet>
+</h:head>
+
+<h:body styleClass="login-body">
+    <div class="login-topbar">
+        <h:link outcome="/dashboard" class="logo">
+            <p:graphicImage name="images/ecuador-logo.png" library="ecuador-layout"/>
+        </h:link>
+    </div>
+    <div class="login-image">
+        <div class="login-panel">
+            <p:messages id="messages" globalOnly="true" style="height: 50px">
+                <p:autoUpdate/>
+            </p:messages>
+            <ui:insert name="content"/>
+        </div>
+    </div>
+
+    <h:outputStylesheet name="css/primeicons.css" library="ecuador-layout"/>
+    <h:outputStylesheet name="css/primeflex.min.css" library="ecuador-layout"/>
+    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ecuador-layout"/>
+</h:body>
+
+</html>

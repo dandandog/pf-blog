@@ -16,12 +16,12 @@
         </div>
 
         <h:link outcome="/dashboard" styleClass="logo-container">
-            <p:graphicImage name="images/ecuador-logo.png" library="ecuador-layout" />
+            <p:graphicImage name="images/ecuador-logo.png" library="ecuador-layout"/>
         </h:link>
 
         <a id="topbar-profile-menu-button" href="#">
-            <span>Jeniffer Reynolds</span>
-            <p:graphicImage name="images/avatar.png" library="ecuador-layout" styleClass="topbar-profile" />
+            <span> <h:outputText value="#{principal.nickname}"/></span>
+            <p:graphicImage name="images/avatar.png" library="ecuador-layout" styleClass="topbar-profile"/>
             <i class="pi pi-caret-down"/>
         </a>
 
@@ -129,6 +129,12 @@
                         </a>
                     </li>
                 </ul>
+            </li>
+            <li>
+                <p:link href="#{request.contextPath}/logout">
+                    <i class="pi pi-fw pi-sign-out"/>
+                    <h:outputText value="#{msg['framework']['logout']}"/>
+                </p:link>
             </li>
         </ul>
 

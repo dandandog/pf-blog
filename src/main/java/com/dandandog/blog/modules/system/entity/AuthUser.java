@@ -32,6 +32,10 @@ public class AuthUser extends AuditableEntity implements UserDetails {
         this.type = type;
     }
 
+    public AuthUser() {
+
+    }
+
     /**
      * 昵称
      */
@@ -63,7 +67,7 @@ public class AuthUser extends AuditableEntity implements UserDetails {
     /**
      * 状态（0：正常；1： 冻结；2：未激活)
      */
-    private UserState state;
+    private UserState state = UserState.NORMAL;
     /**
      * 性别（0：男；1： 女；2：未知)
      */
@@ -89,15 +93,6 @@ public class AuthUser extends AuditableEntity implements UserDetails {
 
     @TableField(exist = false)
     private Collection<? extends GrantedAuthority> authorities;
-
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
 
     @Override
     public boolean isAccountNonExpired() {

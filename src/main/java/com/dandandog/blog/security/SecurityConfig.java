@@ -1,6 +1,7 @@
 package com.dandandog.blog.security;
 
 import com.dandandog.blog.modules.system.service.AuthUserService;
+import com.dandandog.blog.security.service.AuthorizedService;
 import com.dandandog.framework.faces.config.properties.PageProperties;
 import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final PageProperties page;
 
     @Resource
-    private AuthUserService authUserService;
+    private AuthorizedService authorizedService;
 
     @Autowired
     public SecurityConfig(PageProperties page) {
@@ -41,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     @Autowired
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+    public void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 
@@ -101,7 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setHideUserNotFoundExceptions(false);
-        provider.setUserDetailsService(authUserService);
+        provider.setUserDetailsService(authorizedService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }

@@ -16,7 +16,7 @@ import java.util.Optional;
  * @since 2020-09-06 22:06:06
  */
 //
-public interface AuthUserService extends IService<AuthUser>, UserDetailsService {
+public interface AuthUserService extends IService<AuthUser> {
 
     List<String> findRoleByUser(String userId);
 

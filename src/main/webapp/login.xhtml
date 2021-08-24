@@ -1,59 +1,44 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/page.xhtml">
+    <ui:define name="title">#{msg['framework']['login']}</ui:define>
+    <ui:define name="content">
+        <h:form id="login" prependId="false">
+            <h2 style="text-align: center;">#{msg['framework']['login']}</h2>
+            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
+                <p:inputText id="username" required="true"/>
+                <p:outputLabel for="@previous" value="#{msg['framework']['username']}"/>
+            </p:outputPanel>
+            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
+                <p:password id="password"
+                            autocomplete="new-password" required="true"/>
+                <p:outputLabel for="@previous" value="#{msg['framework']['password']}"/>
+            </p:outputPanel>
+            <p:outputPanel styleClass="checkbox-container">
+                <p:outputPanel styleClass="p-d-flex p-jc-between">
+                    <div class="remember-me">
+                        <p:selectBooleanCheckbox id="rememberMe"/>
+                        <span>Remember me</span>
+                    </div>
+                    <p:link outcome="/register" value="#{msg['framework']['register']}"/>
+                </p:outputPanel>
+            </p:outputPanel>
+            <p:outputPanel styleClass="p-col-12">
+                <p:commandButton action="#{controller.onLogin}" style="width: 100%" ajax="false" update="@form"
+                                 value="#{msg['framework']['login']}" icon="fa fa-check">
+                </p:commandButton>
+            </p:outputPanel>
 
-<h:head>
-    <f:facet name="first">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-        <meta name="apple-mobile-web-app-capable" content="yes"/>
-    </f:facet>
-    <title>PrimeFaces Ecuador - Login</title>
-</h:head>
+            <p:divider/>
 
-<h:body styleClass="login-body">
-    <div class="login-topbar">
-        <h:link outcome="/dashboard" class="logo">
-            <p:graphicImage name="images/ecuador-logo.png" library="ecuador-layout"/>
-        </h:link>
-    </div>
-    <div class="login-image">
-        <div class="login-panel">
-            <p:graphicImage name="images/ecuador-orange-logo.png" library="ecuador-layout"/>
-            <div class="p-col-12">
-                <div class="input-wrapper">
-                    <p:inputText placeholder="Username"/>
-                </div>
-            </div>
-            <div class="p-col-12">
-                <div class="input-wrapper">
-                    <p:inputText placeholder="Password"/>
-                </div>
-            </div>
-            <div class="checkbox-container">
-                <div class="remember-me">
-                    <p:selectBooleanCheckbox/>
-                    <span>Remember me</span>
-                </div>
-                <p:commandButton type="button" value="Login"/>
-            </div>
-
-            <div class="separator"></div>
-
-            <a href="#" class="subinfo">
-                <span>Forgot your password?</span>
-            </a>
-
-        </div>
-    </div>
-
-    <h:outputStylesheet name="css/primeicons.css" library="ecuador-layout"/>
-    <h:outputStylesheet name="css/primeflex.min.css" library="ecuador-layout"/>
-    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ecuador-layout"/>
-</h:body>
-
-</html>
+            <p:outputPanel>
+                <a href="#" class="subinfo">
+                    <span>Forgot your password?</span>
+                </a>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

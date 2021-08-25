@@ -37,16 +37,12 @@ public class DataSourceUtil {
         return CollUtil.isNotEmpty(ds.getCurrentDataSources());
     }
 
-    public Connection testConnection(DataSourceDTO dto) throws RuntimeException {
+    public Connection testConnection(DataSourceDTO dto) throws Exception {
         DataSourceProperty dataSourceProperty = copyProperties(dto);
         dataSourceProperty.getDruid().setConnectionErrorRetryAttempts(3);
         DataSource dataSource = basicDataSourceCreator.createDataSource(dataSourceProperty);
         Connection connection;
-        try {
-            connection = Optional.ofNullable(dataSource.getConnection()).orElseThrow(RuntimeException::new);
-        } catch (SQLException ignored) {
-            throw new RuntimeException();
-        }
+        connection = Optional.ofNullable(dataSource.getConnection()).orElseThrow(RuntimeException::new);
         return connection;
     }
 

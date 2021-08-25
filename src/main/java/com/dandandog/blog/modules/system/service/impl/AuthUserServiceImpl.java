@@ -7,6 +7,7 @@ import cn.hutool.extra.mail.MailUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.dandandog.blog.modules.system.dao.AuthUserDao;
 import com.dandandog.blog.modules.system.entity.*;
+import com.dandandog.blog.modules.system.entity.enums.UserType;
 import com.dandandog.blog.modules.system.service.AuthResourceService;
 import com.dandandog.blog.modules.system.service.AuthRoleResourceService;
 import com.dandandog.blog.modules.system.service.AuthUserRoleService;
@@ -18,6 +19,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.session.SessionInformation;
@@ -31,6 +33,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -80,6 +83,14 @@ public class AuthUserServiceImpl extends BaseServiceImpl<AuthUserDao, AuthUser> 
         return lambdaQuery().eq(AuthUser::getEmail, email).oneOpt();
     }
 
+
+    @Override
+    public Optional<AuthUser> findByUsername(String username) {
+        Optional<AuthUser> authUser = lambdaQuery().eq(AuthUser::getUsername, username)
+                .oneOpt();
+        return authUser.map(this::findUserAuthorities);
+    }
+
     @Override
     public Multimap<String, String> loadUserRole() {
         List<AuthUserRole> roles = roleService.list();
@@ -95,19 +106,22 @@ public class AuthUserServiceImpl extends BaseServiceImpl<AuthUserDao, AuthUser> 
     }
 
     @Override
-    public void findUserAuthorities(AuthUser user) {
+    public AuthUser findUserAuthorities(AuthUser user) {
         List<AuthUserRole> userRoles = roleService.lambdaQuery().eq(AuthUserRole::getUserId, user.getId()).list();
-        List<GrantedAuthority> authorities = Lists.newArrayList();
+
+        String userType = findUserType(user);
+        Collection<GrantedAuthority> type = AuthorityUtils.commaSeparatedStringToAuthorityList(userType);
+        user.getAuthorities().addAll(type);
 
         String roleArr = findUserRoles(userRoles);
-        List<GrantedAuthority> roles = AuthorityUtils.commaSeparatedStringToAuthorityList(roleArr);
-        authorities.addAll(roles);
+        Collection<GrantedAuthority> roles = AuthorityUtils.commaSeparatedStringToAuthorityList(roleArr);
+        user.getAuthorities().addAll(roles);
 
         String rolePermArr = findRolePerms(userRoles);
-        List<GrantedAuthority> perms = AuthorityUtils.commaSeparatedStringToAuthorityList(rolePermArr);
-        authorities.addAll(perms);
+        Collection<GrantedAuthority> perms = AuthorityUtils.commaSeparatedStringToAuthorityList(rolePermArr);
+        user.getAuthorities().addAll(perms);
 
-        user.setAuthorities(authorities);
+        return user;
     }
 
     @Override
@@ -125,10 +139,13 @@ public class AuthUserServiceImpl extends BaseServiceImpl<AuthUserDao, AuthUser> 
         while (it.hasNext()) {
             HttpSession session = it.next();
             SessionInformation sessionInformation = sessionRegistry.getSessionInformation(session.getId());
-            AuthUser user = (AuthUser) sessionInformation.getPrincipal();
-            findUserAuthorities(user);
+            AuthUser user = findUserAuthorities((AuthUser) sessionInformation.getPrincipal());
             SessionUtil.refreshSession(session, user);
         }
+    }
+
+    private String findUserType(AuthUser user) {
+        return "ROLE_" + user.getType().name();
     }
 
     private String findUserRoles(List<AuthUserRole> userRoles) {

@@ -12,11 +12,11 @@ public enum UserType implements BaseEnum<Integer> {
     /**
      * 正常
      */
-    ADMIN(0, "normal"),
+    ADMIN(0, "admin"),
     /**
      * 冻结
      */
-    USER(1, "freeze");
+    USER(1, "user");
 
     private final int value;
 

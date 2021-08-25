@@ -49,15 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         FacesFailureHandler facesFailureHandler = new FacesFailureHandler(page.getLoginFailed());
-        FacesSuccessHandler facesSuccessHandler = new FacesSuccessHandler(page.getIndex());
-
-        // http.addFilterBefore(captchaFilter(facesFailureHandler), UsernamePasswordAuthenticationFilter.class);
-//        Multimap<String, String> userRoles = authUserService.loadUserRole();
-//        for (String key : userRoles.keys()) {
-//            String[] urls = userRoles.get(key).toArray(new String[0]);
-//            http.authorizeRequests().antMatchers(urls).hasAuthority(key).
-//                    and().authorizeRequests().antMatchers(urls).hasRole("ADMIN");
-//        }
+        FacesSuccessHandler facesSuccessHandler = new FacesSuccessHandler("/dashboard");
 
         http.authorizeRequests()
                 //游客允许访问
@@ -65,7 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //所有请求需要登入
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage(page.getLogin()).permitAll()
+                .formLogin()
+                .loginPage(page.getLogin())
+                .permitAll()
                 .successHandler(facesSuccessHandler)
                 .failureHandler(facesFailureHandler)
                 .and()
@@ -100,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        AuthenticationProvider provider = new AuthenticationProvider();
         provider.setHideUserNotFoundExceptions(false);
         provider.setUserDetailsService(authorizedService);
         provider.setPasswordEncoder(passwordEncoder());

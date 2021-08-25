@@ -7,49 +7,52 @@
                 template="/WEB-INF/page.xhtml">
     <ui:define name="title">#{msg['framework']['register']}</ui:define>
     <ui:define name="content">
-        <h2 style="text-align: center;">#{msg['blog']['databaseConfig']}</h2>
-        <framework:label value="#{msg['blog']['database']}">
-            <p:selectOneMenu value="#{viewScope.datasource.databaseDriver}" required="true" style="width: 100%">
-                <f:selectItems value="#{viewScope.databaseDrivers}" var="databaseDriver"
-                               itemValue="#{databaseDriver}" itemLabel="#{databaseDriver}"/>
-            </p:selectOneMenu>
-        </framework:label>
+        <h:form>
+            <h2 style="text-align: center;">#{msg['blog']['databaseConfig']}</h2>
 
-        <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
-            <p:inputText value="#{viewScope.datasource.host}" required="true"/>
-            <p:outputLabel for="@previous" value="#{msg['blog']['host']}"/>
-        </p:outputPanel>
-        <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
-            <p:inputText value="#{viewScope.datasource.port}" required="true"/>
-            <p:outputLabel for="@previous" value="#{msg['blog']['port']}"/>
-        </p:outputPanel>
-        <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
-            <p:inputText value="#{viewScope.datasource.username}" required="true"/>
-            <p:outputLabel for="@previous" value="#{msg['blog']['username']}"/>
-        </p:outputPanel>
-        <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
-            <p:inputText value="#{viewScope.datasource.password}" required="true"/>
-            <p:outputLabel for="@previous" value="#{msg['blog']['password']}"/>
-        </p:outputPanel>
+            <framework:label value="#{msg['blog']['database']}">
+                <p:selectOneMenu value="#{viewScope.datasource.databaseDriver}" required="true" style="width: 100%">
+                    <f:selectItems value="#{viewScope.databaseDrivers}" var="databaseDriver"
+                                   itemValue="#{databaseDriver}" itemLabel="#{databaseDriver}"/>
+                </p:selectOneMenu>
+            </framework:label>
 
-        <p:divider/>
-
-        <p:outputPanel styleClass="p-d-flex p-jc-between">
-            <p:commandButton value="#{msg['blog']['testConnection']}" styleClass="raised-btn ui-button-success"
-                             process="@form"
-                             update="@form,@(.ui-messages)"
-                             action="#{controller.onTest}"/>
-            <p:outputPanel>
-                <p:commandButton value="#{msg['framework']['cancel']}"
-                                 styleClass="raised-btn ui-button-secondary p-mr-2"
-                                 action="#{controller.onCancel}"
-                                 update="@form" immediate="true">
-                    <p:resetInput target="inputPanel"/>
-                </p:commandButton>
-                <p:commandButton value="#{msg['framework']['confirm']}" styleClass="raised-btn" process="@form"
-                                 update="@form"
-                                 action="#{controller.onConfirm}"/>
+            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
+                <p:inputText value="#{viewScope.datasource.host}" required="true"/>
+                <p:outputLabel for="@previous" value="#{msg['blog']['host']}"/>
             </p:outputPanel>
-        </p:outputPanel>
+            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
+                <p:inputText value="#{viewScope.datasource.port}" required="true"/>
+                <p:outputLabel for="@previous" value="#{msg['blog']['port']}"/>
+            </p:outputPanel>
+            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
+                <p:inputText value="#{viewScope.datasource.username}" required="true"/>
+                <p:outputLabel for="@previous" value="#{msg['blog']['username']}"/>
+            </p:outputPanel>
+            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
+                <p:inputText value="#{viewScope.datasource.password}" required="true"/>
+                <p:outputLabel for="@previous" value="#{msg['blog']['password']}"/>
+            </p:outputPanel>
+
+            <p:divider/>
+
+            <p:outputPanel styleClass="p-d-flex p-jc-between">
+                <p:commandButton value="#{msg['blog']['testConnection']}" styleClass="raised-btn ui-button-success"
+                                 process="@form"
+                                 update="@form,@(.ui-messages)"
+                                 action="#{controller.onTest}"/>
+                <p:outputPanel>
+                    <p:commandButton value="#{msg['framework']['cancel']}"
+                                     styleClass="raised-btn ui-button-secondary p-mr-2"
+                                     action="#{controller.onCancel}"
+                                     update="@form" immediate="true">
+                        <p:resetInput target="inputPanel"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{msg['framework']['confirm']}" styleClass="raised-btn" process="@form"
+                                     update="@form"
+                                     action="#{controller.onConfirm}"/>
+                </p:outputPanel>
+            </p:outputPanel>
+        </h:form>
     </ui:define>
 </ui:composition>

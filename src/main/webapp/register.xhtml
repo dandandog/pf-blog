@@ -8,7 +8,7 @@
 
     <ui:define name="title">#{msg['framework']['register']}</ui:define>
     <ui:define name="content">
-        <h:form id="login" prependId="false">
+        <h:form id="register-form" prependId="false">
             <h2 style="text-align: center;">#{msg['framework']['register']}</h2>
             <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
                 <p:inputText value="#{viewScope.user.username}" required="true"/>
@@ -41,7 +41,7 @@
                                      styleClass="raised-btn ui-button-secondary p-mr-2"
                                      action="#{controller.onCancel}"
                                      update="@form" immediate="true">
-                        <p:resetInput target="inputPanel"/>
+                        <p:resetInput target="register-form"/>
                     </p:commandButton>
                     <p:commandButton value="#{msg['framework']['confirm']}" styleClass="raised-btn" process="@form"
                                      update="@form"

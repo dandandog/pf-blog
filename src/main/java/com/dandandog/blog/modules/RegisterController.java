@@ -36,17 +36,19 @@ public class RegisterController extends FacesController {
     @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)
     public void save() {
         AuthUser user = getViewScope("user");
-        AuthUser authUser = userService.lambdaQuery().eq(AuthUser::getUsername, user.getUsername()).one();
-        if (authUser != null) {
+        Optional<AuthUser> optUser = userService.findByUsername(user.getUsername());
+        optUser.map(authUser -> {
             errorMessages("framework", "existUsername", authUser.getUsername());
-        } else {
+            return authUser;
+        }).orElseGet(() -> {
             user.setSalt(RandomUtil.randomString(6));
-            user.setPwdRestTime(LocalDateTime.now());
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword() + user.getSalt()));
             user.setNickname(user.getUsername());
+            user.setPwdRestTime(LocalDateTime.now());
             userService.save(user);
             redirectInternal("/login");
-        }
+            return user;
+        });
     }
 
 

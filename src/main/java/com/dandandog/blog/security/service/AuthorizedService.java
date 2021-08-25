@@ -1,6 +1,5 @@
 package com.dandandog.blog.security.service;
 
-import com.dandandog.blog.modules.system.entity.AuthUser;
 import com.dandandog.blog.modules.system.service.AuthUserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,9 +20,7 @@ public class AuthorizedService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AuthUser user = userService.lambdaQuery().eq(AuthUser::getUsername, username)
-                .oneOpt().orElseThrow(() -> new UsernameNotFoundException("username not found"));
-        userService.findUserAuthorities(user);
-        return user;
+        return userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username not found"));
     }
+
 }

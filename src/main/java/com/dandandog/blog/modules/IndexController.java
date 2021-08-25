@@ -40,23 +40,27 @@ public class IndexController extends FacesController {
         putViewScope("datasource", new DataSourceDTO());
     }
 
-    public void onConfirm() throws Exception {
+    public void onConfirm() {
         DataSourceDTO dto = getViewScope("datasource");
-        Connection connection = dataSourceUtil.testConnection(dto);
-        if (connection != null) {
-            dataSourceUtil.connectionDataSource(dto);
-            redirectInternal("/register");
-        } else {
+        try {
+            Connection connection = dataSourceUtil.testConnection(dto);
+            if (connection != null) {
+                dataSourceUtil.connectionDataSource(dto);
+                redirectInternal("/register");
+            }
+        } catch (Exception e) {
             errorMessages("blog", "connectionFails");
         }
     }
 
     public void onTest() {
         DataSourceDTO dto = getViewScope("datasource");
-        Connection connection = dataSourceUtil.testConnection(dto);
-        if (connection != null) {
-            infoMessages("blog", "connectionSuccess");
-        } else {
+        try {
+            Connection connection = dataSourceUtil.testConnection(dto);
+            if (connection != null) {
+                infoMessages("blog", "connectionSuccess");
+            }
+        } catch (Exception e) {
             errorMessages("blog", "connectionFails");
         }
     }

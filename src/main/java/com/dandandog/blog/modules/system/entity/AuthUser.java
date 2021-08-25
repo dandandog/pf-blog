@@ -1,5 +1,7 @@
 package com.dandandog.blog.modules.system.entity;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.blog.modules.system.entity.enums.UserGender;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.function.Function;
 
 
 /**
@@ -33,7 +36,6 @@ public class AuthUser extends AuditableEntity implements UserDetails {
     }
 
     public AuthUser() {
-
     }
 
     /**
@@ -84,7 +86,6 @@ public class AuthUser extends AuditableEntity implements UserDetails {
      * 密码上次更新时间
      */
     private LocalDateTime pwdRestTime;
-
     /**
      * 有效时间
      */
@@ -92,7 +93,8 @@ public class AuthUser extends AuditableEntity implements UserDetails {
 
 
     @TableField(exist = false)
-    private Collection<? extends GrantedAuthority> authorities;
+    private Collection<GrantedAuthority> authorities = CollectionUtil.newArrayList();
+
 
     @Override
     public boolean isAccountNonExpired() {

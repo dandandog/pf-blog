@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface>
+    <!-- coustom attrs-->
+    <composite:attribute name="user"/>
+
+</composite:interface>
+
+<composite:implementation>
+    <p:outputPanel styleClass="p-d-flex p-ai-center" style="height: 90px;">
+        <p:avatar size="xlarge" shape="circle" styleClass="p-mr-3">
+            <p:outputPanel rendered="#{cc.attrs.user.avatarUrl eq null}">
+                <i class="ui-avatar-icon pi pi-user"/>
+            </p:outputPanel>
+            <p:outputPanel rendered="#{cc.attrs.user.avatarUrl ne null}">
+                <img src="#{cc.attrs.user.avatarUrl}" style="width: 65px; height: 65px"/>
+            </p:outputPanel>
+        </p:avatar>
+        <h:outputText value="#{cc.attrs.user.nickname}"/>
+    </p:outputPanel>
+
+</composite:implementation>
+
+
+</html>

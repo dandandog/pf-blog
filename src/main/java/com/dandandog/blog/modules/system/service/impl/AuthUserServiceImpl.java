@@ -67,18 +67,6 @@ public class AuthUserServiceImpl extends BaseServiceImpl<AuthUserDao, AuthUser> 
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void save(AuthUser user, List<AuthRole> roles) {
-        if (saveOrUpdate(user)) {
-            roleService.lambdaUpdate().eq(AuthUserRole::getUserId, user.getId()).remove();
-            List<AuthUserRole> userRoles = CollUtil.emptyIfNull(roles).stream()
-                    .map(role -> new AuthUserRole(user.getId(), role.getId(), role.getCode()))
-                    .collect(Collectors.toList());
-            roleService.saveBatch(userRoles);
-        }
-    }
-
-    @Override
     public Optional<AuthUser> findByEmail(String email) {
         return lambdaQuery().eq(AuthUser::getEmail, email).oneOpt();
     }

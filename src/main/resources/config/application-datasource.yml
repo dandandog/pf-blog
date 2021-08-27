@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          password: password
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/pf_blog?useUnicode=true&characterEncoding=UTF-8
+          username: root

@@ -31,7 +31,5 @@ public interface AuthUserService extends IService<AuthUser> {
 
     void reloadUserRole();
 
-    void save(AuthUser user, List<AuthRole> roles);
-
     void sendEmailByUser(AuthUser user, String email, String subject, String text);
 }

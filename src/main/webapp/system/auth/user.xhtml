@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:framework="http://java.sun.com/jsf/composite/components">
+    <ui:define name="title">#{msg['blog']['user']}</ui:define>
+    <ui:define name="viewname">
+        <li>System</li>
+        <li>/</li>
+        <li>Auth</li>
+        <li>/</li>
+        <li>User</li>
+    </ui:define>
+    <ui:define name="content">
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="card">
+                    <h:form id="user_form" prependId="false">
+                        <framework:dataTable id="user" lazy="true" formDialogId="user"
+                                             headText="#{msg['blog']['user']}" addSupported="false"
+                                             value="#{controller.dataModel}"
+                                             singleSelection="#{viewScope.sinSelected}"
+                                             multipleSelection="#{viewScope.mulSelected}">
+
+                            <p:column headerText="#{msg['blog']['nickname']}" field="nickname"
+                                      filterMatchMode="contains">
+                                <framework:avatar user="#{element}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['blog']['phone']}"
+                                      field="phone" filterMatchMode="contains">
+                                <h:outputText value="#{element.phone}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['blog']['email']}"
+                                      field="email" filterMatchMode="contains">
+                                <h:outputText value="#{element.email}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['blog']['userState']}"
+                                      field="state" filterMatchMode="equals">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('blog').filter()" converter="#{userStateConverter}"
+                                                     styleClass="ui-column-filter">
+                                        <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
+                                                      noSelectionOption="true"/>
+                                        <f:selectItems value="#{viewScope.states}" var="state"
+                                                       itemLabel="#{msg['userEnum'][state.title]}"
+                                                       itemValue="#{state}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <h:outputText value="#{msg['userEnum'][element.state.title]}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['blog']['gender']}"
+                                      field="gender" filterMatchMode="equals">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('blog').filter()" converter="#{userGenderConverter}"
+                                                     styleClass="ui-column-filter">
+                                        <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
+                                                      noSelectionOption="true"/>
+                                        <f:selectItems value="#{viewScope.genders}" var="gender"
+                                                       itemLabel="#{msg['userEnum'][gender.title]}"
+                                                       itemValue="#{gender}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <h:outputText value="#{msg['userEnum'][element.gender.title]}"/>
+                            </p:column>
+
+                            <p:column headerText="#{msg['blog']['userType']}"
+                                      sortable="true">
+                                <h:outputText value="#{msg['userEnum'][element.type.title]}"/>
+                            </p:column>
+
+                            <p:column headerText="#{msg['framework']['createdTime']}" sortBy="createdTime"
+                                      sortable="true" width="150"
+                                      sortOrder="asc" sortPriority="1">
+                                <h:outputText value="#{element.createdTime}">
+                                    <f:convertDateTime type="localDateTime"
+                                                       pattern="#{msg['format']['localDateTime']}"/>
+                                </h:outputText>
+                            </p:column>
+                        </framework:dataTable>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="dialog">
+        <h:form id="dialogform">
+            <framework:dialog id="user" value="#{viewScope.vo}" height="700"
+                              saveUpdate="@widgetVar(user_dataTable)">
+                <framework:label target="avatar" value="#{msg['blog']['avatar']}" styleClass="p-col-12">
+                    <framework:upload id="avatar" value="#{viewScope.vo.avatarUrl}"/>
+                </framework:label>
+                <framework:label target="nickname" value="#{msg['blog']['nickname']}" styleClass="p-col-6">
+                    <p:inputText id="nickname" value="#{viewScope.vo.nickname}"/>
+                </framework:label>
+                <framework:label target="username" value="#{msg['blog']['username']}" styleClass="p-col-6">
+                    <p:inputText id="username" required="true" value="#{viewScope.vo.username}"/>
+                </framework:label>
+                <framework:label target="password1" value="#{msg['blog']['password1']}"
+                                 rendered="#{viewScope.vo.id == null}" styleClass="p-col-6">
+                    <p:password id="password1" match="@widgetVar(password2)" feedback="true" autocomplete="new-password"
+                                promptLabel="#{msg['blog']['prompt']}" weakLabel="#{msg['blog']['weak']}"
+                                goodLabel="#{msg['blog']['good']}" strongLabel="#{msg['blog']['strong']}"
+                                value="#{viewScope.vo.password}"/>
+                </framework:label>
+                <framework:label target="password2" value="#{msg['blog']['password2']}"
+                                 rendered="#{viewScope.vo.id == null}" styleClass="p-col-6">
+                    <p:password id="password2" widgetVar="password2" autocomplete="new-password"
+                                value="#{viewScope.vo.password}"/>
+                </framework:label>
+                <framework:label target="gender" value="#{msg['blog']['gender']}" styleClass="p-col-6">
+                    <p:selectOneMenu id="gender" value="#{viewScope.vo.gender}"
+                                     onchange="UserPage.onChangeGender('')">
+                        <f:selectItems value="#{viewScope.genders}" var="gender"
+                                       itemLabel="#{msg['userEnum'][gender.title]}" itemValue="#{gender}"/>
+                    </p:selectOneMenu>
+                </framework:label>
+                <framework:label target="mobile" value="#{msg['blog']['phone']}" styleClass="p-col-6">
+                    <p:inputMask id="mobile" value="#{viewScope.vo.phone}" mask="999-999-99999"/>
+                </framework:label>
+
+                <framework:label target="email" value="#{msg['blog']['email']}" styleClass="p-col-6">
+                    <p:inputText id="email" value="#{viewScope.vo.email}"/>
+                </framework:label>
+
+                <framework:label target="role" value="#{msg['blog']['role']}">
+                    <p:pickList id="role" value="#{viewScope.vo.roleModel}" var="role" itemLabel="#{role.name}"
+                                itemValue="#{role}" responsive="true" converter="#{authRoleConverter}"/>
+                </framework:label>
+
+                <framework:label target="remark" value="#{msg['blog']['remark']}">
+                    <p:inputTextarea id="remark" value="#{viewScope.vo.remark}" autoResize="false"/>
+                </framework:label>
+
+            </framework:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

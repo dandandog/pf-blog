@@ -73,7 +73,7 @@ public class AuthUser extends AuditableEntity implements UserDetails {
     /**
      * 性别（0：男；1： 女；2：未知)
      */
-    private UserGender gender;
+    private UserGender gender = UserGender.UNKNOWN;
     /**
      * 头像
      */

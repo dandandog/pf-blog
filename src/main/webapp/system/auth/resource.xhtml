@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:framework="http://java.sun.com/jsf/composite/components">
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="contentForm" prependId="false">
+            <framework:treeTable id="resource" formDialogId="resource"
+                                 headText="#{msg['auth']['resource']}"
+                                 value="#{viewScope.root}"
+                                 filteredValue="#{viewScope.filteredValue}"
+                                 singleSelection="#{viewScope.sinSelected}"
+                                 multipleSelection="#{viewScope.mulSelected}">
+
+
+                <p:column headerText="#{msg['resource']['title']}" width="200">
+                    <p:outputPanel layout="inline" style="vertical-align: middle;">
+                        <i class="#{element.icon}"/>
+                        <h:outputText value="#{element.title}"/>
+                    </p:outputPanel>
+                </p:column>
+
+                <p:column priority="4" headerText="#{msg['resource']['seq']}" style="text-align: center" width="60">
+                    <h:outputText value="#{element.seq}"/>
+                </p:column>
+
+                <p:column priority="2" headerText="#{msg['resource']['path']}">
+                    <h:outputText value="#{element.path}"/>
+                </p:column>
+
+                <p:column priority="4" headerText="#{msg['resource']['perms']}">
+                    <h:outputText value="#{element.perms}"/>
+                </p:column>
+
+                <p:column priority="2" headerText="#{msg['resource']['type']}"
+                          style="text-align: center" width="80">
+                    <h:outputText value="#{msg['resourceEnum'][element.type.title]}"/>
+                </p:column>
+
+                <p:column priority="3" headerText="#{msg['resource']['display']}" style="text-align: center" width="60">
+                    <p:selectBooleanButton value="#{element.display}"
+                                           onLabel="#{msg['framework']['yes']}"
+                                           offLabel="#{msg['framework']['no']}"
+                                           onIcon="pi pi-check" offIcon="pi pi-times" style="width:60px">
+                        <p:ajax listener="#{controller.onChangeStatus(element)}"/>
+                    </p:selectBooleanButton>
+                </p:column>
+            </framework:treeTable>
+        </h:form>
+    </ui:define>
+    <ui:define name="dialog">
+        <h:form id="dialogForm">
+            <framework:dialog id="resource" value="#{viewScope.vo}" saveUpdate="@widgetVar(resource_treeTable)">
+                <framework:label target="parent" value="#{msg['resource']['parent']}">
+                    <h:outputText rendered="#{viewScope.vo.id != null}" style="line-height: 30px"
+                                  value="#{viewScope.vo.parent.data != null ? viewScope.vo.parent.data.title : msg['resource']['root']}"/>
+
+                    <p:tree id="parent" widgetVar="parent" value="#{viewScope.rootTree}"
+                            rendered="#{viewScope.vo.id == null}"
+                            var="node" datakey="#{node.id}" selection="#{viewScope.vo.parent}"
+                            selectionMode="single">
+                        <p:treeNode>
+                            <h:outputText value="#{node.title}"/>
+                        </p:treeNode>
+                    </p:tree>
+                </framework:label>
+
+                <framework:label value="#{msg['resource']['title']}" styleClass="p-col-6">
+                    <p:inputText value="#{viewScope.vo.title}" label="#{msg['resource']['title']}"/>
+                </framework:label>
+
+                <framework:label target="resourceType" value="#{msg['resource']['type']}" styleClass="p-col-6">
+                    <p:selectOneRadio id="resourceType" widgetVar="type"
+                                      value="#{viewScope.vo.type}" unselectable="false">
+                        <f:selectItems value="#{viewScope.types}" var="type"
+                                       itemLabel="#{msg['resourceEnum'][type.title]}" itemValue="#{type}"/>
+                    </p:selectOneRadio>
+                </framework:label>
+
+                <framework:label widgetVar="path" target="path" value="#{msg['resource']['path']}">
+                    <p:inputText id="path" value="#{viewScope.vo.path}"/>
+                </framework:label>
+
+                <framework:label widgetVar="target" target="target"
+                                 value="#{msg['resource']['target']}" styleClass="p-col-6">
+                    <p:selectOneMenu id="target" value="#{viewScope.vo.target}" autoWidth="true">
+                        <f:selectItems value="#{viewScope.targets}" var="target"
+                                       itemLabel="#{msg['resourceEnum'][target.title]}" itemValue="#{target}"/>
+                    </p:selectOneMenu>
+                </framework:label>
+
+                <framework:label widgetVar="perms" target="perms"
+                                 value="#{msg['resource']['perms']}" styleClass="p-col-6">
+                    <p:inputText id="perms" value="#{viewScope.vo.perms}"/>
+                </framework:label>
+
+                <framework:label widgetVar="seq" target="seq" value="#{msg['resource']['seq']}" styleClass="p-col-6">
+                    <p:spinner id="seq" value="#{viewScope.vo.seq}" min="0"/>
+                </framework:label>
+
+                <framework:label widgetVar="icon" target="icon" value="#{msg['resource']['icon']}" styleClass="p-col-6">
+                    <p:inputText id="icon" widgetVar="icon"
+                                 value="#{viewScope.vo.icon}"/>
+                </framework:label>
+
+                <framework:label widgetVar="display" target="display"
+                                 value="#{msg['resource']['display']}" styleClass="p-col-6">
+                    <p:outputPanel>
+                        <p:selectBooleanButton id="display" value="#{viewScope.vo.display}"
+                                               onLabel="#{msg['framework']['yes']}" offLabel="#{msg['framework']['no']}"
+                                               onIcon="pi pi-check" offIcon="pi pi-times" style="width:60px"/>
+                    </p:outputPanel>
+                </framework:label>
+            </framework:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

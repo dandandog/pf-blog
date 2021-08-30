@@ -6,11 +6,11 @@ package com.dandandog.blog.common.database;
  */
 public enum DatabaseDriver {
 
-    MYSQL("com.mysql.cj.jdbc.Driver", "jdbc:mysql://{0}:{1}/{2}?useUnicode=true&characterEncoding=UTF-8"),
+    MYSQL("com.mysql.cj.jdbc.Driver", "jdbc:mysql://{0}:{1}/{2}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"),
 
-    POSTGRE_SQL("com.mysql.cj.jdbc.Driver", "jdbc:mysql://{0}:{1}/{2}?useUnicode=true&characterEncoding=UTF-8"),
+    POSTGRE_SQL("com.mysql.cj.jdbc.Driver", "jdbc:mysql://{0}:{1}/{2}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"),
 
-    ORACLE("com.mysql.cj.jdbc.Driver", "jdbc:mysql://{0}:{1}/{2}?useUnicode=true&characterEncoding=UTF-8");
+    ORACLE("com.mysql.cj.jdbc.Driver", "jdbc:mysql://{0}:{1}/{2}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai");
 
     private final String driverClassName;
 

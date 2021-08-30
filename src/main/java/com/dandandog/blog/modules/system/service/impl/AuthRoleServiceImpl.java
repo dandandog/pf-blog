@@ -26,26 +26,6 @@ import java.util.stream.Collectors;
 @Service
 public class AuthRoleServiceImpl extends BaseServiceImpl<AuthRoleDao, AuthRole> implements AuthRoleService {
 
-    @Resource
-    private AuthRoleResourceService roleResourceService;
-
-
-    @Override
-    @Transactional
-    public void saveOrUpdate(AuthRole role, List<AuthResource> resources) {
-        if (saveOrUpdate(role)) {
-            roleResourceService.remove(new LambdaQueryWrapper<AuthRoleResource>().eq(AuthRoleResource::getRoleId, role.getId()));
-            List<AuthRoleResource> roleResources = CollUtil.emptyIfNull(resources).stream()
-                    // 有权限的才保存到数据库中，主要是解决在 tree 上显示的问题
-                    .filter(resource -> StringUtils.isNotBlank(resource.getPerms()))
-                    .map(resource -> new AuthRoleResource(role.getId(), role.getCode(), resource.getId()))
-                    .collect(Collectors.toList());
-            if (roleResources.size() != 0) {
-                roleResourceService.saveBatch(roleResources);
-            }
-        }
-    }
-
     @Override
     public List<AuthRole> findByUser(String userId) {
         return baseMapper.findByUser(userId);

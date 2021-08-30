@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
  * @author Johnny
  */
 @Mapper(uses = {QualifierUrl.class})
-public abstract class AuthUserMapper implements IMapper<AuthUser, AuthUserVo> {
+public interface AuthUserMapper extends IMapper<AuthUser, AuthUserVo> {
 
 
 }

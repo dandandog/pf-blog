@@ -6,63 +6,60 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
-    <ui:define name="head">
-        <style type="text/css">
-            ul.ui-treenode-children {
-                display: flex;
-                flex-wrap: wrap;
-            }
-        </style>
+    <ui:define name="title">#{msg['blog']['blog']}</ui:define>
+    <ui:define name="viewname">
+        <li>#{msg['blog']['system']}</li>
+        <li>/</li>
+        <li>#{msg['blog']['auth']}</li>
+        <li>/</li>
+        <li>#{msg['blog']['role']}</li>
     </ui:define>
     <ui:define name="content">
         <h:form id="contentform" prependId="false">
-            <framework:dataTable id="role" formDialogId="role"
-                                 headText="#{msg['auth']['role']}"
-                                 value="#{viewScope.list}"
-                                 filteredValue="#{viewScope.filteredValue}"
+            <framework:dataTable id="role" formDialogId="role" lazy="true"
+                                 headText="#{msg['blog']['role']}"
+                                 value="#{controller.dataModel}"
                                  singleSelection="#{viewScope.sinSelected}"
                                  multipleSelection="#{viewScope.mulSelected}">
-                <p:column headerText="#{msg['role']['name']}"
-                          filterBy="#{element.name}" filterMatchMode="contains">
-                    <h:outputText value="#{element.name}"/>
+                <p:column headerText="#{msg['blog']['name']}" field="name" filterMatchMode="contains"/>
+                <p:column headerText="#{msg['blog']['code']}" field="code" filterMatchMode="contains"/>
+                <p:column headerText="#{msg['blog']['dataScope']}" field="code" filterMatchMode="exact"/>
+                <p:column headerText="#{msg['blog']['level']}" field="level" filterMatchMode="exact"/>
+                <p:column headerText="#{msg['framework']['operatedTime']}" sortBy="operatedTime"
+                          sortable="true" width="150"
+                          sortOrder="desc" sortPriority="1">
+                    <h:outputText value="#{element.operatedTime}">
+                        <f:convertDateTime type="localDateTime"
+                                           pattern="#{msg['format']['localDateTime']}"/>
+                    </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['role']['code']}"
-                          filterBy="#{element.code}" filterMatchMode="contains">
-                    <h:outputText value="#{element.code}"/>
-                </p:column>
-                <p:column headerText="#{msg['role']['dataScope']}"
-                          filterBy="#{element.dataScope}" filterMatchMode="exact">
-                    <h:outputText value="#{element.dataScope}"/>
-                </p:column>
-                <p:column headerText="#{msg['role']['level']}">
-                    <h:outputText value="#{element.level}"/>
-                </p:column>
+                <p:column headerText="#{msg['blog']['remark']}" field="remark" filterable="false" sortable="false"/>
             </framework:dataTable>
         </h:form>
     </ui:define>
     <ui:define name="dialog">
         <h:form id="dialogform">
             <framework:dialog id="role" value="#{viewScope.vo}" height="700" saveUpdate="@widgetVar(role_dataTable)">
-                <framework:label target="name" value="#{msg['role']['name']}" styleClass="p-col-6">
+                <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6">
                     <p:inputText id="name" value="#{viewScope.vo.name}" required="true"/>
                 </framework:label>
 
-                <framework:label target="code" value="#{msg['role']['code']}" styleClass="p-col-6">
+                <framework:label target="code" value="#{msg['blog']['code']}" styleClass="p-col-6">
                     <p:inputText id="code" value="#{viewScope.vo.code}" required="true"/>
                 </framework:label>
 
-                <framework:label target="dataScope" value="#{msg['role']['dataScope']}" styleClass="p-col-6">
+                <framework:label target="dataScope" value="#{msg['blog']['dataScope']}" styleClass="p-col-6">
                     <p:selectOneMenu id="dataScope" value="#{viewScope.vo.dataScope}">
                         <f:selectItems value="#{viewScope.dataScopes}" var="dataScope"
                                        itemLabel="#{msg['roleEnum'][dataScope.name]}" itemValue="#{dataScope}"/>
                     </p:selectOneMenu>
                 </framework:label>
 
-                <framework:label target="level" value="#{msg['role']['level']}" styleClass="p-col-6">
+                <framework:label target="level" value="#{msg['blog']['level']}" styleClass="p-col-6">
                     <p:inputText id="level" value="#{viewScope.vo.level}"/>
                 </framework:label>
 
-                <framework:label target="perms" value="#{msg['role']['perms']}">
+                <framework:label target="perms" value="#{msg['blog']['perms']}">
                     <h:outputText rendered="#{fn:length(viewScope.rootTree.children) == 0}"
                                   value="#{msg['framework']['noRecords']}" style="line-height: 30px;"/>
                     <p:tree id="perms" rendered="#{fn:length(viewScope.rootTree.children) != 0}" widgetVar="perms"
@@ -76,7 +73,7 @@
                     </p:tree>
                 </framework:label>
 
-                <framework:label target="remark" value="#{msg['role']['remark']}">
+                <framework:label target="remark" value="#{msg['blog']['remark']}">
                     <p:inputTextarea id="remark" value="#{viewScope.vo.remark}" autoResize="false"/>
                 </framework:label>
 

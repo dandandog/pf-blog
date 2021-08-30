@@ -14,8 +14,5 @@ import java.util.List;
  */
 public interface AuthRoleService extends IService<AuthRole> {
 
-
-    void saveOrUpdate(AuthRole role, List<AuthResource> resources);
-
     List<AuthRole> findByUser(String userId);
 }

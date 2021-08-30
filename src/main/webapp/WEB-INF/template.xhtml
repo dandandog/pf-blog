@@ -52,9 +52,30 @@
             </div>
         </div>
 
+        <ui:insert name="dialog"/>
+
+        <p:growl id="globalMessageGrowl" widgetVar="globalMessageGrowl" for="globalMessageGrowl"
+                 showDetail="true" showSummary="true" sticky="false" life="3000"
+                 autoUpdate="false" redisplay="true"/>
+
+        <p:dialog id="globalDialog" widgetVar="globalDialog" width="700">
+            <p:messages id="globalDialogMessages" forType="globalDialogMessages"
+                        forIgnores="messages,globalMessageGrowl" showDetail="true"/>
+        </p:dialog>
+
+        <h:form>
+            <p:confirmDialog id="confirmDialog" widgetVar="confirmDialog"
+                             global="true" showEffect="fade" hideEffect="fade" width="400">
+                <p:commandButton value="#{msg['framework']['confirm']}" type="button"
+                                 styleClass="ui-confirmdialog-yes" icon="fa fa-check"/>
+                <p:commandButton value="#{msg['framework']['cancel']}" type="button"
+                                 styleClass="ui-confirmdialog-no ui-button-secondary" icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+
         <p:ajaxStatus styleClass="layout-ajax-loader">
             <f:facet name="start">
-                <i class="pi pi-spin pi-spinner layout-ajax-loader-icon" aria-hidden="true"/>
+                <p:graphicImage name="images/loading.gif" library="blog" width="100"/>
             </f:facet>
 
             <f:facet name="complete">
@@ -65,6 +86,7 @@
     <h:outputStylesheet name="css/primeicons.css" library="ecuador-layout"/>
     <h:outputStylesheet name="css/primeflex.min.css" library="ecuador-layout"/>
     <h:outputStylesheet name="css/common.css" library="framework"/>
+    <h:outputStylesheet name="css/page.css" library="blog"/>
     <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ecuador-layout"/>
 </h:body>
 

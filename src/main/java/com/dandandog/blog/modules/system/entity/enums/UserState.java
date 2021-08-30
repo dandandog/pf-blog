@@ -16,7 +16,7 @@ public enum UserState implements BaseEnum<Integer> {
     /**
      * 未激活
      */
-    INACTIVATED(2, "inactivated");
+    NOT_ACTIVATED(2, "notActivated");
 
     private final int value;
 

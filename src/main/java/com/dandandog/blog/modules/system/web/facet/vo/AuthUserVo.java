@@ -42,7 +42,7 @@ public class AuthUserVo extends MapperVo {
 
     private LocalDateTime pwdRestTime;
 
-    private LocalDateTime createdTime;
+    private LocalDateTime operatedTime;
 
     private DualListModel<AuthRole> roles = new DualListModel<>();
 

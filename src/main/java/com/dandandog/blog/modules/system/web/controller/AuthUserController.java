@@ -1,6 +1,7 @@
 package com.dandandog.blog.modules.system.web.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import com.dandandog.blog.common.model.MapperPageDataModel;
 import com.dandandog.blog.modules.system.entity.AuthUser;
 import com.dandandog.blog.modules.system.entity.enums.UserGender;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: JohnnyLiu
@@ -35,9 +37,9 @@ public class AuthUserController extends FacesController {
 
     @Override
     public void onEntry() {
-        putViewScope("vo", new AuthUser());
+        putViewScope("vo", new AuthUserVo());
         putViewScope("sinSelected", null);
-        putViewScope("mulSelected", new ArrayList<AuthUser>());
+        putViewScope("mulSelected", Lists.newArrayList());
 
         putViewScope("genders", UserGender.values());
         putViewScope("states", UserState.values());

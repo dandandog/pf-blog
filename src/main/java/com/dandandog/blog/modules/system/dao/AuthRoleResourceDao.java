@@ -1,8 +1,13 @@
 package com.dandandog.blog.modules.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dandandog.blog.modules.system.entity.AuthResource;
+import com.dandandog.blog.modules.system.entity.AuthRole;
 import com.dandandog.blog.modules.system.entity.AuthRoleResource;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * 系统角色资源关系表(SysRoleResource)表数据库访问层
@@ -12,5 +17,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface AuthRoleResourceDao extends BaseMapper<AuthRoleResource> {
+
 
 }

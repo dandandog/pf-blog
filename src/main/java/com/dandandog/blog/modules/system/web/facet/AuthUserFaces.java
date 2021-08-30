@@ -41,6 +41,10 @@ public class AuthUserFaces {
         return Optional.ofNullable(userService.getById(id)).map(entity -> MapperUtil.map(entity, AuthUserVo.class, info()));
     }
 
+    public Optional<AuthUserVo> getOptByUserName(String username) {
+        return userService.findByUsername(username).map(entity -> MapperUtil.map(entity, AuthUserVo.class));
+    }
+
     public void removeByIds(String[] ids) {
         userService.removeByIds(Arrays.asList(ids));
     }
@@ -48,14 +52,13 @@ public class AuthUserFaces {
     @Transactional
     public void saveOrUpdate(AuthUserVo vo) {
         AuthUser entity = MapperUtil.map(vo, AuthUser.class);
+        userService.saveOrUpdate(entity);
         List<AuthRole> roles = vo.getRoles().getTarget();
-        if (userService.saveOrUpdate(entity)) {
-            userRoleService.lambdaUpdate().eq(AuthUserRole::getUserId, entity.getId()).remove();
-            List<AuthUserRole> userRoles = CollUtil.emptyIfNull(roles).stream()
-                    .map(role -> new AuthUserRole(entity.getId(), role.getId(), role.getCode()))
-                    .collect(Collectors.toList());
-            userRoleService.saveBatch(userRoles);
-        }
+        userRoleService.lambdaUpdate().eq(AuthUserRole::getUserId, entity.getId()).remove();
+        List<AuthUserRole> userRoles = CollUtil.emptyIfNull(roles).stream()
+                .map(role -> new AuthUserRole(entity.getId(), role.getId(), role.getCode()))
+                .collect(Collectors.toList());
+        userRoleService.saveBatch(userRoles);
     }
 
     private BaseContext<AuthUserVo> info() {

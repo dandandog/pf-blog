@@ -71,7 +71,6 @@ public class AuthUserServiceImpl extends BaseServiceImpl<AuthUserDao, AuthUser> 
         return lambdaQuery().eq(AuthUser::getEmail, email).oneOpt();
     }
 
-
     @Override
     public Optional<AuthUser> findByUsername(String username) {
         Optional<AuthUser> authUser = lambdaQuery().eq(AuthUser::getUsername, username)

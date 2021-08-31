@@ -26,13 +26,13 @@ public class AuthResourceVo extends MapperTree {
     @NotNull
     private ResourceType type = ResourceType.CATALOG;
 
-    private String icon;
+    private String icon = "user";
 
     @Min(0)
     @Max(999)
-    private Integer seq;
+    private Integer seq = 0;
 
-    private Boolean display;
+    private boolean display = false;
 
     private ResourceTarget target = ResourceTarget.CURR_PAGE;
 

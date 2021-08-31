@@ -6,18 +6,18 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
-    <ui:define name="title">#{msg['blog']['blog']}</ui:define>
+    <ui:define name="title">#{msg['blog']['roleManagement']}</ui:define>
     <ui:define name="viewname">
         <li>#{msg['blog']['system']}</li>
         <li>/</li>
         <li>#{msg['blog']['auth']}</li>
         <li>/</li>
-        <li>#{msg['blog']['role']}</li>
+        <li>#{msg['blog']['roleManagement']}</li>
     </ui:define>
     <ui:define name="content">
         <h:form id="contentform" prependId="false">
             <framework:dataTable id="role" formDialogId="role" lazy="true"
-                                 headText="#{msg['blog']['role']}"
+                                 headText="#{msg['blog']['roleManagement']}"
                                  value="#{controller.dataModel}"
                                  singleSelection="#{viewScope.sinSelected}"
                                  multipleSelection="#{viewScope.mulSelected}">
@@ -39,7 +39,7 @@
     </ui:define>
     <ui:define name="dialog">
         <h:form id="dialogform">
-            <framework:dialog id="role" value="#{viewScope.vo}" height="700" saveUpdate="@widgetVar(role_dataTable)">
+            <framework:dialog id="role" value="#{viewScope.vo}" saveUpdate="@widgetVar(role_dataTable)">
                 <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6">
                     <p:inputText id="name" value="#{viewScope.vo.name}" required="true"/>
                 </framework:label>

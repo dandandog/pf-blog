@@ -5,13 +5,13 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
-    <ui:define name="title">#{msg['blog']['user']}</ui:define>
+    <ui:define name="title">#{msg['blog']['userManagement']}</ui:define>
     <ui:define name="viewname">
         <li>#{msg['blog']['system']}</li>
         <li>/</li>
         <li>#{msg['blog']['auth']}</li>
         <li>/</li>
-        <li>#{msg['blog']['user']}</li>
+        <li>#{msg['blog']['userManagement']}</li>
     </ui:define>
     <ui:define name="content">
         <div class="p-grid">
@@ -19,7 +19,7 @@
                 <div class="card">
                     <h:form id="user_form" prependId="false">
                         <framework:dataTable id="user" formDialogId="user" lazy="true"
-                                             headText="#{msg['blog']['user']}" addSupported="false"
+                                             headText="#{msg['blog']['userManagement']}" addSupported="false"
                                              value="#{controller.dataModel}"
                                              singleSelection="#{viewScope.sinSelected}"
                                              multipleSelection="#{viewScope.mulSelected}">
@@ -95,7 +95,7 @@
 
     <ui:define name="dialog">
         <h:form id="dialogform">
-            <framework:dialog id="user" value="#{viewScope.vo}" height="700"
+            <framework:dialog id="user" value="#{viewScope.vo}"
                               saveUpdate="@widgetVar(user_dataTable)">
                 <framework:label target="avatar" value="#{msg['blog']['avatar']}" styleClass="p-col-12">
                     <framework:upload id="avatar" value="#{viewScope.vo.avatarUrl}"/>

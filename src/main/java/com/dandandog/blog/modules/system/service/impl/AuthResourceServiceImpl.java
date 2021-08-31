@@ -1,7 +1,9 @@
 package com.dandandog.blog.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.dandandog.blog.common.model.TreeDataModel;
 import com.dandandog.blog.modules.system.dao.AuthResourceDao;
 import com.dandandog.blog.modules.system.entity.AuthResource;
 import com.dandandog.blog.modules.system.service.AuthResourceService;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 系统资源表(AuthResource)表服务实现类
@@ -33,13 +36,12 @@ public class AuthResourceServiceImpl extends BaseServiceImpl<AuthResourceDao, Au
 
     @Override
     public TreeNode getRootTree(Wrapper<AuthResource> queryWrapper, boolean isExpand, AuthResource... selected) {
-//        TreeDataModel<AuthResource> treeDataModel = new TreeDataModel<>(AuthResource.class);
-//        queryWrapper = Optional.ofNullable(queryWrapper).orElse(new LambdaQueryWrapper<>());
-//        Multimap<AuthResource, AuthResource> sources = treeDataModel.getValue(queryWrapper);
-//        TreeNode root = new CheckboxTreeNode(null, null);
-//        setTreeLeaf(root, sources, isExpand, selected);
-//        return root;
-        return null;
+        TreeDataModel<AuthResource> treeDataModel = new TreeDataModel<>(AuthResource.class);
+        queryWrapper = Optional.ofNullable(queryWrapper).orElse(new LambdaQueryWrapper<>());
+        Multimap<AuthResource, AuthResource> sources = treeDataModel.getValue(queryWrapper);
+        TreeNode root = new CheckboxTreeNode(null, null);
+        setTreeLeaf(root, sources, isExpand, selected);
+        return root;
     }
 
     @Override

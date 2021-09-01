@@ -71,7 +71,7 @@ public class AuthRoleFaces {
     }
 
     public void removeByIds(String[] ids) {
-        resourceService.removeByIds(Arrays.asList(ids));
+        roleService.removeByIds(Arrays.asList(ids));
     }
 
     private BaseContext<AuthRoleVo> voDetail() {

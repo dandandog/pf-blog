@@ -36,11 +36,8 @@ public class TreeDataModel<T extends ITree> {
 
     public Multimap<T, T> getValue(Wrapper<T> queryWrapper) {
         List<T> sources = load(queryWrapper);
-        Multimap<String, T> idMap = ArrayListMultimap.create();
+        Multimap<String, T> idMap = getValueById(queryWrapper);
         Multimap<T, T> objMap = ArrayListMultimap.create();
-        sources.forEach(t -> {
-            idMap.put(StrUtil.isNotBlank(t.getParentId()) ? t.getParentId() : null, t);
-        });
         idMap.keySet().forEach(id -> {
             sources.forEach(t -> {
                 if (ObjectUtil.equal(id, t.getId())) {
@@ -49,7 +46,16 @@ public class TreeDataModel<T extends ITree> {
             });
         });
         objMap.putAll(null, idMap.get(null));
-
         return objMap;
     }
+
+    public Multimap<String, T> getValueById(Wrapper<T> queryWrapper) {
+        List<T> sources = load(queryWrapper);
+        Multimap<String, T> idMap = ArrayListMultimap.create();
+        sources.forEach(t -> {
+            idMap.put(StrUtil.isNotBlank(t.getParentId()) ? t.getParentId() : null, t);
+        });
+        return idMap;
+    }
+
 }

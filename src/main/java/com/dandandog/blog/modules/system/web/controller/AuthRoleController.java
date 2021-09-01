@@ -1,8 +1,13 @@
 package com.dandandog.blog.modules.system.web.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.dandandog.blog.common.adapter.DefaultTreeAdapter;
 import com.dandandog.blog.common.model.MapperPageDataModel;
 import com.dandandog.blog.modules.system.entity.AuthResource;
 import com.dandandog.blog.modules.system.entity.AuthRole;
@@ -10,6 +15,7 @@ import com.dandandog.blog.modules.system.entity.AuthRoleResource;
 import com.dandandog.blog.modules.system.service.AuthResourceService;
 import com.dandandog.blog.modules.system.service.AuthRoleService;
 import com.dandandog.blog.modules.system.service.AuthUserService;
+import com.dandandog.blog.modules.system.web.facet.AuthResourceFaces;
 import com.dandandog.blog.modules.system.web.facet.AuthRoleFaces;
 import com.dandandog.blog.modules.system.web.facet.adapter.AuthRolePageAdapter;
 import com.dandandog.blog.modules.system.web.facet.adapter.AuthUserPageAdapter;
@@ -45,13 +51,14 @@ public class AuthRoleController extends FacesController {
     private AuthRoleFaces roleFaces;
 
     @Resource
-    private AuthResourceService resourceService;
+    private AuthResourceFaces resourceFaces;
 
     @Resource
     private AuthUserService userService;
 
     @Override
     public void onEntry() {
+        putViewScope("adapter", new DefaultTreeAdapter<>(AuthResource.class));
         putViewScope("vo", new AuthRoleVo());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
@@ -63,7 +70,7 @@ public class AuthRoleController extends FacesController {
 
     public void add() {
         putViewScope("vo", new AuthRoleVo());
-        putViewScope("rootTree", resourceService.getRootTree(true));
+        putViewScope("rootTree", getDataModel());
     }
 
     @MessageRequired(type = MessageType.OPERATION)
@@ -72,7 +79,7 @@ public class AuthRoleController extends FacesController {
         AuthRoleVo vo = roleFaces.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error", "dataNotFound"));
         putViewScope("vo", vo);
-        putViewScope("rootTree", resourceService.getRootTree(true, vo.getResources().toArray(new AuthResource[0])));
+        putViewScope("rootTree", getDataModel(vo.getResources().toArray(new AuthResource[0])));
     }
 
     @MessageRequired(type = MessageType.SAVE)
@@ -93,4 +100,8 @@ public class AuthRoleController extends FacesController {
         roleFaces.removeByIds(idList);
     }
 
+    private TreeNode getDataModel(AuthResource... selected) {
+        DefaultTreeAdapter<AuthResource> treeAdapter = getViewScope("adapter");
+        return treeAdapter.getRootTree(Wrappers.emptyWrapper(), true, null, selected);
+    }
 }

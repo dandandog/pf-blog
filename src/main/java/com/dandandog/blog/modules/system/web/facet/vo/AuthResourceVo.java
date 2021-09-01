@@ -36,8 +36,6 @@ public class AuthResourceVo extends MapperTree {
 
     private ResourceTarget target = ResourceTarget.CURR_PAGE;
 
-    @Min(0)
-    @Max(999)
-    private Integer level = 0;
+    private String level = "0";
 
 }

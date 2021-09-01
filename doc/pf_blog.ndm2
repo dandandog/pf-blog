@@ -1731,7 +1731,7 @@
               {
                 "objectType": "TableField_MYSQL",
                 "name": "level",
-                "type": "int",
+                "type": "varchar",
                 "length": 10,
                 "decimals": -2147483648,
                 "isUnsigned": false,

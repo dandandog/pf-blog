@@ -28,39 +28,8 @@ import java.util.Optional;
 @Service
 public class AuthResourceServiceImpl extends BaseServiceImpl<AuthResourceDao, AuthResource> implements AuthResourceService {
 
-
-    @Override
-    public TreeNode getRootTree(boolean isExpand, AuthResource... selected) {
-        return getRootTree(Wrappers.emptyWrapper(), isExpand, selected);
-    }
-
-    @Override
-    public TreeNode getRootTree(Wrapper<AuthResource> queryWrapper, boolean isExpand, AuthResource... selected) {
-        TreeDataModel<AuthResource> treeDataModel = new TreeDataModel<>(AuthResource.class);
-        queryWrapper = Optional.ofNullable(queryWrapper).orElse(new LambdaQueryWrapper<>());
-        Multimap<AuthResource, AuthResource> sources = treeDataModel.getValue(queryWrapper);
-        TreeNode root = new CheckboxTreeNode(null, null);
-        setTreeLeaf(root, sources, isExpand, selected);
-        return root;
-    }
-
     @Override
     public List<AuthResource> findByRole(String id) {
         return baseMapper.findByRole(id);
-    }
-
-    private void setTreeLeaf(TreeNode root, Multimap<AuthResource, AuthResource> resourceMaps, boolean isExpand, AuthResource... selected) {
-        root.setExpanded(isExpand);
-        root.setSelected(root.getData() != null && selected != null && Arrays.asList(selected).contains(root.getData()));
-        if (root.getData() != null && !(root.getData() instanceof ITree)) {
-            throw new RuntimeException("data is not extends TreeEntity");
-        }
-        Collection<AuthResource> children = resourceMaps.removeAll(root.getData());
-        if (children != null) {
-            for (Object resource : children) {
-                TreeNode node = new CheckboxTreeNode(resource, root);
-                setTreeLeaf(node, resourceMaps, isExpand, selected);
-            }
-        }
     }
 }

@@ -1,16 +1,16 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-                xmlns:h="http://java.sun.com/jsf/html" 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pe="http://primefaces.org/ecuador">
 
-<div class="layout-sidebar">
-    <div class="layout-menu-title">MAIN MENU</div>
-    <h:form id="menuform">
-        <pe:menu widgetVar="me">
+    <div class="layout-sidebar">
+        <div class="layout-menu-title">MAIN MENU</div>
+        <h:form id="menuform">
+            <pe:menu widgetVar="me" model="#{menuView.data}">
 
-        </pe:menu>
-    </h:form>
+            </pe:menu>
+        </h:form>
     </div>
 </ui:composition>

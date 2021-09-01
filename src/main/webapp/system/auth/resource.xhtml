@@ -22,6 +22,8 @@
                                  singleSelection="#{viewScope.sinSelected}"
                                  multipleSelection="#{viewScope.mulSelected}">
 
+                <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
+                        update="@widgetVar(resource_dataTable)"/>
 
                 <p:column headerText="#{msg['blog']['title']}" width="200">
                     <p:outputPanel layout="inline" style="vertical-align: middle;">
@@ -30,30 +32,40 @@
                     </p:outputPanel>
                 </p:column>
 
-                <p:column priority="4" headerText="#{msg['blog']['seq']}" style="text-align: center" width="60">
-                    <h:outputText value="#{element.seq}"/>
+                <p:column priority="4" headerText="#{msg['blog']['seq']}" field="seq" filterable="false"
+                          sortable="flase" width="60">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{element.seq}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputNumber value="#{element.seq}" styleClass="ui-column-filter"/>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
 
+                <p:column priority="2" headerText="#{msg['blog']['resourceType']}"
+                          width="80">
+                    <h:outputText value="#{msg['resourceType'][element.type.title]}"/>
+                </p:column>
+
+                <p:column priority="3" headerText="#{msg['blog']['display']}" field="display" sortable="false"
+                          filterable="false" width="60">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{msg['framework'][element.display]}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:toggleSwitch value="#{element.display}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
                 <p:column priority="2" headerText="#{msg['blog']['path']}">
                     <h:outputText value="#{element.path}"/>
                 </p:column>
 
                 <p:column priority="4" headerText="#{msg['blog']['perms']}">
                     <h:outputText value="#{element.perms}"/>
-                </p:column>
-
-                <p:column priority="2" headerText="#{msg['blog']['resourceType']}"
-                          style="text-align: center" width="80">
-                    <h:outputText value="#{msg['resourceType'][element.type.title]}"/>
-                </p:column>
-
-                <p:column priority="3" headerText="#{msg['blog']['display']}" style="text-align: center" width="60">
-                    <p:selectBooleanButton value="#{element.display}"
-                                           onLabel="#{msg['framework']['yes']}"
-                                           offLabel="#{msg['framework']['no']}"
-                                           onIcon="pi pi-check" offIcon="pi pi-times" style="width:60px">
-                        <p:ajax listener="#{controller.onChangeStatus(element)}"/>
-                    </p:selectBooleanButton>
                 </p:column>
             </framework:treeTable>
         </h:form>
@@ -62,11 +74,8 @@
         <h:form id="dialogForm">
             <framework:dialog id="resource" value="#{viewScope.vo}" saveUpdate="@widgetVar(resource_treeTable)">
                 <framework:label target="parent" value="#{msg['blog']['parent']}">
-                    <h:outputText rendered="#{viewScope.vo.id != null}" style="line-height: 30px"
-                                  value="#{viewScope.vo.parent.data != null ? viewScope.vo.parent.data.title : msg['blog']['root']}"/>
-
                     <p:tree id="parent" widgetVar="parent" value="#{viewScope.rootTree}"
-                            rendered="#{viewScope.vo.id == null}"
+                            style="max-height: 250px; overflow: auto"
                             var="node" datakey="#{node.id}" selection="#{viewScope.vo.parent}"
                             selectionMode="single">
                         <p:treeNode>
@@ -85,12 +94,11 @@
                                         dynamic="true">
                             <div id="icons-grid" class="p-grid p-ac-center">
                                 <p:repeat value="#{viewScope.icons}" var="icon">
-                                    <p:commandButton icon="pi pi-#{icon.name}" title="#{icon.name}" label="#{icon.name}"
+                                    <p:commandButton icon="pi pi-#{icon}" title="#{icon}" label="#{icon}"
                                                      update="@widgetVar(iconBtn)" process="@this"
                                                      oncomplete="PF('iconPanel').hide()"
                                                      styleClass="ui-button-secondary ui-button-flat p-col-12 p-md-2">
-                                        <f:setPropertyActionListener value="#{icon.name}"
-                                                                     target="#{viewScope.vo.icon}"/>
+                                        <f:setPropertyActionListener value="#{icon}" target="#{viewScope.vo.icon}"/>
                                     </p:commandButton>
                                 </p:repeat>
                             </div>
@@ -108,10 +116,6 @@
                     </p:selectOneRadio>
                 </framework:label>
 
-                <framework:label widgetVar="path" target="path" value="#{msg['blog']['path']}">
-                    <p:inputText id="path" value="#{viewScope.vo.path}"/>
-                </framework:label>
-
                 <framework:label widgetVar="target" target="target"
                                  value="#{msg['blog']['resourceTarget']}" styleClass="p-col-6">
                     <p:selectOneMenu id="target" value="#{viewScope.vo.target}" autoWidth="true">
@@ -123,6 +127,10 @@
                 <framework:label widgetVar="perms" target="perms"
                                  value="#{msg['blog']['perms']}" styleClass="p-col-6">
                     <p:inputText id="perms" value="#{viewScope.vo.perms}"/>
+                </framework:label>
+
+                <framework:label widgetVar="path" target="path" value="#{msg['blog']['path']}">
+                    <p:inputText id="path" value="#{viewScope.vo.path}"/>
                 </framework:label>
             </framework:dialog>
         </h:form>

@@ -48,11 +48,11 @@ public class AuthResource extends AuditableEntity implements ITree {
     /**
      * 排序
      */
-    private Integer seq = 0;
+    private int seq = 0;
     /**
      * 是否显示
      */
-    private Boolean display;
+    private boolean display;
     /**
      * 打开方式
      */
@@ -60,7 +60,12 @@ public class AuthResource extends AuditableEntity implements ITree {
     /**
      * 层级
      */
-    private Integer level = 0;
+    private String level;
+
+    /**
+     * 是否是叶子节点
+     */
+    private boolean leaf;
 
 
 }

@@ -15,10 +15,6 @@ import java.util.List;
  */
 public interface AuthResourceService extends IService<AuthResource> {
 
-    TreeNode getRootTree(boolean isExpand, AuthResource... selected);
-
-    TreeNode getRootTree(Wrapper<AuthResource> queryWrapper, boolean isExpand, AuthResource... selected);
-
     List<AuthResource> findByRole(String id);
 
 }

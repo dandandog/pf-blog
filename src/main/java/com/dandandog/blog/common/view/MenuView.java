@@ -11,6 +11,7 @@ import com.dandandog.framework.common.utils.SecurityUtil;
 import com.google.common.collect.Multimap;
 import org.primefaces.model.menu.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.Resource;
 import java.util.Collection;

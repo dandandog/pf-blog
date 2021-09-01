@@ -38,4 +38,6 @@ public class AuthResourceVo extends MapperTree {
 
     private String level = "0";
 
+    private boolean leaf = true;
+
 }

@@ -67,6 +67,7 @@ public class AuthUserFaces {
             protected void after(AuthUserVo vo, Class<AuthUserVo> t) {
                 List<AuthRole> source = roleService.list();
                 List<AuthRole> target = roleService.findByUser(vo.getId());
+                source.removeAll(target);
                 vo.setRoles(new DualListModel<>(source, target));
             }
         };

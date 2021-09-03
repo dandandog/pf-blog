@@ -24,6 +24,7 @@ import com.dandandog.blog.modules.system.web.facet.vo.AuthUserVo;
 import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.core.utils.MybatisUtil;
 import com.dandandog.framework.faces.annotation.MessageRequired;
+import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
@@ -73,7 +74,7 @@ public class AuthRoleController extends FacesController {
         putViewScope("rootTree", getDataModel());
     }
 
-    @MessageRequired(type = MessageType.OPERATION)
+    @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)
     public void edit() {
         AuthRoleVo selected = getViewScope("sinSelected");
         AuthRoleVo vo = roleFaces.getOptById(selected.getId())
@@ -85,10 +86,7 @@ public class AuthRoleController extends FacesController {
     @MessageRequired(type = MessageType.SAVE)
     public void save() {
         AuthRoleVo vo = getViewScope("vo");
-        AuthRole entity = MapperUtil.map(vo, AuthRole.class);
-        roleFaces.saveOrUpdate(entity, vo.getResources());
-
-        userService.reloadUserRole();
+        roleFaces.saveOrUpdate(vo);
     }
 
     @MessageRequired(type = MessageType.DELETE)

@@ -1,5 +1,6 @@
 package com.dandandog.blog.modules.system.web.facet.vo;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.dandandog.blog.modules.system.entity.AuthResource;
 import com.dandandog.framework.mapstruct.model.MapperVo;
 import lombok.Data;
@@ -31,8 +32,12 @@ public class AuthRoleVo extends MapperVo {
 
     private TreeNode[] resourceNodes = new TreeNode[0];
 
-    public List<AuthResource> getResources() {
-        return Arrays.stream(resourceNodes)
-                .map(treeNode -> (AuthResource) treeNode.getData()).collect(Collectors.toList());
+    public void setResourceNodes(TreeNode[] resourceNodes) {
+        if (ArrayUtil.isNotEmpty(resourceNodes)) {
+            this.resources = Arrays.stream(resourceNodes)
+                    .map(treeNode -> (AuthResource) treeNode.getData()).collect(Collectors.toList());
+        }
+        this.resourceNodes = resourceNodes;
     }
+
 }

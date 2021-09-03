@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dandandog.blog.common.utils.TreeUtil;
 import com.dandandog.framework.common.model.ITree;
 import com.dandandog.framework.core.utils.MybatisUtil;
 import com.google.common.collect.ArrayListMultimap;
@@ -36,26 +37,14 @@ public class TreeDataModel<T extends ITree> {
 
     public Multimap<T, T> getValue(Wrapper<T> queryWrapper) {
         List<T> sources = load(queryWrapper);
-        Multimap<String, T> idMap = getValueById(queryWrapper);
+        Multimap<String, T> idMap = TreeUtil.parentMap(sources);
         Multimap<T, T> objMap = ArrayListMultimap.create();
-        idMap.keySet().forEach(id -> {
-            sources.forEach(t -> {
-                if (ObjectUtil.equal(id, t.getId())) {
-                    objMap.putAll(t, idMap.get(id));
-                }
-            });
-        });
+        idMap.keySet().forEach(id -> sources.forEach(t -> {
+            if (ObjectUtil.equal(id, t.getId())) {
+                objMap.putAll(t, idMap.get(id));
+            }
+        }));
         objMap.putAll(null, idMap.get(null));
         return objMap;
     }
-
-    public Multimap<String, T> getValueById(Wrapper<T> queryWrapper) {
-        List<T> sources = load(queryWrapper);
-        Multimap<String, T> idMap = ArrayListMultimap.create();
-        sources.forEach(t -> {
-            idMap.put(StrUtil.isNotBlank(t.getParentId()) ? t.getParentId() : null, t);
-        });
-        return idMap;
-    }
-
 }

@@ -18,11 +18,26 @@
     <h:outputScript name="js/layout.js" library="ecuador-layout"/>
     <h:outputScript name="js/prism.js" library="ecuador-layout"/>
     <ui:insert name="head"/>
+    <script type="text/javascript">
+        //<![CDATA[
+        function start() {
+            debugger
+            PF('statusDialog').show();
+        }
+
+        function stop() {
+            PF('statusDialog').hide();
+        }
+
+        //]]>
+    </script>
+
 </h:head>
 
 <h:body styleClass="#{guestPreferences.inputStyleClass}">
     <c:set var="principal" value="#{p:userPrincipal().principal}"/>
-    <div class="layout-wrapper #{guestPreferences.menuMode} layout-menu-#{guestPreferences.menuColor} #{guestPreferences.orientationRTL ? 'layout-rtl' : null}">
+    <p:outputPanel id="layout_panel"
+                   styleClass="layout-wrapper #{guestPreferences.menuMode} layout-menu-#{guestPreferences.menuColor} #{guestPreferences.orientationRTL ? 'layout-rtl' : null}">
         <ui:include src="./topbar.xhtml"/>
         <ui:include src="./right_panel.xhtml"/>
         <ui:include src="./menu.xhtml"/>
@@ -60,15 +75,6 @@
 
         <ui:insert name="dialog"/>
 
-        <p:growl id="globalMessageGrowl" widgetVar="globalMessageGrowl" for="globalMessageGrowl"
-                 showDetail="true" showSummary="true" sticky="false" life="3000"
-                 autoUpdate="false" redisplay="true"/>
-
-        <p:dialog id="globalDialog" widgetVar="globalDialog" width="700">
-            <p:messages id="globalDialogMessages" forType="globalDialogMessages"
-                        forIgnores="messages,globalMessageGrowl" showDetail="true"/>
-        </p:dialog>
-
         <h:form>
             <p:confirmDialog id="confirmDialog" widgetVar="confirmDialog"
                              global="true" showEffect="fade" hideEffect="fade" width="400">
@@ -79,6 +85,20 @@
             </p:confirmDialog>
         </h:form>
 
+        <p:growl id="globalMessageGrowl" widgetVar="globalMessageGrowl" for="globalMessageGrowl"
+                 showDetail="true" showSummary="true" sticky="false" life="3000"
+                 autoUpdate="false" redisplay="true"/>
+
+        <p:dialog id="globalDialog" widgetVar="globalDialog" width="700">
+            <p:messages id="globalDialogMessages" forType="globalDialogMessages"
+                        forIgnores="messages,globalMessageGrowl" showDetail="true"/>
+        </p:dialog>
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false"
+                  resizable="false" styleClass="transparent-dialog">
+            <p:graphicImage name="images/loading.gif" library="blog" width="100"/>
+        </p:dialog>
+
         <p:ajaxStatus styleClass="layout-ajax-loader">
             <f:facet name="start">
                 <p:graphicImage name="images/loading.gif" library="blog" width="100"/>
@@ -88,7 +108,7 @@
                 <h:outputText value=""/>
             </f:facet>
         </p:ajaxStatus>
-    </div>
+    </p:outputPanel>
     <h:outputStylesheet name="css/primeicons.css" library="ecuador-layout"/>
     <h:outputStylesheet name="css/primeflex.min.css" library="ecuador-layout"/>
     <h:outputStylesheet name="css/common.css" library="framework"/>

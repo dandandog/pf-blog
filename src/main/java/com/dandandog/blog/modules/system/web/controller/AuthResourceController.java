@@ -13,6 +13,7 @@ import com.dandandog.blog.modules.system.web.facet.AuthResourceFaces;
 import com.dandandog.blog.modules.system.web.facet.vo.AuthResourceVo;
 import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.faces.annotation.MessageRequired;
+import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
@@ -69,7 +70,7 @@ public class AuthResourceController extends FacesController {
         putNodeView(vo);
     }
 
-    @MessageRequired(type = MessageType.OPERATION)
+    @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)
     public void edit() {
         AuthResource selected = getViewScope("sinSelected");
         AuthResourceVo vo = resourceFaces.getOptById(selected.getId())

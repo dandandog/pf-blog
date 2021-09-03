@@ -2,3 +2,15 @@
     top: 50% !important;
     left: 50% !important;
 }
+
+.transparent-dialog {
+    box-shadow: none !important;
+}
+
+.transparent-dialog .ui-dialog-titlebar {
+    background-color: transparent !important;
+}
+
+.transparent-dialog .ui-dialog-content {
+    background-color: transparent !important;
+}

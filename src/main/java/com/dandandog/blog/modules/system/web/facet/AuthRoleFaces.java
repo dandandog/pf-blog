@@ -56,18 +56,18 @@ public class AuthRoleFaces {
     }
 
     @Transactional
-    public void saveOrUpdate(AuthRole entity, List<AuthResource> resources) {
-        if (roleService.saveOrUpdate(entity)) {
-            roleResourceService.remove(new LambdaQueryWrapper<AuthRoleResource>().eq(AuthRoleResource::getRoleId, entity.getId()));
-            List<AuthRoleResource> roleResources = CollUtil.emptyIfNull(resources).stream()
-                    // 有权限的才保存到数据库中，主要是解决在 tree 上显示的问题
-                    .filter(resource -> StringUtils.isNotBlank(resource.getPerms()))
-                    .map(resource -> new AuthRoleResource(entity.getId(), entity.getCode(), resource.getId()))
-                    .collect(Collectors.toList());
-            if (roleResources.size() != 0) {
-                roleResourceService.saveBatch(roleResources);
-            }
-        }
+    public void saveOrUpdate(AuthRoleVo vo) {
+        AuthRole entity = MapperUtil.map(vo, AuthRole.class);
+        List<AuthResource> resources = vo.getResources();
+        roleService.saveOrUpdate(entity);
+        roleResourceService.lambdaUpdate().eq(AuthRoleResource::getRoleId, entity.getId()).remove();
+        List<AuthRoleResource> roleResources = CollUtil.emptyIfNull(resources).stream()
+                // 有权限的才保存到数据库中，主要是解决在 tree 上显示的问题
+                .filter(resource -> StringUtils.isNotBlank(resource.getPerms()))
+                .map(resource -> new AuthRoleResource(entity.getId(), entity.getCode(), resource.getId()))
+                .collect(Collectors.toList());
+        roleResourceService.saveBatch(roleResources);
+
     }
 
     public void removeByIds(String[] ids) {

@@ -18,18 +18,6 @@ import java.util.Optional;
 //
 public interface AuthUserService extends IService<AuthUser> {
 
-    List<String> findRoleByUser(String userId);
-
-
-    Multimap<String, String> loadUserRole();
-
-    Optional<AuthUser> findByEmail(String email);
-
     Optional<AuthUser> findByUsername(String username);
 
-    AuthUser findUserAuthorities(AuthUser user);
-
-    void reloadUserRole();
-
-    void sendEmailByUser(AuthUser user, String email, String subject, String text);
 }

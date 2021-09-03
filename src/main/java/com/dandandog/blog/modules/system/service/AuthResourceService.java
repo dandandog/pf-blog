@@ -17,4 +17,5 @@ public interface AuthResourceService extends IService<AuthResource> {
 
     List<AuthResource> findByRole(String id);
 
+    List<AuthResource> findByUser(String id);
 }

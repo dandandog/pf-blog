@@ -1,16 +1,15 @@
 package com.dandandog.blog.modules.system.web.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ArrayUtil;
 import com.dandandog.blog.common.model.MapperPageDataModel;
-import com.dandandog.blog.modules.system.entity.AuthUser;
 import com.dandandog.blog.modules.system.entity.enums.UserGender;
 import com.dandandog.blog.modules.system.entity.enums.UserState;
 import com.dandandog.blog.modules.system.entity.enums.UserType;
-import com.dandandog.blog.modules.system.web.facet.adapter.AuthUserPageAdapter;
 import com.dandandog.blog.modules.system.web.facet.AuthUserFaces;
+import com.dandandog.blog.modules.system.web.facet.adapter.AuthUserPageAdapter;
 import com.dandandog.blog.modules.system.web.facet.vo.AuthUserVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
+import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
@@ -20,9 +19,7 @@ import org.primefaces.model.LazyDataModel;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @Author: JohnnyLiu
@@ -50,7 +47,7 @@ public class AuthUserController extends FacesController {
         return MapperPageDataModel.getInstance(new AuthUserPageAdapter(), AuthUserVo.class);
     }
 
-    @MessageRequired(type = MessageType.OPERATION)
+    @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)
     public void edit() {
         AuthUserVo selected = getViewScope("sinSelected");
         AuthUserVo vo = userFacet.getOptById(selected.getId())

@@ -1,0 +1,134 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:framework="http://java.sun.com/jsf/composite/components">
+    <ui:define name="title">#{msg['blog']['dictManagement']}</ui:define>
+    <ui:define name="viewname">
+        <li>#{msg['blog']['system']}</li>
+        <li>/</li>
+        <li>#{msg['blog']['set']}</li>
+        <li>/</li>
+        <li>#{msg['blog']['dictManagement']}</li>
+    </ui:define>
+    <ui:define name="content">
+
+        <h:form id="dict_form" prependId="false">
+            <framework:dataTable id="dict" formDialogId="dict"
+                                 headText="#{msg['blog']['dictManagement']}"
+                                 value="#{viewScope.list}"
+                                 singleSelection="#{viewScope.sinSelected}"
+                                 multipleSelection="#{viewScope.mulSelected}">
+
+                <p:column headerText="Representative" groupRow="true">
+
+                </p:column>
+
+
+                <p:column headerText="#{msg['blog']['dictType']}"
+                          field="type" filterMatchMode="equals">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('dict_dataTable').filter()"
+                                         converter="#{dictTypeConverter}"
+                                         styleClass="ui-column-filter">
+                            <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{viewScope.types}" var="type"
+                                           itemLabel="#{msg['dictType'][type.title]}"
+                                           itemValue="#{type}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{msg['dictType'][element.type.title]}"/>
+                </p:column>
+                <p:column headerText="#{msg['blog']['dictState']}"
+                          field="state" filterMatchMode="equals">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('dict_dataTable').filter()"
+                                         converter="#{dictStateConverter}"
+                                         styleClass="ui-column-filter">
+                            <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{viewScope.states}" var="state"
+                                           itemLabel="#{msg['dictState'][state.title]}"
+                                           itemValue="#{state}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{msg['dictState'][element.state.title]}"/>
+                </p:column>
+                <p:column headerText="#{msg['blog']['dictGender']}"
+                          field="gender" filterMatchMode="equals">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('dict_dataTable').filter()"
+                                         converter="#{dictGenderConverter}"
+                                         styleClass="ui-column-filter">
+                            <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{viewScope.genders}" var="gender"
+                                           itemLabel="#{msg['dictGender'][gender.title]}"
+                                           itemValue="#{gender}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{msg['dictGender'][element.gender.title]}"/>
+                </p:column>
+                <p:column headerText="#{msg['blog']['phone']}" field="phone" filterMatchMode="contains"/>
+                <p:column headerText="#{msg['blog']['email']}" field="email" filterMatchMode="contains"/>
+                <p:column headerText="#{msg['framework']['operatedTime']}" sortBy="operatedTime"
+                          sortable="true" width="150"
+                          sortOrder="desc" sortPriority="1">
+                    <h:outputText value="#{element.operatedTime}">
+                        <f:convertDateTime type="localDateTime"
+                                           pattern="#{msg['format']['localDateTime']}"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['blog']['remark']}" field="remark" filterable="false"
+                          sortable="false"/>
+            </framework:dataTable>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="dialog">
+        <h:form id="dialogform">
+            <framework:dialog id="dict" value="#{viewScope.vo}"
+                              saveUpdate="@widgetVar(dict_dataTable)">
+                <framework:label target="avatar" value="#{msg['blog']['avatar']}" styleClass="p-col-12">
+                    <framework:upload id="avatar" value="#{viewScope.vo.avatarUrl}"/>
+                </framework:label>
+                <framework:label target="nickname" value="#{msg['blog']['nickname']}" styleClass="p-col-6">
+                    <p:inputText id="nickname" value="#{viewScope.vo.nickname}" disabled="true"/>
+                </framework:label>
+                <framework:label target="gender" value="#{msg['blog']['dictGender']}" styleClass="p-col-6">
+                    <p:selectOneMenu id="gender" value="#{viewScope.vo.gender}" disabled="true">
+                        <f:selectItems value="#{viewScope.genders}" var="gender"
+                                       itemLabel="#{msg['dictGender'][gender.title]}" itemValue="#{gender}"/>
+                    </p:selectOneMenu>
+                </framework:label>
+                <framework:label target="mobile" value="#{msg['blog']['phone']}" styleClass="p-col-6">
+                    <p:inputMask id="mobile" value="#{viewScope.vo.phone}" mask="999-999-99999" disabled="true"/>
+                </framework:label>
+
+                <framework:label target="email" value="#{msg['blog']['email']}" styleClass="p-col-6">
+                    <p:inputText id="email" value="#{viewScope.vo.email}" disabled="true"/>
+                </framework:label>
+
+                <framework:label target="state" value="#{msg['blog']['dictState']}" styleClass="p-col-6">
+                    <p:selectOneMenu id="state" value="#{viewScope.vo.state}">
+                        <f:selectItems value="#{viewScope.states}" var="state"
+                                       itemLabel="#{msg['dictState'][state.title]}" itemValue="#{state}"/>
+                    </p:selectOneMenu>
+                </framework:label>
+
+                <framework:label target="role" value="#{msg['blog']['dictRole']}">
+                    <p:pickList id="role" value="#{viewScope.vo.roles}" var="role" itemLabel="#{role.name}"
+                                itemValue="#{role}" responsive="true" converter="#{authRoleConverter}"/>
+                </framework:label>
+
+                <framework:label target="remark" value="#{msg['blog']['remark']}">
+                    <p:inputTextarea id="remark" value="#{viewScope.vo.remark}" autoResize="false"/>
+                </framework:label>
+
+            </framework:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

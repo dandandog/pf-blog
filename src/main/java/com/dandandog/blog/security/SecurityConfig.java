@@ -1,9 +1,7 @@
 package com.dandandog.blog.security;
 
-import com.dandandog.blog.modules.system.service.AuthUserService;
 import com.dandandog.blog.security.service.AuthorizedService;
 import com.dandandog.framework.faces.config.properties.PageProperties;
-import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;

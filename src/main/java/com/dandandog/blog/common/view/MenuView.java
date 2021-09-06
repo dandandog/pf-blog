@@ -1,22 +1,16 @@
 package com.dandandog.blog.common.view;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.dandandog.blog.common.model.TreeDataModel;
 import com.dandandog.blog.common.utils.TreeUtil;
-import com.dandandog.blog.modules.system.entity.AuthResource;
-import com.dandandog.blog.modules.system.entity.AuthUser;
-import com.dandandog.blog.modules.system.entity.enums.UserType;
-import com.dandandog.blog.modules.system.service.AuthResourceService;
-import com.dandandog.blog.modules.system.service.AuthUserService;
+import com.dandandog.blog.modules.system.auth.entity.AuthResource;
+import com.dandandog.blog.modules.system.auth.entity.AuthUser;
+import com.dandandog.blog.modules.system.auth.entity.enums.UserType;
+import com.dandandog.blog.modules.system.auth.service.AuthResourceService;
+import com.dandandog.blog.modules.system.auth.service.AuthUserService;
 import com.dandandog.framework.common.utils.SecurityUtil;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import lombok.Getter;
 import org.primefaces.model.menu.*;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;

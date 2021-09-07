@@ -1,6 +1,7 @@
 package com.dandandog.blog.modules.system.setting.web.facet;
 
 import com.dandandog.blog.modules.system.auth.web.facet.vo.AuthUserVo;
+import com.dandandog.blog.modules.system.setting.entity.SetDictNode;
 import com.dandandog.blog.modules.system.setting.entity.SetDictValue;
 import com.dandandog.blog.modules.system.setting.service.SetDictNodeService;
 import com.dandandog.blog.modules.system.setting.service.SetDictValueService;
@@ -54,5 +55,9 @@ public class SetDictFacet {
         List<String> entityIds = entities.stream().map(BaseEntity::getId).collect(Collectors.toList());
         dictValueService.removeByIds(entityIds);
         dictNodeService.removeByIds(nodeIds);
+    }
+
+    public Collection<SetDictNode> nodes() {
+        return dictNodeService.lambdaQuery().orderByAsc(SetDictNode::getSeq).list();
     }
 }

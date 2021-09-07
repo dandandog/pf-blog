@@ -1,8 +1,6 @@
 package com.dandandog.blog.modules.system.setting.web.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import com.dandandog.blog.modules.system.auth.web.facet.vo.AuthResourceVo;
-import com.dandandog.blog.modules.system.auth.web.facet.vo.AuthRoleVo;
 import com.dandandog.blog.modules.system.setting.web.facet.SetDictFacet;
 import com.dandandog.blog.modules.system.setting.web.facet.vo.SetDictVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
@@ -10,13 +8,12 @@ import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
-import com.dandandog.framework.mapstruct.model.MapperVo;
 import com.google.common.collect.Lists;
-import org.primefaces.model.TreeNode;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: JohnnyLiu
@@ -31,6 +28,8 @@ public class SetDictController extends FacesController {
     @Override
     public void onEntry() {
         putViewScope("list", dictFacet.list());
+        putViewScope("nodes", dictFacet.nodes());
+
         putViewScope("vo", new SetDictVo());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
@@ -38,12 +37,17 @@ public class SetDictController extends FacesController {
 
 
     public void add() {
-        putViewScope("vo", new SetDictVo());
+        SetDictVo selected = getViewScope("sinSelected");
+        SetDictVo vo = new SetDictVo();
+        if (selected != null) {
+            vo.setNode(selected.getNode());
+        }
+        putViewScope("vo", vo);
     }
 
     @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)
     public void edit() {
-        SetDictVo selected = getViewScope("vo");
+        SetDictVo selected = getViewScope("sinSelected");
         SetDictVo vo = dictFacet.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error", "dataNotFound"));
         putViewScope("vo", vo);

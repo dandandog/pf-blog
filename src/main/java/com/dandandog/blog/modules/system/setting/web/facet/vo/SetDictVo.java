@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class SetDictVo extends MapperVo {
 
-    private SetDictNode node;
+    private SetDictNode node = new SetDictNode();
 
     private String label;
 

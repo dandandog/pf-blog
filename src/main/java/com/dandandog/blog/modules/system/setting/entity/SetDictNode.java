@@ -42,13 +42,13 @@ public class SetDictNode extends AuditableEntity implements ITree {
     /**
      * 排序
      */
-    private int seq;
+    private int seq = 1;
 
 
     /**
      * 是否叶子节点
      */
-    private boolean leaf;
+    private boolean leaf = true;
 
 
     /**

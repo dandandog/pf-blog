@@ -5,11 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.dandandog.blog.common.adapter.DefaultTreeAdapter;
 import com.dandandog.blog.common.model.MapperPageDataModel;
 import com.dandandog.blog.modules.system.auth.entity.AuthResource;
-import com.dandandog.blog.modules.system.auth.service.AuthUserService;
-import com.dandandog.blog.modules.system.auth.web.facet.AuthResourceFaces;
-import com.dandandog.blog.modules.system.auth.web.facet.AuthRoleFaces;
-import com.dandandog.blog.modules.system.auth.web.facet.adapter.AuthRolePageAdapter;
-import com.dandandog.blog.modules.system.auth.web.facet.vo.AuthRoleVo;
+import com.dandandog.blog.modules.system.auth.web.faces.AuthRoleFaces;
+import com.dandandog.blog.modules.system.auth.web.faces.adapter.AuthRolePageAdapter;
+import com.dandandog.blog.modules.system.auth.web.faces.vo.AuthRoleVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
@@ -40,15 +38,16 @@ public class AuthRoleController extends FacesController {
         putViewScope("vo", new AuthRoleVo());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
+        putViewScope("dataModel", MapperPageDataModel.getInstance(new AuthRolePageAdapter(), AuthRoleVo.class));
     }
 
     public LazyDataModel<AuthRoleVo> getDataModel() {
-        return MapperPageDataModel.getInstance(new AuthRolePageAdapter(), AuthRoleVo.class);
+        return getViewScope("dataModel");
     }
 
     public void add() {
         putViewScope("vo", new AuthRoleVo());
-        putViewScope("rootTree", getDataModel());
+        putViewScope("rootTree", getTreeModel());
     }
 
     @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)
@@ -57,7 +56,7 @@ public class AuthRoleController extends FacesController {
         AuthRoleVo vo = roleFaces.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error", "dataNotFound"));
         putViewScope("vo", vo);
-        putViewScope("rootTree", getDataModel(vo.getResources().toArray(new AuthResource[0])));
+        putViewScope("rootTree", getTreeModel(vo.getResources().toArray(new AuthResource[0])));
     }
 
     @MessageRequired(type = MessageType.SAVE)
@@ -75,7 +74,7 @@ public class AuthRoleController extends FacesController {
         roleFaces.removeByIds(idList);
     }
 
-    private TreeNode getDataModel(AuthResource... selected) {
+    private TreeNode getTreeModel(AuthResource... selected) {
         DefaultTreeAdapter<AuthResource> treeAdapter = getViewScope("adapter");
         return treeAdapter.getRootTree(Wrappers.emptyWrapper(), true, null, selected);
     }

@@ -62,6 +62,7 @@ mybatis-plus:
     cache-enabled: true
 fast-code:
   page:
+    index: /dashboard
     not-found: /notfound
   map-struct:
     url-domain: http://image.myelephant.cn

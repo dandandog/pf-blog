@@ -5,9 +5,9 @@ import com.dandandog.blog.common.model.MapperPageDataModel;
 import com.dandandog.blog.modules.system.auth.entity.enums.UserGender;
 import com.dandandog.blog.modules.system.auth.entity.enums.UserState;
 import com.dandandog.blog.modules.system.auth.entity.enums.UserType;
-import com.dandandog.blog.modules.system.auth.web.facet.AuthUserFaces;
-import com.dandandog.blog.modules.system.auth.web.facet.adapter.AuthUserPageAdapter;
-import com.dandandog.blog.modules.system.auth.web.facet.vo.AuthUserVo;
+import com.dandandog.blog.modules.system.auth.web.faces.AuthUserFaces;
+import com.dandandog.blog.modules.system.auth.web.faces.adapter.AuthUserPageAdapter;
+import com.dandandog.blog.modules.system.auth.web.faces.vo.AuthUserVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
@@ -35,6 +35,7 @@ public class AuthUserController extends FacesController {
     @Override
     public void onEntry() {
         putViewScope("vo", new AuthUserVo());
+        putViewScope("dataModel", MapperPageDataModel.getInstance(new AuthUserPageAdapter(), AuthUserVo.class));
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
 
@@ -44,7 +45,7 @@ public class AuthUserController extends FacesController {
     }
 
     public LazyDataModel<AuthUserVo> getDataModel() {
-        return MapperPageDataModel.getInstance(new AuthUserPageAdapter(), AuthUserVo.class);
+        return getViewScope("dataModel");
     }
 
     @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)

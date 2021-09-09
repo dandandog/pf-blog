@@ -3,7 +3,6 @@ package com.dandandog.blog.common.model;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.db.PageResult;
 import com.dandandog.blog.common.adapter.AbstractPageAdapter;
-import com.dandandog.blog.common.adapter.AbstractPageAdapter;
 import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.mapstruct.FromToKey;
@@ -46,42 +45,20 @@ public class MapperPageDataModel<F extends BaseEntity, T extends IEntity> extend
         this.context = context;
     }
 
-
-    private static class InnerDataModel {
-        private final static Map<FromToKey, MapperPageDataModel> DATA_MODEL_MAP = new ConcurrentHashMap<>();
-
-        private static <F extends BaseEntity, T extends IEntity> MapperPageDataModel<F, T> get(FromToKey fromToKey) {
-            return DATA_MODEL_MAP.get(fromToKey);
-        }
-
-        private static boolean containsKey(FromToKey fromToKey) {
-            return DATA_MODEL_MAP.containsKey(fromToKey);
-        }
-
-        public static <F extends BaseEntity, T extends IEntity> void put(FromToKey fromToKey, MapperPageDataModel<F, T> pageVoModel) {
-            DATA_MODEL_MAP.put(fromToKey, pageVoModel);
-        }
-
-    }
-
     public static <F extends BaseEntity, T extends IEntity> MapperPageDataModel<F, T> getInstance(AbstractPageAdapter<F> adapter) {
         return getInstance(adapter, null, null);
     }
 
     public static <F extends BaseEntity, T extends IEntity> MapperPageDataModel<F, T> getInstance(AbstractPageAdapter<F> adapter, Class<T> tClass) {
-        return getInstance(adapter, null, tClass);
+        return getInstance(adapter, tClass, null);
     }
 
-    public static <F extends BaseEntity, T extends IEntity> MapperPageDataModel<F, T> getInstance(AbstractPageAdapter<F> adapter, BaseContext<T> context, Class<T> tClass) {
+    public static <F extends BaseEntity, T extends IEntity> MapperPageDataModel<F, T> getInstance(AbstractPageAdapter<F> adapter, Class<T> tClass, BaseContext<T> context) {
         Class<F> fClass = (Class<F>) ClassUtil.getTypeArgument(adapter.getClass(), 0);
         if (tClass == null) {
             tClass = (Class<T>) fClass;
         }
         MapperPageDataModel<F, T> dataModel = new MapperPageDataModel<>(fClass, tClass, context);
-        if (!InnerDataModel.containsKey(dataModel.getFromToKey())) {
-            InnerDataModel.put(dataModel.getFromToKey(), dataModel);
-        }
-        dataModel = InnerDataModel.get(dataModel.getFromToKey());
         dataModel.setAdapter(adapter);
         return dataModel;
     }

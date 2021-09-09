@@ -47,11 +47,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         FacesFailureHandler facesFailureHandler = new FacesFailureHandler(page.getLoginFailed());
-        FacesSuccessHandler facesSuccessHandler = new FacesSuccessHandler("/dashboard");
+        FacesSuccessHandler facesSuccessHandler = new FacesSuccessHandler(page.getIndex());
 
         http.authorizeRequests()
                 //游客允许访问
-                .antMatchers(page.getForget(), page.getIndex(), "/register").anonymous()
+                .antMatchers(page.getAnonymous()).anonymous()
                 //所有请求需要登入
                 .anyRequest().authenticated()
                 .and()
@@ -68,17 +68,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 关闭CSRF跨域
         http.csrf().disable();
     }
-
-
-//    private GenericFilterBean captchaFilter(FacesFailureHandler facesFailureHandler) {
-//        return new CaptchaAuthenticationFilter((request, response, e) -> {
-//            try {
-//                facesFailureHandler.onAuthenticationFailure(request, response, new CaptchaErrorException(e.getMessage()));
-//            } catch (Exception ignored) {
-//                log.error("captcha filter error");
-//            }
-//        });
-//    }
 
     @Override
     public void configure(WebSecurity web) {
@@ -103,14 +92,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
-
-//    @Bean
-//    public ServletRegistrationBean<CaptchaServlet> getServletRegistrationBean(CaptchaServletFactory servletFactory) {
-//        CaptchaServlet captchaServlet = servletFactory.generate(ImageCaptcha.class);
-//        ServletRegistrationBean<CaptchaServlet> bean = new ServletRegistrationBean<>(captchaServlet);
-//        bean.addUrlMappings("/captcha/image.jpg");
-//        return bean;
-//    }
 
     @Bean
     public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {

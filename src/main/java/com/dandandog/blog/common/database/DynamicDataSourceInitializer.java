@@ -1,17 +1,13 @@
 package com.dandandog.blog.common.database;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 
 @Component
 public class DynamicDataSourceInitializer {
@@ -31,7 +27,7 @@ public class DynamicDataSourceInitializer {
 
     private DatabasePopulator databasePopulator() {
         final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScripts(schema);
+        populator.addScripts(schema, value);
         return populator;
     }
 }

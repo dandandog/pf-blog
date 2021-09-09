@@ -17,21 +17,8 @@
     <title><ui:insert name="title">PrimeFaces Ecuador</ui:insert></title>
     <h:outputScript name="js/layout.js" library="ecuador-layout"/>
     <h:outputScript name="js/prism.js" library="ecuador-layout"/>
+    <h:outputScript name="js/page.js" library="blog"/>
     <ui:insert name="head"/>
-    <script type="text/javascript">
-        //<![CDATA[
-        function start() {
-            debugger
-            PF('statusDialog').show();
-        }
-
-        function stop() {
-            PF('statusDialog').hide();
-        }
-
-        //]]>
-    </script>
-
 </h:head>
 
 <h:body styleClass="#{guestPreferences.inputStyleClass}">

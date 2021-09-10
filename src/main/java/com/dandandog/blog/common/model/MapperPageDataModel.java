@@ -31,6 +31,7 @@ public class MapperPageDataModel<F extends BaseEntity, T extends IEntity> extend
 
 
     @Setter
+    @Getter
     private AbstractPageAdapter<F> adapter;
 
     @Getter

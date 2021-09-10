@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:framework="http://java.sun.com/jsf/composite/components">
+    <ui:define name="title">#{msg['blog']['categoryManage']}</ui:define>
+    <ui:define name="viewname">
+        <li>#{msg['blog']['content']}</li>
+        <li>/</li>
+        <li>#{msg['blog']['categoryManage']}</li>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="user_form" prependId="false">
+
+            <framework:treeTable id="category" formDialogId="category"
+                                 headText="#{msg['blog']['categoryManage']}"
+                                 value="#{viewScope.root}"
+                                 singleSelection="#{viewScope.sinSelected}"
+                                 multipleSelection="#{viewScope.mulSelected}">
+
+                <p:column filterable="false" sortable="false" headerText="#{msg['blog']['seq']}">
+                    <h:outputText value="#{element.seq}"/>
+                </p:column>
+
+                <p:column filterable="false" sortable="false" headerText="#{msg['blog']['name']}">
+                    <h:outputText value="#{element.name}"/>
+                </p:column>
+
+                <p:column filterable="false" sortable="false" headerText="#{msg['blog']['slug']}">
+                    <h:outputText value="#{element.slug}"/>
+                </p:column>
+
+                <p:column filterable="false" sortable="false" headerText="#{msg['framework']['creator']}">
+                    <h:outputText value="#{element.creator}"/>
+                </p:column>
+
+                <p:column filterable="false" sortable="false"
+                          headerText="#{msg['blog']['article']}#{msg['blog']['count']}">
+                    <h:outputText value="#{element.count}"/>
+                </p:column>
+
+            </framework:treeTable>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="dialog">
+        <h:form id="dialogform">
+            <framework:dialog id="category" value="#{viewScope.vo}"
+                              saveUpdate="@widgetVar(category_dataTable)">
+
+                <framework:label target="parent" value="#{msg['blog']['parent']}">
+                    <p:tree id="parent" widgetVar="parent" value="#{viewScope.rootTree}"
+                            style="max-height: 250px; overflow: auto"
+                            var="node" datakey="#{node.id}" selection="#{viewScope.vo.parent}"
+                            selectionMode="single">
+                        <p:treeNode>
+                            <h:outputText value="#{node.name}"/>
+                        </p:treeNode>
+                    </p:tree>
+                </framework:label>
+
+                <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6">
+                    <p:inputText id="name" value="#{viewScope.vo.name}" required="true"/>
+                </framework:label>
+                <framework:label target="slug" value="#{msg['blog']['slug']}" styleClass="p-col-6">
+                    <p:inputText id="slug" value="#{viewScope.vo.slug}" required="true"/>
+                </framework:label>
+                <framework:label target="description" value="#{msg['blog']['description']}">
+                    <p:inputTextarea id="description" value="#{viewScope.vo.description}"/>
+                </framework:label>
+
+            </framework:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

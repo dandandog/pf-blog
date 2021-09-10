@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.TreeNode;
 
+
 /**
  * @author JohnnyLiu
  */

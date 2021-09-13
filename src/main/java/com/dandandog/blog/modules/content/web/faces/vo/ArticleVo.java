@@ -51,4 +51,8 @@ public class ArticleVo extends MapperVo {
 
     private Collection<AttachmentVo> attachments;
 
+    private ArticleVo() {
+        this.type = ContentType.POST;
+    }
+
 }

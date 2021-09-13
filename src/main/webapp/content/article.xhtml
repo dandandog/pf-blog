@@ -51,10 +51,11 @@
                 </p:outputPanel>
                 <p:outputPanel styleClass="p-md-3 ui-fluid">
                     <framework:label value="#{msg['blog']['category']}">
-                        <h:outputText rendered="#{fn:length(viewScope.categories.children) == 0}"
-                                      value="#{msg['framework']['noRecords']}" style="line-height: 30px;"/>
+                        <p:inputText value="#{msg['framework']['noRecords']}"
+                                     rendered="#{fn:length(viewScope.categories.children) == 0}"
+                                     disabled="true"/>
                         <p:tree id="perms" rendered="#{fn:length(viewScope.categories.children) != 0}"
-                                value="#{viewScope.categories}" style="height: 250px; overflow: auto"
+                                value="#{viewScope.categories}" style="max-height: 250px; overflow: auto"
                                 propagateSelectionUp="false" highlight="20"
                                 selectionMode="checkbox"
                                 var="node" datakey="#{node.id}" selection="#{viewScope.vo.categoryNode}">
@@ -68,13 +69,13 @@
                     </framework:label>
 
                     <p:divider align="center" type="dashed">
-                        <b>Center</b>
+                        <b>#{msg['blog']['advanced']}</b>
                     </p:divider>
 
                     <framework:label value="#{msg['blog']['status']}">
                         <p:selectOneMenu value="#{viewScope.vo.status}">
                             <f:selectItems value="#{viewScope.statuses}" var="status"
-                                           itemLabel="#{msg['contentStatus'][status]}" itemValue="#{status}"/>
+                                           itemLabel="#{msg['contentStatus'][status.title]}" itemValue="#{status}"/>
                         </p:selectOneMenu>
                     </framework:label>
 
@@ -82,6 +83,24 @@
                         <p:inputText value="#{viewScope.vo.password}" required="true"/>
                     </framework:label>
 
+                    <framework:label>
+                        <p:selectBooleanCheckbox id="allowComment" value="#{viewScope.vo.allowComment}"/>
+                        <p:outputLabel for="allowComment" value="#{msg['blog']['allowComment']}" styleClass="p-ml-3"/>
+                    </framework:label>
+
+                    <framework:label>
+                        <p:selectBooleanCheckbox id="allowPing" value="#{viewScope.vo.allowPing}"/>
+                        <p:outputLabel for="allowPing" value="#{msg['blog']['allowPing']}" styleClass="p-ml-3"/>
+                    </framework:label>
+
+                    <framework:label>
+                        <p:selectBooleanCheckbox id="allowFeed" value="#{viewScope.vo.allowFeed}"/>
+                        <p:outputLabel for="allowFeed" value="#{msg['blog']['allowFeed']}" styleClass="p-ml-3"/>
+                    </framework:label>
+
+                    <p:divider align="center" type="dashed">
+                        <b>#{msg['blog']['attachment']}</b>
+                    </p:divider>
 
                 </p:outputPanel>
             </framework:dialog>

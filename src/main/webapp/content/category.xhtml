@@ -12,7 +12,7 @@
         <li>#{msg['blog']['categoryManage']}</li>
     </ui:define>
     <ui:define name="content">
-        <h:form id="user_form" prependId="false">
+        <h:form id="content_form" prependId="false">
 
             <framework:treeTable id="category" formDialogId="category"
                                  headText="#{msg['blog']['categoryManage']}"
@@ -46,7 +46,7 @@
     </ui:define>
 
     <ui:define name="dialog">
-        <h:form id="dialogform">
+        <h:form id="dialog_form">
             <framework:dialog id="category" value="#{viewScope.vo}"
                               saveUpdate="@widgetVar(category_dataTable)">
 

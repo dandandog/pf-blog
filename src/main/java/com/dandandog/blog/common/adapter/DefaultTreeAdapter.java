@@ -26,6 +26,7 @@ public class DefaultTreeAdapter<T extends ITree> {
         this.clazz = clazz;
     }
 
+
     @SafeVarargs
     public final TreeNode getRootTree(boolean isExpand, T current, T... selected) {
         return getRootTree(Wrappers.emptyWrapper(), isExpand, current, selected);

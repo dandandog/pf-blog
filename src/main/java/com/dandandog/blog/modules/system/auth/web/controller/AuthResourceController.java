@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.dandandog.blog.common.adapter.DefaultTreeAdapter;
 import com.dandandog.blog.common.utils.IconUtil;
+import com.dandandog.blog.common.utils.TreeUtil;
 import com.dandandog.blog.modules.system.auth.entity.AuthResource;
 import com.dandandog.blog.modules.system.auth.entity.enums.ResourceTarget;
 import com.dandandog.blog.modules.system.auth.entity.enums.ResourceType;
@@ -89,15 +90,7 @@ public class AuthResourceController extends FacesController {
     public void delete() {
         AuthResource selected = getViewScope("sinSelected");
         TreeNode[] mulSelected = getViewScope("mulSelected");
-
-        List<AuthResource> selectedList = Optional.ofNullable(mulSelected).map(treeNodes ->
-                Arrays.stream(treeNodes)
-                        .map(TreeNode::getData)
-                        .map(o -> ((AuthResource) o))
-                        .collect(Collectors.toList())).orElse(Lists.newArrayList());
-
-        String[] idList = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected))
-                .stream().map(BaseEntity::getId).toArray(String[]::new);
+        String[] idList = TreeUtil.selectedId(mulSelected, selected);
         resourceFaces.removeByIds(idList);
         onEntry();
     }

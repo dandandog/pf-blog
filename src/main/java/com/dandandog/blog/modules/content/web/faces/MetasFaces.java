@@ -3,6 +3,9 @@ package com.dandandog.blog.modules.content.web.faces;
 import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.dandandog.blog.common.adapter.DefaultTreeAdapter;
+import com.dandandog.blog.common.model.MapperTree;
 import com.dandandog.blog.modules.content.entity.BlogMetas;
 import com.dandandog.blog.modules.content.entity.BlogMetasContents;
 import com.dandandog.blog.modules.content.entity.enums.MetaType;
@@ -12,10 +15,12 @@ import com.dandandog.blog.modules.content.web.faces.vo.CategoryVo;
 import com.dandandog.blog.modules.content.web.faces.vo.TagVo;
 import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.core.annotation.Facet;
+import com.dandandog.framework.core.entity.AuditableEntity;
 import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.mapstruct.MapperUtil;
 import com.dandandog.framework.mapstruct.model.MapperVo;
 import org.apache.poi.ss.formula.functions.T;
+import org.primefaces.model.TreeNode;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -40,6 +45,17 @@ public class MetasFaces {
 
     private Class<? extends MapperVo> chooseClass(MetaType type) {
         return MetaType.CATEGORY.equals(type) ? CategoryVo.class : TagVo.class;
+    }
+
+    public TreeNode findDataModel(DefaultTreeAdapter<BlogMetas> treeAdapter, MapperTree vo) {
+        Wrapper<BlogMetas> queryWrapper = new LambdaQueryWrapper<BlogMetas>().eq(BlogMetas::getType, MetaType.CATEGORY)
+                .orderByAsc(BlogMetas::getSeq).orderByDesc(AuditableEntity::getOperatedTime);
+        if (vo != null) {
+            BlogMetas node = MapperUtil.map(vo, BlogMetas.class);
+            BlogMetas selected = vo.getParent() != null ? (BlogMetas) vo.getParent().getData() : null;
+            return treeAdapter.getRootTree(queryWrapper, true, node, selected);
+        }
+        return treeAdapter.getRootTree(queryWrapper, true, null);
     }
 
     public Optional<? extends MapperVo> getOptById(String id, MetaType type) {

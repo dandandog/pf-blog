@@ -2,6 +2,8 @@ package com.dandandog.blog.modules.content.entity;
 
 import java.time.LocalDateTime;
 
+import com.dandandog.blog.modules.content.entity.enums.ContentStatus;
+import com.dandandog.blog.modules.content.entity.enums.ContentType;
 import com.dandandog.framework.core.entity.AbstractEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.framework.core.entity.AuditableEntity;
@@ -43,7 +45,7 @@ public class BlogContents extends AuditableEntity {
     /**
      * 排序
      */
-    private Object seq;
+    private int seq;
 
     /**
      * 模板
@@ -53,12 +55,12 @@ public class BlogContents extends AuditableEntity {
     /**
      * 类型(1:页面;2:附件:3:帖子)
      */
-    private Integer type;
+    private ContentType type;
 
     /**
      * 状态(1:发布; 2:未发布)
      */
-    private Integer sataus;
+    private ContentStatus status;
 
     /**
      * 密码
@@ -68,27 +70,27 @@ public class BlogContents extends AuditableEntity {
     /**
      * 浏览数量
      */
-    private Integer viewNum;
+    private int viewNum;
 
     /**
      * 评论数量
      */
-    private Integer commentsNum;
+    private int commentsNum;
 
     /**
      * 允许评论
      */
-    private Boolean allowComment;
+    private boolean allowComment;
 
     /**
-     * 允许
+     * 允许引用
      */
-    private Boolean allowPing;
+    private boolean allowPing;
 
     /**
-     * 允许
+     * 允许聚合
      */
-    private Boolean allowFeed;
+    private boolean allowFeed;
 
 
 }

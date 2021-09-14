@@ -57,9 +57,8 @@
                                      rendered="#{fn:length(viewScope.categories.children) == 0}"
                                      disabled="true"/>
                         <p:tree id="perms" rendered="#{fn:length(viewScope.categories.children) != 0}"
-                                value="#{viewScope.categories}" style="max-height: 250px; overflow: auto"
-                                propagateSelectionUp="false" highlight="20"
-                                selectionMode="checkbox"
+                                value="#{viewScope.categories}" style="max-height: 250px; overflow: auto" highlight="20"
+                                selectionMode="single"
                                 var="node" datakey="#{node.id}" selection="#{viewScope.vo.categoryNode}">
                             <p:treeNode>
                                 <h:outputText value="#{node.name}"/>
@@ -100,13 +99,13 @@
                         <p:outputLabel for="allowFeed" value="#{msg['blog']['allowFeed']}" styleClass="p-ml-3"/>
                     </framework:label>
 
-                    <framework:upload label="附件" value="#{viewScope.vo.attachments}"
-                                      listener="#{controller.upload}" allowTypes="/(\.|\/)(txt|doc?x)$/"
+                    <framework:upload widgetVar="test" label="附件" value="#{viewScope.vo.attachments}"
+                                      listener="#{controller.onFileUpload}" allowTypes="/(\.|\/)(txt|doc?x)$/"
                                       layout="custom">
                         <p:outputPanel layout="block" styleClass="p-m-2 p-d-flex p-ac-center p-jc-between">
                             <h:outputText value="#{status.index+1}. #{element.title}"/>
-                            <p:commandLink style="width: 18px;height: 18px;" process="@this" update="@this"
-                                           action="#{viewScope.vo.attachments.remove(status.index)}">
+                            <p:commandLink style="width: 18px;height: 18px;" process="@this" update="@widgetVar(test)"
+                                           action="#{controller.onFileRemove(status.index)}">
                                 <i class="pi pi-times-circle" style="font-size: 18px"/>
                             </p:commandLink>
                         </p:outputPanel>

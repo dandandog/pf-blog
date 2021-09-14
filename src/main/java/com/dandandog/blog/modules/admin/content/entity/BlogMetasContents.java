@@ -2,6 +2,7 @@ package com.dandandog.blog.modules.admin.content.entity;
 
 import com.dandandog.framework.core.entity.AbstractEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.dandandog.framework.core.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,9 +15,18 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("blog_metas_contents")
-public class BlogMetasContents extends AbstractEntity {
+public class BlogMetasContents extends BaseEntity {
 
     private String contentId;
 
     private String metaId;
+
+    public BlogMetasContents() {
+
+    }
+
+    public BlogMetasContents(String contentId, String metaId) {
+        this.contentId = contentId;
+        this.metaId = metaId;
+    }
 }

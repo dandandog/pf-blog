@@ -3,6 +3,8 @@ package com.dandandog.blog.modules.admin.content.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dandandog.blog.modules.admin.content.entity.BlogMetas;
 
+import java.util.List;
+
 /**
  * 元数据(BlogMetas)表服务接口
  *
@@ -10,5 +12,7 @@ import com.dandandog.blog.modules.admin.content.entity.BlogMetas;
  * @since 2021-09-09 14:41:00
  */
 public interface BlogMetasService extends IService<BlogMetas> {
+
+    List<String> checkAndSaveTags(String... tags);
 
 }

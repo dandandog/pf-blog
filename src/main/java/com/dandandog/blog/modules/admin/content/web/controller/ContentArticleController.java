@@ -85,7 +85,7 @@ public class ContentArticleController extends FacesController {
         contentFaces.removeByIds(idList);
     }
 
-    public void upload(FileUploadEvent event) throws IOException {
+    public void onFileUpload(FileUploadEvent event) throws IOException {
         ArticleVo vo = getViewScope("vo");
         UploadedFile file = event.getFile();
         AttachmentVo attachmentVo = new AttachmentVo();
@@ -93,6 +93,12 @@ public class ContentArticleController extends FacesController {
         attachmentVo.setSlug(StrUtil.replace(file.getFileName(), StrUtil.DOT, StrUtil.DASHED));
         attachmentVo.setText(UploadUtil.componentUpload(file));
         vo.getAttachments().add(attachmentVo);
+    }
+
+    public void onFileRemove(int index) {
+        ArticleVo vo = getViewScope("vo");
+        AttachmentVo entity = CollUtil.get(vo.getAttachments(), index);
+        vo.getAttachments().remove(entity);
     }
 
     private TreeNode buildTree(CategoryVo vo) {

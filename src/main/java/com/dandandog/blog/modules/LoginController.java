@@ -2,7 +2,7 @@ package com.dandandog.blog.modules;
 
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.blog.common.database.DataSourceUtil;
-import com.dandandog.blog.modules.system.auth.service.AuthUserService;
+import com.dandandog.blog.modules.admin.auth.service.AuthUserService;
 import com.dandandog.framework.common.utils.SecurityUtil;
 import com.dandandog.framework.faces.controller.FacesController;
 import org.springframework.security.authentication.AccountExpiredException;

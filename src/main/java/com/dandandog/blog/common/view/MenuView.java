@@ -1,11 +1,11 @@
 package com.dandandog.blog.common.view;
 
 import com.dandandog.blog.common.utils.TreeUtil;
-import com.dandandog.blog.modules.system.auth.entity.AuthResource;
-import com.dandandog.blog.modules.system.auth.entity.AuthUser;
-import com.dandandog.blog.modules.system.auth.entity.enums.UserType;
-import com.dandandog.blog.modules.system.auth.service.AuthResourceService;
-import com.dandandog.blog.modules.system.auth.service.AuthUserService;
+import com.dandandog.blog.modules.admin.auth.entity.AuthResource;
+import com.dandandog.blog.modules.admin.auth.entity.AuthUser;
+import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
+import com.dandandog.blog.modules.admin.auth.service.AuthResourceService;
+import com.dandandog.blog.modules.admin.auth.service.AuthUserService;
 import com.dandandog.framework.common.utils.SecurityUtil;
 import com.google.common.collect.Multimap;
 import org.primefaces.model.menu.*;

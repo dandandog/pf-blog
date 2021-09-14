@@ -1,14 +1,14 @@
 package com.dandandog.blog.security.service;
 
 import cn.hutool.core.collection.CollUtil;
-import com.dandandog.blog.modules.system.auth.entity.AuthResource;
-import com.dandandog.blog.modules.system.auth.entity.AuthRoleResource;
-import com.dandandog.blog.modules.system.auth.entity.AuthUser;
-import com.dandandog.blog.modules.system.auth.entity.AuthUserRole;
-import com.dandandog.blog.modules.system.auth.service.AuthResourceService;
-import com.dandandog.blog.modules.system.auth.service.AuthRoleResourceService;
-import com.dandandog.blog.modules.system.auth.service.AuthUserRoleService;
-import com.dandandog.blog.modules.system.auth.service.AuthUserService;
+import com.dandandog.blog.modules.admin.auth.entity.AuthResource;
+import com.dandandog.blog.modules.admin.auth.entity.AuthRoleResource;
+import com.dandandog.blog.modules.admin.auth.entity.AuthUser;
+import com.dandandog.blog.modules.admin.auth.entity.AuthUserRole;
+import com.dandandog.blog.modules.admin.auth.service.AuthResourceService;
+import com.dandandog.blog.modules.admin.auth.service.AuthRoleResourceService;
+import com.dandandog.blog.modules.admin.auth.service.AuthUserRoleService;
+import com.dandandog.blog.modules.admin.auth.service.AuthUserService;
 import com.dandandog.blog.security.utils.SessionUtil;
 import com.dandandog.framework.core.entity.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;

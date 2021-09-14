@@ -1,9 +1,9 @@
 package com.dandandog.blog.modules;
 
 import cn.hutool.core.util.RandomUtil;
-import com.dandandog.blog.modules.system.auth.entity.AuthUser;
-import com.dandandog.blog.modules.system.auth.entity.enums.UserType;
-import com.dandandog.blog.modules.system.auth.service.AuthUserService;
+import com.dandandog.blog.modules.admin.auth.entity.AuthUser;
+import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
+import com.dandandog.blog.modules.admin.auth.service.AuthUserService;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;

@@ -1,6 +1,6 @@
 package com.dandandog.blog.security.utils;
 
-import com.dandandog.blog.modules.system.auth.entity.AuthUser;
+import com.dandandog.blog.modules.admin.auth.entity.AuthUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;

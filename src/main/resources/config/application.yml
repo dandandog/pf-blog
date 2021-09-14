@@ -61,6 +61,12 @@ mybatis-plus:
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
     cache-enabled: true
 fast-code:
+  oos:
+    enabled: true
+    type: Qiniu
+    def-bucket: elephantnormal
+    access-key: Fr2VGDGU6CL9W0JcgPcZ9mXSDhlZc12cGxj9yrpF
+    secret-key: tMy3Cykra8pevIF4Wb07Na9AXMkWn-f1_SRGHEZ-
   page:
     index: /dashboard
     not-found: /notfound

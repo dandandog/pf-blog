@@ -23,16 +23,16 @@ import java.util.stream.Collectors;
 public class BlogMetasServiceImpl extends BaseServiceImpl<BlogMetasDao, BlogMetas> implements BlogMetasService {
 
     @Override
-    public List<String> checkAndSaveTags(String... tags) {
+    public List<BlogMetas> checkAndSaveTags(String... tags) {
         return Arrays.stream(tags).map(tag -> {
             Optional<BlogMetas> optMetas = lambdaQuery().eq(BlogMetas::getName, tag).eq(BlogMetas::getType, MetaType.TAG).oneOpt();
-            return optMetas.map(BaseEntity::getId).orElseGet(() -> {
+            return optMetas.orElseGet(() -> {
                 BlogMetas meta = new BlogMetas();
                 meta.setType(MetaType.TAG);
                 meta.setName(tag);
                 meta.setSlug(tag);
                 save(meta);
-                return meta.getId();
+                return meta;
             });
         }).collect(Collectors.toList());
     }

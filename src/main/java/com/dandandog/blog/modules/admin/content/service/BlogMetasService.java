@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface BlogMetasService extends IService<BlogMetas> {
 
-    List<String> checkAndSaveTags(String... tags);
+    List<BlogMetas> checkAndSaveTags(String... tags);
 
 }

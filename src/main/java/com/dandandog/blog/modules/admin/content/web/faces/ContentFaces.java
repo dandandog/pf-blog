@@ -1,5 +1,6 @@
 package com.dandandog.blog.modules.admin.content.web.faces;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.dandandog.blog.common.model.MapperPageDataModel;
@@ -54,18 +55,20 @@ public class ContentFaces {
     @Transactional
     public void saveOrUpdate(ArticleVo vo) {
         BlogContents entity = MapperUtil.map(vo, BlogContents.class);
-        if (ObjectUtil.isNotEmpty(entity.getId())) {
-            contentsService.lambdaUpdate().eq(BlogContents::getParentId, entity.getId()).remove();
-            metasContentsService.lambdaUpdate().eq(BlogMetasContents::getContentId, entity.getId()).remove();
-        }
         contentsService.saveOrUpdate(entity);
         // Attachment
-        Collection<BlogContents> entities = MapperUtil.mapFromAll(vo.getAttachments(), BlogContents.class).stream()
+        List<BlogContents> attachmentSource = contentsService.lambdaQuery().eq(BlogContents::getParentId, entity.getId()).list();
+        Collection<BlogContents> attachmentTarget = MapperUtil.mapFromAll(vo.getAttachments(), BlogContents.class).stream()
                 .peek(blogContents -> blogContents.setParentId(entity.getId())).collect(Collectors.toList());
-        contentsService.saveOrUpdateBatch(entities);
-        // Metas
-        List<String> tagIds = metasService.checkAndSaveTags(ArrayUtil.toArray(vo.getTags(), String.class));
-        List<BlogMetasContents> metasContents = tagIds.stream().map(tagId -> new BlogMetasContents(entity.getId(), tagId)).collect(Collectors.toList());
+        Collection<BlogContents> attachmentRemove = CollUtil.subtract(attachmentSource, attachmentTarget);
+        contentsService.removeByIds(attachmentRemove);
+        contentsService.saveOrUpdateBatch(attachmentTarget);
+
+        // tags
+        metasContentsService.lambdaUpdate().eq(BlogMetasContents::getContentId, entity.getId()).remove();
+        List<BlogMetas> tags = metasService.checkAndSaveTags(ArrayUtil.toArray(vo.getTags(), String.class));
+        List<BlogMetasContents> metasContents = tags.stream().map(tag -> new BlogMetasContents(entity.getId(), tag.getId())).collect(Collectors.toList());
+        // category
         BlogMetas cate = (BlogMetas) vo.getCategoryNode().getData();
         metasContents.add(new BlogMetasContents(entity.getId(), cate.getId()));
         metasContentsService.saveOrUpdateBatch(metasContents);

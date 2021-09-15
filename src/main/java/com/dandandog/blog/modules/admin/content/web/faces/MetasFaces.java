@@ -44,7 +44,7 @@ public class MetasFaces {
     }
 
     public TreeNode findDataModel(DefaultTreeAdapter<BlogMetas> treeAdapter, MapperTree vo) {
-        BlogMetas entity = MapperUtil.map(vo, BlogMetas.class);
+        BlogMetas entity = Optional.ofNullable(vo).map(mapperTree -> MapperUtil.map(mapperTree, BlogMetas.class)).orElse(null);
         return findDataModel(treeAdapter, entity);
     }
 

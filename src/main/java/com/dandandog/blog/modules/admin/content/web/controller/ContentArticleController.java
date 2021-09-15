@@ -14,6 +14,8 @@ import com.dandandog.blog.modules.admin.content.web.faces.MetasFaces;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.ArticleVo;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.AttachmentVo;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.CategoryVo;
+import com.dandandog.framework.faces.annotation.MessageRequired;
+import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.dandandog.framework.mapstruct.model.MapperVo;
@@ -70,13 +72,16 @@ public class ContentArticleController extends FacesController {
         ArticleVo vo = contentFaces.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error", "dataNotFound"));
         putViewScope("vo", vo);
+        putViewScope("categories", buildTree((BlogMetas) vo.getCategoryNode().getData()));
     }
 
+    @MessageRequired(type = MessageType.SAVE)
     public void save() {
         ArticleVo vo = getViewScope("vo");
         contentFaces.saveOrUpdate(vo);
     }
 
+    @MessageRequired(type = MessageType.DELETE)
     public void delete() {
         ArticleVo selected = getViewScope("sinSelected");
         List<ArticleVo> selectedList = getViewScope("mulSelected");
@@ -101,12 +106,12 @@ public class ContentArticleController extends FacesController {
         vo.getAttachments().remove(entity);
     }
 
-    private TreeNode buildTree(CategoryVo vo) {
+    private TreeNode buildTree(BlogMetas metas) {
         DefaultTreeAdapter<BlogMetas> adapter = getViewScope("adapter");
         if (adapter == null) {
             adapter = new DefaultTreeAdapter<>(BlogMetas.class);
             putViewScope("adapter", adapter);
         }
-        return metasFaces.findDataModel(adapter, vo);
+        return metasFaces.findDataModel(adapter, metas);
     }
 }

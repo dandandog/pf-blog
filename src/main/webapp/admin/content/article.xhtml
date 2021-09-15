@@ -49,7 +49,6 @@
                         <framework:textEditor value="#{viewScope.vo.text}" secure="false"/>
                     </framework:label>
 
-
                 </p:outputPanel>
                 <p:outputPanel styleClass="p-md-3 ui-fluid">
                     <framework:label value="#{msg['blog']['category']}">
@@ -74,7 +73,7 @@
                     </p:divider>
 
                     <framework:label value="#{msg['blog']['status']}">
-                        <p:selectOneMenu value="#{viewScope.vo.status}">
+                        <p:selectOneMenu value="#{viewScope.vo.status}" converter="#{contentStatusConverter}">
                             <f:selectItems value="#{viewScope.statuses}" var="status"
                                            itemLabel="#{msg['contentStatus'][status.title]}" itemValue="#{status}"/>
                         </p:selectOneMenu>

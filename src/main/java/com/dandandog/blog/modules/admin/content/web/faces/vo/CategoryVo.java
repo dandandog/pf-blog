@@ -19,15 +19,11 @@ public class CategoryVo extends MapperTree {
 
     private String slug;
 
-    private MetaType type;
+    private MetaType type = MetaType.CATEGORY;
 
     private String description;
 
     private int count;
 
     private int seq;
-
-    public MetaType getType() {
-        return MetaType.CATEGORY;
-    }
 }

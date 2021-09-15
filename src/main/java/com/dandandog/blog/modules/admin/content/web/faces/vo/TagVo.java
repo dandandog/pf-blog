@@ -17,11 +17,8 @@ public class TagVo extends MapperVo {
 
     private String slug;
 
-    private MetaType type;
+    private MetaType type = MetaType.TAG;
 
     private int count;
 
-    public MetaType getType() {
-        return MetaType.TAG;
-    }
 }

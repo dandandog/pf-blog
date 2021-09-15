@@ -44,12 +44,16 @@ public class MetasFaces {
     }
 
     public TreeNode findDataModel(DefaultTreeAdapter<BlogMetas> treeAdapter, MapperTree vo) {
+        BlogMetas entity = MapperUtil.map(vo, BlogMetas.class);
+        return findDataModel(treeAdapter, entity);
+    }
+
+    public TreeNode findDataModel(DefaultTreeAdapter<BlogMetas> treeAdapter, BlogMetas entity) {
         Wrapper<BlogMetas> queryWrapper = new LambdaQueryWrapper<BlogMetas>().eq(BlogMetas::getType, MetaType.CATEGORY)
                 .orderByAsc(BlogMetas::getSeq).orderByDesc(AuditableEntity::getOperatedTime);
-        if (vo != null) {
-            BlogMetas node = MapperUtil.map(vo, BlogMetas.class);
-            BlogMetas selected = vo.getParent() != null ? (BlogMetas) vo.getParent().getData() : null;
-            return treeAdapter.getRootTree(queryWrapper, true, node, selected);
+        if (entity != null) {
+            BlogMetas selected = metasService.lambdaQuery().eq(BlogMetas::getParentId, entity.getParentId()).oneOpt().orElse(null);
+            return treeAdapter.getRootTree(queryWrapper, true, entity, selected);
         }
         return treeAdapter.getRootTree(queryWrapper, true, null);
     }

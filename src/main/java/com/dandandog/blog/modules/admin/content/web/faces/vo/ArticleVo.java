@@ -1,7 +1,9 @@
 package com.dandandog.blog.modules.admin.content.web.faces.vo;
 
+import com.dandandog.blog.modules.admin.content.entity.BlogMetas;
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentType;
+import com.dandandog.framework.mapstruct.MapperUtil;
 import com.dandandog.framework.mapstruct.model.MapperVo;
 import com.google.common.collect.Lists;
 import lombok.Data;
@@ -30,7 +32,7 @@ public class ArticleVo extends MapperVo {
 
     private String template;
 
-    private ContentType type;
+    private ContentType type = ContentType.POST;
 
     private ContentStatus status = ContentStatus.PUBLISH;
 
@@ -52,7 +54,4 @@ public class ArticleVo extends MapperVo {
 
     private Collection<AttachmentVo> attachments = Lists.newArrayList();
 
-    public ContentType getType() {
-        return ContentType.POST;
-    }
 }

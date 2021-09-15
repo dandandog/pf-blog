@@ -1,5 +1,6 @@
 package com.dandandog.blog.modules.admin.content.web.faces.vo;
 
+import com.dandandog.blog.modules.admin.content.entity.enums.ContentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentType;
 import com.dandandog.framework.mapstruct.model.MapperUrl;
 import com.dandandog.framework.mapstruct.model.MapperVo;
@@ -22,9 +23,7 @@ public class AttachmentVo extends MapperVo {
 
     private MapperUrl text;
 
-    private ContentType type;
+    private ContentType type = ContentType.ATTACHMENT;
 
-    public ContentType getType() {
-        return ContentType.ATTACHMENT;
-    }
+    private ContentStatus status = ContentStatus.PUBLISH;
 }

@@ -2746,172 +2746,6 @@
           },
           {
             "objectType": "Table_MYSQL",
-            "name": "blog_metas_contents",
-            "comment": "元数据关联内容 ",
-            "engine": "",
-            "characterSet": "",
-            "collation": "",
-            "autoIncrement": 0,
-            "tablespace": "",
-            "storage": "",
-            "insertMethod": "",
-            "connection": "",
-            "checksum": false,
-            "rowFormat": "",
-            "avgRowLength": 0,
-            "maxRows": 0,
-            "minRows": 0,
-            "keyBlockSize": 0,
-            "packKeys": "",
-            "delayKeyWrite": false,
-            "dataDirectory": "",
-            "indexDirectory": "",
-            "statsAutoRecalc": "",
-            "statsPersistent": "",
-            "statsSamplePages": 0,
-            "union": "",
-            "pageCheckSum": false,
-            "transactional": false,
-            "compression": "",
-            "oldName": "",
-            "encryption": false,
-            "createOptions": "",
-            "createTime": "",
-            "checkTime": "",
-            "dataFree": 0,
-            "dataLength": 0,
-            "indexLength": 0,
-            "maxDataLength": 0,
-            "rows": 0,
-            "updateTime": "",
-            "DDL": "",
-            "partitionBy": "",
-            "partitionByExpr": "",
-            "partitions": 0,
-            "partitionKeyAlgorithm": "",
-            "subPartitionBy": "",
-            "subPartitionByExpr": "",
-            "subPartitions": 0,
-            "subPartitionKeyAlgorithm": "",
-            "fields": [
-              {
-                "objectType": "TableField_MYSQL",
-                "name": "content_id",
-                "type": "varchar",
-                "length": 32,
-                "decimals": -2147483648,
-                "isUnsigned": false,
-                "isZeroFill": false,
-                "setEnumValues": "",
-                "isBinary": false,
-                "charset": "",
-                "collation": "",
-                "isNullable": false,
-                "defaultType": "Others",
-                "defaultValue": "",
-                "isOnUpdateCurrentTimestamp": false,
-                "isAutoInc": false,
-                "comment": "",
-                "columnFormat": "",
-                "storage": "",
-                "isVirtual": false,
-                "isGeneratedAlways": false,
-                "virtualExpr": "",
-                "virtualType": "",
-                "oldName": "content_id"
-              },
-              {
-                "objectType": "TableField_MYSQL",
-                "name": "meta_id",
-                "type": "varchar",
-                "length": 32,
-                "decimals": -2147483648,
-                "isUnsigned": false,
-                "isZeroFill": false,
-                "setEnumValues": "",
-                "isBinary": false,
-                "charset": "",
-                "collation": "",
-                "isNullable": false,
-                "defaultType": "Others",
-                "defaultValue": "",
-                "isOnUpdateCurrentTimestamp": false,
-                "isAutoInc": false,
-                "comment": "",
-                "columnFormat": "",
-                "storage": "",
-                "isVirtual": false,
-                "isGeneratedAlways": false,
-                "virtualExpr": "",
-                "virtualType": "",
-                "oldName": "meta_id"
-              }
-            ],
-            "indexes": [],
-            "primaryKey": {
-              "objectType": "PrimaryKey_MYSQL",
-              "name": "",
-              "fields": [
-                {
-                  "objectType": "IndexField_MYSQL",
-                  "name": "content_id",
-                  "keyLength": 0,
-                  "order": "",
-                  "oldName": ""
-                },
-                {
-                  "objectType": "IndexField_MYSQL",
-                  "name": "meta_id",
-                  "keyLength": 0,
-                  "order": "",
-                  "oldName": ""
-                }
-              ],
-              "oldName": "",
-              "indexMethod": "",
-              "comment": ""
-            },
-            "foreignKeys": [
-              {
-                "objectType": "ForeignKey_MYSQL",
-                "name": "fk_metas_contents_blog_metas_1",
-                "fields": [
-                  "meta_id"
-                ],
-                "referenceSchema": "Default",
-                "referenceTable": "blog_metas",
-                "referenceFields": [
-                  "id"
-                ],
-                "onDelete": "",
-                "onUpdate": "",
-                "sourceCardinality": "ZeroOrManyRelationship",
-                "targetCardinality": "NoneRelationship",
-                "oldName": ""
-              },
-              {
-                "objectType": "ForeignKey_MYSQL",
-                "name": "fk_metas_contents_blog_contents_1",
-                "fields": [
-                  "content_id"
-                ],
-                "referenceSchema": "Default",
-                "referenceTable": "blog_contents",
-                "referenceFields": [
-                  "id"
-                ],
-                "onDelete": "",
-                "onUpdate": "",
-                "sourceCardinality": "ZeroOrManyRelationship",
-                "targetCardinality": "NoneRelationship",
-                "oldName": ""
-              }
-            ],
-            "triggers": [],
-            "tablePartitions": []
-          },
-          {
-            "objectType": "Table_MYSQL",
             "name": "blog_comments",
             "comment": "评论",
             "engine": "",
@@ -4313,6 +4147,191 @@
             "foreignKeys": [],
             "triggers": [],
             "tablePartitions": []
+          },
+          {
+            "objectType": "Table_MYSQL",
+            "name": "blog_metas_contents",
+            "comment": "元数据关联内容 ",
+            "engine": "",
+            "characterSet": "",
+            "collation": "",
+            "autoIncrement": 0,
+            "tablespace": "",
+            "storage": "",
+            "insertMethod": "",
+            "connection": "",
+            "checksum": false,
+            "rowFormat": "",
+            "avgRowLength": 0,
+            "maxRows": 0,
+            "minRows": 0,
+            "keyBlockSize": 0,
+            "packKeys": "",
+            "delayKeyWrite": false,
+            "dataDirectory": "",
+            "indexDirectory": "",
+            "statsAutoRecalc": "",
+            "statsPersistent": "",
+            "statsSamplePages": 0,
+            "union": "",
+            "pageCheckSum": false,
+            "transactional": false,
+            "compression": "",
+            "oldName": "",
+            "encryption": false,
+            "createOptions": "",
+            "createTime": "",
+            "checkTime": "",
+            "dataFree": 0,
+            "dataLength": 0,
+            "indexLength": 0,
+            "maxDataLength": 0,
+            "rows": 0,
+            "updateTime": "",
+            "DDL": "",
+            "partitionBy": "",
+            "partitionByExpr": "",
+            "partitions": 0,
+            "partitionKeyAlgorithm": "",
+            "subPartitionBy": "",
+            "subPartitionByExpr": "",
+            "subPartitions": 0,
+            "subPartitionKeyAlgorithm": "",
+            "fields": [
+              {
+                "objectType": "TableField_MYSQL",
+                "name": "id",
+                "type": "varchar",
+                "length": 32,
+                "decimals": -2147483648,
+                "isUnsigned": false,
+                "isZeroFill": false,
+                "setEnumValues": "",
+                "isBinary": false,
+                "charset": "",
+                "collation": "",
+                "isNullable": false,
+                "defaultType": "Others",
+                "defaultValue": "",
+                "isOnUpdateCurrentTimestamp": false,
+                "isAutoInc": false,
+                "comment": "uuid",
+                "columnFormat": "",
+                "storage": "",
+                "isVirtual": false,
+                "isGeneratedAlways": false,
+                "virtualExpr": "",
+                "virtualType": "",
+                "oldName": "id"
+              },
+              {
+                "objectType": "TableField_MYSQL",
+                "name": "content_id",
+                "type": "varchar",
+                "length": 32,
+                "decimals": -2147483648,
+                "isUnsigned": false,
+                "isZeroFill": false,
+                "setEnumValues": "",
+                "isBinary": false,
+                "charset": "",
+                "collation": "",
+                "isNullable": false,
+                "defaultType": "Others",
+                "defaultValue": "",
+                "isOnUpdateCurrentTimestamp": false,
+                "isAutoInc": false,
+                "comment": "内容id",
+                "columnFormat": "",
+                "storage": "",
+                "isVirtual": false,
+                "isGeneratedAlways": false,
+                "virtualExpr": "",
+                "virtualType": "",
+                "oldName": "content_id"
+              },
+              {
+                "objectType": "TableField_MYSQL",
+                "name": "meta_id",
+                "type": "varchar",
+                "length": 32,
+                "decimals": -2147483648,
+                "isUnsigned": false,
+                "isZeroFill": false,
+                "setEnumValues": "",
+                "isBinary": false,
+                "charset": "",
+                "collation": "",
+                "isNullable": false,
+                "defaultType": "Others",
+                "defaultValue": "",
+                "isOnUpdateCurrentTimestamp": false,
+                "isAutoInc": false,
+                "comment": "元数据id",
+                "columnFormat": "",
+                "storage": "",
+                "isVirtual": false,
+                "isGeneratedAlways": false,
+                "virtualExpr": "",
+                "virtualType": "",
+                "oldName": "meta_id"
+              }
+            ],
+            "indexes": [],
+            "primaryKey": {
+              "objectType": "PrimaryKey_MYSQL",
+              "name": "",
+              "fields": [
+                {
+                  "objectType": "IndexField_MYSQL",
+                  "name": "id",
+                  "keyLength": -2147483648,
+                  "order": "",
+                  "oldName": ""
+                }
+              ],
+              "oldName": "",
+              "indexMethod": "",
+              "comment": ""
+            },
+            "foreignKeys": [
+              {
+                "objectType": "ForeignKey_MYSQL",
+                "name": "fk_metas_contents_blog_metas_1",
+                "fields": [
+                  "meta_id"
+                ],
+                "referenceSchema": "Default",
+                "referenceTable": "blog_metas",
+                "referenceFields": [
+                  "id"
+                ],
+                "onDelete": "",
+                "onUpdate": "",
+                "sourceCardinality": "ZeroOrManyRelationship",
+                "targetCardinality": "NoneRelationship",
+                "oldName": ""
+              },
+              {
+                "objectType": "ForeignKey_MYSQL",
+                "name": "fk_metas_contents_blog_contents_1",
+                "fields": [
+                  "content_id"
+                ],
+                "referenceSchema": "Default",
+                "referenceTable": "blog_contents",
+                "referenceFields": [
+                  "id"
+                ],
+                "onDelete": "",
+                "onUpdate": "",
+                "sourceCardinality": "ZeroOrManyRelationship",
+                "targetCardinality": "NoneRelationship",
+                "oldName": ""
+              }
+            ],
+            "triggers": [],
+            "tablePartitions": []
           }
         ],
         "views": []
@@ -4338,7 +4357,7 @@
           "schemaName": "Default",
           "tableName": "auth_user",
           "x": 20,
-          "y": 550,
+          "y": 20,
           "width": 200,
           "height": 450,
           "isBold": false,
@@ -4353,8 +4372,8 @@
           "type": "table",
           "schemaName": "Default",
           "tableName": "blog_comments",
-          "x": 40,
-          "y": 110,
+          "x": 30,
+          "y": 590,
           "width": 200,
           "height": 310,
           "isBold": false,
@@ -4370,7 +4389,7 @@
           "schemaName": "Default",
           "tableName": "auth_role",
           "x": 510,
-          "y": 630,
+          "y": 100,
           "width": 200,
           "height": 290,
           "isBold": false,
@@ -4386,7 +4405,7 @@
           "schemaName": "Default",
           "tableName": "auth_resource",
           "x": 1000,
-          "y": 570,
+          "y": 40,
           "width": 200,
           "height": 410,
           "isBold": false,
@@ -4402,7 +4421,7 @@
           "schemaName": "Default",
           "tableName": "auth_role_resource",
           "x": 760,
-          "y": 700,
+          "y": 170,
           "width": 200,
           "height": 150,
           "isBold": false,
@@ -4418,7 +4437,7 @@
           "schemaName": "Default",
           "tableName": "auth_user_role",
           "x": 270,
-          "y": 700,
+          "y": 170,
           "width": 200,
           "height": 150,
           "isBold": false,
@@ -4434,7 +4453,7 @@
           "schemaName": "Default",
           "tableName": "dict_value",
           "x": 30,
-          "y": 1050,
+          "y": 1020,
           "width": 200,
           "height": 310,
           "isBold": false,
@@ -4450,7 +4469,7 @@
           "schemaName": "Default",
           "tableName": "dict_node",
           "x": 270,
-          "y": 1050,
+          "y": 1020,
           "width": 200,
           "height": 310,
           "isBold": false,
@@ -4465,8 +4484,8 @@
           "type": "table",
           "schemaName": "Default",
           "tableName": "blog_contents",
-          "x": 290,
-          "y": 30,
+          "x": 270,
+          "y": 510,
           "width": 200,
           "height": 470,
           "isBold": false,
@@ -4481,8 +4500,8 @@
           "type": "table",
           "schemaName": "Default",
           "tableName": "blog_metas",
-          "x": 790,
-          "y": 100,
+          "x": 750,
+          "y": 580,
           "width": 200,
           "height": 330,
           "isBold": false,
@@ -4497,10 +4516,10 @@
           "type": "table",
           "schemaName": "Default",
           "tableName": "blog_metas_contents",
-          "x": 540,
-          "y": 210,
+          "x": 510,
+          "y": 680,
           "width": 200,
-          "height": 110,
+          "height": 130,
           "isBold": false,
           "titleColor": {
             "r": 55,
@@ -4521,16 +4540,16 @@
           "vertices": [
             {
               "x": 975,
-              "y": 780
+              "y": 250
             },
             {
               "x": 985,
-              "y": 780
+              "y": 250
             }
           ],
           "label": {
             "x": 384,
-            "y": 550,
+            "y": 20,
             "width": 206,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -4555,16 +4574,16 @@
           "vertices": [
             {
               "x": 745,
-              "y": 780
+              "y": 250
             },
             {
               "x": 725,
-              "y": 780
+              "y": 250
             }
           ],
           "label": {
             "x": 397,
-            "y": 550,
+            "y": 20,
             "width": 193,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -4589,16 +4608,16 @@
           "vertices": [
             {
               "x": 255,
-              "y": 780
+              "y": 250
             },
             {
               "x": 235,
-              "y": 780
+              "y": 250
             }
           ],
           "label": {
             "x": 265,
-            "y": 550,
+            "y": 20,
             "width": 184,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -4623,16 +4642,16 @@
           "vertices": [
             {
               "x": 485,
-              "y": 780
+              "y": 250
             },
             {
               "x": 495,
-              "y": 780
+              "y": 250
             }
           ],
           "label": {
             "x": 293,
-            "y": 550,
+            "y": 20,
             "width": 182,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -4657,16 +4676,16 @@
           "vertices": [
             {
               "x": 245,
-              "y": 1210
+              "y": 1180
             },
             {
               "x": 255,
-              "y": 1210
+              "y": 1180
             }
           ],
           "label": {
             "x": 235,
-            "y": 1172,
+            "y": 1142,
             "width": 229,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -4690,17 +4709,17 @@
           "visible": true,
           "vertices": [
             {
-              "x": 755,
-              "y": 260
+              "x": 725,
+              "y": 750
             },
             {
-              "x": 775,
-              "y": 260
+              "x": 735,
+              "y": 750
             }
           ],
           "label": {
-            "x": 745,
-            "y": 222,
+            "x": 715,
+            "y": 712,
             "width": 227,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -4724,17 +4743,17 @@
           "visible": true,
           "vertices": [
             {
-              "x": 525,
-              "y": 260
+              "x": 495,
+              "y": 750
             },
             {
-              "x": 505,
-              "y": 260
+              "x": 485,
+              "y": 750
             }
           ],
           "label": {
-            "x": 290,
-            "y": 222,
+            "x": 260,
+            "y": 712,
             "width": 245,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -4758,17 +4777,17 @@
           "visible": true,
           "vertices": [
             {
-              "x": 255,
-              "y": 260
+              "x": 245,
+              "y": 750
             },
             {
-              "x": 275,
-              "y": 260
+              "x": 255,
+              "y": 750
             }
           ],
           "label": {
-            "x": 34,
-            "y": 222,
+            "x": 24,
+            "y": 712,
             "width": 211,
             "height": 30,
             "fontName": "Arial Unicode MS",

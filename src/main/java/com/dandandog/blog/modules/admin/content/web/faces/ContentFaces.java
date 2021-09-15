@@ -1,6 +1,7 @@
 package com.dandandog.blog.modules.admin.content.web.faces;
 
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.dandandog.blog.common.model.MapperPageDataModel;
 import com.dandandog.blog.modules.admin.content.entity.BlogContents;
 import com.dandandog.blog.modules.admin.content.entity.BlogMetas;
@@ -11,10 +12,12 @@ import com.dandandog.blog.modules.admin.content.service.BlogMetasContentsService
 import com.dandandog.blog.modules.admin.content.service.BlogMetasService;
 import com.dandandog.blog.modules.admin.content.web.faces.adapter.ContentAdapter;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.ArticleVo;
+import com.dandandog.blog.modules.admin.content.web.faces.vo.AttachmentVo;
 import com.dandandog.framework.core.annotation.Facet;
 import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.mapstruct.MapperUtil;
-import com.google.common.collect.Lists;
+import com.dandandog.framework.mapstruct.context.BaseContext;
+import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,27 +48,45 @@ public class ContentFaces {
     }
 
     public Optional<ArticleVo> getOptById(String id) {
-        return Optional.ofNullable(contentsService.getById(id)).map(entity -> MapperUtil.map(entity, ArticleVo.class));
+        return Optional.ofNullable(contentsService.getById(id)).map(entity -> MapperUtil.map(entity, ArticleVo.class, entityInfo()));
     }
 
     @Transactional
     public void saveOrUpdate(ArticleVo vo) {
         BlogContents entity = MapperUtil.map(vo, BlogContents.class);
-        if (entity.getId() != null) {
+        if (ObjectUtil.isNotEmpty(entity.getId())) {
             contentsService.lambdaUpdate().eq(BlogContents::getParentId, entity.getId()).remove();
             metasContentsService.lambdaUpdate().eq(BlogMetasContents::getContentId, entity.getId()).remove();
         }
+        contentsService.saveOrUpdate(entity);
         // Attachment
-        Collection<BlogContents> entities = Lists.newArrayList(entity);
-        entities.addAll(MapperUtil.mapFromAll(vo.getAttachments(), BlogContents.class));
+        Collection<BlogContents> entities = MapperUtil.mapFromAll(vo.getAttachments(), BlogContents.class).stream()
+                .peek(blogContents -> blogContents.setParentId(entity.getId())).collect(Collectors.toList());
         contentsService.saveOrUpdateBatch(entities);
-
         // Metas
         List<String> tagIds = metasService.checkAndSaveTags(ArrayUtil.toArray(vo.getTags(), String.class));
         List<BlogMetasContents> metasContents = tagIds.stream().map(tagId -> new BlogMetasContents(entity.getId(), tagId)).collect(Collectors.toList());
         BlogMetas cate = (BlogMetas) vo.getCategoryNode().getData();
         metasContents.add(new BlogMetasContents(entity.getId(), cate.getId()));
-        metasContentsService.saveBatch(metasContents);
+        metasContentsService.saveOrUpdateBatch(metasContents);
+    }
+
+    public BaseContext<ArticleVo> entityInfo() {
+        return new BaseContext<ArticleVo>() {
+            @Override
+            protected void after(ArticleVo target, Class<ArticleVo> t) {
+                List<BlogContents> list = contentsService.lambdaQuery().eq(BlogContents::getParentId, target.getId()).list();
+                target.setAttachments(MapperUtil.mapToAll(list, AttachmentVo.class));
+
+                List<BlogMetas> metas = metasContentsService.findByContentId(target.getId());
+
+                BlogMetas cate = metas.stream().filter(blogMetas -> MetaType.CATEGORY.equals(blogMetas.getType())).findFirst().orElse(null);
+                target.setCategoryNode(new DefaultTreeNode(cate));
+
+                List<String> tags = metas.stream().filter(blogMetas -> MetaType.CATEGORY.equals(blogMetas.getType())).map(BlogMetas::getName).collect(Collectors.toList());
+                target.setTags(tags);
+            }
+        };
     }
 
 

@@ -20,15 +20,15 @@
                                  singleSelection="#{viewScope.sinSelected}"
                                  multipleSelection="#{viewScope.mulSelected}">
 
-                <p:column field="seq"/>
+                <p:column field="seq" headerText="#{msg['blog']['seq']}"/>
 
-                <p:column field="title"/>
+                <p:column field="title" headerText="#{msg['blog']['title']}"/>
 
-                <p:column field="type"/>
+                <p:column field="type" headerText="#{msg['blog']['contentType']}"/>
 
-                <p:column field="status"/>
+                <p:column field="status" headerText="#{msg['blog']['contentStatus']}"/>
 
-                <p:column field="creator"/>
+                <p:column field="creator" headerText="#{msg['framework']['creator']}"/>
 
             </framework:dataTable>
         </h:form>
@@ -46,7 +46,7 @@
                     </framework:label>
 
                     <framework:label>
-                        <framework:textEditor value="#{viewScope.vo.text}" secure="false"/>
+                        <framework:textEditor value="#{viewScope.vo.text}" secure="false" height="700"/>
                     </framework:label>
 
                 </p:outputPanel>
@@ -98,7 +98,11 @@
                         <p:outputLabel for="allowFeed" value="#{msg['blog']['allowFeed']}" styleClass="p-ml-3"/>
                     </framework:label>
 
-                    <framework:upload widgetVar="test" label="附件" value="#{viewScope.vo.attachments}"
+                    <p:divider align="center" type="dashed">
+                        <b>#{msg['blog']['attachment']}</b>
+                    </p:divider>
+
+                    <framework:upload widgetVar="test" value="#{viewScope.vo.attachments}"
                                       listener="#{controller.onFileUpload}" allowTypes="/(\.|\/)(txt|doc?x)$/"
                                       layout="custom">
                         <p:outputPanel layout="block" styleClass="p-m-2 p-d-flex p-ac-center p-jc-between">

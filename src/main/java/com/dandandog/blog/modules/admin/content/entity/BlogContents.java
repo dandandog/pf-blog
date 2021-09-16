@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.framework.core.entity.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 内容(BlogContents)表实体类
@@ -13,8 +15,8 @@ import lombok.EqualsAndHashCode;
  * @author Johnny
  * @since 2021-09-09 14:40:58
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 @TableName("blog_contents")
 public class BlogContents extends AuditableEntity {
 

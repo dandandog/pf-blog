@@ -60,7 +60,8 @@ public class ContentFaces {
         List<BlogContents> attachmentSource = contentsService.lambdaQuery().eq(BlogContents::getParentId, entity.getId()).list();
         Collection<BlogContents> attachmentTarget = MapperUtil.mapFromAll(vo.getAttachments(), BlogContents.class).stream()
                 .peek(blogContents -> blogContents.setParentId(entity.getId())).collect(Collectors.toList());
-        Collection<BlogContents> attachmentRemove = CollUtil.subtract(attachmentSource, attachmentTarget);
+        Collection<String> attachmentRemove = CollUtil.subtractToList(attachmentSource, attachmentTarget)
+                .stream().map(BaseEntity::getId).collect(Collectors.toList());
         contentsService.removeByIds(attachmentRemove);
         contentsService.saveOrUpdateBatch(attachmentTarget);
 
@@ -86,7 +87,7 @@ public class ContentFaces {
                 BlogMetas cate = metas.stream().filter(blogMetas -> MetaType.CATEGORY.equals(blogMetas.getType())).findFirst().orElse(null);
                 target.setCategoryNode(new DefaultTreeNode(cate));
 
-                List<String> tags = metas.stream().filter(blogMetas -> MetaType.CATEGORY.equals(blogMetas.getType())).map(BlogMetas::getName).collect(Collectors.toList());
+                List<String> tags = metas.stream().filter(blogMetas -> MetaType.TAG.equals(blogMetas.getType())).map(BlogMetas::getName).collect(Collectors.toList());
                 target.setTags(tags);
             }
         };

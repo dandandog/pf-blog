@@ -1,11 +1,45 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:outputLabel value="Hello, world"/>
-</f:view>
-</html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:framework="http://java.sun.com/jsf/composite/components">
+    <ui:define name="title">#{msg['blog']['commentManage']}</ui:define>
+    <ui:define name="viewname">
+        <li>#{msg['blog']['content']}</li>
+        <li>/</li>
+        <li>#{msg['blog']['commentManage']}</li>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="comment_form" prependId="false">
+            <framework:dataTable id="comment" formDialogId="comment" lazy="true"
+                                 headText="#{msg['blog']['commentManage']}"
+                                 value="#{controller.dataModel}"
+                                 singleSelection="#{viewScope.sinSelected}"
+                                 multipleSelection="#{viewScope.mulSelected}">
+
+                <p:column field="seq" headerText="#{msg['blog']['seq']}"/>
+
+                <p:column field="title" headerText="#{msg['blog']['title']}"/>
+
+                <p:column field="type" headerText="#{msg['blog']['contentType']}"/>
+
+                <p:column field="status" headerText="#{msg['blog']['contentStatus']}"/>
+
+                <p:column field="creator" headerText="#{msg['framework']['creator']}"/>
+
+            </framework:dataTable>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="dialog">
+        <h:form id="dialogform">
+            <framework:dialog id="comment" value="#{viewScope.vo}" fullScreen="true"
+                              saveUpdate="@widgetVar(comment_dataTable)">
+
+            </framework:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

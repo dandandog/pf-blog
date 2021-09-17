@@ -3,7 +3,7 @@ package com.dandandog.blog.modules.admin.auth.web.controller;
 import cn.hutool.core.collection.CollUtil;
 import com.dandandog.blog.common.model.MapperPageDataModel;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserGender;
-import com.dandandog.blog.modules.admin.auth.entity.enums.UserState;
+import com.dandandog.blog.modules.admin.auth.entity.enums.UserStatus;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
 import com.dandandog.blog.modules.admin.auth.web.faces.AuthUserFaces;
 import com.dandandog.blog.modules.admin.auth.web.faces.adapter.AuthUserPageAdapter;
@@ -40,7 +40,7 @@ public class AuthUserController extends FacesController {
         putViewScope("mulSelected", Lists.newArrayList());
 
         putViewScope("genders", UserGender.values());
-        putViewScope("states", UserState.values());
+        putViewScope("states", UserStatus.values());
         putViewScope("types", UserType.values());
     }
 

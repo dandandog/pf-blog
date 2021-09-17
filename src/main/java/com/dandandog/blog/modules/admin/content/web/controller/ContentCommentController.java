@@ -3,6 +3,7 @@ package com.dandandog.blog.modules.admin.content.web.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.dandandog.blog.modules.admin.content.entity.enums.CommentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.MetaType;
 import com.dandandog.blog.modules.admin.content.web.faces.CommentFaces;
@@ -14,6 +15,7 @@ import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.dandandog.framework.mapstruct.model.MapperVo;
 import com.google.common.collect.Lists;
+import org.checkerframework.checker.units.qual.C;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.stereotype.Controller;
 
@@ -38,6 +40,7 @@ public class ContentCommentController extends FacesController {
         putViewScope("vo", new CommentVo());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
+        putViewScope("statuses", CommentStatus.values());
     }
 
 
@@ -55,7 +58,6 @@ public class ContentCommentController extends FacesController {
                 .orElseThrow(() -> new MessageResolvableException("error", "dataNotFound"));
         putViewScope("vo", vo);
     }
-
 
     @MessageRequired(type = MessageType.SAVE)
     public void save() {

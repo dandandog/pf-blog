@@ -4,11 +4,8 @@ import com.dandandog.blog.common.model.MapperPageDataModel;
 import com.dandandog.blog.modules.admin.content.entity.BlogComments;
 import com.dandandog.blog.modules.admin.content.service.BlogCommentsService;
 import com.dandandog.blog.modules.admin.content.web.faces.adapter.CommentAdapter;
-import com.dandandog.blog.modules.admin.content.web.faces.adapter.ContentAdapter;
-import com.dandandog.blog.modules.admin.content.web.faces.vo.ArticleVo;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.CommentVo;
 import com.dandandog.framework.core.annotation.Facet;
-import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.mapstruct.MapperUtil;
 import org.primefaces.model.LazyDataModel;
 

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserGender;
-import com.dandandog.blog.modules.admin.auth.entity.enums.UserState;
+import com.dandandog.blog.modules.admin.auth.entity.enums.UserStatus;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
 import com.dandandog.framework.core.entity.AuditableEntity;
 import lombok.Data;
@@ -67,7 +67,7 @@ public class AuthUser extends AuditableEntity implements UserDetails {
     /**
      * 状态（0：正常；1： 冻结；2：未激活)
      */
-    private UserState state = UserState.NORMAL;
+    private UserStatus status = UserStatus.NORMAL;
     /**
      * 性别（0：男；1： 女；2：未知)
      */

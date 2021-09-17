@@ -3,7 +3,7 @@ package com.dandandog.blog.modules.admin.auth.entity.enums;
 import com.dandandog.framework.core.entity.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum UserState implements BaseEnum<Integer> {
+public enum UserStatus implements BaseEnum<Integer> {
 
     /**
      * 正常
@@ -22,7 +22,7 @@ public enum UserState implements BaseEnum<Integer> {
 
     private final String title;
 
-    UserState(int value, String title) {
+    UserStatus(int value, String title) {
         this.value = value;
         this.title = title;
     }

@@ -2,7 +2,7 @@ package com.dandandog.blog.modules.admin.auth.web.faces.vo;
 
 import com.dandandog.blog.modules.admin.auth.entity.AuthRole;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserGender;
-import com.dandandog.blog.modules.admin.auth.entity.enums.UserState;
+import com.dandandog.blog.modules.admin.auth.entity.enums.UserStatus;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
 import com.dandandog.framework.mapstruct.model.MapperVo;
 import lombok.Data;
@@ -30,7 +30,7 @@ public class AuthUserVo extends MapperVo {
 
     private String phone;
 
-    private UserState state;
+    private UserStatus status;
 
     private UserGender gender;
 

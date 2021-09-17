@@ -1,11 +1,16 @@
 package com.dandandog.blog.modules.admin.content.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.dandandog.blog.modules.admin.content.entity.enums.CommentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.CommentType;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.framework.core.entity.AuditableEntity;
+import com.dandandog.framework.core.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
 
 /**
  * 评论(BlogComments)表实体类
@@ -16,7 +21,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("blog_comments")
-public class BlogComments extends AuditableEntity {
+public class BlogComments extends BaseEntity {
 
 
     /**
@@ -35,6 +40,11 @@ public class BlogComments extends AuditableEntity {
     private String author;
 
     /**
+     * 头像地址
+     */
+    private String avatarUrl;
+
+    /**
      * 点赞
      */
     private Integer starNum;
@@ -43,11 +53,6 @@ public class BlogComments extends AuditableEntity {
      * 邮箱
      */
     private String mail;
-
-    /**
-     * url
-     */
-    private String url;
 
     /**
      * ip
@@ -73,4 +78,9 @@ public class BlogComments extends AuditableEntity {
      * 状态(1:通过;2:待审核；3屏蔽)
      */
     private CommentStatus status;
+
+    @TableField(
+            fill = FieldFill.INSERT
+    )
+    protected LocalDateTime createdTime;
 }

@@ -41,19 +41,19 @@
                     <h:outputText value="#{msg['userType'][element.type.title]}"/>
                 </p:column>
                 <p:column headerText="#{msg['blog']['userState']}"
-                          field="state" filterMatchMode="equals">
+                          field="status" filterMatchMode="equals">
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('user_dataTable').filter()"
-                                         converter="#{userStateConverter}"
+                                         converter="#{userStatusConverter}"
                                          styleClass="ui-column-filter">
                             <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
                                           noSelectionOption="true"/>
-                            <f:selectItems value="#{viewScope.states}" var="state"
-                                           itemLabel="#{msg['userState'][state.title]}"
-                                           itemValue="#{state}"/>
+                            <f:selectItems value="#{viewScope.statuses}" var="status"
+                                           itemLabel="#{msg['userStatus'][status.title]}"
+                                           itemValue="#{status}"/>
                         </p:selectOneMenu>
                     </f:facet>
-                    <h:outputText value="#{msg['userState'][element.state.title]}"/>
+                    <h:outputText value="#{msg['userState'][element.status.title]}"/>
                 </p:column>
                 <p:column headerText="#{msg['blog']['userGender']}"
                           field="gender" filterMatchMode="equals">
@@ -110,10 +110,10 @@
                     <p:inputText id="email" value="#{viewScope.vo.email}" disabled="true"/>
                 </framework:label>
 
-                <framework:label target="state" value="#{msg['blog']['userState']}" styleClass="p-col-6">
-                    <p:selectOneMenu id="state" value="#{viewScope.vo.state}">
-                        <f:selectItems value="#{viewScope.states}" var="state"
-                                       itemLabel="#{msg['userState'][state.title]}" itemValue="#{state}"/>
+                <framework:label target="status" value="#{msg['blog']['userState']}" styleClass="p-col-6">
+                    <p:selectOneMenu id="status" value="#{viewScope.vo.status}">
+                        <f:selectItems value="#{viewScope.statuses}" var="status"
+                                       itemLabel="#{msg['userState'][status.title]}" itemValue="#{status}"/>
                     </p:selectOneMenu>
                 </framework:label>
 

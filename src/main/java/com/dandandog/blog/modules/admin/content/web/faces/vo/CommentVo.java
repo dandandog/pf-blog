@@ -6,6 +6,8 @@ import com.dandandog.framework.mapstruct.model.MapperVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author: JohnnyLiu
  * @Date: 2021/9/16 15:17
@@ -22,7 +24,7 @@ public class CommentVo extends MapperVo {
 
     private String mail;
 
-    private String url;
+    private String avatarUrl;
 
     private String ip;
 
@@ -33,5 +35,9 @@ public class CommentVo extends MapperVo {
     private CommentType type;
 
     private CommentStatus status;
+
+    private LocalDateTime createdTime;
+
+    private CommentVo parent;
 
 }

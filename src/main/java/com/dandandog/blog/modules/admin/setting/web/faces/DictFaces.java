@@ -8,6 +8,7 @@ import com.dandandog.blog.modules.admin.setting.web.faces.vo.DictVo;
 import com.dandandog.framework.core.annotation.Facet;
 import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.mapstruct.MapperUtil;
+import com.google.common.collect.Multimap;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -39,6 +40,11 @@ public class DictFaces {
         return Optional.ofNullable(dictValueService.getById(id)).map(entity -> MapperUtil.map(entity, DictVo.class));
     }
 
+    public Multimap<String, DictValue> getValueByCodes(String... codes) {
+        return dictValueService.findByNodeCodes();
+    }
+
+
     @Transactional
     public void saveOrUpdate(DictVo selected) {
         if (dictNodeService.saveOrUpdate(selected.getNode())) {
@@ -59,4 +65,6 @@ public class DictFaces {
     public Collection<DictNode> nodes() {
         return dictNodeService.lambdaQuery().orderByAsc(DictNode::getSeq).list();
     }
+
+
 }

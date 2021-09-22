@@ -48,9 +48,9 @@ public class DictValue extends AuditableEntity {
 
 
     /**
-     * 过滤
+     * 备注
      */
-    private String filter;
+    private String remark;
 
 
 }

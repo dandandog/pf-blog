@@ -23,6 +23,6 @@ public class DictVo extends MapperVo {
 
     private boolean def;
 
-    private String filter;
+    private String remark;
 
 }

@@ -8,10 +8,13 @@ import com.dandandog.blog.modules.admin.auth.service.AuthResourceService;
 import com.dandandog.blog.modules.admin.auth.service.AuthUserService;
 import com.dandandog.framework.common.utils.SecurityUtil;
 import com.google.common.collect.Multimap;
+import org.mapstruct.Named;
 import org.primefaces.model.menu.*;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.faces.view.ViewScoped;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +23,7 @@ import java.util.Optional;
  * @Author: JohnnyLiu
  * @Date: 2021/9/1 16:19
  */
-@Component("menuView")
+@ViewScoped
 public class MenuView {
 
     @Resource

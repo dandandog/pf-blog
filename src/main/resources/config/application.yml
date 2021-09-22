@@ -1,9 +1,11 @@
 server:
   servlet:
     context-path: /blog
-  port: 8082
+  port: 8081
 joinfaces:
   jsf:
+    flow:
+      null-flow:
     project-stage: Production
     #facelets-refresh-period: -1
     state-saving-method: server

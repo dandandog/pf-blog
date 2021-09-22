@@ -2,12 +2,8 @@ package com.dandandog.blog.modules.admin.content.web.controller;
 
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.dandandog.blog.modules.admin.content.entity.enums.CommentStatus;
-import com.dandandog.blog.modules.admin.content.entity.enums.ContentStatus;
-import com.dandandog.blog.modules.admin.content.entity.enums.MetaType;
 import com.dandandog.blog.modules.admin.content.web.faces.CommentFaces;
-import com.dandandog.blog.modules.admin.content.web.faces.vo.ArticleVo;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.CommentVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
@@ -15,7 +11,6 @@ import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.dandandog.framework.mapstruct.model.MapperVo;
 import com.google.common.collect.Lists;
-import org.checkerframework.checker.units.qual.C;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.stereotype.Controller;
 

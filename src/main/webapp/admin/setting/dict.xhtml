@@ -60,8 +60,8 @@
                           field="value" filterMatchMode="equals"/>
                 <p:column headerText="#{msg['blog']['def']}"
                           field="def" filterMatchMode="contains"/>
-                <p:column headerText="#{msg['blog']['filter']}"
-                          field="filter" filterMatchMode="contains"/>
+                <p:column headerText="#{msg['blog']['remark']}"
+                          field="remark" filterMatchMode="contains"/>
             </framework:dataTable>
         </h:form>
     </ui:define>
@@ -76,16 +76,13 @@
                 </p:divider>
 
                 <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6 node-input">
-                    <p:inputText id="name" value="#{viewScope.vo.node.name}" required="true"
-                                 readonly="#{viewScope.vo.node.id ne null}"/>
+                    <p:inputText id="name" value="#{viewScope.vo.node.name}" required="true"/>
                 </framework:label>
                 <framework:label target="code" value="#{msg['blog']['code']}" styleClass="p-col-6  node-input">
-                    <p:inputText id="code" value="#{viewScope.vo.node.code}" required="true"
-                                 readonly="#{viewScope.vo.node.id ne null}"/>
+                    <p:inputText id="code" value="#{viewScope.vo.node.code}" required="true"/>
                 </framework:label>
                 <framework:label target="remark" value="#{msg['blog']['remark']}" styleClass="p-col-12 node-input">
-                    <p:inputTextarea id="remark" value="#{viewScope.vo.node.remark}" autoResize="false"
-                                     readonly="#{viewScope.vo.node.id ne null}"/>
+                    <p:inputTextarea id="remark" value="#{viewScope.vo.node.remark}" autoResize="false"/>
                 </framework:label>
 
                 <p:divider align="left" type="dashed">
@@ -99,8 +96,8 @@
                     <p:inputText id="value" value="#{viewScope.vo.value}"/>
                 </framework:label>
 
-                <framework:label target="filter" value="#{msg['blog']['filter']}" styleClass="p-col-6">
-                    <p:inputText id="filter" value="#{viewScope.vo.filter}"/>
+                <framework:label target="valueRemark" value="#{msg['blog']['remark']}" styleClass="p-col-6">
+                    <p:inputTextarea id="valueRemark" value="#{viewScope.vo.remark}"/>
                 </framework:label>
                 <framework:label target="def" value="#{msg['blog']['def']}" styleClass="p-col-6">
                     <p:selectBooleanButton id="def" value="#{viewScope.vo.def}"

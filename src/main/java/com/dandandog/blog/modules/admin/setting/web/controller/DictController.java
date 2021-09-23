@@ -2,6 +2,7 @@ package com.dandandog.blog.modules.admin.setting.web.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import com.dandandog.blog.modules.admin.setting.entity.DictNode;
+import com.dandandog.blog.modules.admin.setting.entity.enums.InputType;
 import com.dandandog.blog.modules.admin.setting.service.DictNodeService;
 import com.dandandog.blog.modules.admin.setting.web.faces.DictFaces;
 import com.dandandog.blog.modules.admin.setting.web.faces.vo.DictVo;
@@ -37,6 +38,8 @@ public class DictController extends FacesController {
         putViewScope("vo", new DictVo());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
+
+        putViewScope("types", InputType.values());
     }
 
 

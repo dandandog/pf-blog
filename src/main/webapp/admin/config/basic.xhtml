@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:framework="http://java.sun.com/jsf/composite/components">
+    <ui:define name="title">#{msg['blog']['userManagement']}</ui:define>
+    <ui:define name="viewname">
+        <li>#{msg['blog']['config']}</li>
+        <li>/</li>
+        <li>#{msg['blog']['basicManagement']}</li>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="user_form" prependId="false">
+            <p:outputPanel style="max-width: 1200px;margin: auto;"
+                           styleClass="ui-fluid p-formgrid p-grid">
+
+                <p:repeat value="#{viewScope.fields}" var="field">
+                    <framework:label>
+                        <p:inputText/>
+
+                        <p:inputTextarea/>
+
+                        <p:selectOneMenu/>
+
+                        <p:selectOneRadio/>
+
+                        <p:selectManyCheckbox/>
+                    </framework:label>
+                </p:repeat>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

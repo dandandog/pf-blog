@@ -41,7 +41,7 @@ public class DictFaces {
     }
 
     public Multimap<String, DictValue> getValueByCodes(String... codes) {
-        return dictValueService.findByNodeCodes();
+        return dictValueService.findByNodeCodes(codes);
     }
 
 

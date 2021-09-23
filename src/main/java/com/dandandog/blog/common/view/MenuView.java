@@ -23,7 +23,7 @@ import java.util.Optional;
  * @Author: JohnnyLiu
  * @Date: 2021/9/1 16:19
  */
-@ViewScoped
+@Component("menuView")
 public class MenuView {
 
     @Resource

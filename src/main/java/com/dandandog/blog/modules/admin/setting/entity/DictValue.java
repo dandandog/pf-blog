@@ -1,6 +1,7 @@
 package com.dandandog.blog.modules.admin.setting.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.dandandog.blog.modules.admin.setting.entity.enums.InputType;
 import com.dandandog.framework.core.entity.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,9 +31,9 @@ public class DictValue extends AuditableEntity {
 
 
     /**
-     * 字典值
+     * 字典值标识
      */
-    private String value;
+    private String code;
 
 
     /**
@@ -42,15 +43,26 @@ public class DictValue extends AuditableEntity {
 
 
     /**
-     * 是否默认值
+     * 是否必填
      */
-    private boolean def;
+    private boolean req;
+
+
+    /**
+     * 值输入类型
+     */
+    private InputType type;
+
+
+    /**
+     * 默认值
+     */
+    private String value;
 
 
     /**
      * 备注
      */
     private String remark;
-
 
 }

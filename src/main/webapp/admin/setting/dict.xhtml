@@ -8,8 +8,6 @@
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="title">#{msg['blog']['dictManagement']}</ui:define>
     <ui:define name="viewname">
-        <li>#{msg['blog']['system']}</li>
-        <li>/</li>
         <li>#{msg['blog']['set']}</li>
         <li>/</li>
         <li>#{msg['blog']['dictManagement']}</li>
@@ -90,20 +88,35 @@
                 </p:divider>
 
                 <framework:label target="label" value="#{msg['blog']['label']}" styleClass="p-col-6">
-                    <p:inputText id="label" value="#{viewScope.vo.label}" required="true"/>
+                    <div class="ui-inputgroup">
+                        <p:selectBooleanButton id="def" value="#{viewScope.vo.req}"
+                                               onLabel="#{msg['blog']['reqYes']}"
+                                               offLabel="#{msg['blog']['reqNo']}"
+                                               style="width:90px"/>
+                        <p:inputText id="label" value="#{viewScope.vo.label}" label="#{msg['blog']['label']}"
+                                     required="true"/>
+                    </div>
                 </framework:label>
-                <framework:label target="value" value="#{msg['blog']['value']}" styleClass="p-col-6">
-                    <p:inputText id="value" value="#{viewScope.vo.value}"/>
+                <framework:label target="value" value="#{msg['blog']['code']}" styleClass="p-col-6">
+                    <p:inputText id="value" value="#{viewScope.vo.code}"/>
                 </framework:label>
 
-                <framework:label target="valueRemark" value="#{msg['blog']['remark']}" styleClass="p-col-6">
+                <framework:label target="inputType" value="#{msg['blog']['inputType']}" styleClass="p-col-6">
+                    <p:selectOneMenu id="inputType" value="#{viewScope.vo.type}" required="true"
+                                     converter="#{inputTypeConverter}">
+                        <f:selectItems value="#{viewScope.types}" var="type"
+                                       itemLabel="#{msg['inputType'][type.title]}" itemValue="#{type}"/>
+                    </p:selectOneMenu>
+                </framework:label>
+
+                <framework:label value="#{msg['blog']['value']}">
+                    <p:chips value="#{viewScope.vo.value}"/>
+                </framework:label>
+
+                <framework:label target="valueRemark" value="#{msg['blog']['remark']}">
                     <p:inputTextarea id="valueRemark" value="#{viewScope.vo.remark}"/>
                 </framework:label>
-                <framework:label target="def" value="#{msg['blog']['def']}" styleClass="p-col-6">
-                    <p:selectBooleanButton id="def" value="#{viewScope.vo.def}"
-                                           onLabel="#{msg['framework']['yes']}" offLabel="#{msg['framework']['no']}"
-                                           onIcon="pi pi-check" offIcon="pi pi-times" style="width:60px"/>
-                </framework:label>
+
             </framework:dialog>
         </h:form>
     </ui:define>

@@ -5,6 +5,7 @@ import com.dandandog.blog.modules.admin.setting.entity.DictValue;
 import com.dandandog.blog.modules.admin.setting.service.DictNodeService;
 import com.dandandog.blog.modules.admin.setting.web.faces.vo.DictVo;
 import com.dandandog.framework.mapstruct.IMapper;
+import com.dandandog.framework.mapstruct.qualifier.QualifierArr;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
  * @Author: JohnnyLiu
  * @Date: 2021/9/6 13:12
  */
-@Mapper
+@Mapper(uses = {QualifierArr.class})
 public abstract class DictMapper implements IMapper<DictValue, DictVo> {
 
     @Resource

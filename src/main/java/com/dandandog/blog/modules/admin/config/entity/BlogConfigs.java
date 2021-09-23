@@ -31,4 +31,12 @@ public class BlogConfigs extends AuditableEntity {
     private String value;
 
 
+    public BlogConfigs() {
+
+    }
+
+    public BlogConfigs(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
 }

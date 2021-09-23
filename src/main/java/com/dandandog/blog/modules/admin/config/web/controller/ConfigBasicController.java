@@ -34,7 +34,7 @@ public class ConfigBasicController extends FacesController {
     @Override
     public void onEntry() {
         Multimap<String, DictValue> values = dictFaces.getValueByCodes(KEYS);
-        Map<String, BlogConfigs> fields = configFaces.findByValue(values.get(KEYS));
+        Map<DictValue, BlogConfigs> fields = configFaces.findByValue(values.get(KEYS));
         putViewScope("fields", fields);
     }
 

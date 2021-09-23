@@ -54,10 +54,10 @@
                           field="seq" filterMatchMode="equals"/>
                 <p:column headerText="#{msg['blog']['label']}"
                           field="label" filterMatchMode="equals"/>
-                <p:column headerText="#{msg['blog']['value']}"
-                          field="value" filterMatchMode="equals"/>
-                <p:column headerText="#{msg['blog']['def']}"
-                          field="def" filterMatchMode="contains"/>
+                <p:column headerText="#{msg['blog']['code']}"
+                          field="code" filterMatchMode="equals"/>
+                <p:column headerText="#{msg['blog']['inputType']}"
+                          field="type" filterMatchMode="contains"/>
                 <p:column headerText="#{msg['blog']['remark']}"
                           field="remark" filterMatchMode="contains"/>
             </framework:dataTable>
@@ -109,7 +109,7 @@
                     </p:selectOneMenu>
                 </framework:label>
 
-                <framework:label value="#{msg['blog']['value']}">
+                <framework:label value="#{msg['blog']['value']}" styleClass="p-col-6">
                     <p:chips value="#{viewScope.vo.value}"/>
                 </framework:label>
 

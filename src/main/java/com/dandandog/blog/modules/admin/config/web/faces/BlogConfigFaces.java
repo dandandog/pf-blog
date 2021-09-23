@@ -22,10 +22,10 @@ public class BlogConfigFaces {
     @Resource
     private BlogConfigsService configsService;
 
-    public Map<String, BlogConfigs> findByValue(Collection<DictValue> values) {
-        return values.stream().collect(Collectors.toMap(DictValue::getValue, o ->
+    public Map<DictValue, BlogConfigs> findByValue(Collection<DictValue> values) {
+        return values.stream().collect(Collectors.toMap(dictValue -> dictValue, o ->
                 configsService.lambdaQuery().eq(BlogConfigs::getName, o.getValue())
-                        .oneOpt().orElse(new BlogConfigs(o.getValue(), null))));
+                        .oneOpt().orElse(new BlogConfigs(o.getCode(), null))));
     }
 
     public void saveOrUpdate(Collection<BlogConfigs> values) {

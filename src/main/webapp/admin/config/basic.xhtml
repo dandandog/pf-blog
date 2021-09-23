@@ -12,21 +12,30 @@
         <li>#{msg['blog']['basicManagement']}</li>
     </ui:define>
     <ui:define name="content">
-        <h:form id="user_form" prependId="false">
-            <p:outputPanel style="max-width: 1200px;margin: auto;"
+        <h:form id="config_form" prependId="false">
+            <p:outputPanel style="max-width: 600px;margin: auto;"
                            styleClass="ui-fluid p-formgrid p-grid">
+                <h2>基本设置</h2>
+                <p:repeat value="#{viewScope.fields.keySet()}" var="key">
+                    <framework:label value="#{key.label}">
+                        <p:inputText rendered="#{key.type eq 'TEXT'}" value="#{viewScope.fields[key].value}"
+                                     required="#{key.req}" label="#{key.label}"/>
 
-                <p:repeat value="#{viewScope.fields}" var="field">
-                    <framework:label>
-                        <p:inputText/>
+                        <p:inputTextarea rendered="#{key.type eq 'TEXT_AREA'}" value="#{viewScope.fields[key].value}"
+                                         required="#{key.req}" label="#{key.label}"/>
 
-                        <p:inputTextarea/>
+                        <p:selectOneMenu rendered="#{key.type eq 'SELECTOR'}" value="#{viewScope.fields[key].value}"
+                                         required="#{key.req}" label="#{key.label}">
+                            <f:selectItems value="#{key.value}" var="item" itemLabel="#{item}" itemValue="#{item}"/>
+                        </p:selectOneMenu>
 
-                        <p:selectOneMenu/>
-
-                        <p:selectOneRadio/>
-
-                        <p:selectManyCheckbox/>
+                        <p:selectOneRadio rendered="#{key.type eq 'SELECTOR'}" value="#{viewScope.fields[key].value}"
+                                          required="#{key.req}" label="#{key.label}">
+                            <f:selectItems value="#{key.value}" var="item" itemLabel="#{item}" itemValue="#{item}"/>
+                        </p:selectOneRadio>
+                        <small style="color: #999;">
+                            <h:outputText value="#{key.remark}"/>
+                        </small>
                     </framework:label>
                 </p:repeat>
             </p:outputPanel>

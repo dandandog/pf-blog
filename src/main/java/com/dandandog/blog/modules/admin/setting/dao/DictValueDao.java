@@ -17,6 +17,6 @@ import java.util.List;
 @Mapper
 public interface DictValueDao extends BaseMapper<DictValue> {
 
-    @Select("SELECT dv FROM dict_value dv LEFT JOIN dict_node dn ON dv.node_id = dn.id WHERE dn.code = #{code}")
+    @Select("SELECT dv.* FROM dict_value dv LEFT JOIN dict_node dn ON dv.node_id = dn.id WHERE dn.code = #{code}")
     List<DictValue> getByNodeCode(@Param("code") String code);
 }

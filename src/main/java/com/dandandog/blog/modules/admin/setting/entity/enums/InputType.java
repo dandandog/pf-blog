@@ -16,7 +16,7 @@ public enum InputType implements BaseEnum<Integer> {
     /**
      * 文本域
      */
-    TEXT_AREA(1, "textarea"),
+    TEXT_AREA(1, "textArea"),
 
     /**
      * 选择器

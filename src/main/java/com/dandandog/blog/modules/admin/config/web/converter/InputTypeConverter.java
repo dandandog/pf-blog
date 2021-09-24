@@ -1,6 +1,6 @@
-package com.dandandog.blog.modules.admin.setting.web.converter;
+package com.dandandog.blog.modules.admin.config.web.converter;
 
-import com.dandandog.blog.modules.admin.setting.entity.enums.InputType;
+import com.dandandog.blog.modules.admin.config.entity.enums.InputType;
 import com.dandandog.framework.faces.converter.GenericEnumConverter;
 import org.springframework.stereotype.Component;
 

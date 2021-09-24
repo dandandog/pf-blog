@@ -1,9 +1,9 @@
-package com.dandandog.blog.modules.admin.setting.web.faces.mapper;
+package com.dandandog.blog.modules.admin.config.web.faces.mapper;
 
-import com.dandandog.blog.modules.admin.setting.entity.DictNode;
-import com.dandandog.blog.modules.admin.setting.entity.DictValue;
-import com.dandandog.blog.modules.admin.setting.service.DictNodeService;
-import com.dandandog.blog.modules.admin.setting.web.faces.vo.DictVo;
+import com.dandandog.blog.modules.admin.config.entity.DictNode;
+import com.dandandog.blog.modules.admin.config.entity.DictValue;
+import com.dandandog.blog.modules.admin.config.service.DictNodeService;
+import com.dandandog.blog.modules.admin.config.web.faces.vo.DictVo;
 import com.dandandog.framework.mapstruct.IMapper;
 import com.dandandog.framework.mapstruct.qualifier.QualifierArr;
 import org.mapstruct.Mapper;

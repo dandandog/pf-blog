@@ -1,10 +1,8 @@
-package com.dandandog.blog.modules.admin.setting.service;
+package com.dandandog.blog.modules.admin.config.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dandandog.blog.modules.admin.setting.entity.DictValue;
+import com.dandandog.blog.modules.admin.config.entity.DictValue;
 import com.google.common.collect.Multimap;
-
-import java.util.List;
 
 /**
  * 字典值(SetDictValue)表服务接口

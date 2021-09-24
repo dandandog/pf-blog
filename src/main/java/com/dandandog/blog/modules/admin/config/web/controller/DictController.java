@@ -1,17 +1,18 @@
-package com.dandandog.blog.modules.admin.setting.web.controller;
+package com.dandandog.blog.modules.admin.config.web.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import com.dandandog.blog.modules.admin.setting.entity.DictNode;
-import com.dandandog.blog.modules.admin.setting.entity.enums.InputType;
-import com.dandandog.blog.modules.admin.setting.service.DictNodeService;
-import com.dandandog.blog.modules.admin.setting.web.faces.DictFaces;
-import com.dandandog.blog.modules.admin.setting.web.faces.vo.DictVo;
+import com.dandandog.blog.modules.admin.config.entity.DictNode;
+import com.dandandog.blog.modules.admin.config.entity.enums.InputType;
+import com.dandandog.blog.modules.admin.config.service.DictNodeService;
+import com.dandandog.blog.modules.admin.config.web.faces.DictFaces;
+import com.dandandog.blog.modules.admin.config.web.faces.vo.DictVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.google.common.collect.Lists;
+import org.primefaces.event.CellEditEvent;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
@@ -21,7 +22,7 @@ import java.util.List;
  * @Author: JohnnyLiu
  * @Date: 2021/9/6 11:48
  */
-@Controller("/admin/setting/dict.faces")
+@Controller("/admin/config/dict.faces")
 public class DictController extends FacesController {
 
     @Resource
@@ -79,5 +80,10 @@ public class DictController extends FacesController {
     public void onChangeSeq(DictNode node) {
         dictNodeService.updateById(node);
     }
+
+    public void cellEdit(CellEditEvent<DictVo> event) {
+        dictFacet.updateByFiled(event.getRowKey(), event.getColumn().getField(), event.getNewValue());
+    }
+
 
 }

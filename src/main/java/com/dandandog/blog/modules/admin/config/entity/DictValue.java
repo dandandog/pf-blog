@@ -1,7 +1,7 @@
-package com.dandandog.blog.modules.admin.setting.entity;
+package com.dandandog.blog.modules.admin.config.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.dandandog.blog.modules.admin.setting.entity.enums.InputType;
+import com.dandandog.blog.modules.admin.config.entity.enums.InputType;
 import com.dandandog.framework.core.entity.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

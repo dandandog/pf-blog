@@ -6,6 +6,13 @@
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="title">#{msg['blog']['userManagement']}</ui:define>
+    <ui:define name="head">
+        <h:outputStylesheet>
+            .label {
+                padding-bottom: 8px !important;
+            }
+        </h:outputStylesheet>
+    </ui:define>
     <ui:define name="viewname">
         <li>#{msg['blog']['config']}</li>
         <li>/</li>
@@ -13,32 +20,58 @@
     </ui:define>
     <ui:define name="content">
         <h:form id="config_form" prependId="false">
-            <p:outputPanel style="max-width: 600px;margin: auto;"
-                           styleClass="ui-fluid p-formgrid p-grid">
-                <h2>基本设置</h2>
-                <p:repeat value="#{viewScope.fields.keySet()}" var="key">
-                    <framework:label value="#{key.label}">
-                        <p:inputText rendered="#{key.type eq 'TEXT'}" value="#{viewScope.fields[key].value}"
-                                     required="#{key.req}" label="#{key.label}"/>
+            <p:panel header="#{msg['blog']['basicSetting']}" styleClass="card" style="max-width: 600px;margin: auto;">
+                <p:outputPanel
+                        styleClass="ui-fluid p-formgrid p-grid">
+                    <p:repeat value="#{viewScope.fields.keySet()}" var="key">
+                        <framework:label value="#{key.label}" styleClass="label p-col-12">
+                            <p:inputText rendered="#{key.type eq 'TEXT'}"
+                                         label="#{key.label}"
+                                         value="#{viewScope.fields[key].value}"
+                                         required="#{key.req}"/>
 
-                        <p:inputTextarea rendered="#{key.type eq 'TEXT_AREA'}" value="#{viewScope.fields[key].value}"
-                                         required="#{key.req}" label="#{key.label}"/>
+                            <p:inputTextarea rendered="#{key.type eq 'TEXT_AREA'}"
+                                             label="#{key.label}"
+                                             value="#{viewScope.fields[key].value}"
+                                             required="#{key.req}"/>
 
-                        <p:selectOneMenu rendered="#{key.type eq 'SELECTOR'}" value="#{viewScope.fields[key].value}"
-                                         required="#{key.req}" label="#{key.label}">
-                            <f:selectItems value="#{key.value}" var="item" itemLabel="#{item}" itemValue="#{item}"/>
-                        </p:selectOneMenu>
+                            <p:chips rendered="#{key.type eq 'CHIPS'}"
+                                     label="#{key.label}"
+                                     value="#{viewScope.fields[key].values}"
+                                     required="#{key.req}"/>
 
-                        <p:selectOneRadio rendered="#{key.type eq 'SELECTOR'}" value="#{viewScope.fields[key].value}"
-                                          required="#{key.req}" label="#{key.label}">
-                            <f:selectItems value="#{key.value}" var="item" itemLabel="#{item}" itemValue="#{item}"/>
-                        </p:selectOneRadio>
-                        <small style="color: #999;">
-                            <h:outputText value="#{key.remark}"/>
-                        </small>
-                    </framework:label>
-                </p:repeat>
-            </p:outputPanel>
+                            <p:selectOneMenu rendered="#{key.type eq 'SELECTOR'}"
+                                             label="#{key.label}" dynamic="true"
+                                             value="#{viewScope.fields[key].value}"
+                                             required="#{key.req}">
+                                <f:selectItems id="selector_item" value="#{key.value}" var="item" itemLabel="#{item}"
+                                               itemValue="#{item}"/>
+                            </p:selectOneMenu>
+
+                            <p:selectOneRadio rendered="#{key.type eq 'RADIO'}"
+                                              value="#{viewScope.fields[key].value}" dynamic="true"
+                                              required="#{key.req}"
+                                              label="#{key.label}">
+                                <f:selectItems id="radio_items" value="#{key.value}" var="item" itemLabel="#{item}"
+                                               itemValue="#{item}"/>
+                            </p:selectOneRadio>
+
+
+                            <small style="color: #999;">
+                                <h:outputText value="#{key.remark}"/>
+                            </small>
+                        </framework:label>
+                    </p:repeat>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:outputPanel layout="block" style="text-align: right">
+                        <p:commandButton value="#{msg['framework']['save']}" icon="pi pi-save"
+                                         action="#{controller.save}"
+                                         process="@form"
+                                         update="@form"/>
+                    </p:outputPanel>
+                </f:facet>
+            </p:panel>
         </h:form>
     </ui:define>
 </ui:composition>

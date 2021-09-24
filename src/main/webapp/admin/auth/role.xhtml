@@ -8,34 +8,34 @@
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="title">#{msg['blog']['roleManagement']}</ui:define>
     <ui:define name="viewname">
-        <li>#{msg['blog']['system']}</li>
-        <li>/</li>
         <li>#{msg['blog']['auth']}</li>
         <li>/</li>
         <li>#{msg['blog']['roleManagement']}</li>
     </ui:define>
     <ui:define name="content">
-        <h:form id="contentform" prependId="false">
-            <framework:dataTable id="role" formDialogId="role" lazy="true"
-                                 headText="#{msg['blog']['roleManagement']}"
-                                 value="#{controller.dataModel}"
-                                 singleSelection="#{viewScope.sinSelected}"
-                                 multipleSelection="#{viewScope.mulSelected}">
-                <p:column headerText="#{msg['blog']['name']}" field="name" filterMatchMode="contains"/>
-                <p:column headerText="#{msg['blog']['code']}" field="code" filterMatchMode="contains"/>
-                <p:column headerText="#{msg['blog']['dataScope']}" field="code" filterMatchMode="exact"/>
-                <p:column headerText="#{msg['blog']['level']}" field="level" filterMatchMode="exact"/>
-                <p:column headerText="#{msg['framework']['operatedTime']}" sortBy="operatedTime"
-                          sortable="true" width="150"
-                          sortOrder="desc" sortPriority="1">
-                    <h:outputText value="#{element.operatedTime}">
-                        <f:convertDateTime type="localDateTime"
-                                           pattern="#{msg['format']['localDateTime']}"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['blog']['remark']}" field="remark" filterable="false" sortable="false"/>
-            </framework:dataTable>
-        </h:form>
+        <div class="card">
+            <h:form id="contentform" prependId="false">
+                <framework:dataTable id="role" formDialogId="role" lazy="true"
+                                     headText="#{msg['blog']['roleManagement']}"
+                                     value="#{controller.dataModel}"
+                                     singleSelection="#{viewScope.sinSelected}"
+                                     multipleSelection="#{viewScope.mulSelected}">
+                    <p:column headerText="#{msg['blog']['name']}" field="name" filterMatchMode="contains"/>
+                    <p:column headerText="#{msg['blog']['code']}" field="code" filterMatchMode="contains"/>
+                    <p:column headerText="#{msg['blog']['dataScope']}" field="code" filterMatchMode="exact"/>
+                    <p:column headerText="#{msg['blog']['level']}" field="level" filterMatchMode="exact"/>
+                    <p:column headerText="#{msg['framework']['operatedTime']}" sortBy="operatedTime"
+                              sortable="true" width="150"
+                              sortOrder="desc" sortPriority="1">
+                        <h:outputText value="#{element.operatedTime}">
+                            <f:convertDateTime type="localDateTime"
+                                               pattern="#{msg['format']['localDateTime']}"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['blog']['remark']}" field="remark" filterable="false" sortable="false"/>
+                </framework:dataTable>
+            </h:form>
+        </div>
     </ui:define>
     <ui:define name="dialog">
         <h:form id="dialogform">

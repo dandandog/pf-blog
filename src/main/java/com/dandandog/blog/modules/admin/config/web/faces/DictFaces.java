@@ -1,10 +1,11 @@
-package com.dandandog.blog.modules.admin.setting.web.faces;
+package com.dandandog.blog.modules.admin.config.web.faces;
 
-import com.dandandog.blog.modules.admin.setting.entity.DictNode;
-import com.dandandog.blog.modules.admin.setting.entity.DictValue;
-import com.dandandog.blog.modules.admin.setting.service.DictNodeService;
-import com.dandandog.blog.modules.admin.setting.service.DictValueService;
-import com.dandandog.blog.modules.admin.setting.web.faces.vo.DictVo;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.dandandog.blog.modules.admin.config.entity.DictNode;
+import com.dandandog.blog.modules.admin.config.entity.DictValue;
+import com.dandandog.blog.modules.admin.config.service.DictNodeService;
+import com.dandandog.blog.modules.admin.config.service.DictValueService;
+import com.dandandog.blog.modules.admin.config.web.faces.vo.DictVo;
 import com.dandandog.framework.core.annotation.Facet;
 import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.mapstruct.MapperUtil;
@@ -67,4 +68,7 @@ public class DictFaces {
     }
 
 
+    public void updateByFiled(String rowKey, String field, Object newValue) {
+        dictValueService.update(new UpdateWrapper<DictValue>().set(field, newValue).eq("id", rowKey));
+    }
 }

@@ -1,7 +1,7 @@
-package com.dandandog.blog.modules.admin.setting.web.faces.vo;
+package com.dandandog.blog.modules.admin.config.web.faces.vo;
 
-import com.dandandog.blog.modules.admin.setting.entity.DictNode;
-import com.dandandog.blog.modules.admin.setting.entity.enums.InputType;
+import com.dandandog.blog.modules.admin.config.entity.DictNode;
+import com.dandandog.blog.modules.admin.config.entity.enums.InputType;
 import com.dandandog.framework.mapstruct.model.MapperVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,7 +1,11 @@
 package com.dandandog.blog.modules.admin.config.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.dandandog.framework.core.entity.AbstractEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.framework.core.entity.AuditableEntity;
@@ -30,6 +34,18 @@ public class BlogConfigs extends AuditableEntity {
      */
     private String value;
 
+
+    @TableField(exist = false)
+    private List<String> values;
+
+
+    public List<String> getValues() {
+        return StrUtil.split(value, StrUtil.C_COMMA);
+    }
+
+    public void setValues(List<String> values) {
+        this.value = String.join(StrUtil.COMMA, values);
+    }
 
     public BlogConfigs() {
 

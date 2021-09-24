@@ -1,4 +1,4 @@
-package com.dandandog.blog.modules.admin.setting.entity.enums;
+package com.dandandog.blog.modules.admin.config.entity.enums;
 
 import com.dandandog.framework.core.entity.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -31,7 +31,13 @@ public enum InputType implements BaseEnum<Integer> {
     /**
      * 多选框
      */
-    CHECKBOX(4, "checkbox");
+    CHECKBOX(4, "checkbox"),
+
+
+    /**
+     *
+     */
+    CHIPS(5, "chips");
 
 
     private final int value;

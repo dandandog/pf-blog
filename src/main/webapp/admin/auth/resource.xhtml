@@ -8,67 +8,67 @@
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="title">#{msg['blog']['resourceManagement']}</ui:define>
     <ui:define name="viewname">
-        <li>#{msg['blog']['system']}</li>
-        <li>/</li>
         <li>#{msg['blog']['auth']}</li>
         <li>/</li>
         <li>#{msg['blog']['resourceManagement']}</li>
     </ui:define>
     <ui:define name="content">
-        <h:form id="resource_form" prependId="false">
-            <framework:treeTable id="resource" formDialogId="resource"
-                                 headText="#{msg['blog']['resourceManagement']}"
-                                 value="#{viewScope.root}"
-                                 singleSelection="#{viewScope.sinSelected}"
-                                 multipleSelection="#{viewScope.mulSelected}">
+        <div class="card">
+            <h:form id="resource_form" prependId="false">
+                <framework:treeTable id="resource" formDialogId="resource"
+                                     headText="#{msg['blog']['resourceManagement']}"
+                                     value="#{viewScope.root}"
+                                     singleSelection="#{viewScope.sinSelected}"
+                                     multipleSelection="#{viewScope.mulSelected}">
 
-                <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
-                        update="@widgetVar(resource_dataTable)"/>
+                    <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
+                            update="@widgetVar(resource_dataTable)"/>
 
-                <p:column headerText="#{msg['blog']['title']}" width="200">
-                    <p:outputPanel layout="inline" style="vertical-align: middle;">
-                        <i class="pi pi-#{element.icon} p-mr-2"/>
-                        <h:outputText value="#{element.title}"/>
-                    </p:outputPanel>
-                </p:column>
+                    <p:column headerText="#{msg['blog']['title']}" width="200">
+                        <p:outputPanel layout="inline" style="vertical-align: middle;">
+                            <i class="pi pi-#{element.icon} p-mr-2"/>
+                            <h:outputText value="#{element.title}"/>
+                        </p:outputPanel>
+                    </p:column>
 
-                <p:column priority="4" headerText="#{msg['blog']['seq']}" field="seq" filterable="false"
-                          sortable="flase" width="60">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{element.seq}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputNumber value="#{element.seq}" styleClass="ui-column-filter"/>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
+                    <p:column priority="4" headerText="#{msg['blog']['seq']}" field="seq" filterable="false"
+                              sortable="flase" width="60">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{element.seq}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputNumber value="#{element.seq}" styleClass="ui-column-filter"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
 
-                <p:column priority="2" headerText="#{msg['blog']['resourceType']}"
-                          width="80">
-                    <h:outputText value="#{msg['resourceType'][element.type.title]}"/>
-                </p:column>
+                    <p:column priority="2" headerText="#{msg['blog']['resourceType']}"
+                              width="80">
+                        <h:outputText value="#{msg['resourceType'][element.type.title]}"/>
+                    </p:column>
 
-                <p:column priority="3" headerText="#{msg['blog']['display']}" field="display" sortable="false"
-                          filterable="false" width="60">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{msg['framework'][element.display]}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:toggleSwitch value="#{element.display}"/>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column priority="2" headerText="#{msg['blog']['path']}">
-                    <h:outputText value="#{element.path}"/>
-                </p:column>
+                    <p:column priority="3" headerText="#{msg['blog']['display']}" field="display" sortable="false"
+                              filterable="false" width="60">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{msg['framework'][element.display]}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:toggleSwitch value="#{element.display}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column priority="2" headerText="#{msg['blog']['path']}">
+                        <h:outputText value="#{element.path}"/>
+                    </p:column>
 
-                <p:column priority="4" headerText="#{msg['blog']['perms']}">
-                    <h:outputText value="#{element.perms}"/>
-                </p:column>
-            </framework:treeTable>
-        </h:form>
+                    <p:column priority="4" headerText="#{msg['blog']['perms']}">
+                        <h:outputText value="#{element.perms}"/>
+                    </p:column>
+                </framework:treeTable>
+            </h:form>
+        </div>
     </ui:define>
     <ui:define name="dialog">
         <h:form id="dialogForm">

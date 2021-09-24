@@ -1,8 +1,8 @@
-package com.dandandog.blog.modules.admin.setting.service.impl;
+package com.dandandog.blog.modules.admin.config.service.impl;
 
-import com.dandandog.blog.modules.admin.setting.dao.DictNodeDao;
-import com.dandandog.blog.modules.admin.setting.entity.DictNode;
-import com.dandandog.blog.modules.admin.setting.service.DictNodeService;
+import com.dandandog.blog.modules.admin.config.dao.DictNodeDao;
+import com.dandandog.blog.modules.admin.config.entity.DictNode;
+import com.dandandog.blog.modules.admin.config.service.DictNodeService;
 import com.dandandog.framework.core.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 

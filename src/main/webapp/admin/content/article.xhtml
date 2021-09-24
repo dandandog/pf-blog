@@ -13,25 +13,27 @@
         <li>#{msg['blog']['articleManage']}</li>
     </ui:define>
     <ui:define name="content">
-        <h:form id="article_form" prependId="false">
-            <framework:dataTable id="article" formDialogId="article" lazy="true"
-                                 headText="#{msg['blog']['articleManage']}"
-                                 value="#{controller.dataModel}"
-                                 singleSelection="#{viewScope.sinSelected}"
-                                 multipleSelection="#{viewScope.mulSelected}">
+        <div class="card">
+            <h:form id="article_form" prependId="false">
+                <framework:dataTable id="article" formDialogId="article" lazy="true"
+                                     headText="#{msg['blog']['articleManage']}"
+                                     value="#{controller.dataModel}"
+                                     singleSelection="#{viewScope.sinSelected}"
+                                     multipleSelection="#{viewScope.mulSelected}">
 
-                <p:column field="seq" headerText="#{msg['blog']['seq']}"/>
+                    <p:column field="seq" headerText="#{msg['blog']['seq']}"/>
 
-                <p:column field="title" headerText="#{msg['blog']['title']}"/>
+                    <p:column field="title" headerText="#{msg['blog']['title']}"/>
 
-                <p:column field="type" headerText="#{msg['blog']['contentType']}"/>
+                    <p:column field="type" headerText="#{msg['blog']['contentType']}"/>
 
-                <p:column field="status" headerText="#{msg['blog']['contentStatus']}"/>
+                    <p:column field="status" headerText="#{msg['blog']['contentStatus']}"/>
 
-                <p:column field="creator" headerText="#{msg['framework']['creator']}"/>
+                    <p:column field="creator" headerText="#{msg['framework']['creator']}"/>
 
-            </framework:dataTable>
-        </h:form>
+                </framework:dataTable>
+            </h:form>
+        </div>
     </ui:define>
 
     <ui:define name="dialog">

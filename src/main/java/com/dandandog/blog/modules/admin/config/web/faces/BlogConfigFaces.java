@@ -1,14 +1,16 @@
 package com.dandandog.blog.modules.admin.config.web.faces;
 
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import cn.hutool.core.map.MapUtil;
 import com.dandandog.blog.modules.admin.config.entity.BlogConfigs;
+import com.dandandog.blog.modules.admin.config.entity.DictValue;
 import com.dandandog.blog.modules.admin.config.service.BlogConfigsService;
-import com.dandandog.blog.modules.admin.setting.entity.DictValue;
+import com.dandandog.blog.modules.admin.config.web.faces.vo.DictVo;
 import com.dandandog.framework.core.annotation.Facet;
+import com.dandandog.framework.mapstruct.MapperUtil;
 
 import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.List;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -22,10 +24,11 @@ public class BlogConfigFaces {
     @Resource
     private BlogConfigsService configsService;
 
-    public Map<DictValue, BlogConfigs> findByValue(Collection<DictValue> values) {
-        return values.stream().collect(Collectors.toMap(dictValue -> dictValue, o ->
-                configsService.lambdaQuery().eq(BlogConfigs::getName, o.getValue())
+    public Map<DictVo, BlogConfigs> findByValue(Collection<DictValue> values) {
+        Map<DictVo, BlogConfigs> data = values.stream().collect(Collectors.toMap(dictValue -> MapperUtil.map(dictValue, DictVo.class), o ->
+                configsService.lambdaQuery().eq(BlogConfigs::getName, o.getCode())
                         .oneOpt().orElse(new BlogConfigs(o.getCode(), null))));
+        return MapUtil.sort(data, Comparator.comparingInt(DictVo::getSeq));
     }
 
     public void saveOrUpdate(Collection<BlogConfigs> values) {

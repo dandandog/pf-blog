@@ -15,81 +15,84 @@
         <li>#{msg['blog']['commentManage']}</li>
     </ui:define>
     <ui:define name="content">
-        <h:form id="comment_form" prependId="false">
-            <framework:dataTable id="comment" formDialogId="comment" lazy="true"
-                                 headText="#{msg['blog']['commentManage']}"
-                                 value="#{controller.dataModel}"
-                                 singleSelection="#{viewScope.sinSelected}"
-                                 multipleSelection="#{viewScope.mulSelected}">
+        <div class="card">
+            <h:form id="comment_form" prependId="false">
+                <framework:dataTable id="comment" formDialogId="comment" lazy="true"
+                                     headText="#{msg['blog']['commentManage']}"
+                                     value="#{controller.dataModel}"
+                                     singleSelection="#{viewScope.sinSelected}"
+                                     multipleSelection="#{viewScope.mulSelected}">
 
-                <p:column headerText="#{msg['blog']['author']}" width="300">
-                    <p:outputPanel styleClass="p-d-flex">
-                        <p:avatar rendered="#{element.avatarUrl eq null}" label="#{fn:substring(element.author, 0, 1) }"
-                                  styleClass="p-mr-2"
-                                  size="xlarge"/>
+                    <p:column headerText="#{msg['blog']['author']}" width="300">
+                        <p:outputPanel styleClass="p-d-flex">
+                            <p:avatar rendered="#{element.avatarUrl eq null}"
+                                      label="#{fn:substring(element.author, 0, 1) }"
+                                      styleClass="p-mr-2"
+                                      size="xlarge"/>
 
-                        <p:avatar rendered="#{element.avatarUrl ne null}"
-                                  styleClass="p-mr-2"
-                                  size="xlarge">
-                            <p:graphicImage url="#{element.avatarUrl}"/>
-                        </p:avatar>
-                        <p:divider layout="vertical"/>
-                        <div class="team-box">
+                            <p:avatar rendered="#{element.avatarUrl ne null}"
+                                      styleClass="p-mr-2"
+                                      size="xlarge">
+                                <p:graphicImage url="#{element.avatarUrl}"/>
+                            </p:avatar>
+                            <p:divider layout="vertical"/>
+                            <div class="team-box">
                             <span class="p-text-bold">
                                   <i class="pi pi-user"/>
                                 #{element.author}
                             </span>
-                            <div>
-                                <i class="pi pi-envelope"/>
-                                <span class="team-member-mail">#{element.mail}</span>
+                                <div>
+                                    <i class="pi pi-envelope"/>
+                                    <span class="team-member-mail">#{element.mail}</span>
+                                </div>
+                                <div>
+                                    <i class="pi pi-map-marker"/>
+                                    <span class="team-member-address">#{element.ip}</span>
+                                </div>
                             </div>
-                            <div>
-                                <i class="pi pi-map-marker"/>
-                                <span class="team-member-address">#{element.ip}</span>
-                            </div>
-                        </div>
 
-                    </p:outputPanel>
-                </p:column>
-                <p:column headerText="#{msg['blog']['content']}">
-                    <p:outputPanel layout="block" styleClass="p-mb-3">
-                        <p:outputPanel layout="inline" rendered="#{element.parent ne null}">
-                            <h:outputText value="@#{element.parent.author}  " styleClass="p-text-bold"/>
                         </p:outputPanel>
-                        <h:outputText value="#{element.text}"/>
-                    </p:outputPanel>
-                    <p:outputPanel layout="block">
-                        <h:outputText value="#{element.createdTime}" styleClass="p-mr-3">
-                            <f:convertDateTime type="localDateTime"
-                                               pattern="#{msg['format']['localDateTime']}"/>
-                        </h:outputText>
-                        <p:commandLink value="#{element.content.title}"/>
-                    </p:outputPanel>
-                </p:column>
+                    </p:column>
+                    <p:column headerText="#{msg['blog']['content']}">
+                        <p:outputPanel layout="block" styleClass="p-mb-3">
+                            <p:outputPanel layout="inline" rendered="#{element.parent ne null}">
+                                <h:outputText value="@#{element.parent.author}  " styleClass="p-text-bold"/>
+                            </p:outputPanel>
+                            <h:outputText value="#{element.text}"/>
+                        </p:outputPanel>
+                        <p:outputPanel layout="block">
+                            <h:outputText value="#{element.createdTime}" styleClass="p-mr-3">
+                                <f:convertDateTime type="localDateTime"
+                                                   pattern="#{msg['format']['localDateTime']}"/>
+                            </h:outputText>
+                            <p:commandLink value="#{element.content.title}"/>
+                        </p:outputPanel>
+                    </p:column>
 
-                <p:column headerText="#{msg['blog']['commentStatus']}" width="80" field="commentStatus">
-                    <f:facet name="filter">
-                        <p:selectOneMenu onchange="PF('comment_dataTable').filter()"
-                                         converter="#{commentStatusConverter}"
-                                         styleClass="ui-column-filter">
-                            <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
-                                          noSelectionOption="true"/>
-                            <f:selectItems value="#{viewScope.statuses}" var="status"
-                                           itemLabel="#{msg['commentStatus'][status.title]}"
-                                           itemValue="#{status}"/>
-                        </p:selectOneMenu>
-                    </f:facet>
+                    <p:column headerText="#{msg['blog']['commentStatus']}" width="80" field="commentStatus">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('comment_dataTable').filter()"
+                                             converter="#{commentStatusConverter}"
+                                             styleClass="ui-column-filter">
+                                <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
+                                              noSelectionOption="true"/>
+                                <f:selectItems value="#{viewScope.statuses}" var="status"
+                                               itemLabel="#{msg['commentStatus'][status.title]}"
+                                               itemValue="#{status}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
 
-                    <p:tag rendered="#{element.status eq 'PASSED'}"
-                           value="#{msg['commentStatus'][element.status.title]}" severity="success"/>
-                    <p:tag rendered="#{element.status eq 'PENDING'}"
-                           value="#{msg['commentStatus'][element.status.title]}" severity="warning"/>
-                    <p:tag rendered="#{element.status eq 'SHIELDING'}"
-                           value="#{msg['commentStatus'][element.status.title]}" severity="danger"/>
-                </p:column>
+                        <p:tag rendered="#{element.status eq 'PASSED'}"
+                               value="#{msg['commentStatus'][element.status.title]}" severity="success"/>
+                        <p:tag rendered="#{element.status eq 'PENDING'}"
+                               value="#{msg['commentStatus'][element.status.title]}" severity="warning"/>
+                        <p:tag rendered="#{element.status eq 'SHIELDING'}"
+                               value="#{msg['commentStatus'][element.status.title]}" severity="danger"/>
+                    </p:column>
 
-            </framework:dataTable>
-        </h:form>
+                </framework:dataTable>
+            </h:form>
+        </div>
     </ui:define>
 
     <ui:define name="dialog">

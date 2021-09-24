@@ -1,7 +1,7 @@
-package com.dandandog.blog.modules.admin.setting.dao;
+package com.dandandog.blog.modules.admin.config.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dandandog.blog.modules.admin.setting.entity.DictNode;
+import com.dandandog.blog.modules.admin.config.entity.DictNode;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

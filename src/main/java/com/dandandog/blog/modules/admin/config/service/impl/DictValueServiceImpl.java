@@ -1,8 +1,8 @@
-package com.dandandog.blog.modules.admin.setting.service.impl;
+package com.dandandog.blog.modules.admin.config.service.impl;
 
-import com.dandandog.blog.modules.admin.setting.dao.DictValueDao;
-import com.dandandog.blog.modules.admin.setting.entity.DictValue;
-import com.dandandog.blog.modules.admin.setting.service.DictValueService;
+import com.dandandog.blog.modules.admin.config.dao.DictValueDao;
+import com.dandandog.blog.modules.admin.config.entity.DictValue;
+import com.dandandog.blog.modules.admin.config.service.DictValueService;
 import com.dandandog.framework.core.service.impl.BaseServiceImpl;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;

@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:framework="http://java.sun.com/jsf/composite/components">
+
+    <ui:define name="title">Empty Page</ui:define>
+
+    <ui:define name="viewname">
+        <li>global</li>
+        <li>/</li>
+        <li>personal</li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="personal_form" prependId="false">
+            <p:panel class="card" style="width: 800px;margin: auto" header="#{msg['blog']['personalSetting']}">
+
+                <p:outputPanel class="p-d-flex p-ai-start ">
+                    <p:outputPanel layout="block" styleClass="p-md-4">
+                        <framework:upload value="#{viewScope.user.avatarUrl}" layout="default"
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+
+                    </p:outputPanel>
+                    <p:outputPanel layout="block" styleClass="ui-fluid p-formgrid p-grid">
+                        <p:divider align="left" type="dashed">
+                            <b>#{msg['blog']['personalInfo']}</b>
+                        </p:divider>
+
+                        <framework:label value="#{msg['blog']['nickname']}">
+                            <p:inputText value="#{viewScope.user.nickname}"/>
+                        </framework:label>
+                        <framework:label value="#{msg['blog']['homepage']}">
+                            <p:inputText value="#{viewScope.user.remark}"/>
+                        </framework:label>
+                        <framework:label value="#{msg['blog']['email']}">
+                            <p:inputText value="#{viewScope.user.email}"/>
+                        </framework:label>
+
+                        <p:divider align="left" type="dashed">
+                            <b>#{msg['blog']['password']}</b>
+                        </p:divider>
+
+                        <framework:label value="#{msg['framework']['inputPassword']}">
+                            <p:password id="password1" match="@widgetVar(password2)" feedback="true"
+                                        autocomplete="new-password"
+                                        promptLabel="#{msg['framework']['promptPassword']}"
+                                        weakLabel="#{msg['framework']['weakPassword']}"
+                                        goodLabel="#{msg['framework']['goodPassword']}"
+                                        strongLabel="#{msg['framework']['strongPassword']}"
+                                        value="#{viewScope.user.password}"/>
+                        </framework:label>
+
+                        <framework:label value="#{msg['framework']['confirmPassword']}">
+                            <p:password id="password2" widgetVar="password2" autocomplete="new-password"
+                                        value="#{viewScope.user.password}"/>
+                        </framework:label>
+
+                    </p:outputPanel>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:outputPanel layout="block" style="text-align: right">
+                        <p:commandButton value="#{msg['framework']['save']}" icon="pi pi-save"
+                                         action="#{controller.save}"
+                                         process="@form"
+                                         update="@form"/>
+                    </p:outputPanel>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

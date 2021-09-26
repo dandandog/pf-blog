@@ -8,12 +8,16 @@ import com.dandandog.blog.modules.admin.auth.service.AuthResourceService;
 import com.dandandog.blog.modules.admin.auth.service.AuthUserService;
 import com.dandandog.framework.common.utils.SecurityUtil;
 import com.google.common.collect.Multimap;
+import lombok.Getter;
+import lombok.Setter;
 import org.mapstruct.Named;
 import org.primefaces.model.menu.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.Resource;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +28,7 @@ import java.util.Optional;
  * @Date: 2021/9/1 16:19
  */
 @Component("menuView")
+@SessionScope
 public class MenuView {
 
     @Resource
@@ -32,9 +37,12 @@ public class MenuView {
     @Resource
     private AuthResourceService resourceService;
 
+    @Getter
+    private MenuModel model;
 
-    public MenuModel getModel() {
-        DefaultMenuModel model = new DefaultMenuModel();
+
+    public void initialize() {
+        model = new DefaultMenuModel();
         AuthUser user = getCurrUser();
         List<AuthResource> resources = UserType.USER.equals(user.getType()) ?
                 resourceService.findByUser(user.getId()) : resourceService.list();
@@ -45,7 +53,6 @@ public class MenuView {
             list(firstSubmenu, multimap);
             model.getElements().add(firstSubmenu);
         }
-        return model;
     }
 
     private AuthUser getCurrUser() {
@@ -53,7 +60,6 @@ public class MenuView {
         Optional<AuthUser> OptUser = userService.findByUsername(uniqueId);
         return OptUser.orElseThrow(() -> new RuntimeException(""));
     }
-
 
     private void list(DefaultSubMenu subMenu, Multimap<String, AuthResource> multimap) {
         Collection<AuthResource> authResources = multimap.removeAll(subMenu.getId());

@@ -8,6 +8,17 @@
 
     <ui:define name="title">Empty Page</ui:define>
 
+    <ui:define name="head">
+        <h:outputStylesheet>
+            .xxxlarge {
+                width: 200px !important;
+                height: 200px !important;
+                font-size: 28px !important;;
+            }
+
+        </h:outputStylesheet>
+    </ui:define>
+
     <ui:define name="viewname">
         <li>global</li>
         <li>/</li>
@@ -15,61 +26,87 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="personal_form" prependId="false">
-            <p:panel class="card" style="width: 800px;margin: auto" header="#{msg['blog']['personalSetting']}">
+        <div class="card">
+            <h:form id="personal_form" prependId="false">
 
-                <p:outputPanel class="p-d-flex p-ai-start ">
-                    <p:outputPanel layout="block" styleClass="p-md-4">
-                        <framework:upload value="#{viewScope.user.avatarUrl}" layout="default"
-                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                <p:toolbar id="entityToolbar" styleClass="ui-my-toolbar" style="border: unset;">
+                    <f:facet name="left">
+                        <p:outputPanel layout="inline">
+                            <p:commandButton id="save_btn" widgetVar="save_btn" icon="pi pi-save"
+                                             style="margin-right: .5rem"
+                                             value="#{msg['framework']['save']}"
+                                             action="#{controller.save}"
+                                             update="@form"/>
+                        </p:outputPanel>
+                    </f:facet>
 
+                </p:toolbar>
+
+                #{msg['blog']['personalSetting']}
+
+                <p:outputPanel style="width: 800px;margin: auto">
+                    <p:outputPanel class="p-d-flex p-ai-start ">
+                        <p:outputPanel layout="block" styleClass="p-md-4">
+                            <p:outputPanel id="avatar_panel">
+                                <p:avatar rendered="#{empty viewScope.avatar}"
+                                          label="#{viewScope.user.nickname}"
+                                          styleClass="p-mr-2 xxxlarge"/>
+                                <p:avatar rendered="#{not empty viewScope.avatar}"
+                                          styleClass="p-mr-2 xxxlarge">
+                                    <p:graphicImage stream="false" value="#{viewScope.avatar}"/>
+                                </p:avatar>
+                                <p:fileUpload value="#{viewScope.file}" mode="simple" skinSimple="true" auto="true"
+                                              process="@this" update=":avatar_panel"
+                                              listener="#{controller.handleFileUpload}"/>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                        <p:outputPanel layout="block" styleClass="ui-fluid p-formgrid p-grid">
+                            <p:divider align="left" type="dashed">
+                                <b>#{msg['blog']['personalInfo']}</b>
+                            </p:divider>
+
+                            <framework:label value="#{msg['blog']['nickname']}">
+                                <p:inputText value="#{viewScope.user.nickname}"/>
+                            </framework:label>
+                            <framework:label value="#{msg['blog']['homepage']}">
+                                <p:inputText value="#{viewScope.user.remark}"/>
+                            </framework:label>
+                            <framework:label value="#{msg['blog']['email']}">
+                                <p:inputText value="#{viewScope.user.email}"/>
+                            </framework:label>
+
+                            <p:divider align="left" type="dashed">
+                                <b>#{msg['blog']['password']}</b>
+                            </p:divider>
+
+                            <framework:label value="#{msg['framework']['inputPassword']}">
+                                <p:password id="password1" match="@widgetVar(password2)" feedback="true"
+                                            autocomplete="new-password"
+                                            promptLabel="#{msg['framework']['promptPassword']}"
+                                            weakLabel="#{msg['framework']['weakPassword']}"
+                                            goodLabel="#{msg['framework']['goodPassword']}"
+                                            strongLabel="#{msg['framework']['strongPassword']}"
+                                            value="#{viewScope.user.password}"/>
+                            </framework:label>
+
+                            <framework:label value="#{msg['framework']['confirmPassword']}">
+                                <p:password id="password2" widgetVar="password2" autocomplete="new-password"
+                                            value="#{viewScope.user.password}"/>
+                            </framework:label>
+
+                        </p:outputPanel>
                     </p:outputPanel>
-                    <p:outputPanel layout="block" styleClass="ui-fluid p-formgrid p-grid">
-                        <p:divider align="left" type="dashed">
-                            <b>#{msg['blog']['personalInfo']}</b>
-                        </p:divider>
-
-                        <framework:label value="#{msg['blog']['nickname']}">
-                            <p:inputText value="#{viewScope.user.nickname}"/>
-                        </framework:label>
-                        <framework:label value="#{msg['blog']['homepage']}">
-                            <p:inputText value="#{viewScope.user.remark}"/>
-                        </framework:label>
-                        <framework:label value="#{msg['blog']['email']}">
-                            <p:inputText value="#{viewScope.user.email}"/>
-                        </framework:label>
-
-                        <p:divider align="left" type="dashed">
-                            <b>#{msg['blog']['password']}</b>
-                        </p:divider>
-
-                        <framework:label value="#{msg['framework']['inputPassword']}">
-                            <p:password id="password1" match="@widgetVar(password2)" feedback="true"
-                                        autocomplete="new-password"
-                                        promptLabel="#{msg['framework']['promptPassword']}"
-                                        weakLabel="#{msg['framework']['weakPassword']}"
-                                        goodLabel="#{msg['framework']['goodPassword']}"
-                                        strongLabel="#{msg['framework']['strongPassword']}"
-                                        value="#{viewScope.user.password}"/>
-                        </framework:label>
-
-                        <framework:label value="#{msg['framework']['confirmPassword']}">
-                            <p:password id="password2" widgetVar="password2" autocomplete="new-password"
-                                        value="#{viewScope.user.password}"/>
-                        </framework:label>
-
-                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:outputPanel layout="block" style="text-align: right">
+                            <p:commandButton value="#{msg['framework']['save']}" icon="pi pi-save"
+                                             action="#{controller.save}"
+                                             process="@form"
+                                             update="@form"/>
+                        </p:outputPanel>
+                    </f:facet>
                 </p:outputPanel>
-                <f:facet name="footer">
-                    <p:outputPanel layout="block" style="text-align: right">
-                        <p:commandButton value="#{msg['framework']['save']}" icon="pi pi-save"
-                                         action="#{controller.save}"
-                                         process="@form"
-                                         update="@form"/>
-                    </p:outputPanel>
-                </f:facet>
-            </p:panel>
-        </h:form>
+            </h:form>
+        </div>
     </ui:define>
 
 </ui:composition>

@@ -22,7 +22,7 @@ public class DictVo extends MapperVo {
 
     private String code;
 
-    private List<String> value;
+    private List<InputItemVo> value;
 
     private InputType type;
 

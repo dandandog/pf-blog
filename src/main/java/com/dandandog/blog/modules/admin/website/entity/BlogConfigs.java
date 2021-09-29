@@ -1,11 +1,7 @@
 package com.dandandog.blog.modules.admin.website.entity;
 
-import java.util.List;
-
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.dandandog.framework.core.entity.AuditableEntity;
+import com.dandandog.blog.modules.admin.BaseConfigs;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,38 +14,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("blog_configs")
-public class BlogConfigs extends AuditableEntity {
-
-
-    /**
-     * 名称
-     */
-    private String name;
-
-    /**
-     * 值
-     */
-    private String value;
-
-
-    @TableField(exist = false)
-    private List<String> values;
-
-
-    public List<String> getValues() {
-        return StrUtil.split(value, StrUtil.C_COMMA);
-    }
-
-    public void setValues(List<String> values) {
-        this.value = String.join(StrUtil.COMMA, values);
-    }
+public class BlogConfigs extends BaseConfigs {
 
     public BlogConfigs() {
-
     }
 
     public BlogConfigs(String name, String value) {
-        this.name = name;
-        this.value = value;
+        super(name, value);
     }
 }

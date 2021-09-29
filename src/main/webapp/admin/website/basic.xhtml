@@ -23,45 +23,9 @@
             <p:panel header="#{msg['blog']['basicSetting']}" styleClass="card" style="max-width: 800px;margin: auto;">
                 <p:outputPanel
                         styleClass="ui-fluid p-formgrid p-grid">
-                    <p:repeat value="#{viewScope.fields.keySet()}" var="key">
-                        <framework:label value="#{key.label}" styleClass="label p-col-12">
-                            <p:inputText rendered="#{key.type eq 'TEXT'}"
-                                         label="#{key.label}"
-                                         value="#{viewScope.fields[key].value}"
-                                         required="#{key.req}"/>
-
-                            <p:inputTextarea rendered="#{key.type eq 'TEXT_AREA'}"
-                                             label="#{key.label}"
-                                             value="#{viewScope.fields[key].value}"
-                                             required="#{key.req}"/>
-
-                            <p:chips rendered="#{key.type eq 'CHIPS'}"
-                                     label="#{key.label}"
-                                     value="#{viewScope.fields[key].values}"
-                                     required="#{key.req}"/>
-
-                            <p:selectOneMenu rendered="#{key.type eq 'SELECTOR'}"
-                                             label="#{key.label}" dynamic="true"
-                                             value="#{viewScope.fields[key].value}"
-                                             required="#{key.req}">
-                                <f:selectItems id="selector_item" value="#{key.value}" var="item" itemLabel="#{item}"
-                                               itemValue="#{item}"/>
-                            </p:selectOneMenu>
-
-                            <p:selectOneRadio rendered="#{key.type eq 'RADIO'}"
-                                              value="#{viewScope.fields[key].value}" dynamic="true"
-                                              required="#{key.req}"
-                                              label="#{key.label}">
-                                <f:selectItems id="radio_items" value="#{key.value}" var="item" itemLabel="#{item}"
-                                               itemValue="#{item}"/>
-                            </p:selectOneRadio>
-
-
-                            <small style="color: #999;">
-                                <h:outputText value="#{key.remark}"/>
-                            </small>
-                        </framework:label>
-                    </p:repeat>
+                    <ui:include src="../include/repeatFields.xhtml">
+                        <ui:param name="fields" value="#{viewScope.fields.keySet()}"/>
+                    </ui:include>
                 </p:outputPanel>
                 <f:facet name="footer">
                     <p:outputPanel layout="block" style="text-align: right">

@@ -7,6 +7,15 @@
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="title">#{msg['blog']['dictManagement']}</ui:define>
+    <ui:define name="head">
+        <h:outputStylesheet>
+            .ui-chips-container {
+                max-height: 200px !important;
+                overflow-y: auto !important;
+            }
+        </h:outputStylesheet>
+
+    </ui:define>
     <ui:define name="viewname">
         <li>#{msg['blog']['set']}</li>
         <li>/</li>
@@ -122,8 +131,8 @@
                     </p:selectOneMenu>
                 </framework:label>
 
-                <framework:label value="#{msg['blog']['value']}" styleClass="p-col-6">
-                    <p:chips value="#{viewScope.vo.value}"/>
+                <framework:label value="#{msg['blog']['value']}" styleClass="p-col-12">
+                    <p:chips value="#{viewScope.vo.value}" converter="#{inputItemConverter}" styleClass="value-chips"/>
                 </framework:label>
 
                 <framework:label target="valueRemark" value="#{msg['blog']['remark']}">

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:framework="http://java.sun.com/jsf/composite/components">
+<f:view>
+    <p:repeat value="#{fields}" var="key">
+        <framework:label value="#{key.label}" styleClass="label p-col-12">
+            <p:inputText rendered="#{key.type eq 'TEXT'}"
+                         label="#{key.label}"
+                         value="#{viewScope.fields[key].value}"
+                         required="#{key.req}"/>
+
+            <p:inputTextarea rendered="#{key.type eq 'TEXT_AREA'}"
+                             label="#{key.label}"
+                             value="#{viewScope.fields[key].value}"
+                             required="#{key.req}"/>
+
+            <p:selectOneMenu rendered="#{key.type eq 'SELECTOR'}"
+                             label="#{key.label}"
+                             value="#{viewScope.fields[key].value}"
+                             required="#{key.req}">
+                <f:selectItems id="selector_item" value="#{key.value}" var="item" itemLabel="#{item.label}"
+                               itemValue="#{item.index}"/>
+            </p:selectOneMenu>
+
+            <p:selectOneRadio rendered="#{key.type eq 'RADIO'}" layout="responsive" columns="5"
+                              value="#{viewScope.fields[key].value}"
+                              required="#{key.req}"
+                              label="#{key.label}">
+                <f:selectItems id="radio_items" value="#{key.value}" var="item" itemLabel="#{item.label}"
+                               itemValue="#{item.index}"/>
+            </p:selectOneRadio>
+
+            <p:chips rendered="#{key.type eq 'CHIPS'}"
+                     label="#{key.label}"
+                     value="#{viewScope.fields[key].values}"
+                     required="#{key.req}"/>
+
+            <p:selectManyCheckbox id="checkbox" rendered="#{key.type eq 'CHECKBOX'}"
+                                  value="#{viewScope.fields[key].values}"
+                                  required="#{key.req}"
+                                  label="#{key.label}" layout="responsive" columns="1">
+                <f:selectItems id="checkbox_items" value="#{key.value}" var="item" itemLabel="#{item.label}"
+                               itemValue="#{item.index}"/>
+            </p:selectManyCheckbox>
+
+            <small style="color: #999;">
+                <h:outputText value="#{key.remark}"/>
+            </small>
+        </framework:label>
+    </p:repeat>
+
+</f:view>
+
+</html>

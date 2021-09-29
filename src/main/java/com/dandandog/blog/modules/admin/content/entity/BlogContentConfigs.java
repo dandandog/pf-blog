@@ -1,6 +1,7 @@
 package com.dandandog.blog.modules.admin.content.entity;
 
-import com.dandandog.framework.core.entity.AuditableEntity;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dandandog.blog.modules.admin.BaseConfigs;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,23 +13,20 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class BlogContentConfigs extends AuditableEntity {
+@TableName("blog_content_configs")
+public class BlogContentConfigs extends BaseConfigs {
 
-    /**
-     * uuid
-     */
-    private String id;
     /**
      * 内容id
      */
     private String contentId;
-    /**
-     * 名称
-     */
-    private String name;
-    /**
-     * 值
-     */
-    private String value;
 
+
+    public BlogContentConfigs() {
+    }
+
+    public BlogContentConfigs(String name, String value, String contentId) {
+        super(name, value);
+        this.contentId = contentId;
+    }
 }

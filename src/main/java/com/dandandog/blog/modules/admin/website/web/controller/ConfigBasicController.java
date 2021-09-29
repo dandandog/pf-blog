@@ -28,11 +28,10 @@ public class ConfigBasicController extends FacesController {
     @Resource
     private BlogConfigFaces configFaces;
 
-    private String KEYS = "basic";
-
 
     @Override
     public void onEntry() {
+        String KEYS = "basic";
         Multimap<String, DictValue> values = dictFaces.getValueByCodes(KEYS);
         Map<DictVo, BlogConfigs> fields = configFaces.findByValue(values.get(KEYS));
         putViewScope("fields", fields);

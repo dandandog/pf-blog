@@ -48,8 +48,16 @@
                     </framework:label>
 
                     <framework:label>
-                        <framework:textEditor value="#{viewScope.vo.text}" secure="false" height="650"/>
+                        <framework:textEditor value="#{viewScope.vo.text}" secure="false" height="596"/>
                     </framework:label>
+
+                    <p:fieldset legend="#{msg['blog']['otherConfigs']}" collapsed="true" toggleable="true"
+                                toggleSpeed="500" styleClass="p-m-2">
+                        <ui:include src="../include/repeatFields.xhtml">
+                            <ui:param name="fields" value="#{viewScope.fields.keySet()}"/>
+                        </ui:include>
+                    </p:fieldset>
+
 
                 </p:outputPanel>
                 <p:outputPanel styleClass="p-md-3 ui-fluid">
@@ -74,7 +82,7 @@
                         <b>#{msg['blog']['advanced']}</b>
                     </p:divider>
 
-                    <framework:label value="#{msg['blog']['status']}">
+                    <framework:label value="#{msg['blog']['contentStatus']}">
                         <p:selectOneMenu value="#{viewScope.vo.status}" converter="#{contentStatusConverter}">
                             <f:selectItems value="#{viewScope.statuses}" var="status"
                                            itemLabel="#{msg['contentStatus'][status.title]}" itemValue="#{status}"/>
@@ -115,6 +123,20 @@
                             </p:commandLink>
                         </p:outputPanel>
                     </framework:upload>
+
+                    <p:divider rendered="#{viewScope.vo.id ne null}" align="center" type="dashed">
+                        <b>#{msg['blog']['signature']}</b>
+                    </p:divider>
+
+                    <p:outputPanel rendered="#{viewScope.vo.id ne null}">
+                        <h:outputText style="display: block" escape="false"
+                                      value="#{msg['blog'][['byAuthor',viewScope.vo.creator]]}"/>
+                        <h:outputText value="#{msg['blog']['byModifyTime']} "/>
+                        <h:outputText value="#{viewScope.vo.operatedTime}">
+                            <f:convertDateTime type="localDateTime" pattern="#{msg['format']['dataZh']}"/>
+                        </h:outputText>
+                    </p:outputPanel>
+
                 </p:outputPanel>
             </framework:dialog>
         </h:form>

@@ -2,12 +2,13 @@ package com.dandandog.blog.modules.admin.content.web.faces;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.dandandog.blog.common.model.MapperPageDataModel;
+import com.dandandog.blog.modules.admin.content.entity.BlogContentConfigs;
 import com.dandandog.blog.modules.admin.content.entity.BlogContents;
 import com.dandandog.blog.modules.admin.content.entity.BlogMetas;
 import com.dandandog.blog.modules.admin.content.entity.BlogMetasContents;
 import com.dandandog.blog.modules.admin.content.entity.enums.MetaType;
+import com.dandandog.blog.modules.admin.content.service.BlogContentConfigsService;
 import com.dandandog.blog.modules.admin.content.service.BlogContentsService;
 import com.dandandog.blog.modules.admin.content.service.BlogMetasContentsService;
 import com.dandandog.blog.modules.admin.content.service.BlogMetasService;
@@ -36,13 +37,16 @@ import java.util.stream.Collectors;
 public class ContentFaces {
 
     @Resource
-    private BlogContentsService contentsService;
-
-    @Resource
     private BlogMetasService metasService;
 
     @Resource
+    private BlogContentsService contentsService;
+
+    @Resource
     private BlogMetasContentsService metasContentsService;
+
+    @Resource
+    private BlogContentConfigsService contentConfigsService;
 
     public LazyDataModel<ArticleVo> findDataModel() {
         return MapperPageDataModel.getInstance(new ContentAdapter(), ArticleVo.class);
@@ -53,7 +57,7 @@ public class ContentFaces {
     }
 
     @Transactional
-    public void saveOrUpdate(ArticleVo vo) {
+    public void saveOrUpdate(ArticleVo vo, Collection<BlogContentConfigs> configs) {
         BlogContents entity = MapperUtil.map(vo, BlogContents.class);
         contentsService.saveOrUpdate(entity);
         // Attachment
@@ -73,6 +77,13 @@ public class ContentFaces {
         BlogMetas cate = (BlogMetas) vo.getCategoryNode().getData();
         metasContents.add(new BlogMetasContents(entity.getId(), cate.getId()));
         metasContentsService.saveOrUpdateBatch(metasContents);
+        // content config
+        if (CollUtil.isNotEmpty(configs)) {
+            List<BlogContentConfigs> collect = configs.stream().peek(blogContentConfigs -> {
+                blogContentConfigs.setContentId(entity.getId());
+            }).collect(Collectors.toList());
+            contentConfigsService.saveOrUpdateBatch(collect);
+        }
     }
 
     public BaseContext<ArticleVo> entityInfo() {

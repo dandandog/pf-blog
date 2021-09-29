@@ -7,11 +7,16 @@ import com.dandandog.framework.common.utils.SecurityUtil;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.mapstruct.MapperUtil;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.CroppedImage;
 import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
@@ -40,14 +45,44 @@ public class PersonalController extends FacesController {
         UserInfoVo vo = getViewScope("user");
     }
 
+    public void edit() {
+        putViewScope("croppedImage", null);
+        putViewScope("originalImageFile", null);
+        putViewScope("originalImage", null);
+    }
+
+
     public void handleFileUpload(FileUploadEvent event) throws IOException {
         UploadedFile file = event.getFile();
         InputStream inputStream = file.getInputStream();
-        DefaultStreamedContent content = DefaultStreamedContent.builder()
+        StreamedContent content = DefaultStreamedContent.builder()
                 .contentType(file.getContentType())
                 .stream(() -> inputStream)
                 .build();
-        putViewScope("avatar", content);
+        putViewScope("originalImageFile", file);
+        putViewScope("originalImage", content);
+    }
+
+
+    public StreamedContent getImage() throws IOException {
+        UploadedFile file = getViewScope("originalImageFile");
+        InputStream inputStream = file.getInputStream();
+        return DefaultStreamedContent.builder()
+                .contentType(file.getContentType())
+                .stream(() -> inputStream)
+                .build();
+    }
+
+
+    public void crop() {
+        CroppedImage croppedImage = getViewScope("croppedImage");
+        UploadedFile file = getViewScope("originalImageFile");
+        byte[] bytes = croppedImage.getBytes();
+        DefaultStreamedContent content = DefaultStreamedContent.builder()
+                .contentType(file.getContentType())
+                .stream(() -> new ByteArrayInputStream(bytes))
+                .build();
+        putViewScope("croppedImage", content);
     }
 
 

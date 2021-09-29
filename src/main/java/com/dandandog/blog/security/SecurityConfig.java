@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/javax.faces.resource/**");
+        web.ignoring().antMatchers("/javax.faces.resource/**", "/ui/multimedia/cropper/**");
     }
 
     @Bean

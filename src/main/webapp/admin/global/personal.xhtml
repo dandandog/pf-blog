@@ -46,25 +46,14 @@
 
                 <p:outputPanel style="width: 800px;margin: auto">
                     <p:outputPanel class="p-d-flex p-ai-start ">
-                        <p:outputPanel layout="block" styleClass="p-md-4">
-                            <p:outputPanel id="avatar_panel">
-                                <p:avatar rendered="#{empty viewScope.avatar}"
-                                          label="#{viewScope.user.nickname}"
-                                          styleClass="p-mr-2 xxxlarge"/>
-                                <p:avatar rendered="#{not empty viewScope.avatar}"
-                                          styleClass="p-mr-2 xxxlarge">
-                                    <p:graphicImage stream="false" value="#{viewScope.avatar}"/>
-                                </p:avatar>
-                                <p:fileUpload value="#{viewScope.file}" mode="simple" skinSimple="true" auto="true"
-                                              process="@this" update=":avatar_panel"
-                                              listener="#{controller.handleFileUpload}"/>
-                            </p:outputPanel>
-                        </p:outputPanel>
                         <p:outputPanel layout="block" styleClass="ui-fluid p-formgrid p-grid">
                             <p:divider align="left" type="dashed">
                                 <b>#{msg['blog']['personalInfo']}</b>
                             </p:divider>
 
+                            <framework:label value="#{msg['framework']['username']}">
+                                <p:inputText value="#{viewScope.user.username}"/>
+                            </framework:label>
                             <framework:label value="#{msg['blog']['nickname']}">
                                 <p:inputText value="#{viewScope.user.nickname}"/>
                             </framework:label>
@@ -95,18 +84,54 @@
                             </framework:label>
 
                         </p:outputPanel>
-                    </p:outputPanel>
-                    <f:facet name="footer">
-                        <p:outputPanel layout="block" style="text-align: right">
-                            <p:commandButton value="#{msg['framework']['save']}" icon="pi pi-save"
-                                             action="#{controller.save}"
-                                             process="@form"
-                                             update="@form"/>
+                        <p:outputPanel layout="block" styleClass="p-md-4">
+                            <p:outputPanel id="avatar_panel" styleClass="p-text-center">
+                                <p:avatar rendered="#{empty viewScope.user.avatarUrl}"
+                                          label="#{viewScope.user.nickname}"
+                                          styleClass="xxxlarge"/>
+                                <p:avatar rendered="#{not empty viewScope.user.avatarUrl}"
+                                          styleClass="xxxlarge">
+                                    <p:graphicImage url="#{viewScope.user.avatarUrl}"/>
+                                </p:avatar>
+                                <p:commandButton value="#{msg['framwork']['edit']}" action="#{controller.edit}"
+                                                 oncomplete="PF('cropper_dialog').show()" style="width: 200px;"
+                                                 update="@widgetVar(cropper_dialog)"/>
+                            </p:outputPanel>
                         </p:outputPanel>
-                    </f:facet>
+                    </p:outputPanel>
                 </p:outputPanel>
             </h:form>
         </div>
     </ui:define>
+    <ui:define name="dialog">
+        <h:form id="dialogForm">
+            <framework:dialog id="cropper" saveDisabled="false" saveUpdate="@widgetVar(resource_treeTable)">
+                <p:fileUpload value="#{viewScope.originalImageFile}" mode="simple" skinSimple="true" auto="true"
+                              process="@this" update="@widgetVar(croppedImage)" ajax="true"
+                              listener="#{controller.handleFileUpload}"/>
 
+                <p:commandButton value="Crop"
+                                 action="#{controller.crop}"
+                                 update="@(.cropped)" styleClass="p-my-3"/>
+                <div class="p-col-5 p-d-flex p-ai-center p-jc-center">
+                    <p:imageCropper widgetVar="croppedImage"
+                                    value="#{viewScope.croppedImage}"
+                                    id="imageCropper" cache="false"
+                                    image="#{controller.image}"
+                                    initialCoords="50,50,150,100"
+                                    minSize="50,50" maxSize="350,350"/>
+                </div>
+                <div class="p-col-2">
+                    <p:divider layout="vertical">
+                        <b>OR</b>
+                    </p:divider>
+                </div>
+                <div class="p-col-5 p-d-flex p-ai-center p-jc-center">
+                    <p:graphicImage styleClass="cropped" cache="false" stream="false"
+                                    rendered="#{not empty viewScope.croppedImage}"
+                                    value="#{viewScope.croppedImage}"/>
+                </div>
+            </framework:dialog>
+        </h:form>
+    </ui:define>
 </ui:composition>

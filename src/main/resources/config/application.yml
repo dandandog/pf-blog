@@ -4,19 +4,20 @@ server:
   port: 8081
 joinfaces:
   jsf:
-    project-stage: Production
     #facelets-refresh-period: -1
     state-saving-method: server
     facelets-suffix: .faces
     #facelets-skip-comments: true
     enable-validate-whole-bean: true
     interpret-empty-string-submitted-values-as-null: true
+    datetimeconverter-default-timezone-is-system-timezone: true
   primefaces:
     theme: ecuador-#{guestPreferences.theme}
     font-awesome: true
     #transform-metadata: true
     #client-side-validation: true
     #move-scripts-to-bottom: true
+    multi-view-state-store: client-window
     uploader: auto
     submit: partial
 

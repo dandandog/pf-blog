@@ -1,3 +1,6 @@
+joinfaces:
+  jsf:
+    project-stage: Development
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

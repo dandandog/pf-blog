@@ -5,6 +5,7 @@ import com.dandandog.blog.modules.admin.global.web.faces.vo.UserInfoVo;
 import com.dandandog.framework.mapstruct.IMapper;
 import com.dandandog.framework.mapstruct.qualifier.QualifierUrl;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * @Author: JohnnyLiu
@@ -12,4 +13,8 @@ import org.mapstruct.Mapper;
  */
 @Mapper(uses = {QualifierUrl.class})
 public interface UserInfoMapper extends IMapper<AuthUser, UserInfoVo> {
+
+    @Override
+    @Mapping(target = "password", ignore = true)
+    UserInfoVo mapTo(AuthUser authUser);
 }

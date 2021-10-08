@@ -20,6 +20,9 @@ joinfaces:
     multi-view-state-store: client-window
     uploader: auto
     submit: partial
+    flex: true
+    reset-values: true
+
 
 spring:
   servlet:
@@ -71,5 +74,7 @@ fast-code:
   page:
     index: /dashboard
     not-found: /notfound
+    anonymous:
+      - /register
   map-struct:
     url-domain: http://image.myelephant.cn

@@ -4,6 +4,7 @@ import com.dandandog.blog.modules.admin.auth.entity.AuthRole;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserGender;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserStatus;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
+import com.dandandog.framework.mapstruct.model.MapperUrl;
 import com.dandandog.framework.mapstruct.model.MapperVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +27,8 @@ public class AuthUserVo extends MapperVo {
     @NotEmpty
     private String username;
 
+    private String password;
+
     private String email;
 
     private String phone;
@@ -36,7 +39,7 @@ public class AuthUserVo extends MapperVo {
 
     private UserType type;
 
-    private String avatarUrl;
+    private MapperUrl avatarUrl;
 
     private String remark;
 

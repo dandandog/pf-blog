@@ -1,6 +1,6 @@
 package com.dandandog.blog.security.utils;
 
-import com.dandandog.blog.modules.admin.auth.entity.AuthUser;
+import com.dandandog.blog.security.mapper.UserCredentials;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -39,7 +39,7 @@ public class SessionUtil {
         return sessions.iterator();
     }
 
-    public static void refreshSession(HttpSession session, AuthUser user) {
+    public static void refreshSession(HttpSession session, UserCredentials user) {
         SecurityContext securityContext = (SecurityContext) session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
         Authentication authentication = securityContext.getAuthentication();
 

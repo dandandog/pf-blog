@@ -9,8 +9,10 @@ import com.dandandog.blog.modules.admin.auth.service.AuthResourceService;
 import com.dandandog.blog.modules.admin.auth.service.AuthRoleResourceService;
 import com.dandandog.blog.modules.admin.auth.service.AuthUserRoleService;
 import com.dandandog.blog.modules.admin.auth.service.AuthUserService;
+import com.dandandog.blog.security.mapper.UserCredentials;
 import com.dandandog.blog.security.utils.SessionUtil;
 import com.dandandog.framework.core.entity.BaseEntity;
+import com.dandandog.framework.mapstruct.MapperUtil;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.session.SessionInformation;
@@ -51,21 +53,24 @@ public class AuthorizedService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AuthUser authUser = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username not found"));
-        return findUserAuthorities(authUser);
+        return findUserAuthorities(username);
     }
 
-    public void reloadUserRole() {
+    public void reloadUserRole() throws UsernameNotFoundException {
         Iterator<HttpSession> it = SessionUtil.getAllSessions();
         while (it.hasNext()) {
             HttpSession session = it.next();
             SessionInformation sessionInformation = sessionRegistry.getSessionInformation(session.getId());
-            AuthUser user = findUserAuthorities((AuthUser) sessionInformation.getPrincipal());
+            UserCredentials old = (UserCredentials) sessionInformation.getPrincipal();
+            UserCredentials user = findUserAuthorities(old.getUsername());
             SessionUtil.refreshSession(session, user);
         }
     }
 
-    public AuthUser findUserAuthorities(AuthUser user) {
+    public UserCredentials findUserAuthorities(String username) {
+        AuthUser authUser = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username not found"));
+
+        UserCredentials user = MapperUtil.map(authUser, UserCredentials.class);
         List<AuthUserRole> userRoles = roleService.lambdaQuery().eq(AuthUserRole::getUserId, user.getId()).list();
 
         String userType = findUserType(user);
@@ -83,7 +88,7 @@ public class AuthorizedService implements UserDetailsService {
         return user;
     }
 
-    private String findUserType(AuthUser user) {
+    private String findUserType(UserCredentials user) {
         return "ROLE_" + user.getType().name();
     }
 

@@ -2,8 +2,14 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 xmlns:p="http://primefaces.org/ui">
-
+    <h:outputStylesheet>
+        .avatar-text .ui-avatar-text {
+            margin-right: 0px !important;
+            color: black !important;
+        }
+    </h:outputStylesheet>
     <div class="layout-topbar">
         <h:form>
             <a href="#" id="topbar-menu-button">
@@ -21,9 +27,15 @@
             </h:link>
 
             <a id="topbar-profile-menu-button" href="#">
-                <span> <h:outputText value="#{principal.nickname}"/></span>
-                <p:graphicImage name="images/avatar.png" library="ecuador-layout" styleClass="topbar-profile"/>
-                <i class="pi pi-caret-down"/>
+                <p:outputPanel styleClass="p-d-flex p-ai-center principal-info">
+                    <span> <h:outputText value="#{principal.nickname}"/></span>
+                    <p:avatar rendered="#{empty principal.avatarUrl}" label="#{fn:toUpperCase(principal.nickname)}"
+                              styleClass="avatar-text p-mr-2"/>
+                    <p:avatar rendered="#{not empty principal.avatarUrl}" styleClass="p-mr-2">
+                        <p:graphicImage url="#{principal.avatarUrl}" style="margin: 0px"/>
+                    </p:avatar>
+                    <i class="pi pi-caret-down"/>
+                </p:outputPanel>
             </a>
 
             <ul id="topbar-usermenu" class="fadeInDown animated">

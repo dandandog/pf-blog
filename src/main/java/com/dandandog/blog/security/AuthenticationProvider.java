@@ -1,6 +1,6 @@
 package com.dandandog.blog.security;
 
-import com.dandandog.blog.modules.admin.auth.entity.AuthUser;
+import com.dandandog.blog.security.mapper.UserCredentials;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -27,7 +27,7 @@ public class AuthenticationProvider extends DaoAuthenticationProvider {
 
         String presentedPassword = authentication.getCredentials().toString();
 
-        AuthUser user = (AuthUser) userDetails;
+        UserCredentials user = (UserCredentials) userDetails;
 
         if (!super.getPasswordEncoder().matches(presentedPassword + user.getSalt(), user.getPassword())) {
             logger.debug("Authentication failed: password does not match stored value");

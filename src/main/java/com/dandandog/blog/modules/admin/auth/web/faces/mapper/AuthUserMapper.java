@@ -5,7 +5,6 @@ import com.dandandog.blog.modules.admin.auth.web.faces.vo.AuthUserVo;
 import com.dandandog.framework.mapstruct.IMapper;
 import com.dandandog.framework.mapstruct.qualifier.QualifierUrl;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 /**
  * @author Johnny
@@ -13,7 +12,5 @@ import org.mapstruct.Mapping;
 @Mapper(uses = {QualifierUrl.class})
 public interface AuthUserMapper extends IMapper<AuthUser, AuthUserVo> {
 
-    @Override
-    @Mapping(target = "operatedTime", ignore = true)
-    AuthUser mapFrom(AuthUserVo authUserVo);
+
 }

@@ -1,7 +1,5 @@
 package com.dandandog.blog.modules.admin.auth.entity;
 
-import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserGender;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserStatus;
@@ -9,11 +7,8 @@ import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
 import com.dandandog.framework.core.entity.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 
 /**
@@ -25,7 +20,7 @@ import java.util.Collection;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("auth_user")
-public class AuthUser extends AuditableEntity implements UserDetails {
+public class AuthUser extends AuditableEntity {
     private static final long serialVersionUID = -32722285353331566L;
 
 
@@ -89,28 +84,4 @@ public class AuthUser extends AuditableEntity implements UserDetails {
      */
     private LocalDateTime expiredTime;
 
-
-    @TableField(exist = false)
-    private Collection<GrantedAuthority> authorities = CollectionUtil.newArrayList();
-
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

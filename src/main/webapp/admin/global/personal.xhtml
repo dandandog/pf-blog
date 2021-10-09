@@ -27,6 +27,10 @@
                 align-items: center;
             }
 
+            .ui-password-masked input {
+                width: 100%;
+            }
+
         </h:outputStylesheet>
     </ui:define>
 
@@ -47,13 +51,13 @@
                                              style="margin-right: .5rem"
                                              value="#{msg['framework']['save']}"
                                              action="#{controller.save}"
-                                             update="@form"/>
+                                             update="@form,@(.principal-info)"/>
                         </p:outputPanel>
                     </f:facet>
                 </p:toolbar>
 
                 <p:outputPanel style="width: 800px;margin: auto">
-                    <p:outputPanel class="p-d-flex p-ai-start ">
+                    <p:outputPanel styleClass="p-d-flex p-ai-start">
                         <p:outputPanel layout="block" styleClass="ui-fluid p-formgrid p-grid">
                             <p:divider align="left" type="dashed">
                                 <b>#{msg['blog']['personalInfo']}</b>
@@ -75,7 +79,6 @@
                             <p:divider align="left" type="dashed">
                                 <b>#{msg['blog']['password']}</b>
                             </p:divider>
-
                             <framework:label value="#{msg['framework']['inputPassword']}">
                                 <p:password id="password1" match="@widgetVar(password2)" feedback="true"
                                             autocomplete="new-password"
@@ -83,6 +86,7 @@
                                             weakLabel="#{msg['framework']['weakPassword']}"
                                             goodLabel="#{msg['framework']['goodPassword']}"
                                             strongLabel="#{msg['framework']['strongPassword']}"
+                                            validatorMessage="#{msg['framework']['diffPassword']}"
                                             value="#{viewScope.user.password}"/>
                             </framework:label>
 
@@ -91,9 +95,11 @@
                                             value="#{viewScope.user.password}"/>
                             </framework:label>
 
+
                         </p:outputPanel>
-                        <p:outputPanel layout="block" styleClass="p-md-4">
-                            <p:outputPanel id="avatar_panel" styleClass="p-text-center">
+                        <p:outputPanel layout="block" styleClass="p-md-4 p-d-flex p-flex-wrap">
+
+                            <p:outputPanel id="avatar_panel" styleClass="p-mb-2">
                                 <p:avatar rendered="#{empty viewScope.user.avatarUrl}"
                                           label="#{fn:toUpperCase(viewScope.user.nickname)}"
                                           styleClass="xxxlarge"/>
@@ -101,11 +107,24 @@
                                           styleClass="xxxlarge">
                                     <p:graphicImage url="#{viewScope.user.avatarUrl}"/>
                                 </p:avatar>
-                                <p:commandButton value="#{msg['framwork']['edit']}" action="#{controller.edit}"
+                                <p:commandButton value="#{msg['framework']['edit']}"
+                                                 action="#{controller.initCropUploader}"
                                                  oncomplete="PF('cropper_dialog').show()" style="width: 200px;"
                                                  update="@widgetVar(cropper_dialog)"/>
                             </p:outputPanel>
+                            <p:outputPanel styleClass="p-mb-2">
+                                <h:panelGrid columns="2">
+                                    <h:outputText value="密码更新于"/>
+                                    <h:outputText value="#{viewScope.user.pwdRestTime}">
+                                        <f:convertDateTime type="localDateTime"
+                                                           pattern="#{msg['format']['localDateTime']}"/>
+                                    </h:outputText>
+                                    <h:outputText value="ssss"/>
+                                    <h:outputText value="xxxx"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
                         </p:outputPanel>
+
                     </p:outputPanel>
                 </p:outputPanel>
             </h:form>
@@ -115,38 +134,42 @@
     <ui:param name="widgetLink" value="imagecropper"/>
     <ui:define name="dialog">
         <h:form id="dialogForm">
-            <framework:dialog id="cropper" saveDisabled="false" saveUpdate="personal_form"
-                              height="500">
+            <framework:dialog id="cropper" saveDisabled="false" saveUpdate="personal_form,@(.principal-info)"
+                              height="500" header="#{msg['framework']['upload']}">
                 <p:outputPanel styleClass="p-field p-col-12">
                     <p:outputPanel layout="block">
                         <p:fileUpload
                                 multiple="false" mode="advanced"
                                 sizeLimit="102400" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                                invalidSizeMessage="Maximum file size allowed is 100 KB"
-                                invalidFileMessage="only gif | jpg | jpeg | png is allowed"
+                                label="#{msg['framework']['pleaseChoose']}"
+                                chooseIcon="ui-icon-plusthick"
+                                cancelLabel="#{msg['framework']['cancel']}"
+                                cancelIcon="ui-icon-cancel"
+                                uploadLabel="#{msg['framework']['upload']}"
+                                uploadIcon="ui-icon-arrowreturnthick-1-n"
+                                invalidSizeMessage="#{msg['framework']['invalidFileSize']}"
+                                invalidFileMessage="#{msg['framework']['invalidFileType']}"
                                 update="cropper_panel"
-                                listener="#{cropUploaderBean.handleFileUpload}">
+                                listener="#{controller.handleFileUpload}">
                         </p:fileUpload>
                     </p:outputPanel>
 
                     <p:outputPanel id="cropper_panel" styleClass="p-grid p-mt-2" style="height: 300px">
                         <p:outputPanel styleClass="p-col-5 p-d-flex p-ai-center p-jc-center">
-                            <p:outputPanel rendered="#{not empty cropUploaderBean.originalImageFile}"
-                            >
+                            <p:outputPanel rendered="#{not empty sessionScope.cropUploader}">
                                 <p:imageCropper
-                                        value="#{cropUploaderBean.croppedImage}"
+                                        value="#{sessionScope.cropUploader.croppedImage}"
                                         id="image_cropper" cache="false"
                                         aspectRatio="1"
-                                        image="#{cropUploaderBean.image}"
+                                        image="#{sessionScope.cropUploader.image}"
                                         boxWidth="300" boxHeight="300"
                                 />
                                 <p:outputPanel class="ui-button-group">
-                                    <p:commandButton value="Crop" style="width: 50%"
-                                                     action="#{cropUploaderBean.crop}"
+                                    <p:commandButton value="#{msg['blog']['crop']}" style="width: 50%"
                                                      update="cropped"/>
 
                                     <p:commandButton value="#{msg['framework']['cancel']}" style="width: 50%"
-                                                     action="#{cropUploaderBean.clear}"
+                                                     action="#{controller.initCropUploader}"
                                                      update="cropper_panel"/>
                                 </p:outputPanel>
                             </p:outputPanel>
@@ -154,37 +177,37 @@
 
                         <div class="p-col-2">
                             <p:divider layout="vertical">
-                                <b>OR</b>
+                                <b>#{msg['blog']['preview']}</b>
                             </p:divider>
                         </div>
                         <p:outputPanel id="cropped" styleClass="p-col-5 p-d-flex p-ai-center p-jc-center">
                             <p:outputPanel layout="block">
-                                <p:avatar rendered="#{not empty cropUploaderBean.croppedImage}"
+                                <p:avatar rendered="#{not empty sessionScope.cropUploader.croppedImage}"
                                           styleClass="xxlarge p-m-2">
-                                    <p:graphicImage cache="false" value="#{cropUploaderBean.cropped}"/>
+                                    <p:graphicImage cache="false" value="#{sessionScope.cropUploader.cropped}"/>
                                 </p:avatar>
-                                <p:avatar rendered="#{not empty cropUploaderBean.croppedImage}"
+                                <p:avatar rendered="#{not empty sessionScope.cropUploader.croppedImage}"
                                           size="xlarge" styleClass="p-m-2">
-                                    <p:graphicImage cache="false" value="#{cropUploaderBean.cropped}"/>
+                                    <p:graphicImage cache="false" value="#{sessionScope.cropUploader.cropped}"/>
                                 </p:avatar>
-                                <p:avatar rendered="#{not empty cropUploaderBean.croppedImage}"
+                                <p:avatar rendered="#{not empty sessionScope.cropUploader.croppedImage}"
                                           size="large" styleClass="p-m-2">
-                                    <p:graphicImage cache="false" value="#{cropUploaderBean.cropped}"/>
+                                    <p:graphicImage cache="false" value="#{sessionScope.cropUploader.cropped}"/>
                                 </p:avatar>
                             </p:outputPanel>
 
                             <p:outputPanel layout="block">
-                                <p:avatar rendered="#{not empty cropUploaderBean.croppedImage}"
+                                <p:avatar rendered="#{not empty sessionScope.cropUploader.croppedImage}"
                                           styleClass="xxlarge p-m-2" shape="circle">
-                                    <p:graphicImage cache="false" value="#{cropUploaderBean.cropped}"/>
+                                    <p:graphicImage cache="false" value="#{sessionScope.cropUploader.cropped}"/>
                                 </p:avatar>
-                                <p:avatar rendered="#{not empty cropUploaderBean.croppedImage}"
+                                <p:avatar rendered="#{not empty sessionScope.cropUploader.croppedImage}"
                                           size="xlarge" shape="circle" styleClass="p-m-2">
-                                    <p:graphicImage cache="false" value="#{cropUploaderBean.cropped}"/>
+                                    <p:graphicImage cache="false" value="#{sessionScope.cropUploader.cropped}"/>
                                 </p:avatar>
-                                <p:avatar rendered="#{not empty cropUploaderBean.croppedImage}"
+                                <p:avatar rendered="#{not empty sessionScope.cropUploader.croppedImage}"
                                           size="large" shape="circle" styleClass="p-m-2">
-                                    <p:graphicImage cache="false" value="#{cropUploaderBean.cropped}"/>
+                                    <p:graphicImage cache="false" value="#{sessionScope.cropUploader.cropped}"/>
                                 </p:avatar>
                             </p:outputPanel>
                         </p:outputPanel>

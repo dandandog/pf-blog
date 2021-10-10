@@ -41,28 +41,55 @@
     </ui:define>
 
     <ui:define name="content">
-        <div class="card">
-            <h:form id="personal_form" prependId="false">
+        <h:form id="personal_form" prependId="false">
+            <div class="layout-dashboard">
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <p:panel styleClass="profile">
+                        <div class="bg-image">
+                        </div>
+                        <div class="profile-info">
+                            <p:commandLink
+                                    action="#{controller.initCropUploader}"
+                                    oncomplete="PF('cropper_dialog').show()"
+                                    update="@widgetVar(cropper_dialog)">
+                                <p:avatar rendered="#{empty viewScope.user.avatarUrl}"
+                                          label="#{fn:toUpperCase(viewScope.user.nickname)}"
+                                          styleClass="profile-image "/>
+                                <p:avatar rendered="#{not empty viewScope.user.avatarUrl}"
+                                          styleClass="profile-image ">
+                                    <p:graphicImage url="#{viewScope.user.avatarUrl}"/>
+                                </p:avatar>
+                            </p:commandLink>
 
-                <p:toolbar id="entityToolbar" styleClass="ui-my-toolbar" style="border: unset;">
-                    <f:facet name="left">
-                        <p:outputPanel layout="inline">
-                            <p:commandButton id="save_btn" widgetVar="save_btn" icon="pi pi-save"
-                                             style="margin-right: .5rem"
-                                             value="#{msg['framework']['save']}"
-                                             action="#{controller.save}"
-                                             update="@form,@(.principal-info)"/>
-                        </p:outputPanel>
-                    </f:facet>
-                </p:toolbar>
 
-                <p:outputPanel style="width: 800px;margin: auto">
-                    <p:outputPanel styleClass="p-d-flex p-ai-start">
-                        <p:outputPanel layout="block" styleClass="ui-fluid p-formgrid p-grid">
-                            <p:divider align="left" type="dashed">
-                                <b>#{msg['blog']['personalInfo']}</b>
-                            </p:divider>
-
+                            <span class="name">#{viewScope.user.nickname}</span>
+                            <div>
+                                <i class="fa fa-briefcase"></i>
+                                <span class="job">#{viewScope.user.email}</span>
+                            </div>
+                            <div>
+                                <i class="fa fa-location-arrow"></i>
+                                <span class="location">#{viewScope.user.username}</span>
+                            </div>
+                            <div>
+                                <div class="profile-numbers">
+                                    <span class="header">文章</span>
+                                    <span class="number">381</span>
+                                </div>
+                                <div class="profile-numbers">
+                                    <span class="header">评论</span>
+                                    <span class="number">492</span>
+                                </div>
+                                <div class="profile-numbers">
+                                    <span class="header">点赞</span>
+                                    <span class="number">1,395</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p:divider align="left" type="dashed">
+                            <b>#{msg['blog']['personalInfo']}</b>
+                        </p:divider>
+                        <p:outputPanel layout="block" styleClass="ui-fluid p-formgrid p-pr-6 p-pl-6">
                             <framework:label value="#{msg['framework']['username']}">
                                 <p:inputText value="#{viewScope.user.username}" disabled="true"/>
                             </framework:label>
@@ -75,10 +102,12 @@
                             <framework:label value="#{msg['blog']['email']}">
                                 <p:inputText value="#{viewScope.user.email}"/>
                             </framework:label>
+                        </p:outputPanel>
+                        <p:divider align="left" type="dashed">
+                            <b>#{msg['blog']['password']}</b>
+                        </p:divider>
+                        <p:outputPanel layout="block" styleClass="ui-fluid p-formgrid p-grid p-pr-6 p-pl-6">
 
-                            <p:divider align="left" type="dashed">
-                                <b>#{msg['blog']['password']}</b>
-                            </p:divider>
                             <framework:label value="#{msg['framework']['inputPassword']}">
                                 <p:password id="password1" match="@widgetVar(password2)" feedback="true"
                                             autocomplete="new-password"
@@ -95,40 +124,21 @@
                                             value="#{viewScope.user.password}"/>
                             </framework:label>
 
-
                         </p:outputPanel>
-                        <p:outputPanel layout="block" styleClass="p-md-4 p-d-flex p-flex-wrap">
-
-                            <p:outputPanel id="avatar_panel" styleClass="p-mb-2">
-                                <p:avatar rendered="#{empty viewScope.user.avatarUrl}"
-                                          label="#{fn:toUpperCase(viewScope.user.nickname)}"
-                                          styleClass="xxxlarge"/>
-                                <p:avatar rendered="#{not empty viewScope.user.avatarUrl}"
-                                          styleClass="xxxlarge">
-                                    <p:graphicImage url="#{viewScope.user.avatarUrl}"/>
-                                </p:avatar>
-                                <p:commandButton value="#{msg['framework']['edit']}"
-                                                 action="#{controller.initCropUploader}"
-                                                 oncomplete="PF('cropper_dialog').show()" style="width: 200px;"
-                                                 update="@widgetVar(cropper_dialog)"/>
+                        <f:facet name="footer">
+                            <p:outputPanel layout="inline">
+                                <p:commandButton id="save_btn" widgetVar="save_btn" icon="pi pi-save"
+                                                 style="margin-right: .5rem"
+                                                 value="#{msg['framework']['save']}"
+                                                 action="#{controller.save}"
+                                                 update="@form,@(.principal-info)"/>
                             </p:outputPanel>
-                            <p:outputPanel styleClass="p-mb-2">
-                                <h:panelGrid columns="2">
-                                    <h:outputText value="密码更新于"/>
-                                    <h:outputText value="#{viewScope.user.pwdRestTime}">
-                                        <f:convertDateTime type="localDateTime"
-                                                           pattern="#{msg['format']['localDateTime']}"/>
-                                    </h:outputText>
-                                    <h:outputText value="ssss"/>
-                                    <h:outputText value="xxxx"/>
-                                </h:panelGrid>
-                            </p:outputPanel>
-                        </p:outputPanel>
+                        </f:facet>
+                    </p:panel>
 
-                    </p:outputPanel>
-                </p:outputPanel>
-            </h:form>
-        </div>
+                </div>
+            </div>
+        </h:form>
     </ui:define>
     <ui:param name="documentationLink" value="/components/imagecropper"/>
     <ui:param name="widgetLink" value="imagecropper"/>

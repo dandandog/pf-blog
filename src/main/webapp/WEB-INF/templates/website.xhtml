@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+    </f:facet>
+    <title><ui:insert name="title">PrimeFaces Ecuador</ui:insert></title>
+</h:head>
+
+<h:body styleClass="web-view">
+    <p:outputPanel styleClass="website website-aside-fix container website-header-fixed">
+        <h:form id="toolbar-form">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:outputPanel styleClass="p-d-inline-flex p-ai-center">
+                        <p:outputPanel layout="block" style="width: 200px">
+
+
+                        </p:outputPanel>
+
+                        <p:outputPanel class="ui-input-icon-right">
+                            <i class="pi pi-search"/>
+                            <p:inputText placeholder="#{msg['blog']['inputKeywords']}"/>
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right">
+                    <p:menuButton value="Options">
+                        <p:menuitem value="Save" action="#{toolbarView.save}" icon="pi pi-save"/>
+                        <p:menuitem value="Update" action="#{toolbarView.update}"
+                                    icon="pi pi-refresh"/>
+                        <p:menuitem value="Delete" action="#{toolbarView.delete}" ajax="false" icon="pi pi-times"/>
+                        <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="pi pi-home"/>
+                    </p:menuButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+        </h:form>
+        <p:outputPanel styleClass="p-d-flex">
+            <div class="ui-g-1 ui-md-2 ui-lg-2">
+                <h:form id="left-menu-form">
+                    left
+                </h:form>
+            </div>
+            <div class="ui-g-12 ui-md-10 ui-lg-10">
+                <p:outputPanel styleClass="p-d-flex">
+                    <div class="ui-g-10">
+                        <ui:insert name="content"/>
+                    </div>
+                    <p:outputPanel class="ui-g-2">
+                        <h:form id="right-menu-form">
+                            right
+                        </h:form>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </div>
+        </p:outputPanel>
+    </p:outputPanel>
+
+    <h:outputStylesheet name="css/primeicons.css" library="ecuador-layout"/>
+    <h:outputStylesheet name="css/primeflex.min.css" library="ecuador-layout"/>
+    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ecuador-layout"/>
+    <h:outputStylesheet name="css/website.css" library="blog"/>
+</h:body>
+
+</html>

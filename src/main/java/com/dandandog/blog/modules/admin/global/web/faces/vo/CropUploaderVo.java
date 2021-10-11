@@ -30,7 +30,14 @@ public class CropUploaderVo implements Serializable {
 
     private boolean exist;
 
-    public CropUploaderVo(UploadedFile file) {
+    private String userId;
+
+
+    public CropUploaderVo(String userId) {
+        this.userId = userId;
+    }
+
+    public void setFile(UploadedFile file) {
         this.exist = Optional.ofNullable(file).map(uploadedFile -> {
             this.content = uploadedFile.getContent();
             this.contentType = uploadedFile.getContentType();

@@ -26,10 +26,10 @@
     <c:set var="principal" value="#{p:userPrincipal().principal}"/>
     <p:outputPanel id="layout_panel"
                    styleClass="layout-wrapper #{guestPreferences.menuMode} layout-menu-#{guestPreferences.menuColor} #{guestPreferences.orientationRTL ? 'layout-rtl' : null}">
-        <ui:include src="./topbar.xhtml"/>
-        <ui:include src="./right_panel.xhtml"/>
-        <ui:include src="./menu.xhtml"/>
-        <ui:include src="./config.xhtml"/>
+        <ui:include src="/WEB-INF/topbar.xhtml"/>
+        <ui:include src="/WEB-INF/right_panel.xhtml"/>
+        <ui:include src="/WEB-INF/menu.xhtml"/>
+        <ui:include src="/WEB-INF/config.xhtml"/>
 
         <div class="layout-main">
             <div class="route-bar">
@@ -55,7 +55,7 @@
             </div>
 
             <div class="layout-footer">
-                <ui:include src="./footer.xhtml"/>
+                <ui:include src="/WEB-INF/footer.xhtml"/>
             </div>
         </div>
 

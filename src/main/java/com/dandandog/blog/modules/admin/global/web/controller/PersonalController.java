@@ -32,18 +32,32 @@ public class PersonalController extends FacesController {
     @MessageRequired(type = MessageType.SAVE)
     public void save() {
         AuthUserVo vo = getViewScope("user");
+        personalFaces.saveOrUpdate(vo);
+        onEntry();
+    }
+
+    @MessageRequired(type = MessageType.SAVE)
+    public void handleUpdateAvatar() {
         CropUploaderVo cropUploaderVo = getSessionScope("cropUploader");
-        personalFaces.saveOrUpdate(vo, cropUploaderVo);
+        personalFaces.updateAvatar(cropUploaderVo);
+        onEntry();
+    }
+
+    @MessageRequired(type = MessageType.SAVE)
+    public void handUpdatePwd() {
+        AuthUserVo vo = getViewScope("user");
+        personalFaces.updatePwd(vo);
         onEntry();
     }
 
     public void initCropUploader() {
-        putSessionScope("cropUploader", null);
+        AuthUserVo vo = getViewScope("user");
+        putSessionScope("cropUploader", new CropUploaderVo(vo.getId()));
     }
 
     public void handleFileUpload(FileUploadEvent event) {
         UploadedFile file = event.getFile();
-        putSessionScope("cropUploader", new CropUploaderVo(file));
+        CropUploaderVo cropUploader = getSessionScope("cropUploader");
+        cropUploader.setFile(file);
     }
-
 }

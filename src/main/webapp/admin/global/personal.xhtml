@@ -4,7 +4,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-                template="/WEB-INF/template.xhtml"
+                template="/WEB-INF/templates/admin.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
 
     <ui:define name="title">Empty Page</ui:define>
@@ -31,6 +31,9 @@
                 width: 100%;
             }
 
+            .layout-content .layout-dashboard .profile .ui-panel-content .profile-info .profile-numbers {
+                margin: 0 15px !important;
+            }
         </h:outputStylesheet>
     </ui:define>
 
@@ -43,7 +46,7 @@
     <ui:define name="content">
         <h:form id="personal_form" prependId="false">
             <div class="layout-dashboard">
-                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                <div class="ui-g-offset-0 ui-lg-offset-4 ui-md-offset-2 ui-g-12 ui-md-8 ui-lg-4">
                     <p:panel styleClass="profile">
                         <div class="bg-image">
                         </div>
@@ -51,6 +54,7 @@
                             <p:commandLink
                                     action="#{controller.initCropUploader}"
                                     oncomplete="PF('cropper_dialog').show()"
+                                    styleClass="p-d-block p-mb-3"
                                     update="@widgetVar(cropper_dialog)">
                                 <p:avatar rendered="#{empty viewScope.user.avatarUrl}"
                                           label="#{fn:toUpperCase(viewScope.user.nickname)}"
@@ -61,16 +65,47 @@
                                 </p:avatar>
                             </p:commandLink>
 
-
-                            <span class="name">#{viewScope.user.nickname}</span>
-                            <div>
-                                <i class="fa fa-briefcase"></i>
-                                <span class="job">#{viewScope.user.email}</span>
-                            </div>
-                            <div>
-                                <i class="fa fa-location-arrow"></i>
-                                <span class="location">#{viewScope.user.username}</span>
-                            </div>
+                            <p:outputPanel styleClass="name p-mb-2">
+                                <p:inplace editor="true">
+                                    <p:ajax event="save" listener="#{controller.save}"/>
+                                    <f:facet name="output">
+                                        <i class="fa fa-user"/>
+                                        <h:outputText
+                                                value="#{empty viewScope.user.nickname ? msg['blog']['notFill'] : viewScope.user.nickname}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{viewScope.user.nickname}"
+                                                     label="#{msg['blog']['nickname']}"/>
+                                    </f:facet>
+                                </p:inplace>
+                            </p:outputPanel>
+                            <p:outputPanel styleClass="job p-mb-2">
+                                <p:inplace editor="true">
+                                    <p:ajax event="save" listener="#{controller.save}"/>
+                                    <f:facet name="output">
+                                        <i class="fa fa-envelope"/>
+                                        <h:outputText
+                                                value="#{empty viewScope.user.email ? msg['blog']['notFill'] : viewScope.user.email}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{viewScope.user.email}" label="#{msg['blog']['email']}"/>
+                                    </f:facet>
+                                </p:inplace>
+                            </p:outputPanel>
+                            <p:outputPanel styleClass="location p-mb-2">
+                                <p:inplace editor="true">
+                                    <p:ajax event="save" listener="#{controller.save}"/>
+                                    <f:facet name="output">
+                                        <i class="fa fa-home"/>
+                                        <h:outputText
+                                                value="#{empty viewScope.user.remark ? msg['blog']['notFill'] : viewScope.user.remark}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText
+                                                value="#{viewScope.user.remark}" label="#{msg['blog']['home']}"/>
+                                    </f:facet>
+                                </p:inplace>
+                            </p:outputPanel>
                             <div>
                                 <div class="profile-numbers">
                                     <span class="header">文章</span>
@@ -86,23 +121,6 @@
                                 </div>
                             </div>
                         </div>
-                        <p:divider align="left" type="dashed">
-                            <b>#{msg['blog']['personalInfo']}</b>
-                        </p:divider>
-                        <p:outputPanel layout="block" styleClass="ui-fluid p-formgrid p-pr-6 p-pl-6">
-                            <framework:label value="#{msg['framework']['username']}">
-                                <p:inputText value="#{viewScope.user.username}" disabled="true"/>
-                            </framework:label>
-                            <framework:label value="#{msg['blog']['nickname']}">
-                                <p:inputText value="#{viewScope.user.nickname}"/>
-                            </framework:label>
-                            <framework:label value="#{msg['blog']['homepage']}">
-                                <p:inputText value="#{viewScope.user.remark}"/>
-                            </framework:label>
-                            <framework:label value="#{msg['blog']['email']}">
-                                <p:inputText value="#{viewScope.user.email}"/>
-                            </framework:label>
-                        </p:outputPanel>
                         <p:divider align="left" type="dashed">
                             <b>#{msg['blog']['password']}</b>
                         </p:divider>
@@ -124,14 +142,22 @@
                                             value="#{viewScope.user.password}"/>
                             </framework:label>
 
+
                         </p:outputPanel>
                         <f:facet name="footer">
                             <p:outputPanel layout="inline">
                                 <p:commandButton id="save_btn" widgetVar="save_btn" icon="pi pi-save"
                                                  style="margin-right: .5rem"
-                                                 value="#{msg['framework']['save']}"
-                                                 action="#{controller.save}"
+                                                 value="#{msg['framework']['resetPassword']}"
+                                                 action="#{controller.handUpdatePwd}"
                                                  update="@form,@(.principal-info)"/>
+                                <p:outputPanel layout="inline">
+                                    <h:outputText value="最近一次密码更新在 "/>
+                                    <h:outputText value="#{viewScope.user.pwdRestTime}">
+                                        <f:convertDateTime type="localDateTime"
+                                                           pattern="#{msg['format']['localDateTime']}"/>
+                                    </h:outputText>
+                                </p:outputPanel>
                             </p:outputPanel>
                         </f:facet>
                     </p:panel>
@@ -145,7 +171,8 @@
     <ui:define name="dialog">
         <h:form id="dialogForm">
             <framework:dialog id="cropper" saveDisabled="false" saveUpdate="personal_form,@(.principal-info)"
-                              height="500" header="#{msg['framework']['upload']}">
+                              height="500" header="#{msg['framework']['upload']}"
+                              saveMethod="#{controller.handleUpdateAvatar}">
                 <p:outputPanel styleClass="p-field p-col-12">
                     <p:outputPanel layout="block">
                         <p:fileUpload
@@ -166,7 +193,7 @@
 
                     <p:outputPanel id="cropper_panel" styleClass="p-grid p-mt-2" style="height: 300px">
                         <p:outputPanel styleClass="p-col-5 p-d-flex p-ai-center p-jc-center">
-                            <p:outputPanel rendered="#{not empty sessionScope.cropUploader}">
+                            <p:outputPanel rendered="#{sessionScope.cropUploader.exist}">
                                 <p:imageCropper
                                         value="#{sessionScope.cropUploader.croppedImage}"
                                         id="image_cropper" cache="false"

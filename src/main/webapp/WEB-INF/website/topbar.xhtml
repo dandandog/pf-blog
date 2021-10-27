@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:outputPanel styleClass="layout-topbar">
+        <p:link styleClass="menu-button" href="#">
+            <i class="pi pi-bars"/>
+        </p:link>
+        <p:link styleClass="logo" href="#">
+            <p:graphicImage name="images/ecuador-orange-logo.png" library="ecuador-layout"/>
+        </p:link>
+
+
+        <h:form styleClass="query-form">
+            <p:link styleClass="chart-button" href="#">
+                <i class="pi pi-chart-line"/>
+            </p:link>
+
+            <span class="search-input ui-input-icon-right">
+                <i class="pi pi-search"/>
+                <p:inputText placeholder="#{msg['blog']['inputKeywords']}"/>
+            </span>
+
+        </h:form>
+
+
+        <h:form styleClass="topbar-form">
+            <ul class="topbar-menu">
+                <li>
+                    <a href="/showcase/getstarted.xhtml?jfwid=93fae">Get Started</a>
+                </li>
+                <li class="topbar-submenu">
+                    <a tabindex="0">v11.0.0-RC1</a>
+                    <ul class="connected-overlay-in" style="width: 100%">
+                        <li><a href="https://www.primefaces.org/showcase-v8/"><span>v8</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </h:form>
+
+    </p:outputPanel>
+
+</ui:composition>

@@ -71,6 +71,12 @@ public class AuthUser extends AuditableEntity {
      * 头像
      */
     private String avatarUrl;
+
+    /**
+     * 座右铭
+     */
+    private String motto;
+
     /**
      * 备注
      */

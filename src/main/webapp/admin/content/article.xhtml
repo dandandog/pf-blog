@@ -4,7 +4,7 @@
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/templates/admin.xhtml"
+                template="/WEB-INF/admin/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="title">#{msg['blog']['articleManage']}</ui:define>
     <ui:define name="viewname">
@@ -37,7 +37,7 @@
     </ui:define>
 
     <ui:define name="dialog">
-        <h:form id="dialogform">
+        <h:form id="dialog_form">
             <framework:dialog id="article" value="#{viewScope.vo}" fullScreen="true"
                               saveUpdate="@widgetVar(article_dataTable)"
                               contentStyleClass="p-d-flex p-jc-center p-ai-start">

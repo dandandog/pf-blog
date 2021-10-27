@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <p:outputPanel styleClass="layout-sidebar">
+        <p:outputPanel styleClass="layout-sidebar-avatar">
+            <p:outputPanel styleClass="p-d-flex p-flex-column p-align-center">
+                <p:outputPanel>
+                    <p:avatar rendered="#{empty viewScope.user.avatarUrl}" styleClass="p-shadow-6"
+                              label="#{fn:toUpperCase(viewScope.user.nickname)}"
+                              size="xlarge" shape="circle" style="width: 100px;height: 100px"/>
+                    <p:avatar rendered="#{not empty viewScope.user.avatarUrl}" styleClass="p-shadow-6"
+                              size="xlarge" shape="circle" style="width: 100px;height: 100px">
+                        <p:graphicImage url="#{viewScope.user.avatarUrl}"/>
+                    </p:avatar>
+                </p:outputPanel>
+
+                <h:outputText value="#{viewScope.user.nickname}" styleClass="p-text-bold"/>
+
+            </p:outputPanel>
+        </p:outputPanel>
+    </p:outputPanel>
+
+
+</ui:composition>

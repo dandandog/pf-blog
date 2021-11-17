@@ -29,6 +29,6 @@ public class MessageAspect extends AbstractMessageAspect {
 
     @Override
     public String noticeFailureClientId() {
-        return "messages";
+        return "dialogMessages";
     }
 }

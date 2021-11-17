@@ -8,9 +8,9 @@ import com.dandandog.blog.modules.admin.auth.service.AuthRoleService;
 import com.dandandog.blog.modules.admin.auth.service.AuthUserRoleService;
 import com.dandandog.blog.modules.admin.auth.service.AuthUserService;
 import com.dandandog.blog.modules.admin.auth.web.faces.vo.AuthUserVo;
-import com.dandandog.framework.core.annotation.Facet;
-import com.dandandog.framework.mapstruct.MapperUtil;
+import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.mapstruct.context.BaseContext;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import org.primefaces.model.DualListModel;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * @Author: JohnnyLiu
  * @Date: 2021/8/27 11:11
  */
-@Facet
+@Faces
 public class AuthUserFaces {
 
     @Resource

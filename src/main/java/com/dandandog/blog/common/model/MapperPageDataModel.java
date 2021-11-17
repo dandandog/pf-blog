@@ -4,11 +4,11 @@ import cn.hutool.core.util.ClassUtil;
 import cn.hutool.db.PageResult;
 import com.dandandog.blog.common.adapter.AbstractPageAdapter;
 import com.dandandog.framework.common.model.IEntity;
-import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.mapstruct.FromToKey;
 import com.dandandog.framework.mapstruct.IMapper;
-import com.dandandog.framework.mapstruct.MapperUtil;
 import com.dandandog.framework.mapstruct.context.BaseContext;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
+import com.dandandog.framework.mybatis.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**

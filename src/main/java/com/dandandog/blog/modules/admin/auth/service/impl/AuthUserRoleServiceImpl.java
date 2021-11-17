@@ -3,7 +3,7 @@ package com.dandandog.blog.modules.admin.auth.service.impl;
 import com.dandandog.blog.modules.admin.auth.dao.AuthUserRoleDao;
 import com.dandandog.blog.modules.admin.auth.entity.AuthUserRole;
 import com.dandandog.blog.modules.admin.auth.service.AuthUserRoleService;
-import com.dandandog.framework.core.service.impl.BaseServiceImpl;
+import com.dandandog.framework.mybatis.service.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

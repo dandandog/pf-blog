@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.common.model.ITree;
 import com.dandandog.framework.core.entity.BaseEntity;
+import com.dandandog.framework.faces.model.tree.TreeEntity;
+import com.dandandog.framework.mybatis.entity.BaseEntity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;

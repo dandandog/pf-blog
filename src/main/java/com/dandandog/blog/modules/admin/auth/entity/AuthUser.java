@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserGender;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserStatus;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
-import com.dandandog.framework.core.entity.AuditableEntity;
+import com.dandandog.framework.mybatis.entity.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

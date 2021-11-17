@@ -11,8 +11,11 @@ import com.dandandog.blog.modules.admin.auth.service.AuthRoleService;
 import com.dandandog.blog.modules.admin.auth.web.faces.vo.AuthRoleVo;
 import com.dandandog.framework.core.annotation.Facet;
 import com.dandandog.framework.core.entity.AuditableEntity;
+import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.mapstruct.MapperUtil;
 import com.dandandog.framework.mapstruct.context.BaseContext;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
+import com.dandandog.framework.mybatis.entity.AuditableEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -26,7 +29,7 @@ import java.util.stream.Collectors;
  * @Author: JohnnyLiu
  * @Date: 2021/8/30 16:13
  */
-@Facet
+@Faces
 public class AuthRoleFaces {
 
     @Resource

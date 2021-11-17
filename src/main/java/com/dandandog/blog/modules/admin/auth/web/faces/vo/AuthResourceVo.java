@@ -1,8 +1,8 @@
 package com.dandandog.blog.modules.admin.auth.web.faces.vo;
 
-import com.dandandog.blog.common.model.MapperTree;
 import com.dandandog.blog.modules.admin.auth.entity.enums.ResourceTarget;
 import com.dandandog.blog.modules.admin.auth.entity.enums.ResourceType;
+import com.dandandog.framework.faces.model.tree.TreeEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AuthResourceVo extends MapperTree {
+public class AuthResourceVo extends TreeEntity {
 
     @NotBlank
     private String title;

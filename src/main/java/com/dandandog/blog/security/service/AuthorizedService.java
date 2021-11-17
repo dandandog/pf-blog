@@ -11,8 +11,8 @@ import com.dandandog.blog.modules.admin.auth.service.AuthUserRoleService;
 import com.dandandog.blog.modules.admin.auth.service.AuthUserService;
 import com.dandandog.blog.security.mapper.UserCredentials;
 import com.dandandog.blog.security.utils.SessionUtil;
-import com.dandandog.framework.core.entity.BaseEntity;
-import com.dandandog.framework.mapstruct.MapperUtil;
+import com.dandandog.framework.common.model.IEntity;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.session.SessionInformation;
@@ -100,7 +100,7 @@ public class AuthorizedService implements UserDetailsService {
         return userRoles.stream().flatMap(userRole -> {
             List<AuthRoleResource> list = roleResourceService.lambdaQuery().eq(AuthRoleResource::getRoleId, userRole.getRoleId()).list();
             List<String> resIds = list.stream().map(AuthRoleResource::getResId).collect(Collectors.toList());
-            return resourceService.lambdaQuery().in(CollUtil.isNotEmpty(resIds), BaseEntity::getId, resIds).list().stream();
+            return resourceService.lambdaQuery().in(CollUtil.isNotEmpty(resIds), IEntity::getId, resIds).list().stream();
         }).map(AuthResource::getPerms).collect(Collectors.joining(","));
     }
 

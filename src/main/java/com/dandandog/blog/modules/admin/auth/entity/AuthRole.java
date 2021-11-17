@@ -1,7 +1,7 @@
 package com.dandandog.blog.modules.admin.auth.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.dandandog.framework.core.entity.AuditableEntity;
+import com.dandandog.framework.mybatis.entity.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -38,6 +38,7 @@ public class AuthRole extends AuditableEntity {
      * 备注
      */
     private String remark;
+
 
 
 }

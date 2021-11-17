@@ -16,6 +16,8 @@ import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
+import com.dandandog.framework.faces.model.tree.TreeDataModel;
+import com.dandandog.framework.faces.model.tree.TreeParams;
 import com.dandandog.framework.mapstruct.MapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.primefaces.event.CellEditEvent;
@@ -42,8 +44,7 @@ public class AuthResourceController extends FacesController {
 
     @Override
     public void onEntry() {
-        putViewScope("adapter", new DefaultTreeAdapter<>(AuthResource.class));
-        putViewScope("root", getDataModel(new LambdaQueryWrapper<AuthResource>().orderByAsc(AuthResource::getSeq), null));
+        putViewScope("root", getDataModel(null));
 
         putViewScope("vo", new AuthResourceVo());
         putViewScope("sinSelected", null);
@@ -54,10 +55,21 @@ public class AuthResourceController extends FacesController {
         putViewScope("icons", IconUtil.findAll());
     }
 
-    public TreeNode getDataModel(Wrapper<AuthResource> queryWrapper, AuthResource current, AuthResource... selected) {
-        DefaultTreeAdapter<AuthResource> treeAdapter = getViewScope("adapter");
-        return treeAdapter.getRootTree(queryWrapper, true, current, selected);
+
+    public TreeNode getDataModel(AuthResourceVo vo) {
+        TreeDataModel<AuthResourceVo> dataModel = getViewScope("dataModel");
+        TreeParams params = new TreeParams();
+        if (dataModel == null) {
+            dataModel = resourceFaces.findDataModel();
+        }
+        if (vo != null) {
+            params.setUnSelectable(new String[] {vo.getId()});
+            params.setSelected(new String[] {vo.getParentId()});
+        }
+        putViewScope("dataModel", dataModel);
+        return dataModel.createRoot(params);
     }
+
 
     public void add() {
         AuthResourceVo vo = new AuthResourceVo();

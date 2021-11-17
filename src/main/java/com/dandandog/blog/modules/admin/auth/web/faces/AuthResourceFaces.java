@@ -4,11 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dandandog.blog.modules.admin.auth.entity.AuthResource;
 import com.dandandog.blog.modules.admin.auth.service.AuthResourceService;
 import com.dandandog.blog.modules.admin.auth.web.faces.vo.AuthResourceVo;
-import com.dandandog.framework.core.annotation.Facet;
 import com.dandandog.framework.core.entity.BaseEntity;
-import com.dandandog.framework.mapstruct.MapperUtil;
+import com.dandandog.framework.faces.annotation.Faces;
+import com.dandandog.framework.faces.model.tree.TreeDataModel;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.dandandog.blog.common.model.;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Optional;
@@ -17,7 +18,7 @@ import java.util.Optional;
  * @Author: JohnnyLiu
  * @Date: 2021/9/1 9:44
  */
-@Facet
+@Faces
 public class AuthResourceFaces {
 
     @Resource
@@ -26,6 +27,10 @@ public class AuthResourceFaces {
 
     public Optional<AuthResourceVo> getOptById(String id) {
         return Optional.ofNullable(resourceService.getById(id)).map(entity -> MapperUtil.map(entity, AuthResourceVo.class));
+    }
+
+    public TreeDataModel<AuthResourceVo> findDataModel() {
+        return MapperTreeDataModel.getInstance(new RegionalismAdapter(), RegionalismVo.class);
     }
 
     @Transactional

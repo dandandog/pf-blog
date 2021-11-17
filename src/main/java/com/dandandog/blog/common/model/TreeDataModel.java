@@ -1,12 +1,11 @@
 package com.dandandog.blog.common.model;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dandandog.blog.common.utils.TreeUtil;
-import com.dandandog.framework.common.model.ITree;
-import com.dandandog.framework.core.utils.MybatisUtil;
+import com.dandandog.framework.faces.model.tree.TreeEntity;
+import com.dandandog.framework.mybatis.utils.MybatisUtil;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import lombok.Getter;
@@ -18,7 +17,7 @@ import java.util.List;
  * @author JohnnyLiu
  */
 @Slf4j
-public class TreeDataModel<T extends ITree> {
+public class TreeDataModel<T extends TreeEntity> {
 
     @Getter
     private ServiceImpl<? extends T, T> baseService;

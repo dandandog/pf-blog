@@ -54,9 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(page.getAnonymous()).anonymous()
                 //所有请求需要登入
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage(page.getLogin())
+                .and().formLogin().loginPage(page.getLogin())
                 .permitAll()
                 .successHandler(facesSuccessHandler)
                 .failureHandler(facesFailureHandler)

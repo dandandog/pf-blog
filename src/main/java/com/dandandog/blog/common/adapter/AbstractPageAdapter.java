@@ -13,9 +13,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.core.service.impl.BaseServiceImpl;
 import com.dandandog.framework.core.utils.MybatisUtil;
-import com.dandandog.framework.faces.adapter.IAdapterKey;
 import com.dandandog.framework.faces.adapter.IPageAdapter;
-import com.dandandog.framework.mapstruct.FromToKey;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -65,14 +63,14 @@ public abstract class AbstractPageAdapter<T extends IEntity> extends IPageAdapte
     }
 
 
-    public abstract void conditions(QueryWrapper<T> queryWrapper, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy);
+    public abstract void conditions(QueryWrapper<T> queryWrapper);
 
 
     private QueryWrapper<T> queryConditions(Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         sortConditions(queryWrapper, sortBy);
         filterConditions(queryWrapper, filterBy);
-        conditions(queryWrapper, sortBy, filterBy);
+        conditions(queryWrapper);
         return queryWrapper;
     }
 
@@ -111,10 +109,7 @@ public abstract class AbstractPageAdapter<T extends IEntity> extends IPageAdapte
         Collection<FilterMeta> filters = CollUtil.defaultIfEmpty(filterBy.values(), Lists.newArrayList());
         for (FilterMeta filterMeta : filters) {
             if (ObjectUtil.isNotNull(filterMeta.getField())) {
-                String tableField = getTableField(filterMeta.getField());
-                if (StrUtil.isEmpty(tableField)) {
-                    continue;
-                }
+                String tableField = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, filterMeta.getField());
                 Collection<?> values = judgeClassType(filterMeta.getFilterValue());
                 for (Object value : values) {
                     execute(queryWrapper, filterMeta.getMatchMode(), tableField, value);

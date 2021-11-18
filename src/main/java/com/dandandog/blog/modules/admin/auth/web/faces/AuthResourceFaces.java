@@ -1,18 +1,21 @@
 package com.dandandog.blog.modules.admin.auth.web.faces;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.dandandog.blog.common.model.MapperTreeDataModel;
 import com.dandandog.blog.modules.admin.auth.entity.AuthResource;
 import com.dandandog.blog.modules.admin.auth.service.AuthResourceService;
+import com.dandandog.blog.modules.admin.auth.web.faces.adapter.AuthResourceTreeAdapter;
 import com.dandandog.blog.modules.admin.auth.web.faces.vo.AuthResourceVo;
-import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
+import com.dandandog.framework.mybatis.entity.BaseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import com.dandandog.blog.common.model.;
+
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Optional;
+
 
 /**
  * @Author: JohnnyLiu
@@ -29,8 +32,8 @@ public class AuthResourceFaces {
         return Optional.ofNullable(resourceService.getById(id)).map(entity -> MapperUtil.map(entity, AuthResourceVo.class));
     }
 
-    public TreeDataModel<AuthResourceVo> findDataModel() {
-        return MapperTreeDataModel.getInstance(new RegionalismAdapter(), RegionalismVo.class);
+    public TreeDataModel findDataModel() {
+        return MapperTreeDataModel.getInstance(new AuthResourceTreeAdapter(), AuthResourceVo.class);
     }
 
     @Transactional

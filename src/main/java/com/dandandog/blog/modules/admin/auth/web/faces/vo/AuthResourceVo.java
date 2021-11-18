@@ -2,7 +2,8 @@ package com.dandandog.blog.modules.admin.auth.web.faces.vo;
 
 import com.dandandog.blog.modules.admin.auth.entity.enums.ResourceTarget;
 import com.dandandog.blog.modules.admin.auth.entity.enums.ResourceType;
-import com.dandandog.framework.faces.model.tree.TreeEntity;
+import com.dandandog.framework.common.model.IVo;
+import com.dandandog.framework.faces.model.tree.TreeFaces;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AuthResourceVo extends TreeEntity {
+public class AuthResourceVo extends TreeFaces implements IVo {
 
     @NotBlank
     private String title;

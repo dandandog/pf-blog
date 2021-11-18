@@ -1,7 +1,8 @@
 package com.dandandog.blog.modules.admin.website.entity.enums;
 
-import com.dandandog.framework.core.entity.enums.BaseEnum;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.dandandog.framework.common.utils.LocaleUtil;
+import com.dandandog.framework.common.utils.MessageUtil;
+import com.dandandog.framework.mybatis.entity.enums.BaseEnum;
 
 /**
  * @Author: JohnnyLiu
@@ -12,41 +13,38 @@ public enum InputType implements BaseEnum<Integer> {
     /**
      * 文本
      */
-    TEXT(0, "text"),
+    TEXT(0),
+
     /**
      * 文本域
      */
-    TEXT_AREA(1, "textArea"),
+    TEXT_AREA(1),
 
     /**
      * 选择器
      */
-    SELECTOR(2, "selector"),
+    SELECTOR(2),
 
     /**
      * 单选框
      */
-    RADIO(3, "radio"),
+    RADIO(3),
 
     /**
      * 多选框
      */
-    CHECKBOX(4, "checkbox"),
-
+    CHECKBOX(4),
 
     /**
      *
      */
-    CHIPS(5, "chips");
+    CHIPS(5);
 
 
     private final int value;
 
-    private final String title;
-
-    InputType(int value, String title) {
+    InputType(int value) {
         this.value = value;
-        this.title = title;
     }
 
     @Override
@@ -54,10 +52,8 @@ public enum InputType implements BaseEnum<Integer> {
         return this.value;
     }
 
-    @Override
-    @JsonValue
     public String getTitle() {
-        return this.title;
+        return MessageUtil.getMessageEnum(this, LocaleUtil.getCurrLocale());
     }
 
 }

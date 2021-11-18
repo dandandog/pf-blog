@@ -5,8 +5,8 @@ import com.dandandog.blog.modules.admin.content.entity.BlogContentConfigs;
 import com.dandandog.blog.modules.admin.content.service.BlogContentConfigsService;
 import com.dandandog.blog.modules.admin.website.entity.DictValue;
 import com.dandandog.blog.modules.admin.website.web.faces.vo.DictVo;
-import com.dandandog.framework.core.annotation.Facet;
-import com.dandandog.framework.mapstruct.MapperUtil;
+import com.dandandog.framework.faces.annotation.Faces;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @Author: JohnnyLiu
  * @Date: 2021/9/27 12:31
  */
-@Facet
+@Faces
 public class ContentConfigFaces {
 
     @Resource

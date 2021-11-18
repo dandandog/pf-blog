@@ -2,7 +2,7 @@ package com.dandandog.blog.modules.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.dandandog.framework.core.entity.AuditableEntity;
+import com.dandandog.framework.mybatis.entity.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 

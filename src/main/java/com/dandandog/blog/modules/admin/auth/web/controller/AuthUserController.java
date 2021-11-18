@@ -8,12 +8,12 @@ import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
 import com.dandandog.blog.modules.admin.auth.web.faces.AuthUserFaces;
 import com.dandandog.blog.modules.admin.auth.web.faces.adapter.AuthUserPageAdapter;
 import com.dandandog.blog.modules.admin.auth.web.faces.vo.AuthUserVo;
+import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
-import com.dandandog.framework.mapstruct.model.MapperVo;
 import com.google.common.collect.Lists;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.stereotype.Controller;
@@ -52,7 +52,7 @@ public class AuthUserController extends FacesController {
     public void edit() {
         AuthUserVo selected = getViewScope("sinSelected");
         AuthUserVo vo = userFacet.getOptById(selected.getId())
-                .orElseThrow(() -> new MessageResolvableException("error", "dataNotFound"));
+                .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("vo", vo);
     }
 
@@ -67,7 +67,7 @@ public class AuthUserController extends FacesController {
         AuthUserVo selected = getViewScope("sinSelected");
         List<AuthUserVo> selectedList = getViewScope("mulSelected");
         String[] idList = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected))
-                .stream().map(MapperVo::getId).toArray(String[]::new);
+                .stream().map(IVo::getId).toArray(String[]::new);
         userFacet.removeByIds(idList);
     }
 

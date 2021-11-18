@@ -3,7 +3,7 @@ package com.dandandog.blog.modules.admin.website.service.impl;
 import com.dandandog.blog.modules.admin.website.dao.DictValueDao;
 import com.dandandog.blog.modules.admin.website.entity.DictValue;
 import com.dandandog.blog.modules.admin.website.service.DictValueService;
-import com.dandandog.framework.core.service.impl.BaseServiceImpl;
+import com.dandandog.framework.mybatis.service.BaseServiceImpl;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.springframework.stereotype.Service;

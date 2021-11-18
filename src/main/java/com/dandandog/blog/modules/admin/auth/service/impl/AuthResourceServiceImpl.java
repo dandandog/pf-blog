@@ -4,7 +4,7 @@ import com.dandandog.blog.modules.admin.auth.dao.AuthResourceDao;
 import com.dandandog.blog.modules.admin.auth.dao.AuthRoleDao;
 import com.dandandog.blog.modules.admin.auth.entity.AuthResource;
 import com.dandandog.blog.modules.admin.auth.service.AuthResourceService;
-import com.dandandog.framework.core.service.impl.BaseServiceImpl;
+import com.dandandog.framework.mybatis.service.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

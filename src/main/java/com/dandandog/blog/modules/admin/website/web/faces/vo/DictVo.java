@@ -2,9 +2,8 @@ package com.dandandog.blog.modules.admin.website.web.faces.vo;
 
 import com.dandandog.blog.modules.admin.website.entity.DictNode;
 import com.dandandog.blog.modules.admin.website.entity.enums.InputType;
-import com.dandandog.framework.mapstruct.model.MapperVo;
+import com.dandandog.framework.common.model.IVo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -12,9 +11,10 @@ import java.util.List;
  * @Author: JohnnyLiu
  * @Date: 2021/9/6 11:54
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class DictVo extends MapperVo {
+public class DictVo implements IVo {
+
+    private String id;
 
     private DictNode node = new DictNode();
 

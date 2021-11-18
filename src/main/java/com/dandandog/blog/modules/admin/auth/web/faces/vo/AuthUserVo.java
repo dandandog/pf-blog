@@ -4,10 +4,9 @@ import com.dandandog.blog.modules.admin.auth.entity.AuthRole;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserGender;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserStatus;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
+import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.mapstruct.model.MapperUrl;
-import com.dandandog.framework.mapstruct.model.MapperVo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.primefaces.model.DualListModel;
 
 import javax.validation.constraints.NotEmpty;
@@ -18,8 +17,9 @@ import java.time.LocalDateTime;
  * @Date: 2021/8/27 11:30
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class AuthUserVo extends MapperVo {
+public class AuthUserVo implements IVo {
+
+    private String id;
 
     @NotEmpty
     private String nickname;

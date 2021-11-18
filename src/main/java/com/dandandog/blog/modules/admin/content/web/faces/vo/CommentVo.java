@@ -2,9 +2,8 @@ package com.dandandog.blog.modules.admin.content.web.faces.vo;
 
 import com.dandandog.blog.modules.admin.content.entity.enums.CommentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.CommentType;
-import com.dandandog.framework.mapstruct.model.MapperVo;
+import com.dandandog.framework.common.model.IVo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
@@ -13,8 +12,9 @@ import java.time.LocalDateTime;
  * @Date: 2021/9/16 15:17
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class CommentVo extends MapperVo {
+public class CommentVo implements IVo {
+
+    private String id;
 
     private ArticleVo content;
 

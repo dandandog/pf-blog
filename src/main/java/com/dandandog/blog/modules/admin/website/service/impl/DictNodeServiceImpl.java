@@ -3,7 +3,7 @@ package com.dandandog.blog.modules.admin.website.service.impl;
 import com.dandandog.blog.modules.admin.website.dao.DictNodeDao;
 import com.dandandog.blog.modules.admin.website.entity.DictNode;
 import com.dandandog.blog.modules.admin.website.service.DictNodeService;
-import com.dandandog.framework.core.service.impl.BaseServiceImpl;
+import com.dandandog.framework.mybatis.service.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

@@ -7,7 +7,7 @@ import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.mapstruct.model.MapperUrl;
 import com.dandandog.framework.mapstruct.qualifier.QualifierUrl;
-import com.dandandog.framework.oos.service.OosFileService;
+import com.dandandog.framework.oss.service.OssFileService;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 public class GuestFileUpload {
 
     @Resource
-    private OosFileService oosFileService;
+    private OssFileService ossFileService;
 
     @Resource
     private QualifierUrl qualifierUrl;
@@ -62,7 +62,7 @@ public class GuestFileUpload {
         if (ArrayUtil.isNotEmpty(files)) {
             List<String> urls = Arrays.stream(files).map(file -> {
                 try {
-                    String path = oosFileService.putItem(file.getOriginalFilename(), file.getInputStream());
+                    String path = ossFileService.putItem(file.getOriginalFilename(), file.getInputStream());
                     return qualifierUrl.addDomain(path).toString();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -76,7 +76,7 @@ public class GuestFileUpload {
 
     public void upload(FileUploadEvent event) throws IOException {
         UploadedFile file = event.getFile();
-        String path = oosFileService.putItem(file.getFileName(), file.getInputStream());
+        String path = ossFileService.putItem(file.getFileName(), file.getInputStream());
         MapperUrl value = qualifierUrl.addDomain(path);
 
         ValueExpression valueExpression = getValueExpression(event.getComponent(), "value");

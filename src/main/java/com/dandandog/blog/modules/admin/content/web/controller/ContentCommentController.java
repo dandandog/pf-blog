@@ -5,11 +5,11 @@ import cn.hutool.core.collection.CollUtil;
 import com.dandandog.blog.modules.admin.content.entity.enums.CommentStatus;
 import com.dandandog.blog.modules.admin.content.web.faces.CommentFaces;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.CommentVo;
+import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
-import com.dandandog.framework.mapstruct.model.MapperVo;
 import com.google.common.collect.Lists;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.stereotype.Controller;
@@ -50,7 +50,7 @@ public class ContentCommentController extends FacesController {
     public void edit() {
         CommentVo selected = getViewScope("sinSelected");
         CommentVo vo = commentFaces.getOptById(selected.getId())
-                .orElseThrow(() -> new MessageResolvableException("error", "dataNotFound"));
+                .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("vo", vo);
     }
 
@@ -65,7 +65,7 @@ public class ContentCommentController extends FacesController {
         CommentVo selected = getViewScope("sinSelected");
         List<CommentVo> selectedList = getViewScope("mulSelected");
         String[] idList = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected))
-                .stream().map(MapperVo::getId).toArray(String[]::new);
+                .stream().map(IVo::getId).toArray(String[]::new);
         commentFaces.removeByIds(idList);
     }
 

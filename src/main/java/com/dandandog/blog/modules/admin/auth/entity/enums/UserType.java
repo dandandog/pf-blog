@@ -1,6 +1,6 @@
 package com.dandandog.blog.modules.admin.auth.entity.enums;
 
-import com.dandandog.framework.core.entity.enums.BaseEnum;
+import com.dandandog.framework.mybatis.entity.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
@@ -10,11 +10,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum UserType implements BaseEnum<Integer> {
 
     /**
-     * 正常
+     * admin
      */
     ADMIN(0, "admin"),
     /**
-     * 冻结
+     * user
      */
     USER(1, "user");
 
@@ -32,7 +32,6 @@ public enum UserType implements BaseEnum<Integer> {
         return this.value;
     }
 
-    @Override
     @JsonValue
     public String getTitle() {
         return this.title;

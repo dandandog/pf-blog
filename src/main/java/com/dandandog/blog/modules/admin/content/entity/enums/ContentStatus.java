@@ -1,6 +1,6 @@
 package com.dandandog.blog.modules.admin.content.entity.enums;
 
-import com.dandandog.framework.core.entity.enums.BaseEnum;
+import com.dandandog.framework.mybatis.entity.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
@@ -49,7 +49,6 @@ public enum ContentStatus implements BaseEnum<Integer> {
         return this.value;
     }
 
-    @Override
     @JsonValue
     public String getTitle() {
         return this.title;

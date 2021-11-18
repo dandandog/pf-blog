@@ -4,10 +4,8 @@ package com.dandandog.blog.modules.admin.content.web.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.dandandog.blog.common.adapter.DefaultTreeAdapter;
 import com.dandandog.blog.common.utils.UploadUtil;
 import com.dandandog.blog.modules.admin.content.entity.BlogContentConfigs;
-import com.dandandog.blog.modules.admin.content.entity.BlogMetas;
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.MetaType;
 import com.dandandog.blog.modules.admin.content.web.faces.ContentConfigFaces;
@@ -15,14 +13,18 @@ import com.dandandog.blog.modules.admin.content.web.faces.ContentFaces;
 import com.dandandog.blog.modules.admin.content.web.faces.MetasFaces;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.ArticleVo;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.AttachmentVo;
+import com.dandandog.blog.modules.admin.content.web.faces.vo.CategoryVo;
 import com.dandandog.blog.modules.admin.website.entity.DictValue;
 import com.dandandog.blog.modules.admin.website.web.faces.DictFaces;
 import com.dandandog.blog.modules.admin.website.web.faces.vo.DictVo;
+import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
-import com.dandandog.framework.mapstruct.model.MapperVo;
+import com.dandandog.framework.faces.model.tree.TreeDataModel;
+import com.dandandog.framework.faces.model.tree.TreeFaces;
+import com.dandandog.framework.faces.model.tree.TreeParams;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import org.primefaces.event.FileUploadEvent;
@@ -64,8 +66,6 @@ public class ContentArticleController extends FacesController {
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
 
-        putViewScope("categories", buildTree(null));
-        putViewScope("fields", findFields(null));
         putViewScope("tags", metasFaces.list(Wrappers.emptyWrapper(), MetaType.TAG));
         putViewScope("statuses", ContentStatus.values());
     }
@@ -80,18 +80,36 @@ public class ContentArticleController extends FacesController {
         return getViewScope("dataModel");
     }
 
+    public TreeNode getTreeDataModel(TreeFaces tree) {
+        TreeDataModel dataModel = getViewScope("treeDataModel");
+
+        if (dataModel == null) {
+            dataModel = metasFaces.findDataModel(CategoryVo.class);
+        }
+        TreeParams params = new TreeParams();
+        if (tree != null) {
+            params.setSelectable(new String[] {tree.getId()});
+            params.setSelected(new String[] {tree.getParentId()});
+        }
+        putViewScope("treeDataModel", dataModel);
+        return dataModel.createRoot(params);
+    }
+
+
     public void add() {
         ArticleVo vo = new ArticleVo();
         putViewScope("vo", vo);
+        putViewScope("categories", getTreeDataModel(null));
+        putViewScope("fields", findFields(null));
     }
 
     public void edit() {
         ArticleVo selected = getViewScope("sinSelected");
         ArticleVo vo = contentFaces.getOptById(selected.getId())
-                .orElseThrow(() -> new MessageResolvableException("error", "dataNotFound"));
+                .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         Map<DictVo, BlogContentConfigs> fields = findFields(vo.getId());
         putViewScope("vo", vo);
-        putViewScope("categories", buildTree((BlogMetas) vo.getCategoryNode().getData()));
+        putViewScope("categories", getTreeDataModel((TreeFaces) vo.getCategoryNode().getData()));
         putViewScope("fields", fields);
     }
 
@@ -107,7 +125,7 @@ public class ContentArticleController extends FacesController {
         ArticleVo selected = getViewScope("sinSelected");
         List<ArticleVo> selectedList = getViewScope("mulSelected");
         String[] idList = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected))
-                .stream().map(MapperVo::getId).toArray(String[]::new);
+                .stream().map(IVo::getId).toArray(String[]::new);
         contentFaces.removeByIds(idList);
     }
 
@@ -127,12 +145,5 @@ public class ContentArticleController extends FacesController {
         vo.getAttachments().remove(entity);
     }
 
-    private TreeNode buildTree(BlogMetas metas) {
-        DefaultTreeAdapter<BlogMetas> adapter = getViewScope("adapter");
-        if (adapter == null) {
-            adapter = new DefaultTreeAdapter<>(BlogMetas.class);
-            putViewScope("adapter", adapter);
-        }
-        return metasFaces.findDataModel(adapter, metas);
-    }
+
 }

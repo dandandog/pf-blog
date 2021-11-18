@@ -1,9 +1,6 @@
 package com.dandandog.blog.modules.admin.auth.web.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.dandandog.blog.common.adapter.DefaultTreeAdapter;
 import com.dandandog.blog.common.utils.IconUtil;
 import com.dandandog.blog.common.utils.TreeUtil;
 import com.dandandog.blog.modules.admin.auth.entity.AuthResource;
@@ -18,7 +15,6 @@ import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.framework.faces.model.tree.TreeParams;
-import com.dandandog.framework.mapstruct.MapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.model.TreeNode;
@@ -44,7 +40,7 @@ public class AuthResourceController extends FacesController {
 
     @Override
     public void onEntry() {
-        putViewScope("root", getDataModel(null));
+        putViewScope("rootTable", getDataModel(null));
 
         putViewScope("vo", new AuthResourceVo());
         putViewScope("sinSelected", null);
@@ -57,13 +53,13 @@ public class AuthResourceController extends FacesController {
 
 
     public TreeNode getDataModel(AuthResourceVo vo) {
-        TreeDataModel<AuthResourceVo> dataModel = getViewScope("dataModel");
+        TreeDataModel dataModel = getViewScope("dataModel");
         TreeParams params = new TreeParams();
         if (dataModel == null) {
             dataModel = resourceFaces.findDataModel();
         }
         if (vo != null) {
-            params.setUnSelectable(new String[] {vo.getId()});
+            params.setSelectable(new String[] {vo.getId()});
             params.setSelected(new String[] {vo.getParentId()});
         }
         putViewScope("dataModel", dataModel);
@@ -73,15 +69,17 @@ public class AuthResourceController extends FacesController {
 
     public void add() {
         AuthResourceVo vo = new AuthResourceVo();
-        putNodeView(vo);
+        putViewScope("vo", vo);
+        putViewScope("rootTree", getDataModel(null));
     }
 
     @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)
     public void edit() {
         AuthResource selected = getViewScope("sinSelected");
         AuthResourceVo vo = resourceFaces.getOptById(selected.getId())
-                .orElseThrow(() -> new MessageResolvableException("error", "dataNotFound"));
-        putNodeView(vo);
+                .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
+        putViewScope("vo", vo);
+        putViewScope("rootTree", getDataModel(vo));
     }
 
     @MessageRequired(type = MessageType.SAVE)
@@ -104,10 +102,4 @@ public class AuthResourceController extends FacesController {
         resourceFaces.updateByFiled(event.getRowKey(), event.getColumn().getField(), event.getNewValue());
     }
 
-    private void putNodeView(AuthResourceVo vo) {
-        Wrapper<AuthResource> wrapper = new LambdaQueryWrapper<AuthResource>().ne(AuthResource::getType, ResourceType.BUTTON).orderByAsc(AuthResource::getSeq);
-        AuthResource node = MapperUtil.map(vo, AuthResource.class);
-        putViewScope("vo", vo);
-        putViewScope("rootTree", getDataModel(wrapper, node, (AuthResource) vo.getParent().getData()));
-    }
 }

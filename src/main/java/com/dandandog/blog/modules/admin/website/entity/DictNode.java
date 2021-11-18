@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.framework.common.model.ITree;
-import com.dandandog.framework.core.entity.AuditableEntity;
+import com.dandandog.framework.mybatis.entity.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

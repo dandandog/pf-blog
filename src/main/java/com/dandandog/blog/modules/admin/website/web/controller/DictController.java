@@ -7,7 +7,6 @@ import com.dandandog.blog.modules.admin.website.service.DictNodeService;
 import com.dandandog.blog.modules.admin.website.web.faces.DictFaces;
 import com.dandandog.blog.modules.admin.website.web.faces.vo.DictVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
-import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
@@ -53,11 +52,10 @@ public class DictController extends FacesController {
         putViewScope("vo", vo);
     }
 
-    @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)
     public void edit() {
         DictVo selected = getViewScope("sinSelected");
         DictVo vo = dictFacet.getOptById(selected.getId())
-                .orElseThrow(() -> new MessageResolvableException("error", "dataNotFound"));
+                .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("vo", vo);
     }
 

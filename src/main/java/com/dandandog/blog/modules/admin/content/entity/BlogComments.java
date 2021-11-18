@@ -2,11 +2,10 @@ package com.dandandog.blog.modules.admin.content.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.blog.modules.admin.content.entity.enums.CommentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.CommentType;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.dandandog.framework.core.entity.AuditableEntity;
-import com.dandandog.framework.core.entity.BaseEntity;
+import com.dandandog.framework.mybatis.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

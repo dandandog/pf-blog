@@ -22,7 +22,7 @@ public class MetasAdapter extends DefaultPageAdapter<BlogMetas> {
     }
 
     @Override
-    public void conditions(QueryWrapper<BlogMetas> queryWrapper, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+    public void conditions(QueryWrapper<BlogMetas> queryWrapper) {
         queryWrapper.lambda().eq(StrUtil.isNotBlank(parentId), BlogMetas::getParentId, parentId);
     }
 

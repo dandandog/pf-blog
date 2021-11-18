@@ -2,9 +2,8 @@ package com.dandandog.blog.modules.admin.auth.web.faces.vo;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.dandandog.blog.modules.admin.auth.entity.AuthResource;
-import com.dandandog.framework.mapstruct.model.MapperVo;
+import com.dandandog.framework.common.model.IVo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.primefaces.model.TreeNode;
 
 import java.time.LocalDateTime;
@@ -13,8 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class AuthRoleVo extends MapperVo {
+public class AuthRoleVo implements IVo {
+
+    private String id;
 
     private String name;
 

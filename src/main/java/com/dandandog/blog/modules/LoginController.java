@@ -48,15 +48,15 @@ public class LoginController extends FacesController {
         if (StrUtil.isNotEmpty(isError)) {
             Object exception = getRequest().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
             if (exception instanceof UsernameNotFoundException) {
-                errorMessages("error", "userNotFound");
+                errorMessages("error.userNotFound", null);
             } else if (exception instanceof LockedException) {
-                errorMessages("error", "accountLocked");
+                errorMessages("error.accountLocked", null);
             } else if (exception instanceof AccountExpiredException) {
-                errorMessages("error", "accountExpired");
+                errorMessages("error.accountExpired", null);
             } else if (exception instanceof BadCredentialsException) {
-                errorMessages("error", "passwordExpired");
+                errorMessages("error.passwordExpired", null);
             } else if (exception instanceof Exception) {
-                errorMessages("error", "exception");
+                errorMessages("error.exception", null);
             }
         }
     }

@@ -1,17 +1,17 @@
 package com.dandandog.blog.modules.admin.content.web.faces.vo;
 
 import com.dandandog.blog.modules.admin.content.entity.enums.MetaType;
-import com.dandandog.framework.mapstruct.model.MapperVo;
+import com.dandandog.framework.common.model.IVo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @Author: JohnnyLiu
  * @Date: 2021/9/10 10:31
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class TagVo extends MapperVo {
+public class TagVo implements IVo {
+
+    private String id;
 
     private String name;
 

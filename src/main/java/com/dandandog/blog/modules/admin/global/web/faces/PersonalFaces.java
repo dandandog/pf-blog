@@ -9,10 +9,10 @@ import com.dandandog.blog.modules.admin.auth.web.faces.vo.AuthUserVo;
 import com.dandandog.blog.modules.admin.global.web.faces.vo.CropUploaderVo;
 import com.dandandog.blog.security.service.AuthorizedService;
 import com.dandandog.framework.common.utils.SecurityUtil;
-import com.dandandog.framework.core.annotation.Facet;
-import com.dandandog.framework.core.entity.BaseEntity;
-import com.dandandog.framework.mapstruct.MapperUtil;
-import com.dandandog.framework.oos.service.OosFileService;
+import com.dandandog.framework.faces.annotation.Faces;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
+import com.dandandog.framework.mybatis.entity.BaseEntity;
+import com.dandandog.framework.oss.service.OssFileService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
  * @Author: JohnnyLiu
  * @Date: 2021/10/9 15:33
  */
-@Facet
+@Faces
 public class PersonalFaces {
 
     @Resource
@@ -34,7 +34,7 @@ public class PersonalFaces {
     private PasswordEncoder passwordEncoder;
 
     @Resource
-    private OosFileService oosFileService;
+    private OssFileService ossFileService;
 
     @Resource
     private AuthorizedService authorizedService;
@@ -49,8 +49,8 @@ public class PersonalFaces {
     @Transactional
     public void updateAvatar(CropUploaderVo cropUploaderVo) {
         if (ObjectUtil.isNotNull(cropUploaderVo) && cropUploaderVo.isExist()) {
-            oosFileService.removeItem(cropUploaderVo.getFileName());
-            String url = oosFileService.putItem(cropUploaderVo.getFileName(), cropUploaderVo.getCropped().getStream());
+            ossFileService.removeItem(cropUploaderVo.getFileName());
+            String url = ossFileService.putItem(cropUploaderVo.getFileName(), cropUploaderVo.getCropped().getStream());
             userService.lambdaUpdate().set(AuthUser::getAvatarUrl, url).eq(BaseEntity::getId, cropUploaderVo.getUserId()).update();
             authorizedService.reloadUserRole();
         }

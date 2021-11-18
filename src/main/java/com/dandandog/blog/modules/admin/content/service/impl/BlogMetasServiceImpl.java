@@ -4,9 +4,8 @@ import com.dandandog.blog.modules.admin.content.dao.BlogMetasDao;
 import com.dandandog.blog.modules.admin.content.entity.BlogMetas;
 import com.dandandog.blog.modules.admin.content.entity.enums.MetaType;
 import com.dandandog.blog.modules.admin.content.service.BlogMetasService;
-import com.dandandog.framework.core.entity.BaseEntity;
+import com.dandandog.framework.mybatis.service.BaseServiceImpl;
 import org.springframework.stereotype.Service;
-import com.dandandog.framework.core.service.impl.BaseServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;

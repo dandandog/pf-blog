@@ -2,18 +2,18 @@ package com.dandandog.blog.modules.admin.content.web.faces.vo;
 
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentType;
+import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.mapstruct.model.MapperUrl;
-import com.dandandog.framework.mapstruct.model.MapperVo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @Author: JohnnyLiu
  * @Date: 2021/9/13 11:01
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class AttachmentVo extends MapperVo {
+public class AttachmentVo implements IVo {
+
+    private String id;
 
     private String parentId;
 

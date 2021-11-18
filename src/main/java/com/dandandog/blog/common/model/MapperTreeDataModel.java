@@ -3,15 +3,15 @@ package com.dandandog.blog.common.model;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassUtil;
 import com.dandandog.blog.common.adapter.AbstractTreeAdapter;
-import com.dandandog.framework.core.entity.BaseEntity;
-import com.dandandog.framework.faces.model.tree.TreeEntity;
+import com.dandandog.framework.faces.model.tree.TreeDataModel;
+import com.dandandog.framework.faces.model.tree.TreeFaces;
+import com.dandandog.framework.faces.model.tree.TreeParams;
+import com.dandandog.framework.faces.utils.TreeUtil;
 import com.dandandog.framework.mapstruct.FromToKey;
 import com.dandandog.framework.mapstruct.IMapper;
-import com.dandandog.framework.mapstruct.MapperUtil;
 import com.dandandog.framework.mapstruct.context.BaseContext;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import com.dandandog.framework.mybatis.entity.BaseEntity;
-import com.myelephant.common.adapter.AbstractTreeAdapter;
-import com.myelephant.common.utils.TreeUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.model.DefaultTreeNode;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @Date: 2021/10/29 17:22
  */
 @SuppressWarnings("ALL")
-public class MapperTreeDataModel<F extends BaseEntity, T extends TreeEntity> implements TreeDataModel<T> {
+public class MapperTreeDataModel<F extends BaseEntity, T extends TreeFaces> implements TreeDataModel {
 
     @Setter
     @Getter
@@ -45,11 +45,11 @@ public class MapperTreeDataModel<F extends BaseEntity, T extends TreeEntity> imp
         this.context = context;
     }
 
-    public static <F extends BaseEntity, T extends TreeEntity> MapperTreeDataModel<F, T> getInstance(AbstractTreeAdapter<F> adapter, Class<T> tClass) {
+    public static <F extends BaseEntity, T extends TreeFaces> MapperTreeDataModel<F, T> getInstance(AbstractTreeAdapter<F> adapter, Class<T> tClass) {
         return getInstance(adapter, tClass, null);
     }
 
-    public static <F extends BaseEntity, T extends MapperTree> MapperTreeDataModel<F, T> getInstance(AbstractTreeAdapter<F> adapter, Class<T> tClass, BaseContext<T> context) {
+    public static <F extends BaseEntity, T extends TreeFaces> MapperTreeDataModel<F, T> getInstance(AbstractTreeAdapter<F> adapter, Class<T> tClass, BaseContext<T> context) {
         Class<F> fClass = (Class<F>) ClassUtil.getTypeArgument(adapter.getClass(), 0);
         MapperTreeDataModel<F, T> dataModel = new MapperTreeDataModel<>(fClass, tClass, context);
         dataModel.setAdapter(adapter);
@@ -57,27 +57,27 @@ public class MapperTreeDataModel<F extends BaseEntity, T extends TreeEntity> imp
     }
 
     @Override
-    public final TreeNode createRoot(TreeConfig config) {
+    public final TreeNode createRoot(TreeParams params) {
         List<F> fList = adapter.queryList();
         List<T> tList = mapperAll(fList);
         TreeNode root = new DefaultTreeNode(null, null);
-        setTreeLeaf(root, tList, Optional.ofNullable(config).orElse(new TreeConfig()));
+        setTreeLeaf(root, tList, Optional.ofNullable(params).orElse(new TreeParams()));
         return root;
     }
 
-    public final void setTreeLeaf(TreeNode root, List<T> source, TreeConfig config) {
-        setTreeConfig(root, config);
+    public final void setTreeLeaf(TreeNode root, List<T> source, TreeParams params) {
+        setTreeConfig(root, params);
         for (T resource : source) {
             TreeNode node = new DefaultTreeNode(resource, root);
-            setTreeLeaf(node, resource.getChildren(), config);
+            setTreeLeaf(node, resource.getChildren(), params);
         }
     }
 
-    private void setTreeConfig(TreeNode root, TreeConfig config) {
+    private void setTreeConfig(TreeNode root, TreeParams params) {
         T t = (T) root.getData();
-        root.setExpanded(config.isExpand());
-        root.setSelectable(!(t != null && ArrayUtil.isNotEmpty(config.getUnSelectable()) && ArrayUtil.contains(config.getUnSelectable(), t.getId())));
-        root.setSelected(t != null && ArrayUtil.isNotEmpty(config.getSelected()) && ArrayUtil.contains(config.getSelected(), t.getId()));
+        root.setExpanded(params.isExpanded());
+        root.setSelectable(!(t != null && ArrayUtil.isNotEmpty(params.getSelectable()) && ArrayUtil.contains(params.getSelectable(), t.getId())));
+        root.setSelected(t != null && ArrayUtil.isNotEmpty(params.getSelected()) && ArrayUtil.contains(params.getSelected(), t.getId()));
     }
 
     public List<T> mapperAll(Collection<F> list) {

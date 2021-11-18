@@ -1,13 +1,10 @@
 package com.dandandog.blog.modules.admin.content.web.faces.vo;
 
-import com.dandandog.blog.modules.admin.content.entity.BlogMetas;
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentType;
-import com.dandandog.framework.mapstruct.MapperUtil;
-import com.dandandog.framework.mapstruct.model.MapperVo;
+import com.dandandog.framework.common.model.IVo;
 import com.google.common.collect.Lists;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.primefaces.model.TreeNode;
 
 import java.time.LocalDateTime;
@@ -18,9 +15,10 @@ import java.util.List;
  * @Author: JohnnyLiu
  * @Date: 2021/9/10 18:03
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class ArticleVo extends MapperVo {
+public class ArticleVo implements IVo {
+
+    private String id;
 
     private String title;
 

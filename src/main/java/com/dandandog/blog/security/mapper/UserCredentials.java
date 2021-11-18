@@ -4,10 +4,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserGender;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserStatus;
 import com.dandandog.blog.modules.admin.auth.entity.enums.UserType;
+import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.mapstruct.model.MapperUrl;
-import com.dandandog.framework.mapstruct.model.MapperVo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,8 +17,9 @@ import java.util.Collection;
  * @Date: 2021/10/9 11:12
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class UserCredentials extends MapperVo implements UserDetails {
+public class UserCredentials implements UserDetails, IVo {
+
+    private String id;
 
     private String nickname;
 

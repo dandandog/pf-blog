@@ -15,10 +15,10 @@ import com.dandandog.blog.modules.admin.content.service.BlogMetasService;
 import com.dandandog.blog.modules.admin.content.web.faces.adapter.ContentAdapter;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.ArticleVo;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.AttachmentVo;
-import com.dandandog.framework.core.annotation.Facet;
-import com.dandandog.framework.core.entity.BaseEntity;
-import com.dandandog.framework.mapstruct.MapperUtil;
+import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.mapstruct.context.BaseContext;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
+import com.dandandog.framework.mybatis.entity.BaseEntity;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  * @Author: JohnnyLiu
  * @Date: 2021/9/13 9:58
  */
-@Facet
+@Faces
 public class ContentFaces {
 
     @Resource
@@ -73,7 +73,7 @@ public class ContentFaces {
         metasContentsService.lambdaUpdate().eq(BlogMetasContents::getContentId, entity.getId()).remove();
         List<BlogMetas> tags = metasService.checkAndSaveTags(ArrayUtil.toArray(vo.getTags(), String.class));
         List<BlogMetasContents> metasContents = tags.stream().map(tag -> new BlogMetasContents(entity.getId(), tag.getId())).collect(Collectors.toList());
-        // category
+
         BlogMetas cate = (BlogMetas) vo.getCategoryNode().getData();
         metasContents.add(new BlogMetasContents(entity.getId(), cate.getId()));
         metasContentsService.saveOrUpdateBatch(metasContents);

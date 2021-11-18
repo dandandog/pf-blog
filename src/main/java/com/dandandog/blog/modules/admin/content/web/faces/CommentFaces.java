@@ -5,8 +5,8 @@ import com.dandandog.blog.modules.admin.content.entity.BlogComments;
 import com.dandandog.blog.modules.admin.content.service.BlogCommentsService;
 import com.dandandog.blog.modules.admin.content.web.faces.adapter.CommentAdapter;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.CommentVo;
-import com.dandandog.framework.core.annotation.Facet;
-import com.dandandog.framework.mapstruct.MapperUtil;
+import com.dandandog.framework.faces.annotation.Faces;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import org.primefaces.model.LazyDataModel;
 
 import javax.annotation.Resource;
@@ -17,7 +17,7 @@ import java.util.Optional;
  * @Author: JohnnyLiu
  * @Date: 2021/9/16 15:21
  */
-@Facet
+@Faces
 public class CommentFaces {
 
     @Resource

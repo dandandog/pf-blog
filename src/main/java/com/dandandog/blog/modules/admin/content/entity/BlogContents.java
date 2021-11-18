@@ -1,11 +1,9 @@
 package com.dandandog.blog.modules.admin.content.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentStatus;
 import com.dandandog.blog.modules.admin.content.entity.enums.ContentType;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.dandandog.framework.core.entity.AuditableEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.dandandog.framework.mybatis.entity.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 

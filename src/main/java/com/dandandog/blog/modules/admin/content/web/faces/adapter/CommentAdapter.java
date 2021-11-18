@@ -3,10 +3,6 @@ package com.dandandog.blog.modules.admin.content.web.faces.adapter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dandandog.blog.common.adapter.AbstractPageAdapter;
 import com.dandandog.blog.modules.admin.content.entity.BlogComments;
-import org.primefaces.model.FilterMeta;
-import org.primefaces.model.SortMeta;
-
-import java.util.Map;
 
 /**
  * @Author: JohnnyLiu
@@ -14,7 +10,7 @@ import java.util.Map;
  */
 public class CommentAdapter extends AbstractPageAdapter<BlogComments> {
     @Override
-    public void conditions(QueryWrapper<BlogComments> queryWrapper, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+    public void conditions(QueryWrapper<BlogComments> queryWrapper) {
         queryWrapper.lambda().orderByDesc(BlogComments::getCreatedTime);
     }
 }

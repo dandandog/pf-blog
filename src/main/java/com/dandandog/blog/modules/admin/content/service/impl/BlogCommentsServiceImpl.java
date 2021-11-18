@@ -3,8 +3,8 @@ package com.dandandog.blog.modules.admin.content.service.impl;
 import com.dandandog.blog.modules.admin.content.dao.BlogCommentsDao;
 import com.dandandog.blog.modules.admin.content.entity.BlogComments;
 import com.dandandog.blog.modules.admin.content.service.BlogCommentsService;
+import com.dandandog.framework.mybatis.service.BaseServiceImpl;
 import org.springframework.stereotype.Service;
-import com.dandandog.framework.core.service.impl.BaseServiceImpl;
 
 /**
  * 评论(BlogComments)表服务实现类

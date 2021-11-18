@@ -1,8 +1,7 @@
 package com.dandandog.blog.modules.admin.content.entity;
 
-import com.dandandog.framework.core.entity.AbstractEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.dandandog.framework.core.entity.BaseEntity;
+import com.dandandog.framework.mybatis.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

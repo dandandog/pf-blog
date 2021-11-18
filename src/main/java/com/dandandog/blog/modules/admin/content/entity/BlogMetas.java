@@ -1,9 +1,9 @@
 package com.dandandog.blog.modules.admin.content.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.blog.modules.admin.content.entity.enums.MetaType;
 import com.dandandog.framework.common.model.ITree;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.dandandog.framework.core.entity.AuditableEntity;
+import com.dandandog.framework.mybatis.entity.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,7 +17,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName("blog_metas")
 public class BlogMetas extends AuditableEntity implements ITree {
-
 
     /**
      * 父节点id

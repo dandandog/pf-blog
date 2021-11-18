@@ -1,13 +1,12 @@
 package com.dandandog.blog.modules.admin.content.web.faces.mapper;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.dandandog.blog.modules.admin.content.entity.BlogComments;
 import com.dandandog.blog.modules.admin.content.web.faces.CommentFaces;
 import com.dandandog.blog.modules.admin.content.web.faces.ContentFaces;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.ArticleVo;
 import com.dandandog.blog.modules.admin.content.web.faces.vo.CommentVo;
+import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.mapstruct.IMapper;
-import com.dandandog.framework.mapstruct.model.MapperVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -36,7 +35,7 @@ public abstract class CommentMapper implements IMapper<BlogComments, CommentVo> 
 
     @Named("getContent")
     public String getContent(ArticleVo vo) {
-        return Optional.ofNullable(vo).map(MapperVo::getId).orElse(null);
+        return Optional.ofNullable(vo).map(IVo::getId).orElse(null);
     }
 
     @Named("getParent")
@@ -46,7 +45,7 @@ public abstract class CommentMapper implements IMapper<BlogComments, CommentVo> 
 
     @Named("getParent")
     public String getParent(CommentVo vo) {
-        return Optional.ofNullable(vo).map(MapperVo::getId).orElse(null);
+        return Optional.ofNullable(vo).map(IVo::getId).orElse(null);
     }
 
 }

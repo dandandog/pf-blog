@@ -5,10 +5,7 @@ server:
 joinfaces:
   jsf:
     #facelets-refresh-period: -1
-    state-saving-method: server
-    facelets-suffix: .faces
-    #facelets-skip-comments: true
-    enable-validate-whole-bean: true
+    state-saving-method: client
     datetimeconverter-default-timezone-is-system-timezone: true
     interpret-empty-string-submitted-values-as-null: true
   butterfaces:
@@ -18,10 +15,9 @@ joinfaces:
   primefaces:
     theme: ecuador-#{guestPreferences.theme}
     #transform-metadata: true
-    #client-side-validation: true
+    client-side-validation: true
     #move-scripts-to-bottom: true
-
-
+    font-awesome: true
 
 
 spring:
@@ -30,9 +26,10 @@ spring:
       max-file-size: 200MB #单个文件上传大小
       max-request-size: 600MB #连续上传文件大小
   messages:
-    basename: framework-messages, blog-messages_zh-CN
+    basename: framework-messages, blog-messages_zh
   application:
-    name: pf-blog
+    version: 1.2.0
+    name: 泡芙博客
   profiles:
     active: @profileActive@
     include: datasource

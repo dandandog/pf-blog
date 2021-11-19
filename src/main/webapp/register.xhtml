@@ -4,12 +4,15 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:framework="http://java.sun.com/jsf/composite/components"
-            template="/WEB-INF/common/template.xhtml">
+                template="/WEB-INF/common/template.xhtml">
+
 
     <ui:define name="title">#{msg['framework']['register']}</ui:define>
     <ui:define name="content">
         <h:form id="register-form" prependId="false">
-            <h2 style="text-align: center;">#{msg['framework']['register']}</h2>
+            <p:outputPanel styleClass="p-d-flex p-jc-between p-ai-center p-mb-3">
+                <h2>#{msg['framework']['register']}</h2>
+            </p:outputPanel>
             <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
                 <p:inputText value="#{viewScope.user.username}" required="true"/>
                 <p:outputLabel for="@previous" value="#{msg['framework']['username']}"/>
@@ -32,21 +35,14 @@
                 <p:outputLabel for="@previous" value="#{msg['framework']['confirmPassword']}"/>
             </p:outputPanel>
 
-            <p:divider/>
-
-            <p:outputPanel styleClass="p-d-flex p-jc-between p-ai-center">
-                <p:link outcome="/login" value="#{msg['framework']['back']}#{msg['framework']['login']}"/>
-                <p:outputPanel>
-                    <p:commandButton value="#{msg['framework']['cancel']}"
-                                     styleClass="raised-btn ui-button-secondary p-mr-2"
-                                     action="#{controller.onCancel}"
-                                     update="@form" immediate="true">
-                        <p:resetInput target="register-form"/>
-                    </p:commandButton>
-                    <p:commandButton value="#{msg['framework']['confirm']}" styleClass="raised-btn" process="@form"
-                                     update="@form"
-                                     action="#{controller.save}"/>
-                </p:outputPanel>
+            <p:outputPanel styleClass="p-col-12">
+                <p:commandButton style="width: 100%" value="#{msg['framework']['confirm']}" styleClass="raised-btn"
+                                 process="@form"
+                                 update="@form"
+                                 action="#{controller.save}"/>
+                <div class="p-mt-3">
+                    <p:link outcome="/login" value="#{msg['framework']['back']}#{msg['framework']['login']}"/>
+                </div>
             </p:outputPanel>
         </h:form>
     </ui:define>

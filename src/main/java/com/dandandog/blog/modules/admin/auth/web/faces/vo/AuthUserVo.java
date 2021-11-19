@@ -21,12 +21,12 @@ public class AuthUserVo implements IVo {
 
     private String id;
 
-    @NotEmpty
     private String nickname;
 
     @NotEmpty
     private String username;
 
+    @NotEmpty
     private String password;
 
     private String email;

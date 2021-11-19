@@ -18,6 +18,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import javax.annotation.Resource;
@@ -54,15 +55,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(page.getAnonymous()).anonymous()
                 //所有请求需要登入
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage(page.getLogin())
-                .permitAll()
+                .and().formLogin().loginPage(page.getLogin()).permitAll()
                 .successHandler(facesSuccessHandler)
-                .failureHandler(facesFailureHandler)
+                .failureHandler(new ExceptionMappingAuthenticationFailureHandler())
                 .and()
                 .logout().logoutSuccessUrl(page.getLogin())
                 .and()
                 .sessionManagement().invalidSessionUrl(page.getLogin()).maximumSessions(10)
                 .sessionRegistry(sessionRegistry());
+
         // 关闭CSRF跨域
         http.csrf().disable();
     }

@@ -3,45 +3,70 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/common/template.xhtml">
 
-    <ui:param name="template" value="default"/>
 
     <ui:define name="title">#{msg['framework']['login']}</ui:define>
+
+    <ui:define name="head">
+        <h:outputScript name="js/login.js" library="blog"/>
+        <h:outputStylesheet name="css/login.css" library="blog"/>
+    </ui:define>
+
     <ui:define name="content">
-        <h:form id="login" prependId="false">
-            <p:messages id="messages" globalOnly="true" showDetail="true" showSummary="true" style="height: 70px"/>
-            <h2 style="text-align: center;">#{msg['framework']['login']}</h2>
-            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
-                <p:inputText id="username" required="true"/>
+        <h:form styleClass="login_form" prependId="false">
+            <p:outputPanel styleClass="p-d-flex p-jc-between p-ai-center p-mb-3">
+                <h2>#{msg['framework']['login']}</h2>
+                <div>
+                    <h:outputText value="#{msg['blog']['noAccount']}"/>
+                    <p:link outcome="/register" value="#{msg['blog']['register']}"/>
+                </div>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col-12 p-mb-3 ui-float-label">
+                <p:inputText id="username" required="true" value="#{viewScope.auth.username}"/>
                 <p:outputLabel for="@previous" value="#{msg['framework']['username']}"/>
             </p:outputPanel>
-            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
-                <p:password id="password"
+            <p:outputPanel styleClass="p-col-12 p-mb-3 ui-float-label">
+                <p:password id="password" value="#{viewScope.auth.password}"
                             autocomplete="new-password" required="true"/>
                 <p:outputLabel for="@previous" value="#{msg['framework']['password']}"/>
             </p:outputPanel>
+
+
             <p:outputPanel styleClass="checkbox-container">
                 <p:outputPanel styleClass="p-d-flex p-jc-between">
-                    <div class="remember-me">
+                    <div class="remember-me p-d-flex p-ai-center">
                         <p:selectBooleanCheckbox id="rememberMe"/>
-                        <span>Remember me</span>
+                        <p:outputLabel for="rememberMe" value="#{msg['framework']['rememberMe']}" styleClass="p-ml-2"/>
                     </div>
-                    <p:link outcome="/register" value="#{msg['framework']['register']}"/>
+
+                    <div class="remember-me p-d-flex p-ai-center">
+                        <p:link value="#{msg['blog']['smsLogin']}" onclick="changeLoginWay('username')"/>
+                        <p:link value="#{msg['blog']['usernameLogin']}" style="display: none"
+                                onclick="changeLoginWay('sms')"/>
+                    </div>
                 </p:outputPanel>
             </p:outputPanel>
             <p:outputPanel styleClass="p-col-12">
-                <p:commandButton action="#{controller.onLogin}" style="width: 100%" update="@form"
-                                 value="#{msg['framework']['login']}" icon="fa fa-check">
-                </p:commandButton>
+                <p:commandButton style="width: 100%" update="@form" ajax="false" validateClient="true"
+                                 value="#{msg['framework']['login']}" icon="pi pi-sign-in"/>
+                <div class="p-mt-3">
+                    <p:link outcome="/register" value="#{msg['blog']['forgotPassword']}"/>
+                </div>
             </p:outputPanel>
 
-            <p:divider/>
+            <p:divider align="center" type="dashed">
+                <h:outputText value="#{msg['blog']['otherLogin']}"/>
+            </p:divider>
 
-            <p:outputPanel>
-                <a href="#" class="subinfo">
-                    <span>Forgot your password?</span>
-                </a>
+            <p:outputPanel styleClass="login-item">
+                <p:link styleClass="icon-logo_wechat">
+                    <i class="fa fab fa-weixin "/>
+                </p:link>
+                <p:link styleClass="icon-logo_github">
+                    <i class="fa fab fa-github "/>
+                </p:link>
             </p:outputPanel>
         </h:form>
     </ui:define>

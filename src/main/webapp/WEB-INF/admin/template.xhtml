@@ -99,9 +99,10 @@
             </f:facet>
         </p:ajaxStatus>
 
-        <p:ajaxExceptionHandler type="java.lang.Exception"
+        <p:ajaxExceptionHandler type="avax.faces.application.ViewExpiredException"
                                 update="exceptionDialog"
                                 onexception="PF('exceptionDialog').show()"/>
+
         <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!"
                   widgetVar="exceptionDialog"
                   height="500px">

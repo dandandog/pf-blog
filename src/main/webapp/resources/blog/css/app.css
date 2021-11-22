@@ -2,14 +2,12 @@ a {
     text-decoration: none !important;
 }
 
-a:hover {
-    font-weight: bold;
-}
-
 .login-body .login-panel .ui-password {
     width: 100%;
     margin: 6px 0;
 }
+
+
 
 .layout-ajax-loader {
     position: static !important;

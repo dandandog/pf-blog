@@ -57,7 +57,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage(page.getLogin()).permitAll()
                 .successHandler(facesSuccessHandler)
-                .failureHandler(new ExceptionMappingAuthenticationFailureHandler())
                 .and()
                 .logout().logoutSuccessUrl(page.getLogin())
                 .and()

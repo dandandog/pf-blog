@@ -14,7 +14,7 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form styleClass="login_form" prependId="false">
+        <h:form styleClass="login-form" prependId="false">
             <p:outputPanel styleClass="p-d-flex p-jc-between p-ai-center p-mb-3">
                 <h2>#{msg['framework']['login']}</h2>
                 <div>
@@ -22,7 +22,6 @@
                     <p:link outcome="/register" value="#{msg['blog']['register']}"/>
                 </div>
             </p:outputPanel>
-
             <p:outputPanel styleClass="p-col-12 p-mb-3 ui-float-label">
                 <p:inputText id="username" required="true" value="#{viewScope.auth.username}"/>
                 <p:outputLabel for="@previous" value="#{msg['framework']['username']}"/>
@@ -42,9 +41,7 @@
                     </div>
 
                     <div class="remember-me p-d-flex p-ai-center">
-                        <p:link value="#{msg['blog']['smsLogin']}" onclick="changeLoginWay('username')"/>
-                        <p:link value="#{msg['blog']['usernameLogin']}" style="display: none"
-                                onclick="changeLoginWay('sms')"/>
+                        <p:link outcome="/register" value="#{msg['framework']['forgotPassword']}"/>
                     </div>
                 </p:outputPanel>
             </p:outputPanel>
@@ -52,7 +49,7 @@
                 <p:commandButton style="width: 100%" update="@form" ajax="false" validateClient="true"
                                  value="#{msg['framework']['login']}" icon="pi pi-sign-in"/>
                 <div class="p-mt-3">
-                    <p:link outcome="/register" value="#{msg['blog']['forgotPassword']}"/>
+
                 </div>
             </p:outputPanel>
 

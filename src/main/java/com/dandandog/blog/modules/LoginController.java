@@ -30,6 +30,8 @@ public class LoginController extends FacesController {
     @Override
     public void onEntry() {
         putViewScope("auth", new AuthUserVo());
+        checkException();
+
         boolean isConn = dataSourceUtil.checkConnection();
         if (!isConn) {
             redirectInternal("/index");
@@ -45,10 +47,10 @@ public class LoginController extends FacesController {
     }
 
 
-    public void onLogin() {
+    public void checkException() {
         String isError = getRequestParameter("error");
-        if (StrUtil.isNotEmpty(isError)) {
-            Object exception = getRequest().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+        if (isError!=null) {
+            Object exception = getRequest().getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
             if (exception instanceof UsernameNotFoundException) {
                 errorMessages("error.userNotFound", null);
             } else if (exception instanceof LockedException) {

@@ -1,16 +1,47 @@
-.login_form .p-col-12 {
+.login-form .p-col-12 {
     padding: 0;
 }
 
-.login_form i {
+.login-form i {
     font-size: 28px;
     padding: 5px;
 }
 
-.login_form .icon-logo_wechat {
+.login-body .login-panel img {
+    margin-bottom: 0 !important;
+}
+
+.login-form .icon-logo_wechat {
     color: #46d800;
 }
 
-.login_form .icon-logo_github {
+.login-form .icon-logo_github {
     color: #0a0203;
 }
+
+.login-messages {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 17px;
+    color: red;
+    margin: 15px 0 !important;
+}
+
+.login-messages div {
+    display: block;
+    width: 100%;
+    line-height: 30px;
+    padding: 5px !important;
+    margin: 0 !important;
+}
+
+.login-messages ul {
+    display: inline;
+    text-align: left;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+

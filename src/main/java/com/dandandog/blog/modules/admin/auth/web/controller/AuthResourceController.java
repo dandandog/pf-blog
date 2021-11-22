@@ -68,9 +68,10 @@ public class AuthResourceController extends FacesController {
 
 
     public void add() {
-        AuthResourceVo vo = new AuthResourceVo();
-        putViewScope("vo", vo);
-        putViewScope("rootTree", getDataModel(null));
+        throw new NullPointerException("test");
+//        AuthResourceVo vo = new AuthResourceVo();
+//        putViewScope("vo", vo);
+//        putViewScope("rootTree", getDataModel(null));
     }
 
     @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)

@@ -62,7 +62,7 @@ mybatis-plus:
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
     cache-enabled: true
 fast-code:
-  oos:
+  oss:
     enabled: true
     type: Qiniu
     def-bucket: elephantnormal
@@ -73,5 +73,6 @@ fast-code:
     not-found: /notfound
     anonymous:
       - /register
+      - /install
   map-struct:
     url-domain: http://image.myelephant.cn

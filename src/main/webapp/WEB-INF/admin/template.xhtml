@@ -86,16 +86,8 @@
             <p:graphicImage name="images/loading.gif" library="blog" width="100"/>
         </p:dialog>
 
-        <p:ajaxStatus styleClass="layout-ajax-loader">
-            <f:facet name="start">
-                <p:graphicImage name="images/loading.gif" library="blog" width="100"/>
-            </f:facet>
-
-            <f:facet name="complete">
-                <h:outputText value=""/>
-            </f:facet>
-        </p:ajaxStatus>
-
+        <p:ajaxStatus styleClass="layout-ajax-loader" onstart="PF('statusDialog').show()"
+                      oncomplete="PF('statusDialog').hide()"/>
 
         <p:ajaxExceptionHandler type="java.lang.Exception"
                                 update="exceptionDialog"

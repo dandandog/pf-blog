@@ -77,7 +77,7 @@ public class ContentCategoryController extends FacesController {
 
     @MessageRequired(type = MessageType.DELETE)
     public void delete() {
-        BlogMetas selected = getViewScope("sinSelected");
+        CategoryVo selected = getViewScope("sinSelected");
         TreeNode[] mulSelected = getViewScope("mulSelected");
         String[] idList = TreeUtil.selectedId(mulSelected, selected);
         metasFaces.removeByIds(idList);

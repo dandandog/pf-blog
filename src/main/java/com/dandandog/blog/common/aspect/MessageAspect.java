@@ -24,7 +24,7 @@ public class MessageAspect extends AbstractMessageAspect {
 
     @Override
     public String noticeSuccessClientId() {
-        return "globalMessageGrowl";
+        return "globalMessages";
     }
 
     @Override

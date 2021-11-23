@@ -3,13 +3,11 @@ package com.dandandog.blog.modules.admin.auth.web.controller;
 
 import com.dandandog.blog.common.utils.IconUtil;
 import com.dandandog.blog.common.utils.TreeUtil;
-import com.dandandog.blog.modules.admin.auth.entity.AuthResource;
 import com.dandandog.blog.modules.admin.auth.entity.enums.ResourceTarget;
 import com.dandandog.blog.modules.admin.auth.entity.enums.ResourceType;
 import com.dandandog.blog.modules.admin.auth.web.faces.AuthResourceFaces;
 import com.dandandog.blog.modules.admin.auth.web.faces.vo.AuthResourceVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
-import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
@@ -68,15 +66,13 @@ public class AuthResourceController extends FacesController {
 
 
     public void add() {
-        throw new NullPointerException("test");
-//        AuthResourceVo vo = new AuthResourceVo();
-//        putViewScope("vo", vo);
-//        putViewScope("rootTree", getDataModel(null));
+        AuthResourceVo vo = new AuthResourceVo();
+        putViewScope("vo", vo);
+        putViewScope("rootTree", getDataModel(null));
     }
 
-    @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)
     public void edit() {
-        AuthResource selected = getViewScope("sinSelected");
+        AuthResourceVo selected = getViewScope("sinSelected");
         AuthResourceVo vo = resourceFaces.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("vo", vo);
@@ -92,7 +88,7 @@ public class AuthResourceController extends FacesController {
 
     @MessageRequired(type = MessageType.DELETE)
     public void delete() {
-        AuthResource selected = getViewScope("sinSelected");
+        AuthResourceVo selected = getViewScope("sinSelected");
         TreeNode[] mulSelected = getViewScope("mulSelected");
         String[] idList = TreeUtil.selectedId(mulSelected, selected);
         resourceFaces.removeByIds(idList);

@@ -16,7 +16,7 @@
     <ui:define name="content">
         <div class="card">
             <h:form id="resource_form" prependId="false">
-
+                <p:commandButton value="test" action="#{controller.add}" process="@this"/>
 
                 <framework:treeTable id="resource" formDialogId="resource"
                                      headText="#{msg['blog']['resourceManagement']}"

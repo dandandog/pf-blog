@@ -66,57 +66,66 @@
 
         <ui:insert name="dialog"/>
 
-        <h:form id="form-message">
-            <p:confirmDialog id="confirmDialog" widgetVar="confirmDialog"
-                             global="true" showEffect="fade" hideEffect="fade" width="400">
-                <p:commandButton value="#{msg['framework']['confirm']}" type="button"
-                                 styleClass="ui-confirmdialog-yes" icon="fa fa-check"/>
-                <p:commandButton value="#{msg['framework']['cancel']}" type="button"
-                                 styleClass="ui-confirmdialog-no ui-button-secondary" icon="fa fa-close"/>
-            </p:confirmDialog>
+        <p:growl id="messages" widgetVar="messages" for="globalMessages"
+                 showDetail="true" showSummary="true" sticky="false" life="3000"
+                 redisplay="true">
+            <p:autoUpdate/>
+        </p:growl>
 
 
-            <p:growl id="messages" widgetVar="messages" for="globalMessages"
-                     showDetail="true" showSummary="true" sticky="false" life="3000"
-                     autoUpdate="true" redisplay="true"/>
+        <p:confirmDialog id="confirmDialog" widgetVar="confirmDialog"
+                         global="true" showEffect="fade" hideEffect="fade" width="400">
+            <p:commandButton value="#{msg['framework']['confirm']}" type="button"
+                             styleClass="ui-confirmdialog-yes" icon="fa fa-check"/>
+            <p:commandButton value="#{msg['framework']['cancel']}" type="button"
+                             styleClass="ui-confirmdialog-no ui-button-secondary" icon="fa fa-close"/>
+        </p:confirmDialog>
 
-            <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false"
-                      resizable="false">
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false"
+                  resizable="false">
+            <p:graphicImage name="images/loading.gif" library="blog" width="100"/>
+        </p:dialog>
+
+        <p:ajaxStatus styleClass="layout-ajax-loader">
+            <f:facet name="start">
                 <p:graphicImage name="images/loading.gif" library="blog" width="100"/>
-            </p:dialog>
+            </f:facet>
 
-            <p:ajaxStatus styleClass="layout-ajax-loader" onstart="PF('statusDialog').show()"
-                          oncomplete="PF('statusDialog').hide()"/>
-
-            <p:ajaxExceptionHandler type="java.lang.Exception"
-                                    update="exceptionDialog"
-                                    onexception="PF('exceptionDialog').show()"/>
+            <f:facet name="complete">
+                <h:outputText value=""/>
+            </f:facet>
+        </p:ajaxStatus>
 
 
-            <p:dialog id="exceptionDialog" header="#{msg['error']['systemError']}"
-                      widgetVar="exceptionDialog" modal="true" blockScroll="true">
-                <p:outputPanel style="max-height: 500px;  overflow-y: auto"
-                               rendered="#{pfExceptionHandler.type ne 'com.dandandog.framework.faces.exception.MessageResolvableException'}">
-                    <h3>Exception '#{pfExceptionHandler.type}' occured!</h3>
-                    Message: #{pfExceptionHandler.message} <br/>
-                    StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false"/>
+        <p:ajaxExceptionHandler type="java.lang.Exception"
+                                update="exceptionDialog"
+                                onexception="PF('exceptionDialog').show()"/>
+
+
+        <p:dialog id="exceptionDialog" header="#{msg['error']['systemError']}"
+                  widgetVar="exceptionDialog" modal="true" blockScroll="true">
+            <p:outputPanel style="max-height: 500px;  overflow-y: auto"
+                           rendered="#{pfExceptionHandler.type ne 'com.dandandog.framework.faces.exception.MessageResolvableException'}">
+                <h3>Exception '#{pfExceptionHandler.type}' occured!</h3>
+                Message: #{pfExceptionHandler.message} <br/>
+                StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false"/>
+            </p:outputPanel>
+
+            <p:outputPanel style="width: 600px"
+                           rendered="#{pfExceptionHandler.type eq 'com.dandandog.framework.faces.exception.MessageResolvableException'}">
+                <p:staticMessage severity="error" summary="#{msg['error']['dataError']}"
+                                 detail="#{msg['error']['dataNotFound']}" style="width: 100%; padding:20px"/>
+            </p:outputPanel>
+            <f:facet name="footer">
+                <p:outputPanel layout="inline">
+                    <p:commandButton id="saveButton" widgetVar="saveButton" styleClass="entity-dialog-save-btn"
+                                     process="@none"
+                                     value="#{msg['blog']['reload']}"
+                                     onclick="document.location.href = document.location.href;"/>
                 </p:outputPanel>
+            </f:facet>
+        </p:dialog>
 
-                <p:outputPanel style="width: 600px"
-                               rendered="#{pfExceptionHandler.type eq 'com.dandandog.framework.faces.exception.MessageResolvableException'}">
-                    <p:staticMessage severity="error" summary="#{msg['error']['dataError']}"
-                                     detail="#{msg['error']['dataNotFound']}" style="width: 100%; padding:20px"/>
-                </p:outputPanel>
-                <f:facet name="footer">
-                    <p:outputPanel layout="inline">
-                        <p:commandButton id="saveButton" widgetVar="saveButton" styleClass="entity-dialog-save-btn"
-                                         process="@none"
-                                         value="#{msg['blog']['reload']}"
-                                         onclick="document.location.href = document.location.href;"/>
-                    </p:outputPanel>
-                </f:facet>
-            </p:dialog>
-        </h:form>
     </p:outputPanel>
     <h:outputStylesheet name="css/primeicons.css" library="ecuador-layout"/>
     <h:outputStylesheet name="css/primeflex.min.css" library="ecuador-layout"/>

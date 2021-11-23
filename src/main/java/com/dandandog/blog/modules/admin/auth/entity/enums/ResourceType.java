@@ -16,15 +16,15 @@ public enum ResourceType implements BaseEnum<Integer> {
     /**
      * 目录
      */
-    CATALOG(0, "catalog"),
+    CATALOG(1, "catalog"),
     /**
      * 菜单
      */
-    MENU(1, "menu"),
+    MENU(2, "menu"),
     /**
      * 按钮
      */
-    BUTTON(2, "button");
+    BUTTON(3, "button");
 
     private final int value;
 

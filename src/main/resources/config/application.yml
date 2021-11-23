@@ -5,7 +5,7 @@ server:
 joinfaces:
   jsf:
     #facelets-refresh-period: -1
-    state-saving-method: client
+    state-saving-method: server
     datetimeconverter-default-timezone-is-system-timezone: true
     interpret-empty-string-submitted-values-as-null: true
   butterfaces:

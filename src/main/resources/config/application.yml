@@ -6,8 +6,11 @@ joinfaces:
   jsf:
     #facelets-refresh-period: -1
     state-saving-method: server
+    facelets-suffix: faces
+    enable-validate-whole-bean: true
     datetimeconverter-default-timezone-is-system-timezone: true
     interpret-empty-string-submitted-values-as-null: true
+    always-perform-validation-when-required-is-true: true
   butterfaces:
     integration:
       primefaces:
@@ -15,7 +18,6 @@ joinfaces:
   primefaces:
     theme: ecuador-#{guestPreferences.theme}
     #transform-metadata: true
-    client-side-validation: true
     #move-scripts-to-bottom: true
     font-awesome: true
     client-side-localisation: true

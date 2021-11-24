@@ -5,9 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:sec="http://www.springframework.org/security/tags"
-      xmlns:framework="http://java.sun.com/jsf/composite/components"
-      lang="#{p:language()}" xml:lang="#{p:language()}">
+      lang="zh_cn">
 
 <h:head>
     <f:facet name="first">
@@ -122,12 +120,11 @@
         </p:dialog>
 
     </p:outputPanel>
+    <h:outputScript name="locales/locale-#{p:language()}.js" library="primefaces"/>
     <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ecuador-layout"/>
     <h:outputStylesheet name="css/primeflex.min.css" library="ecuador-layout"/>
-    <h:outputScript name="locales/locale-#{p:language()}.js" library="primefaces"/>
     <h:outputStylesheet name="css/common.css" library="framework"/>
     <h:outputStylesheet name="css/app.css" library="blog"/>
-
 </h:body>
 
 </html>

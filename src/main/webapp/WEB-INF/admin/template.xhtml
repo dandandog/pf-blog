@@ -29,6 +29,7 @@
 
 <h:body styleClass="#{guestPreferences.inputStyleClass}">
     <c:set var="principal" value="#{p:userPrincipal().principal}"/>
+
     <p:outputPanel id="layout_panel"
                    styleClass="layout-wrapper #{guestPreferences.menuMode} layout-menu-#{guestPreferences.menuColor} #{guestPreferences.orientationRTL ? 'layout-rtl' : null}">
         <ui:include src="topbar.xhtml"/>
@@ -66,13 +67,6 @@
 
         <ui:insert name="dialog"/>
 
-        <p:growl id="messages" widgetVar="messages" for="globalMessages"
-                 showDetail="true" showSummary="true" sticky="false" life="3000"
-                 redisplay="true">
-            <p:autoUpdate/>
-        </p:growl>
-
-
         <p:confirmDialog id="confirmDialog" widgetVar="confirmDialog"
                          global="true" showEffect="fade" hideEffect="fade" width="400">
             <p:commandButton value="#{msg['framework']['confirm']}" type="button"
@@ -81,9 +75,18 @@
                              styleClass="ui-confirmdialog-no ui-button-secondary" icon="fa fa-close"/>
         </p:confirmDialog>
 
-        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false"
-                  resizable="false">
-            <p:graphicImage name="images/loading.gif" library="blog" width="100"/>
+
+        <p:growl id="messages" widgetVar="globalMessages" for="globalMessages"
+                 showDetail="true" showSummary="true" sticky="false" life="3000"
+                 redisplay="true">
+            <p:autoUpdate/>
+        </p:growl>
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false"
+                  resizable="false" showHeader="false">
+            <div class="p-text-center" style="padding-top: 2rem;">
+                <p:graphicImage name="images/loading.gif" library="blog" width="80"/>
+            </div>
         </p:dialog>
 
         <p:ajaxStatus styleClass="layout-ajax-loader" onstart="PF('statusDialog').show()"
@@ -119,12 +122,12 @@
         </p:dialog>
 
     </p:outputPanel>
-    <h:outputStylesheet name="css/primeicons.css" library="ecuador-layout"/>
+    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ecuador-layout"/>
     <h:outputStylesheet name="css/primeflex.min.css" library="ecuador-layout"/>
-
+    <h:outputScript name="locales/locale-#{p:language()}.js" library="primefaces"/>
     <h:outputStylesheet name="css/common.css" library="framework"/>
     <h:outputStylesheet name="css/app.css" library="blog"/>
-    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ecuador-layout"/>
+
 </h:body>
 
 </html>

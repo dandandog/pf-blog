@@ -16,8 +16,6 @@
     <ui:define name="content">
         <div class="card">
             <h:form id="resource_form" prependId="false">
-
-
                 <framework:treeTable id="resource" formDialogId="resource"
                                      headText="#{msg['blog']['resourceManagement']}"
                                      value="#{viewScope.rootTable}"
@@ -34,8 +32,8 @@
                         </p:outputPanel>
                     </p:column>
 
-                    <p:column priority="4" headerText="#{msg['blog']['seq']}" field="seq" filterable="false"
-                              sortable="flase" width="60">
+                    <p:column headerText="#{msg['blog']['seq']}" field="seq" filterable="false"
+                              sortable="flase" width="60" responsivePriority="5">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText value="#{element.seq}"/>
@@ -46,13 +44,14 @@
                         </p:cellEditor>
                     </p:column>
 
-                    <p:column priority="2" headerText="#{msg['blog']['resourceType']}"
-                              width="80">
+                    <p:column headerText="#{msg['blog']['resourceType']}"
+                              width="80" responsivePriority="4">
                         <h:outputText value="#{msg['resourceType'][element.type.title]}"/>
                     </p:column>
 
-                    <p:column priority="3" headerText="#{msg['blog']['display']}" field="display" sortable="false"
-                              filterable="false" width="60">
+                    <p:column headerText="#{msg['blog']['display']}" field="display"
+                              sortable="false"
+                              filterable="false" width="60" responsivePriority="3">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText value="#{msg['framework'][element.display]}"/>
@@ -62,11 +61,11 @@
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column priority="2" headerText="#{msg['blog']['path']}">
+                    <p:column headerText="#{msg['blog']['path']}" responsivePriority="2">
                         <h:outputText value="#{element.path}"/>
                     </p:column>
 
-                    <p:column priority="4" headerText="#{msg['blog']['perms']}">
+                    <p:column headerText="#{msg['blog']['perms']}" responsivePriority="1">
                         <h:outputText value="#{element.perms}"/>
                     </p:column>
                 </framework:treeTable>
@@ -87,7 +86,7 @@
                     </p:tree>
                 </framework:label>
 
-                <framework:label target="title" value="#{msg['blog']['title']}" styleClass="p-col-6"
+                <framework:label target="title" value="#{msg['blog']['title']}" styleClass="p-col-12 p-md-6"
                                  indicateRequired="true">
                     <div class="ui-inputgroup">
                         <p:commandButton widgetVar="iconBtn" id="iconBtn" immediate="true"
@@ -107,11 +106,12 @@
                             </div>
                         </p:overlayPanel>
                         <p:inputText id="title" value="#{viewScope.vo.title}" label="#{msg['blog']['title']}"
-                                     required="true"/>
+                                     required="true" title="#{msg['blog']['title']}"/>
                     </div>
                 </framework:label>
 
-                <framework:label target="resourceType" value="#{msg['blog']['resourceType']}" styleClass="p-col-6">
+                <framework:label target="resourceType" value="#{msg['blog']['resourceType']}"
+                                 styleClass="p-col-12 p-md-6">
                     <p:selectOneRadio id="resourceType" widgetVar="type"
                                       value="#{viewScope.vo.type}" unselectable="false">
                         <f:selectItems value="#{viewScope.types}" var="type"
@@ -120,7 +120,7 @@
                 </framework:label>
 
                 <framework:label widgetVar="target" target="target"
-                                 value="#{msg['blog']['resourceTarget']}" styleClass="p-col-6">
+                                 value="#{msg['blog']['resourceTarget']}" styleClass="p-col-12 p-md-6">
                     <p:selectOneMenu id="target" value="#{viewScope.vo.target}" autoWidth="true">
                         <f:selectItems value="#{viewScope.targets}" var="target"
                                        itemLabel="#{msg['resourceTarget'][target.title]}" itemValue="#{target}"/>
@@ -128,8 +128,8 @@
                 </framework:label>
 
                 <framework:label widgetVar="perms" target="perms"
-                                 value="#{msg['blog']['perms']}" styleClass="p-col-6">
-                    <p:inputText id="perms" value="#{viewScope.vo.perms}"/>
+                                 value="#{msg['blog']['perms']}" styleClass="p-col-12 p-md-6">
+                    <p:inputText id="perms" value="#{viewScope.vo.perms}" required="true"/>
                 </framework:label>
 
                 <framework:label widgetVar="path" target="path" value="#{msg['blog']['path']}">

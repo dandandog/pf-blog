@@ -21,10 +21,13 @@ joinfaces:
     #move-scripts-to-bottom: true
     font-awesome: true
     client-side-localisation: true
-    move-scripts-to-bottom: true
     csp: false
     transform-metadata: true
     cache-provider: org.primefaces.cache.EHCache3Provider
+    client-side-validation: true
+    cookies-same-site: Strict
+    multi-view-state-store: client-window
+    move-scripts-to-bottom: true
 
 
 spring:

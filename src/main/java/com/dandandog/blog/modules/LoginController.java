@@ -1,9 +1,7 @@
 package com.dandandog.blog.modules;
 
-import cn.hutool.core.util.StrUtil;
 import com.dandandog.blog.common.database.DataSourceUtil;
 import com.dandandog.blog.modules.admin.auth.service.AuthUserService;
-import com.dandandog.blog.modules.admin.auth.web.faces.vo.AuthUserVo;
 import com.dandandog.framework.common.utils.SecurityUtil;
 import com.dandandog.framework.faces.controller.FacesController;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -29,7 +27,6 @@ public class LoginController extends FacesController {
 
     @Override
     public void onEntry() {
-        putViewScope("auth", new AuthUserVo());
         checkException();
 
         boolean isConn = dataSourceUtil.checkConnection();
@@ -49,7 +46,7 @@ public class LoginController extends FacesController {
 
     public void checkException() {
         String isError = getRequestParameter("error");
-        if (isError!=null) {
+        if (isError != null) {
             Object exception = getRequest().getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
             if (exception instanceof UsernameNotFoundException) {
                 errorMessages("error.userNotFound", null);

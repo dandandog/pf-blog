@@ -23,12 +23,12 @@
                 </div>
             </p:outputPanel>
             <p:outputPanel styleClass="p-col-12 p-mb-3 ui-float-label">
-                <p:inputText id="username" required="true" value="#{viewScope.auth.username}"/>
+                <p:inputText id="username" required="true"/>
                 <p:outputLabel for="@previous" value="#{msg['framework']['username']}"/>
             </p:outputPanel>
             <p:outputPanel styleClass="p-col-12 p-mb-3 ui-float-label">
-                <p:password id="password" value="#{viewScope.auth.password}"
-                            autocomplete="new-password" required="true"/>
+                <p:password id="password" required="true"
+                            autocomplete="new-password"/>
                 <p:outputLabel for="@previous" value="#{msg['framework']['password']}"/>
             </p:outputPanel>
 

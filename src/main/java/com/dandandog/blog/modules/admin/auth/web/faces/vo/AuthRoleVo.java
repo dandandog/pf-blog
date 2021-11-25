@@ -3,6 +3,7 @@ package com.dandandog.blog.modules.admin.auth.web.faces.vo;
 import cn.hutool.core.util.ArrayUtil;
 import com.dandandog.blog.modules.admin.auth.entity.AuthResource;
 import com.dandandog.framework.common.model.IVo;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import lombok.Data;
 import org.primefaces.model.TreeNode;
 
@@ -35,7 +36,7 @@ public class AuthRoleVo implements IVo {
     public void setResourceNodes(TreeNode[] resourceNodes) {
         if (ArrayUtil.isNotEmpty(resourceNodes)) {
             this.resources = Arrays.stream(resourceNodes)
-                    .map(treeNode -> (AuthResource) treeNode.getData()).collect(Collectors.toList());
+                    .map(treeNode -> MapperUtil.map((AuthResourceVo) treeNode.getData(), AuthResource.class)).collect(Collectors.toList());
         }
         this.resourceNodes = resourceNodes;
     }

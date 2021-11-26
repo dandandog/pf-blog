@@ -12,13 +12,13 @@
 </composite:interface>
 
 <composite:implementation>
-    <p:outputPanel styleClass="p-d-flex p-ai-center" style="height: 90px;">
-        <p:avatar size="xlarge" shape="circle" styleClass="p-mr-3">
+    <p:outputPanel styleClass="p-d-flex p-ai-center">
+        <p:avatar size="xlarge" styleClass="p-mr-3 ">
             <p:outputPanel rendered="#{cc.attrs.user.avatarUrl eq null}">
                 <i class="ui-avatar-icon pi pi-user"/>
             </p:outputPanel>
             <p:outputPanel rendered="#{cc.attrs.user.avatarUrl ne null}">
-                <img src="#{cc.attrs.user.avatarUrl}" style="width: 65px; height: 65px"/>
+                <p:graphicImage url="#{cc.attrs.user.avatarUrl}" styleClass="p-shadow-5"/>
             </p:outputPanel>
         </p:avatar>
         <h:outputText value="#{cc.attrs.user.nickname}"/>

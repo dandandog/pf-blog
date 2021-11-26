@@ -1,5 +1,7 @@
 package com.dandandog.blog.modules.admin.auth.entity.enums;
 
+import com.dandandog.framework.common.utils.LocaleUtil;
+import com.dandandog.framework.common.utils.MessageUtil;
 import com.dandandog.framework.mybatis.entity.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -7,24 +9,21 @@ public enum ResourceTarget implements BaseEnum<Integer> {
     /**
      * 当前页
      */
-    CURR_PAGE(0, "currPage"),
+    CURR_PAGE(0),
     /**
      * 新签页
      */
-    NEW_PAGE(1, "newPage"),
-
+    NEW_PAGE(1),
     /**
      * 新窗口
      */
-    NEW_WINDOW(2, "newWindow");
+    NEW_WINDOW(2);
 
     private final int value;
 
-    private final String title;
 
-    ResourceTarget(int value, String title) {
+    ResourceTarget(int value) {
         this.value = value;
-        this.title = title;
     }
 
     @Override
@@ -34,6 +33,6 @@ public enum ResourceTarget implements BaseEnum<Integer> {
 
     @JsonValue
     public String getTitle() {
-        return this.title;
+        return MessageUtil.getMessageEnum(this, LocaleUtil.getCurrLocale());
     }
 }

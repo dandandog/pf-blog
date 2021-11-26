@@ -1,5 +1,7 @@
 package com.dandandog.blog.modules.admin.content.entity.enums;
 
+import com.dandandog.framework.common.utils.LocaleUtil;
+import com.dandandog.framework.common.utils.MessageUtil;
 import com.dandandog.framework.mybatis.entity.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -12,20 +14,18 @@ public enum CommentType implements BaseEnum<Integer> {
     /**
      * 评论
      */
-    COMMENT(1, "comment"),
+    COMMENT(0),
 
     /**
      * 回复
      */
-    REPLY(2, "reply");
+    REPLY(1);
 
     private final int value;
 
-    private final String title;
 
-    CommentType(int value, String title) {
+    CommentType(int value) {
         this.value = value;
-        this.title = title;
     }
 
     @Override
@@ -35,7 +35,7 @@ public enum CommentType implements BaseEnum<Integer> {
 
     @JsonValue
     public String getTitle() {
-        return this.title;
+        return MessageUtil.getMessageEnum(this, LocaleUtil.getCurrLocale());
     }
 
 }

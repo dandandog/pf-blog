@@ -32,7 +32,7 @@
                     <p:avatar rendered="#{empty principal.avatarUrl}" label="#{fn:toUpperCase(principal.nickname)}"
                               styleClass="avatar-text p-mr-2"/>
                     <p:avatar rendered="#{not empty principal.avatarUrl}" styleClass="p-mr-2">
-                        <p:graphicImage url="#{principal.avatarUrl}" style="margin: 0px"/>
+                        <p:graphicImage url="#{principal.avatarUrl}" style="margin: 0px;width: 100%;height: 100%"/>
                     </p:avatar>
                     <i class="pi pi-caret-down"/>
                 </p:outputPanel>

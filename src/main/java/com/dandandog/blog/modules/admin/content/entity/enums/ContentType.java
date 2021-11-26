@@ -1,5 +1,7 @@
 package com.dandandog.blog.modules.admin.content.entity.enums;
 
+import com.dandandog.framework.common.utils.LocaleUtil;
+import com.dandandog.framework.common.utils.MessageUtil;
 import com.dandandog.framework.mybatis.entity.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -12,25 +14,24 @@ public enum ContentType implements BaseEnum<Integer> {
     /**
      * 帖子
      */
-    POST(1, "post"),
+    POST(0),
 
     /**
      * 附件
      */
-    ATTACHMENT(2, "attachment"),
+    ATTACHMENT(1),
 
     /**
      * 草案
      */
-    DRAFT(3, "draft");
+    DRAFT(2);
 
     private final int value;
 
-    private final String title;
 
-    ContentType(int value, String title) {
+    ContentType(int value) {
         this.value = value;
-        this.title = title;
+
     }
 
     @Override
@@ -40,7 +41,7 @@ public enum ContentType implements BaseEnum<Integer> {
 
     @JsonValue
     public String getTitle() {
-        return this.title;
+        return MessageUtil.getMessageEnum(this, LocaleUtil.getCurrLocale());
     }
 
 

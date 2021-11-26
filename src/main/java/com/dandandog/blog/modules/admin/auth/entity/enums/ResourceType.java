@@ -1,5 +1,7 @@
 package com.dandandog.blog.modules.admin.auth.entity.enums;
 
+import com.dandandog.framework.common.utils.LocaleUtil;
+import com.dandandog.framework.common.utils.MessageUtil;
 import com.dandandog.framework.mybatis.entity.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -12,27 +14,24 @@ public enum ResourceType implements BaseEnum<Integer> {
     /**
      * 导航
      */
-    NAV(0, "nav"),
+    NAV(0),
     /**
      * 目录
      */
-    CATALOG(1, "catalog"),
+    CATALOG(1),
     /**
      * 菜单
      */
-    MENU(2, "menu"),
+    MENU(2),
     /**
      * 按钮
      */
-    BUTTON(3, "button");
+    BUTTON(3);
 
     private final int value;
 
-    private final String title;
-
-    ResourceType(int value, String title) {
+    ResourceType(int value) {
         this.value = value;
-        this.title = title;
     }
 
     @Override
@@ -42,6 +41,6 @@ public enum ResourceType implements BaseEnum<Integer> {
 
     @JsonValue
     public String getTitle() {
-        return this.title;
+        return MessageUtil.getMessageEnum(this, LocaleUtil.getCurrLocale());
     }
 }

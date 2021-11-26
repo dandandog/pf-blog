@@ -8,7 +8,6 @@ a {
 }
 
 
-
 .layout-ajax-loader {
     position: static !important;
 }
@@ -19,14 +18,7 @@ a {
     left: 50%;
 }
 
-.transparent-dialog {
-    box-shadow: none !important;
-}
 
-.transparent-dialog .ui-dialog-titlebar {
-    background-color: transparent !important;
-}
-
-.transparent-dialog .ui-dialog-content {
-    background-color: transparent !important;
+.ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield {
+    width: 100%;
 }

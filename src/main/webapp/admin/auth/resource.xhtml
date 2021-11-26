@@ -18,7 +18,7 @@
             <h:form id="resource_form" prependId="false">
                 <framework:treeTable id="resource" formDialogId="resource"
                                      headText="#{msg['blog']['resourceManagement']}"
-                                     value="#{viewScope.rootTable}"
+                                     value="#{viewScope.rootTable}" editable="false"
                                      singleSelection="#{viewScope.sinSelected}"
                                      multipleSelection="#{viewScope.mulSelected}">
 
@@ -46,7 +46,7 @@
 
                     <p:column headerText="#{msg['blog']['resourceType']}"
                               width="80" responsivePriority="4">
-                        <h:outputText value="#{msg['resourceType'][element.type.title]}"/>
+                        <framework:tags value="#{element.type}"/>
                     </p:column>
 
                     <p:column headerText="#{msg['blog']['display']}" field="display"
@@ -54,9 +54,10 @@
                               filterable="false" width="60" responsivePriority="3">
                         <p:cellEditor>
                             <f:facet name="output">
-                                <h:outputText value="#{msg['framework'][element.display]}"/>
+                                <framework:tags value="#{element.display}" type="bool"/>
                             </f:facet>
                             <f:facet name="input">
+
                                 <p:toggleSwitch value="#{element.display}"/>
                             </f:facet>
                         </p:cellEditor>
@@ -115,7 +116,7 @@
                     <p:selectOneRadio id="resourceType" widgetVar="type"
                                       value="#{viewScope.vo.type}" unselectable="false">
                         <f:selectItems value="#{viewScope.types}" var="type"
-                                       itemLabel="#{msg['resourceType'][type.title]}" itemValue="#{type}"/>
+                                       itemLabel="#{type.title}" itemValue="#{type}"/>
                     </p:selectOneRadio>
                 </framework:label>
 
@@ -123,7 +124,7 @@
                                  value="#{msg['blog']['resourceTarget']}" styleClass="p-col-12 p-md-6">
                     <p:selectOneMenu id="target" value="#{viewScope.vo.target}" autoWidth="true">
                         <f:selectItems value="#{viewScope.targets}" var="target"
-                                       itemLabel="#{msg['resourceTarget'][target.title]}" itemValue="#{target}"/>
+                                       itemLabel="#{target.title}" itemValue="#{target}"/>
                     </p:selectOneMenu>
                 </framework:label>
 

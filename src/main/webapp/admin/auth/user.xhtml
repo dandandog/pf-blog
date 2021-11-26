@@ -33,11 +33,11 @@
                                 <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
                                               noSelectionOption="true"/>
                                 <f:selectItems value="#{viewScope.types}" var="type"
-                                               itemLabel="#{msg['userType'][type.title]}"
+                                               itemLabel="#{type.title}"
                                                itemValue="#{type}"/>
                             </p:selectOneMenu>
                         </f:facet>
-                        <h:outputText value="#{msg['userType'][element.type.title]}"/>
+                        <h:outputText value="#{type.title}"/>
                     </p:column>
                     <p:column headerText="#{msg['blog']['userState']}"
                               field="status" filterMatchMode="equals">
@@ -48,11 +48,11 @@
                                 <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
                                               noSelectionOption="true"/>
                                 <f:selectItems value="#{viewScope.statuses}" var="status"
-                                               itemLabel="#{msg['userStatus'][status.title]}"
+                                               itemLabel="#{status.title}"
                                                itemValue="#{status}"/>
                             </p:selectOneMenu>
                         </f:facet>
-                        <h:outputText value="#{msg['userState'][element.status.title]}"/>
+                        <framework:tags value="#{element.status}"/>
                     </p:column>
                     <p:column headerText="#{msg['blog']['userGender']}"
                               field="gender" filterMatchMode="equals">
@@ -63,11 +63,11 @@
                                 <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
                                               noSelectionOption="true"/>
                                 <f:selectItems value="#{viewScope.genders}" var="gender"
-                                               itemLabel="#{msg['userGender'][gender.title]}"
+                                               itemLabel="#{gender.title}"
                                                itemValue="#{gender}"/>
                             </p:selectOneMenu>
                         </f:facet>
-                        <h:outputText value="#{msg['userGender'][element.gender.title]}"/>
+                        <framework:tags value="#{element.gender}"/>
                     </p:column>
                     <p:column headerText="#{msg['blog']['phone']}" field="phone" filterMatchMode="contains"/>
                     <p:column headerText="#{msg['blog']['email']}" field="email" filterMatchMode="contains"/>
@@ -99,7 +99,7 @@
                 <framework:label target="gender" value="#{msg['blog']['userGender']}" styleClass="p-col-6">
                     <p:selectOneMenu id="gender" value="#{viewScope.vo.gender}" disabled="true">
                         <f:selectItems value="#{viewScope.genders}" var="gender"
-                                       itemLabel="#{msg['userGender'][gender.title]}" itemValue="#{gender}"/>
+                                       itemLabel="#{gender.title}" itemValue="#{gender}"/>
                     </p:selectOneMenu>
                 </framework:label>
                 <framework:label target="mobile" value="#{msg['blog']['phone']}" styleClass="p-col-6">
@@ -113,7 +113,7 @@
                 <framework:label target="status" value="#{msg['blog']['userState']}" styleClass="p-col-6">
                     <p:selectOneMenu id="status" value="#{viewScope.vo.status}">
                         <f:selectItems value="#{viewScope.statuses}" var="status"
-                                       itemLabel="#{msg['userState'][status.title]}" itemValue="#{status}"/>
+                                       itemLabel="#{status.title}" itemValue="#{status}"/>
                     </p:selectOneMenu>
                 </framework:label>
 

@@ -1,5 +1,7 @@
 package com.dandandog.blog.modules.admin.auth.entity.enums;
 
+import com.dandandog.framework.common.utils.LocaleUtil;
+import com.dandandog.framework.common.utils.MessageUtil;
 import com.dandandog.framework.mybatis.entity.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -12,19 +14,17 @@ public enum UserType implements BaseEnum<Integer> {
     /**
      * admin
      */
-    ADMIN(0, "admin"),
+    ADMIN(0),
     /**
      * user
      */
-    USER(1, "user");
+    USER(1);
 
     private final int value;
 
-    private final String title;
 
-    UserType(int value, String title) {
+    UserType(int value) {
         this.value = value;
-        this.title = title;
     }
 
     @Override
@@ -34,7 +34,7 @@ public enum UserType implements BaseEnum<Integer> {
 
     @JsonValue
     public String getTitle() {
-        return this.title;
+        return MessageUtil.getMessageEnum(this, LocaleUtil.getCurrLocale());
     }
 
 }

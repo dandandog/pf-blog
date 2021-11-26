@@ -1,5 +1,7 @@
 package com.dandandog.blog.modules.admin.content.entity.enums;
 
+import com.dandandog.framework.common.utils.LocaleUtil;
+import com.dandandog.framework.common.utils.MessageUtil;
 import com.dandandog.framework.mybatis.entity.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -12,26 +14,25 @@ public enum CommentStatus implements BaseEnum<Integer> {
     /**
      * 通过
      */
-    PASSED(1, "passed"),
+    PASSED(0),
 
     /**
      * 待审核
      */
-    PENDING(2, "pending"),
+    PENDING(1),
 
     /**
      * 屏蔽
      */
-    SHIELDING(3, "shielding");
+    SHIELDING(2);
 
 
     private final int value;
 
-    private final String title;
 
-    CommentStatus(int value, String title) {
+    CommentStatus(int value) {
         this.value = value;
-        this.title = title;
+
     }
 
     @Override
@@ -41,7 +42,7 @@ public enum CommentStatus implements BaseEnum<Integer> {
 
     @JsonValue
     public String getTitle() {
-        return this.title;
+        return MessageUtil.getMessageEnum(this, LocaleUtil.getCurrLocale());
     }
 
 }

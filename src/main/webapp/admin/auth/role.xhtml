@@ -64,7 +64,6 @@
                                   value="#{msg['framework']['noRecords']}" style="line-height: 30px;"/>
                     <p:tree id="perms" rendered="#{fn:length(viewScope.rootTree.children) != 0}" widgetVar="perms"
                             value="#{viewScope.rootTree}" style="max-height: 250px; overflow: auto"
-                            propagateSelectionUp="false" highlight="20"
                             selectionMode="checkbox"
                             var="node" datakey="#{node.id}" selection="#{viewScope.vo.resourceNodes}">
                         <p:treeNode>

@@ -40,7 +40,7 @@ public class AuthUserController extends FacesController {
         putViewScope("mulSelected", Lists.newArrayList());
 
         putViewScope("genders", UserGender.values());
-        putViewScope("states", UserStatus.values());
+        putViewScope("statuses", UserStatus.values());
         putViewScope("types", UserType.values());
     }
 

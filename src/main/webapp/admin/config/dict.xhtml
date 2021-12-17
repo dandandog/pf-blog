@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:framework="http://java.sun.com/jsf/composite/components"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">#{msg['blog']['dictManage']}</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="viewname">
+        <li>#{msg['blog']['config']}</li>
+        <li>/</li>
+        <li>#{msg['blog']['dictManage']}</li>
+    </ui:define>
+    <ui:define name="content">
+        <div class="card">
+            <h:form id="dict_form" prependId="false">
+                <p:outputPanel styleClass="p-grid">
+                    <p:outputPanel styleClass="p-col-12 p-md-3">
+                        <p:panel>
+                            <f:facet name="header">
+                                <p:inputText value=""/>
+                            </f:facet>
+                            <p:tree value="#{viewScope.rootTree}" var="node" selectionMode="single"
+                                    selection="#{viewScope.selectedNode}" filterBy="#{node.name}">
+                                <p:treeNode>
+                                    <h:outputText value="#{node.name}"/>
+                                </p:treeNode>
+                            </p:tree>
+                            <f:facet name="footer">
+                                <p:commandButton value="#{msg['framework']['add']}"/>
+                            </f:facet>
+                        </p:panel>
+                    </p:outputPanel>
+
+                    <p:outputPanel styleClass="p-col-12 p-md-9">
+                        <framework:dataTable id="dict" formDialogId="dict"
+                                             headText="#{msg['blog']['dictManagement']}"
+                                             value="#{viewScope.list}"
+                                             singleSelection="#{viewScope.sinSelected}"
+                                             multipleSelection="#{viewScope.mulSelected}">
+                            <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
+                                    update="@widgetVar(dict_dataTable)"/>
+
+                            <p:column headerText="#{msg['blog']['seq']}"
+                                      field="seq" filterable="false" filterMatchMode="equals">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{element.seq}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputNumber value="#{element.seq}" styleClass="ui-column-filter"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="#{msg['blog']['label']}"
+                                      field="label" filterable="false" filterMatchMode="equals"/>
+                            <p:column headerText="#{msg['blog']['value']}"
+                                      field="value" filterable="false" filterMatchMode="equals"/>
+                            <p:column headerText="#{msg['blog']['inputType']}"
+                                      field="type" filterable="false" filterMatchMode="contains"/>
+                            <p:column headerText="#{msg['blog']['remark']}"
+                                      field="remark" filterable="false" filterMatchMode="contains"/>
+                        </framework:dataTable>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </h:form>
+        </div>
+    </ui:define>
+
+    <ui:define name="dialog">
+        <h:form id="dialogform">
+            <framework:dialog id="dict" value="#{viewScope.vo}"
+                              saveUpdate="@widgetVar(dict_dataTable)">
+
+                <p:divider align="left" type="dashed">
+                    <b>#{msg['blog']['dictNode']}</b>
+                </p:divider>
+
+                <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6 node-input">
+                    <p:inputText id="name" value="#{viewScope.vo.node.name}" required="true"/>
+                </framework:label>
+                <framework:label target="code" value="#{msg['blog']['code']}" styleClass="p-col-6  node-input">
+                    <p:inputText id="code" value="#{viewScope.vo.node.code}" required="true"/>
+                </framework:label>
+                <framework:label target="remark" value="#{msg['blog']['remark']}" styleClass="p-col-12 node-input">
+                    <p:inputTextarea id="remark" value="#{viewScope.vo.node.remark}" autoResize="false"/>
+                </framework:label>
+
+                <p:divider align="left" type="dashed">
+                    <b>#{msg['blog']['dictValue']}</b>
+                </p:divider>
+
+                <framework:label target="label" value="#{msg['blog']['label']}" indicateRequired="true"
+                                 styleClass="p-col-6">
+                    <div class="ui-inputgroup">
+                        <p:selectBooleanButton id="def" value="#{viewScope.vo.req}"
+                                               onLabel="#{msg['blog']['reqYes']}"
+                                               offLabel="#{msg['blog']['reqNo']}"
+                                               style="width:90px"/>
+                        <p:inputText id="label" value="#{viewScope.vo.label}" label="#{msg['blog']['label']}"
+                                     required="true"/>
+                    </div>
+                </framework:label>
+                <framework:label target="value" value="#{msg['blog']['code']}" styleClass="p-col-6">
+                    <p:inputText id="value" value="#{viewScope.vo.code}"/>
+                </framework:label>
+
+                <framework:label target="inputType" value="#{msg['blog']['inputType']}" styleClass="p-col-6">
+                    <p:selectOneMenu id="inputType" value="#{viewScope.vo.type}" required="true"
+                                     converter="#{inputTypeConverter}">
+                        <f:selectItems value="#{viewScope.types}" var="type"
+                                       itemLabel="#{msg['inputType'][type.title]}" itemValue="#{type}"/>
+                    </p:selectOneMenu>
+                </framework:label>
+
+                <framework:label value="#{msg['blog']['value']}" styleClass="p-col-12">
+                    <p:chips value="#{viewScope.vo.value}" converter="#{inputItemConverter}" styleClass="value-chips"/>
+                </framework:label>
+
+                <framework:label target="valueRemark" value="#{msg['blog']['remark']}">
+                    <p:inputTextarea id="valueRemark" value="#{viewScope.vo.remark}"/>
+                </framework:label>
+
+            </framework:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

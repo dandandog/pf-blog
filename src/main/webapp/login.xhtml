@@ -3,9 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/common/template.xhtml">
-
-
+                template="/WEB-INF/template.xhtml">
     <ui:define name="title">#{msg['framework']['login']}</ui:define>
 
     <ui:define name="head">
@@ -13,58 +11,76 @@
         <h:outputStylesheet name="css/login.css" library="blog"/>
     </ui:define>
 
-    <ui:define name="content">
-        <h:form styleClass="login-form" prependId="false">
-            <p:outputPanel styleClass="p-d-flex p-jc-between p-ai-center p-mb-3">
-                <h2>#{msg['framework']['login']}</h2>
-                <div>
-                    <h:outputText value="#{msg['blog']['noAccount']}"/>
-                    <p:link outcome="/register" value="#{msg['blog']['register']}"/>
-                </div>
-            </p:outputPanel>
-            <p:outputPanel styleClass="p-col-12 p-mb-3 ui-float-label">
-                <p:inputText id="username" required="true"/>
-                <p:outputLabel for="@previous" value="#{msg['framework']['username']}"/>
-            </p:outputPanel>
-            <p:outputPanel styleClass="p-col-12 p-mb-3 ui-float-label">
-                <p:password id="password" required="true"
-                            autocomplete="new-password"/>
-                <p:outputLabel for="@previous" value="#{msg['framework']['password']}"/>
-            </p:outputPanel>
+    <ui:define name="body">
+        <h:body styleClass="login-body">
+            <div class="login-topbar">
+                <h:link outcome="/dashboard" class="logo">
+                    <p:graphicImage name="images/ecuador-logo.png" library="ecuador-layout"/>
+                </h:link>
+            </div>
+            <div class="login-image">
+                <h:form styleClass="login-form" prependId="false">
+                    <div class="login-panel" style="height: auto;top: 20%; padding: 50px 36px;">
+                        <p:graphicImage styleClass="login-logo" name="images/ecuador-orange-logo.png"
+                                        library="ecuador-layout"/>
+                        <p:outputPanel styleClass="p-d-flex p-jc-between p-ai-center p-mb-3">
+                            <h2>#{msg['framework']['login']}</h2>
+                            <div>
+                                <h:outputText value="#{msg['blog']['noAccount']}"/>
+                                <p:link outcome="/register" value="#{msg['blog']['register']}"/>
+                            </div>
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="p-col-12 p-mb-3 ui-input-icon-left">
+                            <i class="pi pi-user"/>
+                            <p:inputText id="username" required="true" placeholder="#{msg['framework']['username']}"
+                                         label="#{msg['framework']['username']}"/>
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="p-col-12 p-mb-3 ui-input-icon-left">
+                            <i class="pi pi-lock"/>
+                            <p:password id="password" required="true" placeholder="#{msg['framework']['password']}"
+                                        label="#{msg['framework']['password']}"
+                                        autocomplete="new-password"/>
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="checkbox-container">
+                            <p:outputPanel styleClass="p-d-flex p-jc-between">
+                                <div class="remember-me p-d-flex p-ai-center">
+                                    <p:selectBooleanCheckbox id="rememberMe"/>
+                                    <p:outputLabel for="rememberMe" value="#{msg['framework']['rememberMe']}"
+                                                   styleClass="p-ml-2"/>
+                                </div>
+                                <div class="remember-me p-d-flex p-ai-center">
+                                    <p:link outcome="/register" value="#{msg['framework']['forgotPassword']}"/>
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="p-col-12">
+                            <p:commandButton ajax="false" validateClient="true"
+                                             value="#{msg['framework']['login']}"
+                                             process="@form"
+                                             update="@form"
+                                             style="width: 100%"
+                                             styleClass="rounded-button"
+                                             icon="pi pi-sign-in"/>
+                            <div class="p-mt-3 p-text-left">
+                                <p:messages id="messages" showDetail="true" showSummary="false"/>
+                            </div>
+                        </p:outputPanel>
 
+                        <p:divider align="center" type="dashed">
+                            <h:outputText value="#{msg['blog']['otherLogin']}"/>
+                        </p:divider>
 
-            <p:outputPanel styleClass="checkbox-container">
-                <p:outputPanel styleClass="p-d-flex p-jc-between">
-                    <div class="remember-me p-d-flex p-ai-center">
-                        <p:selectBooleanCheckbox id="rememberMe"/>
-                        <p:outputLabel for="rememberMe" value="#{msg['framework']['rememberMe']}" styleClass="p-ml-2"/>
+                        <p:outputPanel styleClass="login-item">
+                            <p:link styleClass="icon-logo_wechat">
+                                <i class="fa fab fa-weixin "/>
+                            </p:link>
+                            <p:link styleClass="icon-logo_github">
+                                <i class="fa fab fa-github "/>
+                            </p:link>
+                        </p:outputPanel>
                     </div>
-
-                    <div class="remember-me p-d-flex p-ai-center">
-                        <p:link outcome="/register" value="#{msg['framework']['forgotPassword']}"/>
-                    </div>
-                </p:outputPanel>
-            </p:outputPanel>
-            <p:outputPanel styleClass="p-col-12">
-                <p:commandButton style="width: 100%" update="@form" ajax="false" validateClient="true"
-                                 value="#{msg['framework']['login']}" icon="pi pi-sign-in"/>
-                <div class="p-mt-3">
-
-                </div>
-            </p:outputPanel>
-
-            <p:divider align="center" type="dashed">
-                <h:outputText value="#{msg['blog']['otherLogin']}"/>
-            </p:divider>
-
-            <p:outputPanel styleClass="login-item">
-                <p:link styleClass="icon-logo_wechat">
-                    <i class="fa fab fa-weixin "/>
-                </p:link>
-                <p:link styleClass="icon-logo_github">
-                    <i class="fa fab fa-github "/>
-                </p:link>
-            </p:outputPanel>
-        </h:form>
+                </h:form>
+            </div>
+        </h:body>
     </ui:define>
 </ui:composition>

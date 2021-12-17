@@ -4,46 +4,77 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:framework="http://java.sun.com/jsf/composite/components"
-                template="/WEB-INF/common/template.xhtml">
-
+                template="/WEB-INF/template.xhtml">
 
     <ui:define name="title">#{msg['framework']['register']}</ui:define>
-    <ui:define name="content">
-        <h:form id="register-form" prependId="false">
-            <p:outputPanel styleClass="p-d-flex p-jc-between p-ai-center p-mb-3">
-                <h2>#{msg['framework']['register']}</h2>
-            </p:outputPanel>
-            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
-                <p:inputText value="#{viewScope.user.username}" required="true"/>
-                <p:outputLabel for="@previous" value="#{msg['framework']['username']}"/>
-            </p:outputPanel>
-            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
-                <p:password id="password1" match="@widgetVar(password2)" feedback="true"
-                            autocomplete="new-password" required="true"
-                            promptLabel="#{msg['framework']['promptPassword']}"
-                            weakLabel="#{msg['framework']['weakPassword']}"
-                            goodLabel="#{msg['framework']['goodPassword']}"
-                            strongLabel="#{msg['framework']['strongPassword']}"
-                            value="#{viewScope.user.password}"/>
-                <p:outputLabel for="@previous" value="#{msg['framework']['inputPassword']}"/>
-            </p:outputPanel>
 
-            <p:outputPanel styleClass="p-col-12 p-mb-2 ui-float-label">
-                <p:password id="password2" widgetVar="password2" autocomplete="new-password"
-                            required="true"
-                            value="#{viewScope.user.password}"/>
-                <p:outputLabel for="@previous" value="#{msg['framework']['confirmPassword']}"/>
-            </p:outputPanel>
+    <ui:define name="head">
+        <h:outputScript name="js/login.js" library="blog"/>
+        <h:outputStylesheet name="css/login.css" library="blog"/>
+    </ui:define>
 
-            <p:outputPanel styleClass="p-col-12">
-                <p:commandButton style="width: 100%" value="#{msg['framework']['confirm']}" styleClass="raised-btn"
-                                 process="@form"
-                                 update="@form"
-                                 action="#{controller.save}"/>
-                <div class="p-mt-3">
-                    <p:link outcome="/login" value="#{msg['framework']['back']}#{msg['framework']['login']}"/>
-                </div>
-            </p:outputPanel>
-        </h:form>
+
+    <ui:define name="body">
+        <h:body styleClass="login-body">
+            <div class="login-topbar">
+                <h:link outcome="/dashboard" class="logo">
+                    <p:graphicImage name="images/ecuador-logo.png" library="ecuador-layout"/>
+                </h:link>
+            </div>
+
+            <div class="login-image">
+                <h:form styleClass="login-form" prependId="false">
+                    <div class="login-panel" style="height: auto;top: 20%; padding: 50px 36px;">
+                        <p:graphicImage styleClass="login-logo" name="images/ecuador-orange-logo.png"
+                                        library="ecuador-layout"/>
+                        <p:outputPanel styleClass="p-d-flex p-jc-between p-ai-center p-mb-3">
+                            <h2>#{msg['framework']['register']}</h2>
+                            <div>
+                                <h:outputText value="#{msg['blog']['hasAccount']}"/>
+                                <p:link outcome="/login" value="#{msg['framework']['returnToLogin']}"/>
+                            </div>
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="p-col-12 p-mb-3 ui-input-icon-left">
+                            <i class="pi pi-user"/>
+                            <p:inputText value="#{viewScope.user.username}" required="true"
+                                         placeholder="#{msg['framework']['username']}"
+                                         label="#{msg['framework']['username']}"/>
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="p-col-12 p-mb-3 ui-input-icon-left">
+                            <i class="pi pi-lock"/>
+                            <p:password id="password1" match="@widgetVar(password2)" feedback="true"
+                                        autocomplete="new-password" required="true"
+                                        promptLabel="#{msg['framework']['promptPassword']}"
+                                        weakLabel="#{msg['framework']['weakPassword']}"
+                                        goodLabel="#{msg['framework']['goodPassword']}"
+                                        strongLabel="#{msg['framework']['strongPassword']}"
+                                        placeholder="#{msg['framework']['inputPassword']}"
+                                        label="#{msg['framework']['inputPassword']}"
+                                        value="#{viewScope.user.password}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel styleClass="p-col-12 p-mb-3 ui-input-icon-left">
+                            <i class="pi pi-lock"/>
+                            <p:password id="password2" widgetVar="password2" autocomplete="new-password"
+                                        required="true" placeholder="#{msg['framework']['confirmPassword']}"
+                                        label="#{msg['framework']['confirmPassword']}"
+                                        value="#{viewScope.user.password}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel styleClass="p-col-12">
+                            <p:commandButton style="width: 100%" value="#{msg['framework']['confirm']}"
+                                             styleClass="raised-btn rounded-button"
+                                             process="@form"
+                                             update="@form"
+                                             action="#{controller.save}"/>
+
+                            <div class="p-mt-3 p-text-left">
+                                <p:messages id="messages" showDetail="true" showSummary="false"/>
+                            </div>
+                        </p:outputPanel>
+                    </div>
+                </h:form>
+            </div>
+        </h:body>
     </ui:define>
 </ui:composition>

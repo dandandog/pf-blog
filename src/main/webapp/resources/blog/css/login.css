@@ -1,14 +1,14 @@
+.login-form {
+    height: 100%;
+}
+
 .login-form .p-col-12 {
     padding: 0;
 }
 
-.login-form i {
+.login-form .login-item i {
     font-size: 28px;
     padding: 5px;
-}
-
-.login-body .login-panel img {
-    margin-bottom: 0 !important;
 }
 
 .login-form .icon-logo_wechat {

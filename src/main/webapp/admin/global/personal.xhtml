@@ -11,22 +11,6 @@
 
     <ui:define name="head">
         <h:outputStylesheet>
-            .xxxlarge {
-                width: 200px !important;
-                height: 200px !important;
-                font-size: 28px !important;
-            }
-
-            .xxlarge {
-                width: 100px !important;
-                height: 100px !important;
-            }
-
-            .ui-fileupload-row {
-                display: flex !important;
-                align-items: center;
-            }
-
             .ui-password-masked input {
                 width: 100%;
             }
@@ -46,15 +30,15 @@
     <ui:define name="content">
         <h:form id="personal_form" prependId="false">
             <div class="layout-dashboard">
-                <div class="ui-g-offset-0 ui-lg-offset-4 ui-md-offset-2 ui-g-12 ui-md-8 ui-lg-4">
+                <div class="ui-g-12 ui-md-4 ">
                     <p:panel styleClass="profile">
-                        <div class="bg-image">
-                        </div>
+                        <div class="bg-image"></div>
                         <div class="profile-info">
                             <p:commandLink
                                     action="#{controller.initCropUploader}"
                                     oncomplete="PF('cropper_dialog').show()"
                                     styleClass="p-d-block p-mb-3"
+                                    process="@this"
                                     update="@widgetVar(cropper_dialog)">
                                 <p:avatar rendered="#{empty viewScope.user.avatarUrl}"
                                           label="#{fn:toUpperCase(viewScope.user.nickname)}"
@@ -66,45 +50,19 @@
                             </p:commandLink>
 
                             <p:outputPanel styleClass="name p-mb-2">
-                                <p:inplace editor="true">
-                                    <p:ajax event="save" listener="#{controller.save}"/>
-                                    <f:facet name="output">
-                                        <i class="fa fa-user"/>
-                                        <h:outputText
-                                                value="#{empty viewScope.user.nickname ? msg['blog']['notFill'] : viewScope.user.nickname}"/>
-                                    </f:facet>
-                                    <f:facet name="input">
-                                        <p:inputText value="#{viewScope.user.nickname}"
-                                                     label="#{msg['blog']['nickname']}"/>
-                                    </f:facet>
-                                </p:inplace>
+                                <i class="fa fa-user"/>
+                                <h:outputText
+                                        value="#{empty viewScope.user.nickname ? msg['blog']['notFill'] : viewScope.user.nickname}"/>
                             </p:outputPanel>
                             <p:outputPanel styleClass="job p-mb-2">
-                                <p:inplace editor="true">
-                                    <p:ajax event="save" listener="#{controller.save}"/>
-                                    <f:facet name="output">
-                                        <i class="fa fa-envelope"/>
-                                        <h:outputText
-                                                value="#{empty viewScope.user.email ? msg['blog']['notFill'] : viewScope.user.email}"/>
-                                    </f:facet>
-                                    <f:facet name="input">
-                                        <p:inputText value="#{viewScope.user.email}" label="#{msg['blog']['email']}"/>
-                                    </f:facet>
-                                </p:inplace>
+                                <i class="fa fa-envelope"/>
+                                <h:outputText
+                                        value="#{empty viewScope.user.email ? msg['blog']['notFill'] : viewScope.user.email}"/>
                             </p:outputPanel>
                             <p:outputPanel styleClass="location p-mb-2">
-                                <p:inplace editor="true">
-                                    <p:ajax event="save" listener="#{controller.save}"/>
-                                    <f:facet name="output">
-                                        <i class="fa fa-home"/>
-                                        <h:outputText
-                                                value="#{empty viewScope.user.remark ? msg['blog']['notFill'] : viewScope.user.remark}"/>
-                                    </f:facet>
-                                    <f:facet name="input">
-                                        <p:inputText
-                                                value="#{viewScope.user.remark}" label="#{msg['blog']['home']}"/>
-                                    </f:facet>
-                                </p:inplace>
+                                <i class="fa fa-home"/>
+                                <h:outputText
+                                        value="#{empty viewScope.user.remark ? msg['blog']['notFill'] : viewScope.user.remark}"/>
                             </p:outputPanel>
                             <div>
                                 <div class="profile-numbers">
@@ -124,50 +82,76 @@
                         <p:divider align="left" type="dashed">
                             <b>#{msg['blog']['password']}</b>
                         </p:divider>
-                        <p:outputPanel layout="block" styleClass="ui-fluid p-formgrid p-grid p-pr-6 p-pl-6">
-
-                            <framework:label value="#{msg['framework']['inputPassword']}">
-                                <p:password id="password1" match="@widgetVar(password2)" feedback="true"
-                                            autocomplete="new-password"
-                                            promptLabel="#{msg['framework']['promptPassword']}"
-                                            weakLabel="#{msg['framework']['weakPassword']}"
-                                            goodLabel="#{msg['framework']['goodPassword']}"
-                                            strongLabel="#{msg['framework']['strongPassword']}"
-                                            validatorMessage="#{msg['framework']['diffPassword']}"
-                                            value="#{viewScope.user.password}"/>
-                            </framework:label>
-
-                            <framework:label value="#{msg['framework']['confirmPassword']}">
-                                <p:password id="password2" widgetVar="password2" autocomplete="new-password"
-                                            value="#{viewScope.user.password}"/>
-                            </framework:label>
 
 
-                        </p:outputPanel>
-                        <f:facet name="footer">
-                            <p:outputPanel layout="inline">
-                                <p:commandButton id="save_btn" widgetVar="save_btn" icon="pi pi-save"
-                                                 style="margin-right: .5rem"
-                                                 value="#{msg['framework']['resetPassword']}"
-                                                 action="#{controller.handUpdatePwd}"
-                                                 update="@form,@(.principal-info)"/>
-                                <p:outputPanel layout="inline">
-                                    <h:outputText value="最近一次密码更新在 "/>
-                                    <h:outputText value="#{viewScope.user.pwdRestTime}">
-                                        <f:convertDateTime type="localDateTime"
-                                                           pattern="#{msg['format']['localDateTime']}"/>
-                                    </h:outputText>
-                                </p:outputPanel>
-                            </p:outputPanel>
-                        </f:facet>
                     </p:panel>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                    <p:card>
+                        <p:tabView>
+                            <p:tab title="#{msg['blog']['baseInfo']}">
+                                <p:outputPanel styleClass="p-grid">
+                                    <framework:label value="#{msg['blog']['nickname']}"
+                                                     styleClass="p-col-6 ui-g-12 ui-md-6">
+                                        <p:inputText value="#{viewScope.user.nickname}"/>
+                                    </framework:label>
+                                    <framework:label value="#{msg['blog']['email']}" styleClass="ui-g-12 ui-md-6">
+                                        <p:inputText value="#{viewScope.user.email}"/>
+                                    </framework:label>
+                                    <framework:label value="#{msg['blog']['phone']}" styleClass="ui-g-12 ui-md-6">
+                                        <p:inputText value="#{viewScope.user.phone}"/>
+                                    </framework:label>
+                                    <framework:label value="#{msg['blog']['gender']}" styleClass="ui-g-12 ui-md-6">
+                                        <p:selectOneRadio value="#{viewScope.user.gender}">
+                                            <f:selectItems value="#{viewScope.genders}" var="gender"
+                                                           itemValue="#{gender}" itemLabel="#{gender.title}"/>
+                                        </p:selectOneRadio>
+                                    </framework:label>
 
+                                    <framework:label value="#{msg['blog']['remark']}" styleClass="ui-g-12">
+                                        <p:inputTextarea value="#{viewScope.user.remark}" rows="5"/>
+                                    </framework:label>
+                                </p:outputPanel>
+                            </p:tab>
+                            <p:tab title="#{msg['framework']['resetPassword']}">
+                                <p:outputPanel styleClass="ui-fluid p-formgrid p-grid">
+                                    <framework:label value="#{msg['framework']['inputPassword']}">
+                                        <p:password id="password1" match="@widgetVar(password2)" feedback="true"
+                                                    autocomplete="new-password"
+                                                    promptLabel="#{msg['framework']['promptPassword']}"
+                                                    weakLabel="#{msg['framework']['weakPassword']}"
+                                                    goodLabel="#{msg['framework']['goodPassword']}"
+                                                    strongLabel="#{msg['framework']['strongPassword']}"
+                                                    validatorMessage="#{msg['framework']['diffPassword']}"
+                                                    value="#{viewScope.user.password}"/>
+                                    </framework:label>
+
+                                    <framework:label value="#{msg['framework']['confirmPassword']}">
+                                        <p:password id="password2" widgetVar="password2" autocomplete="new-password"
+                                                    value="#{viewScope.user.password}"/>
+                                    </framework:label>
+
+                                    <p:outputPanel layout="inline">
+                                        <h:outputText value="最近一次密码更新在 "/>
+                                        <h:outputText value="#{viewScope.user.pwdRestTime}">
+                                            <f:convertDateTime type="localDateTime"
+                                                               pattern="#{msg['format']['localDateTime']}"/>
+                                        </h:outputText>
+                                    </p:outputPanel>
+                                </p:outputPanel>
+                            </p:tab>
+                            <p:tab title="Header III">
+                                <p class="p-m-0">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+                                    et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+                                    Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+                                </p>
+                            </p:tab>
+                        </p:tabView>
+                    </p:card>
                 </div>
             </div>
         </h:form>
     </ui:define>
-    <ui:param name="documentationLink" value="/components/imagecropper"/>
-    <ui:param name="widgetLink" value="imagecropper"/>
     <ui:define name="dialog">
         <h:form id="dialogForm">
             <framework:dialog id="cropper" saveDisabled="false" saveUpdate="personal_form,@(.principal-info)"
@@ -175,19 +159,19 @@
                               saveMethod="#{controller.handleUpdateAvatar}">
                 <p:outputPanel styleClass="p-field p-col-12">
                     <p:outputPanel layout="block">
-                        <p:fileUpload
-                                multiple="false" mode="advanced"
-                                sizeLimit="102400" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                                label="#{msg['framework']['pleaseChoose']}"
-                                chooseIcon="ui-icon-plusthick"
-                                cancelLabel="#{msg['framework']['cancel']}"
-                                cancelIcon="ui-icon-cancel"
-                                uploadLabel="#{msg['framework']['upload']}"
-                                uploadIcon="ui-icon-arrowreturnthick-1-n"
-                                invalidSizeMessage="#{msg['framework']['invalidFileSize']}"
-                                invalidFileMessage="#{msg['framework']['invalidFileType']}"
-                                update="cropper_panel"
-                                listener="#{controller.handleFileUpload}">
+                        <p:fileUpload style="width: 700px"
+                                      multiple="false" mode="advanced"
+                                      sizeLimit="102400" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                      label="#{msg['framework']['pleaseChoose']}"
+                                      chooseIcon="ui-icon-plusthick"
+                                      cancelLabel="#{msg['framework']['cancel']}"
+                                      cancelIcon="ui-icon-cancel"
+                                      uploadLabel="#{msg['framework']['upload']}"
+                                      uploadIcon="ui-icon-arrowreturnthick-1-n"
+                                      invalidSizeMessage="#{msg['framework']['invalidFileSize']}"
+                                      invalidFileMessage="#{msg['framework']['invalidFileType']}"
+                                      update="cropper_panel"
+                                      listener="#{controller.handleFileUpload}">
                         </p:fileUpload>
                     </p:outputPanel>
 

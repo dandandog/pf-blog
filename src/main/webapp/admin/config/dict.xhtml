@@ -8,6 +8,20 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">#{msg['blog']['dictManage']}</ui:define>
     <ui:define name="head">
+
+        <h:outputStylesheet>
+            .rootTree {
+                height: calc(100vh - 350px);
+                min-width: 150px;
+            }
+
+            @media (max-width: 760px) {
+                .rootTree {
+                    height: auto;
+                }
+            }
+        </h:outputStylesheet>
+
     </ui:define>
     <ui:define name="viewname">
         <li>#{msg['blog']['config']}</li>
@@ -15,59 +29,53 @@
         <li>#{msg['blog']['dictManage']}</li>
     </ui:define>
     <ui:define name="content">
-        <div class="card">
-            <h:form id="dict_form" prependId="false">
-                <p:outputPanel styleClass="p-grid">
-                    <p:outputPanel styleClass="p-col-12 p-md-3">
-                        <p:panel>
-                            <f:facet name="header">
-                                <p:inputText value=""/>
-                            </f:facet>
-                            <p:tree value="#{viewScope.rootTree}" var="node" selectionMode="single"
-                                    selection="#{viewScope.selectedNode}" filterBy="#{node.name}">
-                                <p:treeNode>
-                                    <h:outputText value="#{node.name}"/>
-                                </p:treeNode>
-                            </p:tree>
-                            <f:facet name="footer">
-                                <p:commandButton value="#{msg['framework']['add']}"/>
-                            </f:facet>
-                        </p:panel>
-                    </p:outputPanel>
+        <h:form id="dict_form" prependId="false">
+            <p:outputPanel styleClass="p-grid">
+                <p:outputPanel styleClass="p-col-12 p-md-2">
+                    <p:tree value="#{viewScope.rootTree}" var="node" selectionMode="single"
+                            selection="#{viewScope.selectedNode}" filterBy="#{node.name}"
+                            styleClass="rootTree">
+                        <p:treeNode>
+                            <h:outputText value="#{node.name}"/>
+                        </p:treeNode>
+                    </p:tree>
 
-                    <p:outputPanel styleClass="p-col-12 p-md-9">
-                        <framework:dataTable id="dict" formDialogId="dict"
-                                             headText="#{msg['blog']['dictManagement']}"
-                                             value="#{viewScope.list}"
-                                             singleSelection="#{viewScope.sinSelected}"
-                                             multipleSelection="#{viewScope.mulSelected}">
-                            <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
-                                    update="@widgetVar(dict_dataTable)"/>
+                    <p:commandButton value="#{msg['framework']['add']}" icon="pi pi-plus" style="width: 100%"/>
 
-                            <p:column headerText="#{msg['blog']['seq']}"
-                                      field="seq" filterable="false" filterMatchMode="equals">
-                                <p:cellEditor>
-                                    <f:facet name="output">
-                                        <h:outputText value="#{element.seq}"/>
-                                    </f:facet>
-                                    <f:facet name="input">
-                                        <p:inputNumber value="#{element.seq}" styleClass="ui-column-filter"/>
-                                    </f:facet>
-                                </p:cellEditor>
-                            </p:column>
-                            <p:column headerText="#{msg['blog']['label']}"
-                                      field="label" filterable="false" filterMatchMode="equals"/>
-                            <p:column headerText="#{msg['blog']['value']}"
-                                      field="value" filterable="false" filterMatchMode="equals"/>
-                            <p:column headerText="#{msg['blog']['inputType']}"
-                                      field="type" filterable="false" filterMatchMode="contains"/>
-                            <p:column headerText="#{msg['blog']['remark']}"
-                                      field="remark" filterable="false" filterMatchMode="contains"/>
-                        </framework:dataTable>
-                    </p:outputPanel>
                 </p:outputPanel>
-            </h:form>
-        </div>
+
+                <p:outputPanel styleClass="p-col-12 p-md-10">
+                    <framework:dataTable id="dict" formDialogId="dict"
+                                         headText="#{msg['blog']['dictManagement']}"
+                                         value="#{viewScope.list}"
+                                         singleSelection="#{viewScope.sinSelected}"
+                                         multipleSelection="#{viewScope.mulSelected}">
+                        <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
+                                update="@widgetVar(dict_dataTable)"/>
+
+                        <p:column headerText="#{msg['blog']['seq']}" width="80"
+                                  field="seq" filterable="false" filterMatchMode="equals">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{element.seq}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputNumber value="#{element.seq}" styleClass="ui-column-filter"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="#{msg['blog']['label']}" width="200"
+                                  field="label" filterable="false" filterMatchMode="equals"/>
+                        <p:column headerText="#{msg['blog']['value']}" width="100" responsivePriority="2"
+                                  field="value" filterable="false" filterMatchMode="equals"/>
+                        <p:column headerText="#{msg['blog']['inputType']}" width="80" responsivePriority="3"
+                                  field="type" filterable="false" filterMatchMode="contains"/>
+                        <p:column headerText="#{msg['blog']['remark']}" responsivePriority="4"
+                                  field="remark" filterable="false" filterMatchMode="contains"/>
+                    </framework:dataTable>
+                </p:outputPanel>
+            </p:outputPanel>
+        </h:form>
     </ui:define>
 
     <ui:define name="dialog">

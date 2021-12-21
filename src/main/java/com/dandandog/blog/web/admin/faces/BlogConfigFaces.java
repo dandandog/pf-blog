@@ -1,7 +1,7 @@
 package com.dandandog.blog.web.admin.faces;
 
 import cn.hutool.core.map.MapUtil;
-import com.dandandog.blog.web.admin.faces.vo.DictVo;
+import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
 import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import com.dandandog.modules.blog.entity.BlogConfig;
@@ -25,19 +25,19 @@ public class BlogConfigFaces {
     @Resource
     private BlogConfigService configService;
 
-    public Map<DictVo, BlogConfig> findByValue(Collection<DictValue> values, String contentId) {
-        Map<DictVo, BlogConfig> data = values.stream().collect(Collectors.toMap(dictValue -> MapperUtil.map(dictValue, DictVo.class), o ->
+    public Map<DictValueVo, BlogConfig> findByValue(Collection<DictValue> values, String contentId) {
+        Map<DictValueVo, BlogConfig> data = values.stream().collect(Collectors.toMap(dictValue -> MapperUtil.map(dictValue, DictValueVo.class), o ->
                 configService.lambdaQuery().eq(BlogConfig::getName, o.getCode())
                         .eq(BlogConfig::getContentId, contentId)
                         .oneOpt().orElse(new BlogConfig(o.getCode(), null, contentId))));
-        return MapUtil.sort(data, Comparator.comparingInt(DictVo::getSeq));
+        return MapUtil.sort(data, Comparator.comparingInt(DictValueVo::getSeq));
     }
 
-    public Map<DictVo, BlogConfig> findByValue(Collection<DictValue> values) {
-        Map<DictVo, BlogConfig> data = values.stream().collect(Collectors.toMap(dictValue -> MapperUtil.map(dictValue, DictVo.class), o ->
+    public Map<DictValueVo, BlogConfig> findByValue(Collection<DictValue> values) {
+        Map<DictValueVo, BlogConfig> data = values.stream().collect(Collectors.toMap(dictValue -> MapperUtil.map(dictValue, DictValueVo.class), o ->
                 configService.lambdaQuery().eq(BlogConfig::getName, o.getCode())
                         .oneOpt().orElse(new BlogConfig(o.getCode(), null))));
-        return MapUtil.sort(data, Comparator.comparingInt(DictVo::getSeq));
+        return MapUtil.sort(data, Comparator.comparingInt(DictValueVo::getSeq));
     }
 
 

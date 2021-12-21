@@ -11,7 +11,7 @@ import com.dandandog.blog.web.admin.faces.DictFaces;
 import com.dandandog.blog.web.admin.faces.vo.BlogArticleVo;
 import com.dandandog.blog.web.admin.faces.vo.BlogAttachVo;
 import com.dandandog.blog.web.admin.faces.vo.BlogCategoryVo;
-import com.dandandog.blog.web.admin.faces.vo.DictVo;
+import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
 import com.dandandog.common.utils.UploadUtil;
 import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
@@ -71,7 +71,7 @@ public class BlogArticleController extends FacesController {
         putViewScope("statuses", ContentState.values());
     }
 
-    public Map<DictVo, BlogConfig> findFields(String contentId) {
+    public Map<DictValueVo, BlogConfig> findFields(String contentId) {
         String KEYS = "article";
         Multimap<String, DictValue> values = dictFaces.getValueByCodes(KEYS);
         return contentConfigFaces.findByValue(values.get(KEYS), contentId);
@@ -108,7 +108,7 @@ public class BlogArticleController extends FacesController {
         BlogArticleVo selected = getViewScope("sinSelected");
         BlogArticleVo vo = contentFaces.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
-        Map<DictVo, BlogConfig> fields = findFields(vo.getId());
+        Map<DictValueVo, BlogConfig> fields = findFields(vo.getId());
         putViewScope("vo", vo);
         putViewScope("categories", getTreeDataModel((TreeFaces) vo.getCategoryNode().getData()));
         putViewScope("fields", fields);
@@ -117,7 +117,7 @@ public class BlogArticleController extends FacesController {
     @MessageRequired(type = MessageType.SAVE)
     public void save() {
         BlogArticleVo vo = getViewScope("vo");
-        Map<DictVo, BlogConfigContent> fields = getViewScope("fields");
+        Map<DictValueVo, BlogConfigContent> fields = getViewScope("fields");
         contentFaces.saveOrUpdate(vo, fields.values());
     }
 

@@ -2,22 +2,23 @@ package com.dandandog.blog.web.admin.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import com.dandandog.blog.web.admin.faces.DictFaces;
-import com.dandandog.blog.web.admin.faces.vo.DictVo;
+import com.dandandog.blog.web.admin.faces.vo.DictNodeVo;
+import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.framework.faces.model.tree.TreeFaces;
-import com.dandandog.modules.sys.entity.DictNode;
 import com.dandandog.modules.sys.entity.enums.InputType;
-import com.dandandog.modules.sys.service.DictNodeService;
 import com.google.common.collect.Lists;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,19 +31,15 @@ public class DictController extends FacesController {
     @Resource
     private DictFaces dictFacet;
 
-    @Resource
-    private DictNodeService dictNodeService;
-
     @Override
     public void onEntry() {
         putViewScope("rootTree", getDataModel());
         putViewScope("nodes", dictFacet.nodes());
-
-        putViewScope("vo", new DictVo());
+        putViewScope("node", new DictNodeVo());
+        putViewScope("value", new DictValueVo());
         putViewScope("sinSelected", null);
         putViewScope("selectedNode", null);
         putViewScope("mulSelected", Lists.newArrayList());
-
         putViewScope("types", InputType.values());
     }
 
@@ -51,9 +48,45 @@ public class DictController extends FacesController {
         return dictFacet.initTree(dataModel, selected);
     }
 
+    public void addNode() {
+        DictNodeVo node = new DictNodeVo();
+        putViewScope("node", node);
+        putViewScope("inputTree", getDataModel());
+    }
+
+    public void editNode() {
+        TreeNode selectedNode = getViewScope("selectedNode");
+        DictNodeVo selected = (DictNodeVo) selectedNode.getData();
+        DictNodeVo node = dictFacet.getNodeById(selected.getId())
+                .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
+        putViewScope("node", node);
+        putViewScope("inputTree", getDataModel(node));
+    }
+
+    @MessageRequired(type = MessageType.SAVE)
+    public void saveNode() {
+        DictNodeVo node = getViewScope("node");
+        dictFacet.saveOrUpdateNode(node);
+        onEntry();
+    }
+
+    @MessageRequired(type = MessageType.DELETE)
+    public void deleteNode() {
+        DictNodeVo node = getViewScope("node");
+        dictFacet.removeByNodeIds(node.getId());
+    }
+
+    public void onSelect(NodeSelectEvent event) {
+        TreeNode selectedNode = event.getTreeNode();
+        DictNodeVo node = (DictNodeVo) selectedNode.getData();
+        Collection<DictValueVo> list = dictFacet.list(node.getId());
+        putViewScope("list", list);
+    }
+
+
     public void add() {
-        DictVo selected = getViewScope("sinSelected");
-        DictVo vo = new DictVo();
+        DictValueVo selected = getViewScope("sinSelected");
+        DictValueVo vo = new DictValueVo();
         if (selected != null) {
             vo.setNode(selected.getNode());
         }
@@ -61,35 +94,31 @@ public class DictController extends FacesController {
     }
 
     public void edit() {
-        DictVo selected = getViewScope("sinSelected");
-        DictVo vo = dictFacet.getOptById(selected.getId())
+        DictValueVo selected = getViewScope("sinSelected");
+        DictValueVo vo = dictFacet.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("vo", vo);
     }
 
     @MessageRequired(type = MessageType.SAVE)
     public void save() {
-        DictVo selected = getViewScope("vo");
-        dictFacet.saveOrUpdate(selected);
+        DictValueVo selected = getViewScope("vo");
+        dictFacet.saveOrUpdateValue(selected);
         onEntry();
     }
 
     @MessageRequired(type = MessageType.DELETE)
     public void delete() {
-        DictVo selected = getViewScope("sinSelected");
-        List<DictVo> selectedList = getViewScope("mulSelected");
-        DictVo[] delEntity = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected)).toArray(new DictVo[0]);
+        DictValueVo selected = getViewScope("sinSelected");
+        List<DictValueVo> selectedList = getViewScope("mulSelected");
+        String[] delEntity = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected))
+                .stream().map(DictValueVo::getId).toArray(String[]::new);
         dictFacet.removeByIds(delEntity);
         onEntry();
     }
 
-    public void onChangeSeq(DictNode node) {
-        dictNodeService.updateById(node);
-    }
-
-    public void cellEdit(CellEditEvent<DictVo> event) {
+    public void cellEdit(CellEditEvent<DictValueVo> event) {
         dictFacet.updateByFiled(event.getRowKey(), event.getColumn().getField(), event.getNewValue());
     }
-
 
 }

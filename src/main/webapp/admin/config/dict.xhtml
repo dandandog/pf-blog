@@ -12,7 +12,6 @@
         <h:outputStylesheet>
             .rootTree {
                 height: calc(100vh - 350px);
-                min-width: 150px;
             }
 
             @media (max-width: 760px) {
@@ -32,16 +31,18 @@
         <h:form id="dict_form" prependId="false">
             <p:outputPanel styleClass="p-grid">
                 <p:outputPanel styleClass="p-col-12 p-md-2">
-                    <p:tree value="#{viewScope.rootTree}" var="node" selectionMode="single"
+                    <p:tree widgetVar="dict_tree" value="#{viewScope.rootTree}" var="node" selectionMode="single"
                             selection="#{viewScope.selectedNode}" filterBy="#{node.name}"
                             styleClass="rootTree">
+                        <p:ajax event="select" listener="#{controller.onSelect}" process="@this"
+                                update="@widgetVar(dict_dataTable)"/>
                         <p:treeNode>
                             <h:outputText value="#{node.name}"/>
                         </p:treeNode>
                     </p:tree>
-
-                    <p:commandButton value="#{msg['framework']['add']}" icon="pi pi-plus" style="width: 100%"/>
-
+                    <p:commandButton value="#{msg['framework']['add']}" icon="pi pi-plus" style="width: 100%"
+                                     action="#{controller.addNode}" update="@widgetVar(dict_node_dialog)"
+                                     oncomplete="PF('dict_node_dialog').show()"/>
                 </p:outputPanel>
 
                 <p:outputPanel styleClass="p-col-12 p-md-10">
@@ -79,28 +80,34 @@
     </ui:define>
 
     <ui:define name="dialog">
-        <h:form id="dialogform">
-            <framework:dialog id="dict" value="#{viewScope.vo}"
-                              saveUpdate="@widgetVar(dict_dataTable)">
+        <h:form id="node_form">
+            <framework:dialog id="dict_node" value="#{viewScope.node}" saveMethod="#{controller.saveNode}"
+                              saveUpdate="@widgetVar(dict_tree)">
 
-                <p:divider align="left" type="dashed">
-                    <b>#{msg['blog']['dictNode']}</b>
-                </p:divider>
+                <p:tree widgetVar="dict_tree" value="#{viewScope.inputTree}" var="node" selectionMode="single"
+                        selection="#{viewScope.node.parent}" filterBy="#{node.name}">
+                    <p:treeNode>
+                        <h:outputText value="#{node.name}"/>
+                    </p:treeNode>
+                </p:tree>
 
                 <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6 node-input">
-                    <p:inputText id="name" value="#{viewScope.vo.node.name}" required="true"/>
+                    <p:inputText id="name" value="#{viewScope.node.name}" required="true"/>
                 </framework:label>
                 <framework:label target="code" value="#{msg['blog']['code']}" styleClass="p-col-6  node-input">
-                    <p:inputText id="code" value="#{viewScope.vo.node.code}" required="true"/>
+                    <p:inputText id="code" value="#{viewScope.node.code}" required="true"/>
                 </framework:label>
                 <framework:label target="remark" value="#{msg['blog']['remark']}" styleClass="p-col-12 node-input">
                     <p:inputTextarea id="remark" value="#{viewScope.vo.node.remark}" autoResize="false"/>
                 </framework:label>
 
-                <p:divider align="left" type="dashed">
-                    <b>#{msg['blog']['dictValue']}</b>
-                </p:divider>
 
+            </framework:dialog>
+        </h:form>
+
+        <h:form id="dialogform">
+            <framework:dialog id="dict" value="#{viewScope.vo}"
+                              saveUpdate="@widgetVar(dict_dataTable)">
                 <framework:label target="label" value="#{msg['blog']['label']}" indicateRequired="true"
                                  styleClass="p-col-6">
                     <div class="ui-inputgroup">
@@ -120,7 +127,7 @@
                     <p:selectOneMenu id="inputType" value="#{viewScope.vo.type}" required="true"
                                      converter="#{inputTypeConverter}">
                         <f:selectItems value="#{viewScope.types}" var="type"
-                                       itemLabel="#{msg['inputType'][type.title]}" itemValue="#{type}"/>
+                                       itemLabel="#{type.title}" itemValue="#{type}"/>
                     </p:selectOneMenu>
                 </framework:label>
 

@@ -12,7 +12,7 @@ import java.util.List;
  * @Date: 2021/9/6 11:54
  */
 @Data
-public class DictVo implements IVo {
+public class DictValueVo implements IVo {
 
     private String id;
 

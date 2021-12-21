@@ -2,7 +2,7 @@ package com.dandandog.blog.web.admin.controller;
 
 import com.dandandog.blog.web.admin.faces.BlogConfigFaces;
 import com.dandandog.blog.web.admin.faces.DictFaces;
-import com.dandandog.blog.web.admin.faces.vo.DictVo;
+import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
@@ -34,7 +34,7 @@ public class BlogConfigGlobalController extends FacesController {
     public void onEntry() {
         String KEYS = "basic";
         Multimap<String, DictValue> values = dictFaces.getValueByCodes(KEYS);
-        Map<DictVo, BlogConfig> fields = configFaces.findByValue(values.get(KEYS));
+        Map<DictValueVo, BlogConfig> fields = configFaces.findByValue(values.get(KEYS));
         putViewScope("fields", fields);
     }
 

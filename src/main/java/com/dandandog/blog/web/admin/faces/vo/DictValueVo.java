@@ -1,11 +1,9 @@
 package com.dandandog.blog.web.admin.faces.vo;
 
+import com.dandandog.framework.common.model.IVo;
 import com.dandandog.modules.sys.entity.DictNode;
 import com.dandandog.modules.sys.entity.enums.InputType;
-import com.dandandog.framework.common.model.IVo;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * @Author: JohnnyLiu
@@ -22,7 +20,7 @@ public class DictValueVo implements IVo {
 
     private String code;
 
-    private List<InputItemVo> value;
+    private Object value;
 
     private InputType type;
 

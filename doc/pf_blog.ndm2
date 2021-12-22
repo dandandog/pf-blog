@@ -4832,7 +4832,7 @@
               {
                 "objectType": "TableField_MYSQL",
                 "name": "value",
-                "type": "text",
+                "type": "json",
                 "length": -2147483648,
                 "decimals": -2147483648,
                 "isUnsigned": false,
@@ -4854,6 +4854,32 @@
                 "virtualExpr": "",
                 "virtualType": "",
                 "oldName": "value"
+              },
+              {
+                "objectType": "TableField_MYSQL",
+                "name": "value_def",
+                "type": "varchar",
+                "length": 255,
+                "decimals": -2147483648,
+                "isUnsigned": false,
+                "isZeroFill": false,
+                "setEnumValues": "",
+                "isBinary": false,
+                "charset": "",
+                "collation": "",
+                "isNullable": true,
+                "defaultType": "Others",
+                "defaultValue": "",
+                "isOnUpdateCurrentTimestamp": false,
+                "isAutoInc": false,
+                "comment": "默认值",
+                "columnFormat": "",
+                "storage": "",
+                "isVirtual": false,
+                "isGeneratedAlways": false,
+                "virtualExpr": "",
+                "virtualType": "",
+                "oldName": "value_def"
               },
               {
                 "objectType": "TableField_MYSQL",
@@ -5049,7 +5075,7 @@
           "schemaName": "Default",
           "tableName": "auth_user",
           "x": 20,
-          "y": 840,
+          "y": 1300,
           "width": 200,
           "height": 350,
           "isBold": false,
@@ -5081,7 +5107,7 @@
           "schemaName": "Default",
           "tableName": "auth_role",
           "x": 510,
-          "y": 870,
+          "y": 1330,
           "width": 200,
           "height": 290,
           "isBold": false,
@@ -5097,7 +5123,7 @@
           "schemaName": "Default",
           "tableName": "auth_resource",
           "x": 1000,
-          "y": 810,
+          "y": 1270,
           "width": 200,
           "height": 410,
           "isBold": false,
@@ -5113,7 +5139,7 @@
           "schemaName": "Default",
           "tableName": "auth_role_resource",
           "x": 760,
-          "y": 940,
+          "y": 1400,
           "width": 200,
           "height": 150,
           "isBold": false,
@@ -5129,7 +5155,7 @@
           "schemaName": "Default",
           "tableName": "auth_user_role",
           "x": 270,
-          "y": 940,
+          "y": 1400,
           "width": 200,
           "height": 150,
           "isBold": false,
@@ -5145,9 +5171,9 @@
           "schemaName": "Default",
           "tableName": "dict_value",
           "x": 30,
-          "y": 1230,
+          "y": 840,
           "width": 200,
-          "height": 350,
+          "height": 370,
           "isBold": false,
           "titleColor": {
             "r": 200,
@@ -5161,7 +5187,7 @@
           "schemaName": "Default",
           "tableName": "dict_node",
           "x": 270,
-          "y": 1250,
+          "y": 870,
           "width": 200,
           "height": 310,
           "isBold": false,
@@ -5240,8 +5266,8 @@
           "type": "table",
           "schemaName": "Default",
           "tableName": "blog_personal",
-          "x": 1010,
-          "y": 30,
+          "x": 540,
+          "y": 830,
           "width": 200,
           "height": 350,
           "isBold": false,
@@ -5264,16 +5290,16 @@
           "vertices": [
             {
               "x": 975,
-              "y": 1010
+              "y": 1470
             },
             {
               "x": 985,
-              "y": 1010
+              "y": 1470
             }
           ],
           "label": {
             "x": 384,
-            "y": 780,
+            "y": 1240,
             "width": 206,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -5298,16 +5324,16 @@
           "vertices": [
             {
               "x": 745,
-              "y": 1010
+              "y": 1470
             },
             {
               "x": 725,
-              "y": 1010
+              "y": 1470
             }
           ],
           "label": {
             "x": 397,
-            "y": 780,
+            "y": 1240,
             "width": 193,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -5332,16 +5358,16 @@
           "vertices": [
             {
               "x": 255,
-              "y": 1010
+              "y": 1470
             },
             {
               "x": 235,
-              "y": 1010
+              "y": 1470
             }
           ],
           "label": {
             "x": 265,
-            "y": 780,
+            "y": 1240,
             "width": 184,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -5366,16 +5392,16 @@
           "vertices": [
             {
               "x": 485,
-              "y": 1010
+              "y": 1470
             },
             {
               "x": 495,
-              "y": 1010
+              "y": 1470
             }
           ],
           "label": {
             "x": 293,
-            "y": 780,
+            "y": 1240,
             "width": 182,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -5400,16 +5426,16 @@
           "vertices": [
             {
               "x": 245,
-              "y": 1410
+              "y": 1030
             },
             {
               "x": 255,
-              "y": 1410
+              "y": 1030
             }
           ],
           "label": {
             "x": 235,
-            "y": 1372,
+            "y": 992,
             "width": 229,
             "height": 30,
             "fontName": "Arial Unicode MS",

@@ -14,10 +14,13 @@ import com.dandandog.modules.sys.entity.enums.InputType;
 import com.google.common.collect.Lists;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,7 +41,7 @@ public class DictController extends FacesController {
         putViewScope("node", new DictNodeVo());
         putViewScope("value", new DictValueVo());
         putViewScope("sinSelected", null);
-        putViewScope("selectedNode", null);
+        putViewScope("selectedNode", new DefaultTreeNode());
         putViewScope("mulSelected", Lists.newArrayList());
         putViewScope("types", InputType.values());
     }
@@ -76,13 +79,12 @@ public class DictController extends FacesController {
         dictFacet.removeByNodeIds(node.getId());
     }
 
-    public void onSelect(NodeSelectEvent event) {
+    public void onNodeSelect(NodeSelectEvent event) {
         TreeNode selectedNode = event.getTreeNode();
         DictNodeVo node = (DictNodeVo) selectedNode.getData();
         Collection<DictValueVo> list = dictFacet.list(node.getId());
         putViewScope("list", list);
     }
-
 
     public void add() {
         DictValueVo selected = getViewScope("sinSelected");

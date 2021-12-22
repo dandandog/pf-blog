@@ -31,14 +31,16 @@
         <h:form id="dict_form" prependId="false">
             <p:outputPanel styleClass="p-grid">
                 <p:outputPanel styleClass="p-col-12 p-md-2">
-                    <p:tree widgetVar="dict_tree" value="#{viewScope.rootTree}" var="node" selectionMode="single"
-                            selection="#{viewScope.selectedNode}" filterBy="#{node.name}"
+                    <p:tree widgetVar="dict_tree" value="#{viewScope.rootTree}" var="node"
+                            selectionMode="single" dynamic="true" nodeVar="nodeVar"
+                            selection="#{viewScope.selectedNode}"
                             styleClass="rootTree">
-                        <p:ajax event="select" listener="#{controller.onSelect}" process="@this"
+                        <p:ajax event="select" listener="#{controller.onNodeSelect}" process="@this"
                                 update="@widgetVar(dict_dataTable)"/>
                         <p:treeNode>
                             <h:outputText value="#{node.name}"/>
                         </p:treeNode>
+
                     </p:tree>
                     <p:commandButton value="#{msg['framework']['add']}" icon="pi pi-plus" style="width: 100%"
                                      action="#{controller.addNode}" update="@widgetVar(dict_node_dialog)"
@@ -84,7 +86,7 @@
             <framework:dialog id="dict_node" value="#{viewScope.node}" saveMethod="#{controller.saveNode}"
                               saveUpdate="@widgetVar(dict_tree)">
 
-                <p:tree widgetVar="dict_tree" value="#{viewScope.inputTree}" var="node" selectionMode="single"
+                <p:tree widgetVar="node_tree" value="#{viewScope.inputTree}" var="node" selectionMode="single"
                         selection="#{viewScope.node.parent}" filterBy="#{node.name}">
                     <p:treeNode>
                         <h:outputText value="#{node.name}"/>
@@ -132,7 +134,7 @@
                 </framework:label>
 
                 <framework:label value="#{msg['blog']['value']}" styleClass="p-col-12">
-                    <p:chips value="#{viewScope.vo.value}" converter="#{inputItemConverter}" styleClass="value-chips"/>
+                    <p:chips value="#{viewScope.vo.value}" converter="inputItemConverter" styleClass="value-chips"/>
                 </framework:label>
 
                 <framework:label target="valueRemark" value="#{msg['blog']['remark']}">

@@ -9,13 +9,14 @@ import org.springframework.stereotype.Component;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 import java.util.List;
 
 /**
  * @Author: JohnnyLiu
  * @Date: 2021/9/27 14:27
  */
-@Component("inputItemConverter")
+@FacesConverter("inputItemConverter")
 public class InputItemConverter implements Converter<InputItemVo> {
 
     @Override

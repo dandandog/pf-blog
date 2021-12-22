@@ -57,7 +57,7 @@ public class DictValue extends AuditableEntity {
     /**
      * 默认值
      */
-    private String value;
+    private Object value;
 
 
     /**

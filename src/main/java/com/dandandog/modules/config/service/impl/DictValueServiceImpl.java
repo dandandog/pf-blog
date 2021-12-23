@@ -1,8 +1,8 @@
-package com.dandandog.modules.sys.service.impl;
+package com.dandandog.modules.config.service.impl;
 
-import com.dandandog.modules.sys.dao.DictValueDao;
-import com.dandandog.modules.sys.entity.DictValue;
-import com.dandandog.modules.sys.service.DictValueService;
+import com.dandandog.modules.config.dao.DictValueDao;
+import com.dandandog.modules.config.entity.DictValue;
+import com.dandandog.modules.config.service.DictValueService;
 import com.dandandog.framework.mybatis.service.BaseServiceImpl;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;

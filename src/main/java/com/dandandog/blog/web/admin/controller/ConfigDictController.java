@@ -10,17 +10,16 @@ import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.framework.faces.model.tree.TreeFaces;
-import com.dandandog.modules.sys.entity.enums.InputType;
+import com.dandandog.modules.config.entity.enums.InputType;
 import com.google.common.collect.Lists;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,7 +28,7 @@ import java.util.List;
  * @Date: 2021/9/6 11:48
  */
 @Controller("/admin/config/dict.faces")
-public class DictController extends FacesController {
+public class ConfigDictController extends FacesController {
 
     @Resource
     private DictFaces dictFacet;
@@ -84,6 +83,10 @@ public class DictController extends FacesController {
         DictNodeVo node = (DictNodeVo) selectedNode.getData();
         Collection<DictValueVo> list = dictFacet.list(node.getId());
         putViewScope("list", list);
+    }
+
+    public void onNodeUnselect(NodeUnselectEvent event) {
+        putViewScope("list", null);
     }
 
     public void add() {

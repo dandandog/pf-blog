@@ -1,23 +1,17 @@
 package com.dandandog.blog.web.admin.faces.mapper;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
 import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
-import com.dandandog.blog.web.admin.faces.vo.InputItemVo;
 import com.dandandog.framework.mapstruct.IMapper;
 import com.dandandog.framework.mybatis.entity.BaseEntity;
-import com.dandandog.modules.sys.entity.DictNode;
-import com.dandandog.modules.sys.entity.DictValue;
-import com.dandandog.modules.sys.service.DictNodeService;
+import com.dandandog.modules.config.entity.DictNode;
+import com.dandandog.modules.config.entity.DictValue;
+import com.dandandog.modules.config.service.DictNodeService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @Author: JohnnyLiu

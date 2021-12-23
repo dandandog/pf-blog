@@ -1,7 +1,7 @@
 package com.dandandog.blog.web.admin.faces.adapter;
 
 import com.dandandog.common.adapter.DefaultTreeAdapter;
-import com.dandandog.modules.sys.entity.DictNode;
+import com.dandandog.modules.config.entity.DictNode;
 
 /**
  * @Author: JohnnyLiu

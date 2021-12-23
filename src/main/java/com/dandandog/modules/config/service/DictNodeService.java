@@ -1,7 +1,7 @@
-package com.dandandog.modules.sys.service;
+package com.dandandog.modules.config.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dandandog.modules.sys.entity.DictNode;
+import com.dandandog.modules.config.entity.DictNode;
 
 /**
  * 字典节点(SetDictNode)表服务接口

@@ -1,7 +1,7 @@
-package com.dandandog.modules.sys.dao;
+package com.dandandog.modules.config.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dandandog.modules.sys.entity.DictValue;
+import com.dandandog.modules.config.entity.DictValue;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

@@ -8,14 +8,45 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">#{msg['blog']['dictManage']}</ui:define>
     <ui:define name="head">
-
+        <h:outputScript>
+            $(function () {
+                var mutationObserver = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (mutation) {
+                        if ($('.ui-treetable-selectable-node').hasClass('ui-state-hover')) {
+                            $('.ui-treetable-selectable-node.ui-state-hover').find('.opts').show()
+                        } else {
+                            $('.ui-treetable-selectable-node').find('.opts').hide()
+                        }
+                    });
+                });
+                /**Element**/
+                mutationObserver.observe(PF('dict_tree').jq[0], {
+                    attributes: true,
+                    characterData: true,
+                    childList: true,
+                    subtree: true,
+                    attributeOldValue: true,
+                    characterDataOldValue: true
+                });
+            })
+        </h:outputScript>
         <h:outputStylesheet>
-            .rootTree {
+            .tree-column {
+                padding: .8rem .8rem !important;
+            }
+
+            .opts {
+                display: inline;
+                float: right;
+            }
+
+            .root-Tree {
                 height: calc(100vh - 350px);
+                border: 1px solid #e9ecef;
             }
 
             @media (max-width: 760px) {
-                .rootTree {
+                .root-Tree {
                     height: auto;
                 }
             }
@@ -31,17 +62,38 @@
         <h:form id="dict_form" prependId="false">
             <p:outputPanel styleClass="p-grid">
                 <p:outputPanel styleClass="p-col-12 p-md-2">
-                    <p:tree widgetVar="dict_tree" value="#{viewScope.rootTree}" var="node"
-                            selectionMode="single" dynamic="true" nodeVar="nodeVar"
-                            selection="#{viewScope.selectedNode}"
-                            styleClass="rootTree">
+                    <p:treeTable id="dict_tree" widgetVar="dict_tree" value="#{viewScope.rootTree}" var="node"
+                                 selectionMode="single" nodeVar="nodeVar"
+                                 selection="#{viewScope.selectedNode}" filterEvent="enter"
+                                 styleClass="root-Tree">
                         <p:ajax event="select" listener="#{controller.onNodeSelect}" process="@this"
                                 update="@widgetVar(dict_dataTable)"/>
-                        <p:treeNode>
-                            <h:outputText value="#{node.name}"/>
-                        </p:treeNode>
+                        <p:ajax event="unselect" listener="#{controller.onNodeUnselect}" process="@this"
+                                update="@widgetVar(dict_dataTable)"/>
+                        <p:column filterBy="name" styleClass="tree-column">
+                            <f:facet name="filter">
+                               <span class="ui-input-icon-left ui-column-filter">
+                                    <i class="pi pi-search"/>
+                                    <p:inputText style="width: 100%;" placeholder="Search"/>
+                                </span>
+                            </f:facet>
+                            <h:outputText style="padding: 1rem" value="#{node.name}"/>
+                            <p:outputPanel layout="inline" styleClass="opts" style="display: none">
+                                <p:commandButton icon="pi pi-pencil" style="height: 26px; width: 26px"
+                                                 action="#{controller.editNode}" process="@this"
+                                                 update="@widgetVar(dict_node_dialog)"
+                                                 oncomplete="PF('dict_node_dialog').show()"
+                                                 styleClass="rounded-button ui-button-flat ui-button-plain">
+                                    <f:setPropertyActionListener value="#{nodeVar}" target="#{viewScope.selectedNode}"/>
+                                </p:commandButton>
 
-                    </p:tree>
+                                <p:commandButton icon="pi pi-trash" style="height: 26px; width: 26px"
+                                                 action="#{controller.deleteNode}" process="@this"
+                                                 update="@widgetVar(dict_tree)"
+                                                 styleClass="rounded-button ui-button-flat ui-button-plain"/>
+                            </p:outputPanel>
+                        </p:column>
+                    </p:treeTable>
                     <p:commandButton value="#{msg['framework']['add']}" icon="pi pi-plus" style="width: 100%"
                                      action="#{controller.addNode}" update="@widgetVar(dict_node_dialog)"
                                      oncomplete="PF('dict_node_dialog').show()"/>
@@ -100,7 +152,7 @@
                     <p:inputText id="code" value="#{viewScope.node.code}" required="true"/>
                 </framework:label>
                 <framework:label target="remark" value="#{msg['blog']['remark']}" styleClass="p-col-12 node-input">
-                    <p:inputTextarea id="remark" value="#{viewScope.vo.node.remark}" autoResize="false"/>
+                    <p:inputTextarea id="remark" value="#{viewScope.node.remark}" autoResize="false"/>
                 </framework:label>
 
 

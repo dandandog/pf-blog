@@ -8,7 +8,7 @@ import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.modules.blog.entity.BlogConfig;
 import com.dandandog.modules.blog.entity.BlogConfigGlobal;
-import com.dandandog.modules.sys.entity.DictValue;
+import com.dandandog.modules.config.entity.DictValue;
 import com.google.common.collect.Multimap;
 import org.springframework.stereotype.Controller;
 

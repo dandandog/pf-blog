@@ -1,7 +1,7 @@
-package com.dandandog.modules.sys.service;
+package com.dandandog.modules.config.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dandandog.modules.sys.entity.DictValue;
+import com.dandandog.modules.config.entity.DictValue;
 import com.google.common.collect.Multimap;
 
 /**

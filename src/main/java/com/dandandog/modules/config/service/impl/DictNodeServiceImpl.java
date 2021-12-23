@@ -1,8 +1,8 @@
-package com.dandandog.modules.sys.service.impl;
+package com.dandandog.modules.config.service.impl;
 
-import com.dandandog.modules.sys.dao.DictNodeDao;
-import com.dandandog.modules.sys.entity.DictNode;
-import com.dandandog.modules.sys.service.DictNodeService;
+import com.dandandog.modules.config.dao.DictNodeDao;
+import com.dandandog.modules.config.entity.DictNode;
+import com.dandandog.modules.config.service.DictNodeService;
 import com.dandandog.framework.mybatis.service.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.dandandog.modules.sys.entity;
+package com.dandandog.modules.config.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;

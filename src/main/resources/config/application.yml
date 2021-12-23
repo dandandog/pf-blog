@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /blog
-  port: 8082
+  port: 8080
 joinfaces:
   jsf:
     #facelets-refresh-period: -1

@@ -14,7 +14,6 @@ import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import com.dandandog.framework.mybatis.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -61,7 +60,7 @@ public class MapperTreeDataModel<F extends BaseEntity, T extends TreeFaces> impl
     public final TreeNode createRoot(TreeConfig config) {
         List<F> fList = adapter.queryList();
         List<T> tList = mapperAll(fList);
-        TreeNode root = new CheckboxTreeNode(null, null);
+        TreeNode root = new DefaultTreeNode(null, null);
         setTreeLeaf(root, tList, Optional.ofNullable(config).orElse(new TreeConfig()));
         return root;
     }
@@ -69,8 +68,11 @@ public class MapperTreeDataModel<F extends BaseEntity, T extends TreeFaces> impl
     public final void setTreeLeaf(TreeNode root, List<T> source, TreeConfig config) {
         setTreeConfig(root, config);
         for (T resource : source) {
-            TreeNode node = new CheckboxTreeNode(resource, root);
+            TreeNode node = new DefaultTreeNode(resource, root);
             setTreeLeaf(node, resource.getChildren(), config);
+            if (!root.isSelectable()) {
+                node.setSelectable(root.isSelectable());
+            }
         }
     }
 

@@ -1,8 +1,10 @@
-package com.dandandog.modules.sys.entity;
+package com.dandandog.modules.config.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.dandandog.framework.mybatis.entity.AuditableEntity;
-import com.dandandog.modules.sys.entity.enums.InputType;
+import com.dandandog.modules.config.entity.enums.InputType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,9 +57,16 @@ public class DictValue extends AuditableEntity {
 
 
     /**
+     * 值
+     */
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Object value;
+
+
+    /**
      * 默认值
      */
-    private Object value;
+    private String valueDef;
 
 
     /**

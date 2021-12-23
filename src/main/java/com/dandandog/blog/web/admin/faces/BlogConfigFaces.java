@@ -7,7 +7,7 @@ import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import com.dandandog.modules.blog.entity.BlogConfig;
 import com.dandandog.modules.blog.entity.BlogConfigGlobal;
 import com.dandandog.modules.blog.service.BlogConfigService;
-import com.dandandog.modules.sys.entity.DictValue;
+import com.dandandog.modules.config.entity.DictValue;
 
 import javax.annotation.Resource;
 import java.util.Collection;

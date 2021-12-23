@@ -25,7 +25,7 @@ import com.dandandog.modules.blog.entity.BlogConfig;
 import com.dandandog.modules.blog.entity.BlogConfigContent;
 import com.dandandog.modules.blog.entity.enums.ContentState;
 import com.dandandog.modules.blog.entity.enums.MetaType;
-import com.dandandog.modules.sys.entity.DictValue;
+import com.dandandog.modules.config.entity.DictValue;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import org.primefaces.event.FileUploadEvent;

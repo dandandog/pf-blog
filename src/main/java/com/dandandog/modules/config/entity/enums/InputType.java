@@ -1,4 +1,4 @@
-package com.dandandog.modules.sys.entity.enums;
+package com.dandandog.modules.config.entity.enums;
 
 import com.dandandog.framework.common.utils.LocaleUtil;
 import com.dandandog.framework.common.utils.MessageUtil;
@@ -36,7 +36,7 @@ public enum InputType implements BaseEnum<Integer> {
     CHECKBOX(4),
 
     /**
-     *
+     * 多文本
      */
     CHIPS(5);
 

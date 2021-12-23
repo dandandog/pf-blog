@@ -1,7 +1,7 @@
 package com.dandandog.blog.web.admin.converter;
 
-import com.dandandog.modules.sys.entity.DictNode;
-import com.dandandog.modules.sys.service.DictNodeService;
+import com.dandandog.modules.config.entity.DictNode;
+import com.dandandog.modules.config.service.DictNodeService;
 import com.dandandog.framework.faces.converter.GenericEntityConverter;
 import org.springframework.stereotype.Component;
 

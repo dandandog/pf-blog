@@ -14,8 +14,10 @@
                     mutations.forEach(function (mutation) {
                         if ($('.ui-treetable-selectable-node').hasClass('ui-state-hover')) {
                             $('.ui-treetable-selectable-node.ui-state-hover').find('.opts').show()
+                            $('.ui-treetable-selectable-node.ui-state-hover').find('.dict-code').hide()
                         } else {
                             $('.ui-treetable-selectable-node').find('.opts').hide()
+                            $('.ui-treetable-selectable-node').find('.dict-code').show()
                         }
                     });
                 });
@@ -31,14 +33,40 @@
             })
         </h:outputScript>
         <h:outputStylesheet>
+            .tree-column-right {
+                margin: .2rem;
+                display: block;
+                float: right;
+            }
+
             .tree-column {
                 padding: .8rem .8rem !important;
             }
 
+            .ui-treetable-data .tree-column {
+                border: transparent !important;
+            }
+
             .opts {
                 display: inline;
-                float: right;
             }
+
+            .opts a {
+                color: #6c757d;
+            }
+
+            .opts a:hover {
+                color: #4b4c4d;
+            }
+
+            .ui-state-highlight .opts a {
+                color: #ffffff;
+            }
+
+            .ui-state-highlight .opts a:hover {
+                color: #e9ecef;
+            }
+
 
             .root-Tree {
                 height: calc(100vh - 350px);
@@ -60,10 +88,10 @@
     </ui:define>
     <ui:define name="content">
         <h:form id="dict_form" prependId="false">
-            <p:outputPanel styleClass="p-grid">
+            <p:outputPanel styleClass="p-grid p-nogutter">
                 <p:outputPanel styleClass="p-col-12 p-md-2">
                     <p:treeTable id="dict_tree" widgetVar="dict_tree" value="#{viewScope.rootTree}" var="node"
-                                 selectionMode="single" nodeVar="nodeVar"
+                                 selectionMode="single" nodeVar="nodeVar" showGridlines="false"
                                  selection="#{viewScope.selectedNode}" filterEvent="enter"
                                  styleClass="root-Tree">
                         <p:ajax event="select" listener="#{controller.onNodeSelect}" process="@this"
@@ -71,26 +99,30 @@
                         <p:ajax event="unselect" listener="#{controller.onNodeUnselect}" process="@this"
                                 update="@widgetVar(dict_dataTable)"/>
                         <p:column filterBy="name" styleClass="tree-column">
-                            <f:facet name="filter">
-                               <span class="ui-input-icon-left ui-column-filter">
-                                    <i class="pi pi-search"/>
-                                    <p:inputText style="width: 100%;" placeholder="Search"/>
-                                </span>
-                            </f:facet>
                             <h:outputText style="padding: 1rem" value="#{node.name}"/>
-                            <p:outputPanel layout="inline" styleClass="opts" style="display: none">
-                                <p:commandButton icon="pi pi-pencil" style="height: 26px; width: 26px"
-                                                 action="#{controller.editNode}" process="@this"
-                                                 update="@widgetVar(dict_node_dialog)"
-                                                 oncomplete="PF('dict_node_dialog').show()"
-                                                 styleClass="rounded-button ui-button-flat ui-button-plain">
-                                    <f:setPropertyActionListener value="#{nodeVar}" target="#{viewScope.selectedNode}"/>
-                                </p:commandButton>
-
-                                <p:commandButton icon="pi pi-trash" style="height: 26px; width: 26px"
-                                                 action="#{controller.deleteNode}" process="@this"
-                                                 update="@widgetVar(dict_tree)"
-                                                 styleClass="rounded-button ui-button-flat ui-button-plain"/>
+                            <p:outputPanel layout="inline" styleClass="tree-column-right">
+                                <h:outputText styleClass="dict-code" value="#{node.code}"/>
+                                <p:outputPanel styleClass="opts" style="display: none">
+                                    <p:commandLink
+                                            action="#{controller.editNode}" process="@this"
+                                            update="@widgetVar(dict_node_dialog)"
+                                            oncomplete="PF('dict_node_dialog').show()"
+                                            styleClass="p-md-3">
+                                        <i class="pi pi-pencil"/>
+                                        <f:setPropertyActionListener value="#{nodeVar}"
+                                                                     target="#{viewScope.selectedNode}"/>
+                                    </p:commandLink>
+                                    <p:commandLink
+                                            action="#{controller.deleteNode}" process="@this"
+                                            update="@widgetVar(dict_tree)" oncomplete="location.reload()">
+                                        <i class="pi pi-trash"/>
+                                        <f:setPropertyActionListener value="#{nodeVar}"
+                                                                     target="#{viewScope.selectedNode}"/>
+                                        <p:confirm type="popup" header="#{msg['framework']['message']}"
+                                                   message="#{msg['framework']['confirmDeletion']}"
+                                                   icon="pi pi-exclamation-triangle"/>
+                                    </p:commandLink>
+                                </p:outputPanel>
                             </p:outputPanel>
                         </p:column>
                     </p:treeTable>
@@ -136,7 +168,7 @@
     <ui:define name="dialog">
         <h:form id="node_form">
             <framework:dialog id="dict_node" value="#{viewScope.node}" saveMethod="#{controller.saveNode}"
-                              saveUpdate="@widgetVar(dict_tree)">
+                              saveUpdate="@widgetVar(dict_tree)" saveComplete="location.reload()">
 
                 <p:tree widgetVar="node_tree" value="#{viewScope.inputTree}" var="node" selectionMode="single"
                         selection="#{viewScope.node.parent}" filterBy="#{node.name}">
@@ -162,6 +194,14 @@
         <h:form id="dialogform">
             <framework:dialog id="dict" value="#{viewScope.vo}"
                               saveUpdate="@widgetVar(dict_dataTable)">
+
+                <p:tree widgetVar="node_tree" value="#{viewScope.inputTree}" var="node" selectionMode="single"
+                        selection="#{viewScope.vo.node}" filterBy="#{node.name}" required="true">
+                    <p:treeNode>
+                        <h:outputText value="#{node.name}"/>
+                    </p:treeNode>
+                </p:tree>
+
                 <framework:label target="label" value="#{msg['blog']['label']}" indicateRequired="true"
                                  styleClass="p-col-6">
                     <div class="ui-inputgroup">
@@ -174,11 +214,11 @@
                     </div>
                 </framework:label>
                 <framework:label target="value" value="#{msg['blog']['code']}" styleClass="p-col-6">
-                    <p:inputText id="value" value="#{viewScope.vo.code}"/>
+                    <p:inputText id="value" value="#{viewScope.vo.code}" required="true"/>
                 </framework:label>
 
                 <framework:label target="inputType" value="#{msg['blog']['inputType']}" styleClass="p-col-6">
-                    <p:selectOneMenu id="inputType" value="#{viewScope.vo.type}" required="true"
+                    <p:selectOneMenu id="inputType" value="#{viewScope.vo.type}"
                                      converter="#{inputTypeConverter}">
                         <f:selectItems value="#{viewScope.types}" var="type"
                                        itemLabel="#{type.title}" itemValue="#{type}"/>

@@ -1,9 +1,10 @@
 package com.dandandog.blog.web.admin.faces.vo;
 
 import com.dandandog.framework.common.model.IVo;
-import com.dandandog.modules.config.entity.DictNode;
 import com.dandandog.modules.config.entity.enums.InputType;
 import lombok.Data;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 /**
  * @Author: JohnnyLiu
@@ -14,7 +15,7 @@ public class DictValueVo implements IVo {
 
     private String id;
 
-    private DictNode node = new DictNode();
+    private TreeNode node = new DefaultTreeNode();
 
     private String label;
 

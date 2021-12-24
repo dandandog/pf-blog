@@ -1,11 +1,13 @@
 package com.dandandog.blog.web.admin.faces;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dandandog.blog.web.admin.faces.adapter.DictNodeAdapter;
 import com.dandandog.blog.web.admin.faces.vo.DictNodeVo;
 import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
 import com.dandandog.common.model.MapperTreeDataModel;
+import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.faces.model.tree.TreeConfig;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
@@ -20,10 +22,8 @@ import org.primefaces.model.TreeNode;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author: JohnnyLiu
@@ -89,7 +89,7 @@ public class DictFaces {
     public void removeByNodeIds(String... ids) {
         for (String nodeId : ids) {
             dictValueService.lambdaUpdate().eq(DictValue::getNodeId, nodeId).remove();
-            dictNodeService.removeById(ids);
+            dictNodeService.removeById(nodeId);
         }
     }
 
@@ -98,14 +98,19 @@ public class DictFaces {
         dictValueService.removeByIds(Arrays.asList(ids));
     }
 
-    public Collection<DictNode> nodes() {
-        return dictNodeService.lambdaQuery().orderByAsc(DictNode::getSeq).list();
-    }
-
-
     public void updateByFiled(String rowKey, String field, Object newValue) {
         dictValueService.update(new UpdateWrapper<DictValue>().set(field, newValue).eq("id", rowKey));
     }
 
+    public void removeByNode(TreeNode... selectedNode) {
+        Collection<TreeNode> removeNode = findRemoveNodeId(new ArrayList<>(Arrays.asList(selectedNode)));
+        String[] removeIds = removeNode.stream().map(node -> (IEntity) node.getData()).map(IEntity::getId).toArray(String[]::new);
+        removeByNodeIds(removeIds);
+    }
+
+    private Collection<TreeNode> findRemoveNodeId(List<TreeNode> nodes) {
+        return CollUtil.addAll(nodes, nodes.stream()
+                .flatMap(node -> findRemoveNodeId(node.getChildren()).stream()).collect(Collectors.toList()));
+    }
 
 }

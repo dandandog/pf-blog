@@ -36,7 +36,6 @@ public class ConfigDictController extends FacesController {
     @Override
     public void onEntry() {
         putViewScope("rootTree", getDataModel());
-        putViewScope("nodes", dictFacet.nodes());
         putViewScope("node", new DictNodeVo());
         putViewScope("value", new DictValueVo());
         putViewScope("sinSelected", null);
@@ -74,8 +73,9 @@ public class ConfigDictController extends FacesController {
 
     @MessageRequired(type = MessageType.DELETE)
     public void deleteNode() {
-        DictNodeVo node = getViewScope("node");
-        dictFacet.removeByNodeIds(node.getId());
+        TreeNode selectedNode = getViewScope("selectedNode");
+        dictFacet.removeByNode(selectedNode);
+        onEntry();
     }
 
     public void onNodeSelect(NodeSelectEvent event) {
@@ -96,6 +96,7 @@ public class ConfigDictController extends FacesController {
             vo.setNode(selected.getNode());
         }
         putViewScope("vo", vo);
+        putViewScope("inputTree", getDataModel());
     }
 
     public void edit() {
@@ -103,6 +104,7 @@ public class ConfigDictController extends FacesController {
         DictValueVo vo = dictFacet.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("vo", vo);
+        putViewScope("inputTree", getDataModel((TreeFaces) vo.getNode().getData()));
     }
 
     @MessageRequired(type = MessageType.SAVE)

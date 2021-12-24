@@ -97,6 +97,12 @@
                                  styleClass="ui-confirmdialog-no ui-button-secondary" icon="fa fa-close"/>
             </p:confirmDialog>
 
+            <p:confirmPopup id="confirmPopup" widgetVar="confirmPopup" global="true">
+                <p:commandButton value="#{msg['framework']['confirm']}" type="button"
+                                 styleClass="ui-confirm-popup-yes ui-button-flat"/>
+                <p:commandButton value="#{msg['framework']['cancel']}" type="button"
+                                 styleClass="ui-confirm-popup-no ui-button-flat ui-button-secondary"/>
+            </p:confirmPopup>
 
             <p:growl id="messages" widgetVar="globalMessages" for="globalMessages"
                      showDetail="true" showSummary="true" sticky="false" life="3000"

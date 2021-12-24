@@ -1,14 +1,16 @@
 package com.dandandog.blog.web.admin.faces.mapper;
 
 import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
+import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.mapstruct.IMapper;
-import com.dandandog.framework.mybatis.entity.BaseEntity;
 import com.dandandog.modules.config.entity.DictNode;
 import com.dandandog.modules.config.entity.DictValue;
 import com.dandandog.modules.config.service.DictNodeService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -29,13 +31,14 @@ public abstract class DictMapper implements IMapper<DictValue, DictValueVo> {
 
 
     @Named("findNodeById")
-    public DictNode findNodeById(String nodeId) {
-        return nodeService.getById(nodeId);
+    public TreeNode findNodeById(String nodeId) {
+        DictNode entity = nodeService.getById(nodeId);
+        return new DefaultTreeNode(entity);
     }
 
     @Named("findNodeById")
-    public String findNodeById(DictNode node) {
-        return Optional.ofNullable(node).map(BaseEntity::getId).orElse(null);
+    public String findNodeById(TreeNode node) {
+        return Optional.ofNullable(node).map(n -> (IEntity) n).map(IEntity::getId).orElse(null);
     }
 
 

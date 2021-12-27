@@ -12,6 +12,7 @@ import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.faces.model.tree.TreeConfig;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.framework.faces.model.tree.TreeFaces;
+import com.dandandog.framework.faces.model.tree.TreeNodeConfig;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import com.dandandog.modules.config.entity.DictNode;
 import com.dandandog.modules.config.entity.DictValue;
@@ -51,6 +52,14 @@ public class DictFaces {
         if (ArrayUtil.isNotEmpty(selected)) {
             config.setUnSelectable(Arrays.stream(selected).map(TreeFaces::getId).toArray(String[]::new));
             config.setSelected(Arrays.stream(selected).map(TreeFaces::getParentId).toArray(String[]::new));
+        }
+        return dataModel.createRoot(config);
+    }
+
+
+    public TreeNode initNodeTree(TreeDataModel dataModel, TreeNodeConfig... config) {
+        if (dataModel == null) {
+            dataModel = findDataModel();
         }
         return dataModel.createRoot(config);
     }

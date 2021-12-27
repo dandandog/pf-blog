@@ -153,10 +153,12 @@
                         </p:column>
                         <p:column headerText="#{msg['blog']['label']}" width="200"
                                   field="label" filterable="false" filterMatchMode="equals"/>
-                        <p:column headerText="#{msg['blog']['value']}" width="100" responsivePriority="2"
-                                  field="value" filterable="false" filterMatchMode="equals"/>
+                        <p:column headerText="#{msg['blog']['code']}" width="100" responsivePriority="2"
+                                  field="code" filterable="false" filterMatchMode="equals"/>
                         <p:column headerText="#{msg['blog']['inputType']}" width="80" responsivePriority="3"
-                                  field="type" filterable="false" filterMatchMode="contains"/>
+                                  field="type" filterable="false" filterMatchMode="contains">
+                            <h:outputText value="#{element.type.title}"/>
+                        </p:column>
                         <p:column headerText="#{msg['blog']['remark']}" responsivePriority="4"
                                   field="remark" filterable="false" filterMatchMode="contains"/>
                     </framework:dataTable>
@@ -169,14 +171,12 @@
         <h:form id="node_form">
             <framework:dialog id="dict_node" value="#{viewScope.node}" saveMethod="#{controller.saveNode}"
                               saveUpdate="@widgetVar(dict_tree)" saveComplete="location.reload()">
-
-                <p:tree widgetVar="node_tree" value="#{viewScope.inputTree}" var="node" selectionMode="single"
+                <p:tree widgetVar="parent_tree" value="#{viewScope.inputTree}" var="node" selectionMode="single"
                         selection="#{viewScope.node.parent}" filterBy="#{node.name}">
                     <p:treeNode>
                         <h:outputText value="#{node.name}"/>
                     </p:treeNode>
                 </p:tree>
-
                 <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6 node-input">
                     <p:inputText id="name" value="#{viewScope.node.name}" required="true"/>
                 </framework:label>
@@ -186,22 +186,26 @@
                 <framework:label target="remark" value="#{msg['blog']['remark']}" styleClass="p-col-12 node-input">
                     <p:inputTextarea id="remark" value="#{viewScope.node.remark}" autoResize="false"/>
                 </framework:label>
-
-
             </framework:dialog>
         </h:form>
 
         <h:form id="dialogform">
-            <framework:dialog id="dict" value="#{viewScope.vo}"
+            <framework:dialog id="dict" value="#{viewScope.vo}" saveValidateClient="false"
                               saveUpdate="@widgetVar(dict_dataTable)">
-
-                <p:tree widgetVar="node_tree" value="#{viewScope.inputTree}" var="node" selectionMode="single"
-                        selection="#{viewScope.vo.node}" filterBy="#{node.name}" required="true">
-                    <p:treeNode>
-                        <h:outputText value="#{node.name}"/>
-                    </p:treeNode>
-                </p:tree>
-
+                <p:outputPanel
+                        styleClass="framework-label p-field p-col-12">
+                    <p:tree id="node_tree" widgetVar="node_tree" value="#{viewScope.inputTree}" var="node"
+                            selectionMode="single"
+                            requiredMessage="#{msg['error'][['nodeUnselected',msg['blog']['dictNode']]]}"
+                            selection="#{viewScope.vo.node}" required="true">
+                        <p:treeNode>
+                            <h:outputText value="#{node.name}"/>
+                        </p:treeNode>
+                    </p:tree>
+                    <small>
+                        <p:message for="@previous" styleClass="ui-label-message" display="text"/>
+                    </small>
+                </p:outputPanel>
                 <framework:label target="label" value="#{msg['blog']['label']}" indicateRequired="true"
                                  styleClass="p-col-6">
                     <div class="ui-inputgroup">
@@ -216,23 +220,25 @@
                 <framework:label target="value" value="#{msg['blog']['code']}" styleClass="p-col-6">
                     <p:inputText id="value" value="#{viewScope.vo.code}" required="true"/>
                 </framework:label>
-
                 <framework:label target="inputType" value="#{msg['blog']['inputType']}" styleClass="p-col-6">
                     <p:selectOneMenu id="inputType" value="#{viewScope.vo.type}"
-                                     converter="#{inputTypeConverter}">
+                                     converter="inputTypeConverter">
+                        <p:ajax update=":dialogform:dict:select_value" process="@this"/>
                         <f:selectItems value="#{viewScope.types}" var="type"
                                        itemLabel="#{type.title}" itemValue="#{type}"/>
                     </p:selectOneMenu>
                 </framework:label>
 
-                <framework:label value="#{msg['blog']['value']}" styleClass="p-col-12">
-                    <p:chips value="#{viewScope.vo.value}" converter="inputItemConverter" styleClass="value-chips"/>
-                </framework:label>
+                <p:outputPanel id="select_value" styleClass="p-col-12 p-nogutter">
+                    <framework:label value="#{msg['blog']['value']}" styleClass="p-col-12"
+                                     rendered="#{vo.type.selectable}">
+                        <p:chips value="#{viewScope.vo.value}" converter="inputItemConverter" styleClass="value-chips"/>
+                    </framework:label>
+                </p:outputPanel>
 
                 <framework:label target="valueRemark" value="#{msg['blog']['remark']}">
                     <p:inputTextarea id="valueRemark" value="#{viewScope.vo.remark}"/>
                 </framework:label>
-
             </framework:dialog>
         </h:form>
     </ui:define>

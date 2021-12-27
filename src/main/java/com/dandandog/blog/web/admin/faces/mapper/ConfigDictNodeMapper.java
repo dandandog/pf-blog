@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
  * @Date: 2021/12/17 16:52
  */
 @Mapper
-public interface DictNodeMapper extends IMapper<DictNode, DictNodeVo> {
+public interface ConfigDictNodeMapper extends IMapper<DictNode, DictNodeVo> {
 
 
 

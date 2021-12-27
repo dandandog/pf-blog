@@ -9,7 +9,7 @@ import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
-import com.dandandog.framework.faces.model.tree.TreeFaces;
+import com.dandandog.framework.faces.model.tree.TreeNodeConfig;
 import com.dandandog.modules.config.entity.enums.InputType;
 import com.google.common.collect.Lists;
 import org.primefaces.event.CellEditEvent;
@@ -44,9 +44,9 @@ public class ConfigDictController extends FacesController {
         putViewScope("types", InputType.values());
     }
 
-    public TreeNode getDataModel(TreeFaces... selected) {
+    public TreeNode getDataModel(TreeNodeConfig... configs) {
         TreeDataModel dataModel = getViewScope("dataModel");
-        return dictFacet.initTree(dataModel, selected);
+        return dictFacet.initNodeTree(dataModel, configs);
     }
 
     public void addNode() {
@@ -61,7 +61,9 @@ public class ConfigDictController extends FacesController {
         DictNodeVo node = dictFacet.getNodeById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("node", node);
-        putViewScope("inputTree", getDataModel(node));
+        TreeNodeConfig config = TreeNodeConfig.builder().rowKey(selectedNode.getRowKey())
+                .expand(true).selected(true).selectable(false).build();
+        putViewScope("inputTree", getDataModel(config));
     }
 
     @MessageRequired(type = MessageType.SAVE)
@@ -90,11 +92,7 @@ public class ConfigDictController extends FacesController {
     }
 
     public void add() {
-        DictValueVo selected = getViewScope("sinSelected");
         DictValueVo vo = new DictValueVo();
-        if (selected != null) {
-            vo.setNode(selected.getNode());
-        }
         putViewScope("vo", vo);
         putViewScope("inputTree", getDataModel());
     }
@@ -104,7 +102,7 @@ public class ConfigDictController extends FacesController {
         DictValueVo vo = dictFacet.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("vo", vo);
-        putViewScope("inputTree", getDataModel((TreeFaces) vo.getNode().getData()));
+        putViewScope("inputTree", getDataModel());
     }
 
     @MessageRequired(type = MessageType.SAVE)

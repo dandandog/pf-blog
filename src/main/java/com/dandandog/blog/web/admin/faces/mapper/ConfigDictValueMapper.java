@@ -1,8 +1,10 @@
 package com.dandandog.blog.web.admin.faces.mapper;
 
+import com.dandandog.blog.web.admin.faces.vo.DictNodeVo;
 import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
 import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.mapstruct.IMapper;
+import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import com.dandandog.modules.config.entity.DictNode;
 import com.dandandog.modules.config.entity.DictValue;
 import com.dandandog.modules.config.service.DictNodeService;
@@ -19,8 +21,8 @@ import java.util.Optional;
  * @Author: JohnnyLiu
  * @Date: 2021/9/6 13:12
  */
-@Mapper()
-public abstract class DictMapper implements IMapper<DictValue, DictValueVo> {
+@Mapper
+public abstract class ConfigDictValueMapper implements IMapper<DictValue, DictValueVo> {
 
     @Resource
     private DictNodeService nodeService;
@@ -33,7 +35,7 @@ public abstract class DictMapper implements IMapper<DictValue, DictValueVo> {
     @Named("findNodeById")
     public TreeNode findNodeById(String nodeId) {
         DictNode entity = nodeService.getById(nodeId);
-        return new DefaultTreeNode(entity);
+        return new DefaultTreeNode(MapperUtil.map(entity, DictNodeVo.class));
     }
 
     @Named("findNodeById")

@@ -1,11 +1,12 @@
 package com.dandandog.common.model;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.StrUtil;
 import com.dandandog.common.adapter.AbstractTreeAdapter;
 import com.dandandog.framework.faces.model.tree.TreeConfig;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.framework.faces.model.tree.TreeFaces;
+import com.dandandog.framework.faces.model.tree.TreeNodeConfig;
 import com.dandandog.framework.faces.utils.TreeUtil;
 import com.dandandog.framework.mapstruct.FromToKey;
 import com.dandandog.framework.mapstruct.IMapper;
@@ -17,6 +18,7 @@ import lombok.Setter;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -58,30 +60,71 @@ public class MapperTreeDataModel<F extends BaseEntity, T extends TreeFaces> impl
 
     @Override
     public final TreeNode createRoot(TreeConfig config) {
+//        List<F> fList = adapter.queryList();
+//        List<T> tList = mapperAll(fList);
+//        TreeNode root = new DefaultTreeNode(null, null);
+//        setTreeLeaf(root, tList, Optional.ofNullable(config).orElse(new TreeConfig()));
+        return null;
+    }
+
+
+//    public final void setTreeLeaf(TreeNode root, List<T> source, TreeConfig config) {
+//        setTreeConfig(root, config);
+//        for (T resource : source) {
+//            TreeNode node = new DefaultTreeNode(resource, root);
+//            setTreeLeaf(node, resource.getChildren(), config);
+//            if (!root.isSelectable()) {
+//                node.setSelectable(root.isSelectable());
+//            }
+//        }
+//    }
+
+//    private void setTreeConfig(TreeNode root, TreeConfig config) {
+//        T t = (T) root.getData();
+//        root.setExpanded(config.isExpand());
+//        root.setSelectable(!(t != null && ArrayUtil.isNotEmpty(config.getUnSelectable()) && ArrayUtil.contains(config.getUnSelectable(), t.getId())));
+//        root.setSelected(t != null && ArrayUtil.isNotEmpty(config.getSelected()) && ArrayUtil.contains(config.getSelected(), t.getId()));
+//    }
+
+    @Override
+    public final TreeNode createRoot(TreeNodeConfig... config) {
         List<F> fList = adapter.queryList();
         List<T> tList = mapperAll(fList);
         TreeNode root = new DefaultTreeNode(null, null);
-        setTreeLeaf(root, tList, Optional.ofNullable(config).orElse(new TreeConfig()));
+        setTreeLeaf(root, tList, Optional.ofNullable(config).orElse(new TreeNodeConfig[0]));
         return root;
     }
 
-    public final void setTreeLeaf(TreeNode root, List<T> source, TreeConfig config) {
-        setTreeConfig(root, config);
+    public final void setTreeLeaf(TreeNode root, List<T> source, TreeNodeConfig... configs) {
+        setTreeConfig(root, configs);
         for (T resource : source) {
             TreeNode node = new DefaultTreeNode(resource, root);
-            setTreeLeaf(node, resource.getChildren(), config);
+            setTreeLeaf(node, resource.getChildren(), configs);
             if (!root.isSelectable()) {
                 node.setSelectable(root.isSelectable());
             }
         }
     }
 
-    private void setTreeConfig(TreeNode root, TreeConfig config) {
-        T t = (T) root.getData();
-        root.setExpanded(config.isExpand());
-        root.setSelectable(!(t != null && ArrayUtil.isNotEmpty(config.getUnSelectable()) && ArrayUtil.contains(config.getUnSelectable(), t.getId())));
-        root.setSelected(t != null && ArrayUtil.isNotEmpty(config.getSelected()) && ArrayUtil.contains(config.getSelected(), t.getId()));
+    private void setTreeConfig(TreeNode root, TreeNodeConfig... configs) {
+        Arrays.stream(configs).filter(config -> {
+            return StrUtil.startWith(root.getRowKey(), config.getRowKey());
+        }).forEach(treeNodeConfig -> {
+            root.setExpanded(treeNodeConfig.isExpand());
+        });
+        Arrays.stream(configs).filter(config -> {
+            return StrUtil.equals(root.getRowKey(), config.getRowKey());
+        }).forEach(treeNodeConfig -> {
+            root.setSelectable(treeNodeConfig.isSelectable());
+
+        });
+        Arrays.stream(configs).filter(config -> {
+            return StrUtil.startWith(root.getRowKey(), config.getRowKey() + "_");
+        }).forEach(treeNodeConfig -> {
+            root.setSelected(treeNodeConfig.isSelected());
+        });
     }
+
 
     public List<T> mapperAll(Collection<F> list) {
         List<T> collect = list.stream().map(this::mapperOne).collect(Collectors.toList());

@@ -13,43 +13,50 @@ public enum InputType implements BaseEnum<Integer> {
     /**
      * 文本
      */
-    TEXT(0),
+    TEXT(0, false),
 
     /**
      * 文本域
      */
-    TEXT_AREA(1),
-
-    /**
-     * 选择器
-     */
-    SELECTOR(2),
-
-    /**
-     * 单选框
-     */
-    RADIO(3),
-
-    /**
-     * 多选框
-     */
-    CHECKBOX(4),
+    TEXT_AREA(1, false),
 
     /**
      * 多文本
      */
-    CHIPS(5);
+    CHIPS(2, false),
+
+    /**
+     * 选择器
+     */
+    SELECTOR(3, true),
+
+    /**
+     * 单选框
+     */
+    RADIO(4, true),
+
+    /**
+     * 多选框
+     */
+    CHECKBOX(5, true);
 
 
     private final int value;
 
-    InputType(int value) {
+    private final boolean selectable;
+
+    InputType(int value, boolean selectable) {
         this.value = value;
+        this.selectable = selectable;
     }
 
     @Override
     public Integer getValue() {
         return this.value;
+    }
+
+    public boolean isSelectable() {
+        return this.selectable;
     }
 
     public String getTitle() {

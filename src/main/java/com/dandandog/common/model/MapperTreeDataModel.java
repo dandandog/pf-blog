@@ -18,7 +18,6 @@ import lombok.Setter;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -107,22 +106,14 @@ public class MapperTreeDataModel<F extends BaseEntity, T extends TreeFaces> impl
     }
 
     private void setTreeConfig(TreeNode root, TreeNodeConfig... configs) {
-        Arrays.stream(configs).filter(config -> {
-            return StrUtil.startWith(root.getRowKey(), config.getRowKey());
-        }).forEach(treeNodeConfig -> {
-            root.setExpanded(treeNodeConfig.isExpand());
-        });
-        Arrays.stream(configs).filter(config -> {
-            return StrUtil.equals(root.getRowKey(), config.getRowKey());
-        }).forEach(treeNodeConfig -> {
-            root.setSelectable(treeNodeConfig.isSelectable());
-
-        });
-        Arrays.stream(configs).filter(config -> {
-            return StrUtil.startWith(root.getRowKey(), config.getRowKey() + "_");
-        }).forEach(treeNodeConfig -> {
-            root.setSelected(treeNodeConfig.isSelected());
-        });
+        for (TreeNodeConfig config : configs) {
+            if (StrUtil.startWith(root.getRowKey(), config.getRowKey())) {
+                root.setExpanded(config.isExpand());
+            }
+            if (StrUtil.equals(root.getRowKey(), config.getRowKey())) {
+                root.setSelectable(config.isSelectable());
+            }
+        }
     }
 
 

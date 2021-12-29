@@ -4675,58 +4675,6 @@
               },
               {
                 "objectType": "TableField_MYSQL",
-                "name": "label",
-                "type": "varchar",
-                "length": 32,
-                "decimals": -2147483648,
-                "isUnsigned": false,
-                "isZeroFill": false,
-                "setEnumValues": "",
-                "isBinary": false,
-                "charset": "",
-                "collation": "",
-                "isNullable": false,
-                "defaultType": "Others",
-                "defaultValue": "",
-                "isOnUpdateCurrentTimestamp": true,
-                "isAutoInc": false,
-                "comment": "字典标签",
-                "columnFormat": "",
-                "storage": "",
-                "isVirtual": false,
-                "isGeneratedAlways": false,
-                "virtualExpr": "",
-                "virtualType": "",
-                "oldName": "label"
-              },
-              {
-                "objectType": "TableField_MYSQL",
-                "name": "code",
-                "type": "varchar",
-                "length": 500,
-                "decimals": -2147483648,
-                "isUnsigned": false,
-                "isZeroFill": false,
-                "setEnumValues": "",
-                "isBinary": false,
-                "charset": "",
-                "collation": "",
-                "isNullable": true,
-                "defaultType": "Others",
-                "defaultValue": "",
-                "isOnUpdateCurrentTimestamp": true,
-                "isAutoInc": false,
-                "comment": "字典标识",
-                "columnFormat": "",
-                "storage": "",
-                "isVirtual": false,
-                "isGeneratedAlways": false,
-                "virtualExpr": "",
-                "virtualType": "",
-                "oldName": "code"
-              },
-              {
-                "objectType": "TableField_MYSQL",
                 "name": "seq",
                 "type": "int",
                 "length": 11,
@@ -4753,7 +4701,59 @@
               },
               {
                 "objectType": "TableField_MYSQL",
-                "name": "req",
+                "name": "label",
+                "type": "varchar",
+                "length": 32,
+                "decimals": -2147483648,
+                "isUnsigned": false,
+                "isZeroFill": false,
+                "setEnumValues": "",
+                "isBinary": false,
+                "charset": "",
+                "collation": "",
+                "isNullable": false,
+                "defaultType": "Others",
+                "defaultValue": "",
+                "isOnUpdateCurrentTimestamp": true,
+                "isAutoInc": false,
+                "comment": "字典标签",
+                "columnFormat": "",
+                "storage": "",
+                "isVirtual": false,
+                "isGeneratedAlways": false,
+                "virtualExpr": "",
+                "virtualType": "",
+                "oldName": "label"
+              },
+              {
+                "objectType": "TableField_MYSQL",
+                "name": "value",
+                "type": "varchar",
+                "length": 64,
+                "decimals": -2147483648,
+                "isUnsigned": false,
+                "isZeroFill": false,
+                "setEnumValues": "",
+                "isBinary": false,
+                "charset": "",
+                "collation": "",
+                "isNullable": true,
+                "defaultType": "Others",
+                "defaultValue": "",
+                "isOnUpdateCurrentTimestamp": false,
+                "isAutoInc": false,
+                "comment": "值",
+                "columnFormat": "",
+                "storage": "",
+                "isVirtual": false,
+                "isGeneratedAlways": false,
+                "virtualExpr": "",
+                "virtualType": "",
+                "oldName": "value"
+              },
+              {
+                "objectType": "TableField_MYSQL",
+                "name": "enable",
                 "type": "char",
                 "length": 1,
                 "decimals": -2147483648,
@@ -4768,14 +4768,14 @@
                 "defaultValue": "",
                 "isOnUpdateCurrentTimestamp": true,
                 "isAutoInc": false,
-                "comment": "是否默认值",
+                "comment": "是否启用",
                 "columnFormat": "",
                 "storage": "",
                 "isVirtual": false,
                 "isGeneratedAlways": false,
                 "virtualExpr": "",
                 "virtualType": "",
-                "oldName": "req"
+                "oldName": "enable"
               },
               {
                 "objectType": "TableField_MYSQL",
@@ -4802,84 +4802,6 @@
                 "virtualExpr": "",
                 "virtualType": "",
                 "oldName": "remark"
-              },
-              {
-                "objectType": "TableField_MYSQL",
-                "name": "type",
-                "type": "int",
-                "length": 1,
-                "decimals": -2147483648,
-                "isUnsigned": false,
-                "isZeroFill": false,
-                "setEnumValues": "",
-                "isBinary": false,
-                "charset": "",
-                "collation": "",
-                "isNullable": true,
-                "defaultType": "None",
-                "defaultValue": "",
-                "isOnUpdateCurrentTimestamp": false,
-                "isAutoInc": false,
-                "comment": "输入类型（1：文本；2：下拉；......）",
-                "columnFormat": "",
-                "storage": "",
-                "isVirtual": false,
-                "isGeneratedAlways": false,
-                "virtualExpr": "",
-                "virtualType": "",
-                "oldName": "type"
-              },
-              {
-                "objectType": "TableField_MYSQL",
-                "name": "value",
-                "type": "json",
-                "length": -2147483648,
-                "decimals": -2147483648,
-                "isUnsigned": false,
-                "isZeroFill": false,
-                "setEnumValues": "",
-                "isBinary": false,
-                "charset": "",
-                "collation": "",
-                "isNullable": true,
-                "defaultType": "Others",
-                "defaultValue": "",
-                "isOnUpdateCurrentTimestamp": false,
-                "isAutoInc": false,
-                "comment": "值",
-                "columnFormat": "",
-                "storage": "",
-                "isVirtual": false,
-                "isGeneratedAlways": false,
-                "virtualExpr": "",
-                "virtualType": "",
-                "oldName": "value"
-              },
-              {
-                "objectType": "TableField_MYSQL",
-                "name": "value_def",
-                "type": "varchar",
-                "length": 255,
-                "decimals": -2147483648,
-                "isUnsigned": false,
-                "isZeroFill": false,
-                "setEnumValues": "",
-                "isBinary": false,
-                "charset": "",
-                "collation": "",
-                "isNullable": true,
-                "defaultType": "Others",
-                "defaultValue": "",
-                "isOnUpdateCurrentTimestamp": false,
-                "isAutoInc": false,
-                "comment": "默认值",
-                "columnFormat": "",
-                "storage": "",
-                "isVirtual": false,
-                "isGeneratedAlways": false,
-                "virtualExpr": "",
-                "virtualType": "",
-                "oldName": "value_def"
               },
               {
                 "objectType": "TableField_MYSQL",
@@ -5075,7 +4997,7 @@
           "schemaName": "Default",
           "tableName": "auth_user",
           "x": 20,
-          "y": 1300,
+          "y": 840,
           "width": 200,
           "height": 350,
           "isBold": false,
@@ -5107,7 +5029,7 @@
           "schemaName": "Default",
           "tableName": "auth_role",
           "x": 510,
-          "y": 1330,
+          "y": 870,
           "width": 200,
           "height": 290,
           "isBold": false,
@@ -5123,7 +5045,7 @@
           "schemaName": "Default",
           "tableName": "auth_resource",
           "x": 1000,
-          "y": 1270,
+          "y": 810,
           "width": 200,
           "height": 410,
           "isBold": false,
@@ -5139,7 +5061,7 @@
           "schemaName": "Default",
           "tableName": "auth_role_resource",
           "x": 760,
-          "y": 1400,
+          "y": 940,
           "width": 200,
           "height": 150,
           "isBold": false,
@@ -5155,7 +5077,7 @@
           "schemaName": "Default",
           "tableName": "auth_user_role",
           "x": 270,
-          "y": 1400,
+          "y": 940,
           "width": 200,
           "height": 150,
           "isBold": false,
@@ -5171,9 +5093,9 @@
           "schemaName": "Default",
           "tableName": "dict_value",
           "x": 30,
-          "y": 840,
+          "y": 1250,
           "width": 200,
-          "height": 370,
+          "height": 310,
           "isBold": false,
           "titleColor": {
             "r": 200,
@@ -5187,7 +5109,7 @@
           "schemaName": "Default",
           "tableName": "dict_node",
           "x": 270,
-          "y": 870,
+          "y": 1250,
           "width": 200,
           "height": 310,
           "isBold": false,
@@ -5266,8 +5188,8 @@
           "type": "table",
           "schemaName": "Default",
           "tableName": "blog_personal",
-          "x": 540,
-          "y": 830,
+          "x": 1010,
+          "y": 30,
           "width": 200,
           "height": 350,
           "isBold": false,
@@ -5290,16 +5212,16 @@
           "vertices": [
             {
               "x": 975,
-              "y": 1470
+              "y": 1010
             },
             {
               "x": 985,
-              "y": 1470
+              "y": 1010
             }
           ],
           "label": {
             "x": 384,
-            "y": 1240,
+            "y": 780,
             "width": 206,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -5324,16 +5246,16 @@
           "vertices": [
             {
               "x": 745,
-              "y": 1470
+              "y": 1010
             },
             {
               "x": 725,
-              "y": 1470
+              "y": 1010
             }
           ],
           "label": {
             "x": 397,
-            "y": 1240,
+            "y": 780,
             "width": 193,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -5358,16 +5280,16 @@
           "vertices": [
             {
               "x": 255,
-              "y": 1470
+              "y": 1010
             },
             {
               "x": 235,
-              "y": 1470
+              "y": 1010
             }
           ],
           "label": {
             "x": 265,
-            "y": 1240,
+            "y": 780,
             "width": 184,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -5392,16 +5314,16 @@
           "vertices": [
             {
               "x": 485,
-              "y": 1470
+              "y": 1010
             },
             {
               "x": 495,
-              "y": 1470
+              "y": 1010
             }
           ],
           "label": {
             "x": 293,
-            "y": 1240,
+            "y": 780,
             "width": 182,
             "height": 30,
             "fontName": "Arial Unicode MS",
@@ -5426,16 +5348,16 @@
           "vertices": [
             {
               "x": 245,
-              "y": 1030
+              "y": 1410
             },
             {
               "x": 255,
-              "y": 1030
+              "y": 1410
             }
           ],
           "label": {
             "x": 235,
-            "y": 992,
+            "y": 1372,
             "width": 229,
             "height": 30,
             "fontName": "Arial Unicode MS",

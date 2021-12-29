@@ -1,7 +1,6 @@
 package com.dandandog.blog.web.admin.faces.vo;
 
 import com.dandandog.framework.common.model.IVo;
-import com.dandandog.modules.config.entity.enums.InputType;
 import lombok.Data;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -19,15 +18,11 @@ public class DictValueVo implements IVo {
 
     private String label;
 
-    private String code;
-
-    private Object value;
-
-    private InputType type;
+    private String value;
 
     private int seq;
 
-    private boolean req;
+    private boolean enable;
 
     private String remark;
 

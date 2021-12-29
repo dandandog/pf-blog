@@ -40,7 +40,7 @@ public abstract class ConfigDictValueMapper implements IMapper<DictValue, DictVa
 
     @Named("findNodeById")
     public String findNodeById(TreeNode node) {
-        return Optional.ofNullable(node).map(n -> (IEntity) n).map(IEntity::getId).orElse(null);
+        return Optional.ofNullable(node).map(n -> (IEntity) n.getData()).map(IEntity::getId).orElse(null);
     }
 
 

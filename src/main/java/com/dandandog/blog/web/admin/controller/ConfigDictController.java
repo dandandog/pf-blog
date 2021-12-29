@@ -10,7 +10,6 @@ import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.framework.faces.model.tree.TreeNodeConfig;
-import com.dandandog.modules.config.entity.enums.InputType;
 import com.google.common.collect.Lists;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.NodeSelectEvent;
@@ -41,7 +40,6 @@ public class ConfigDictController extends FacesController {
         putViewScope("sinSelected", null);
         putViewScope("selectedNode", new DefaultTreeNode());
         putViewScope("mulSelected", Lists.newArrayList());
-        putViewScope("types", InputType.values());
     }
 
     public TreeNode getDataModel(TreeNodeConfig... configs) {
@@ -60,9 +58,9 @@ public class ConfigDictController extends FacesController {
         DictNodeVo selected = (DictNodeVo) selectedNode.getData();
         DictNodeVo node = dictFacet.getNodeById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
-        putViewScope("node", node);
         TreeNodeConfig config = TreeNodeConfig.builder().rowKey(selectedNode.getRowKey())
                 .expand(true).selected(true).selectable(false).build();
+        putViewScope("node", node);
         putViewScope("inputTree", getDataModel(config));
     }
 
@@ -107,9 +105,18 @@ public class ConfigDictController extends FacesController {
 
     @MessageRequired(type = MessageType.SAVE)
     public void save() {
-        DictValueVo selected = getViewScope("vo");
-        dictFacet.saveOrUpdateValue(selected);
-        onEntry();
+        DictValueVo vo = getViewScope("vo");
+        dictFacet.saveOrUpdateValue(vo);
+
+        TreeNodeConfig config = TreeNodeConfig.builder().rowKey(vo.getNode().getRowKey())
+                .expand(true).selected(true).selectable(true).build();
+        DictNodeVo node = (DictNodeVo) vo.getNode().getData();
+        Collection<DictValueVo> list = dictFacet.list(node.getId());
+
+
+        putViewScope("rootTree", getDataModel(config));
+        putViewScope("selectedNode", vo.getNode());
+        putViewScope("list", list);
     }
 
     @MessageRequired(type = MessageType.DELETE)

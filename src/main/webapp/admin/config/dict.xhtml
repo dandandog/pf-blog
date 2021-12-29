@@ -40,7 +40,7 @@
             }
 
             .tree-column {
-                padding: .8rem .8rem !important;
+                padding: .45rem .45rem !important;
             }
 
             .ui-treetable-data .tree-column {
@@ -90,7 +90,7 @@
         <h:form id="dict_form" prependId="false">
             <p:outputPanel styleClass="p-grid p-nogutter">
                 <p:outputPanel styleClass="p-col-12 p-md-2">
-                    <p:treeTable id="dict_tree" widgetVar="dict_tree" value="#{viewScope.rootTree}" var="node"
+                    <p:treeTable id="dict_tree" widgetVar="dict_tree" value="#{viewScope.rootTree}" var="element"
                                  selectionMode="single" nodeVar="nodeVar" showGridlines="false"
                                  selection="#{viewScope.selectedNode}" filterEvent="enter"
                                  styleClass="root-Tree">
@@ -98,10 +98,24 @@
                                 update="@widgetVar(dict_dataTable)"/>
                         <p:ajax event="unselect" listener="#{controller.onNodeUnselect}" process="@this"
                                 update="@widgetVar(dict_dataTable)"/>
-                        <p:column filterBy="name" styleClass="tree-column">
-                            <h:outputText style="padding: 1rem" value="#{node.name}"/>
+
+                        <f:facet name="header">
+                            <div class="ui-input-icon-left" style="width:100%">
+                                <i class="pi pi-search"/>
+                                <p:inputText id="globalFilter" onkeyup="PF('dict_tree').filter()"
+                                             placeholder="#{msg['framework']['enterKeyword']}"/>
+                            </div>
+                        </f:facet>
+
+                        <p:column headerText="#{msg['blog']['name']}" filterable="true" filterBy="name"
+                                  styleClass="tree-column">
+                            <f:facet name="filter">
+                                <p:inputText style="display: none"/>
+                            </f:facet>
+
+                            <h:outputText value="#{element.name}"/>
                             <p:outputPanel layout="inline" styleClass="tree-column-right">
-                                <h:outputText styleClass="dict-code" value="#{node.code}"/>
+                                <h:outputText styleClass="dict-code" value="#{element.code}"/>
                                 <p:outputPanel styleClass="opts" style="display: none">
                                     <p:commandLink
                                             action="#{controller.editNode}" process="@this"
@@ -153,12 +167,10 @@
                         </p:column>
                         <p:column headerText="#{msg['blog']['label']}" width="200"
                                   field="label" filterable="false" filterMatchMode="equals"/>
-                        <p:column headerText="#{msg['blog']['code']}" width="100" responsivePriority="2"
-                                  field="code" filterable="false" filterMatchMode="equals"/>
-                        <p:column headerText="#{msg['blog']['inputType']}" width="80" responsivePriority="3"
-                                  field="type" filterable="false" filterMatchMode="contains">
-                            <h:outputText value="#{element.type.title}"/>
-                        </p:column>
+                        <p:column headerText="#{msg['blog']['value']}" width="100" responsivePriority="2"
+                                  field="value" filterable="false" filterMatchMode="equals"/>
+                        <p:column headerText="#{msg['blog']['enable']}" width="100" responsivePriority="3"
+                                  field="enable" filterable="false" filterMatchMode="equals"/>
                         <p:column headerText="#{msg['blog']['remark']}" responsivePriority="4"
                                   field="remark" filterable="false" filterMatchMode="contains"/>
                     </framework:dataTable>
@@ -208,34 +220,12 @@
                 </p:outputPanel>
                 <framework:label target="label" value="#{msg['blog']['label']}" indicateRequired="true"
                                  styleClass="p-col-6">
-                    <div class="ui-inputgroup">
-                        <p:selectBooleanButton id="def" value="#{viewScope.vo.req}"
-                                               onLabel="#{msg['blog']['reqYes']}"
-                                               offLabel="#{msg['blog']['reqNo']}"
-                                               style="width:90px"/>
-                        <p:inputText id="label" value="#{viewScope.vo.label}" label="#{msg['blog']['label']}"
-                                     required="true"/>
-                    </div>
+                    <p:inputText id="label" value="#{viewScope.vo.label}" label="#{msg['blog']['label']}"
+                                 required="true"/>
                 </framework:label>
-                <framework:label target="value" value="#{msg['blog']['code']}" styleClass="p-col-6">
-                    <p:inputText id="value" value="#{viewScope.vo.code}" required="true"/>
+                <framework:label target="value" value="#{msg['blog']['value']}" styleClass="p-col-6">
+                    <p:inputText id="value" value="#{viewScope.vo.value}" required="true"/>
                 </framework:label>
-                <framework:label target="inputType" value="#{msg['blog']['inputType']}" styleClass="p-col-6">
-                    <p:selectOneMenu id="inputType" value="#{viewScope.vo.type}"
-                                     converter="inputTypeConverter">
-                        <p:ajax update=":dialogform:dict:select_value" process="@this"/>
-                        <f:selectItems value="#{viewScope.types}" var="type"
-                                       itemLabel="#{type.title}" itemValue="#{type}"/>
-                    </p:selectOneMenu>
-                </framework:label>
-
-                <p:outputPanel id="select_value" styleClass="p-col-12 p-nogutter">
-                    <framework:label value="#{msg['blog']['value']}" styleClass="p-col-12"
-                                     rendered="#{vo.type.selectable}">
-                        <p:chips value="#{viewScope.vo.value}" converter="inputItemConverter" styleClass="value-chips"/>
-                    </framework:label>
-                </p:outputPanel>
-
                 <framework:label target="valueRemark" value="#{msg['blog']['remark']}">
                     <p:inputTextarea id="valueRemark" value="#{viewScope.vo.remark}"/>
                 </framework:label>

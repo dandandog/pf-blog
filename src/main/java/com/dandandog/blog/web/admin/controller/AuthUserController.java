@@ -2,9 +2,7 @@ package com.dandandog.blog.web.admin.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import com.dandandog.blog.web.admin.faces.AuthUserFaces;
-import com.dandandog.blog.web.admin.faces.adapter.AuthUserPageAdapter;
 import com.dandandog.blog.web.admin.faces.vo.AuthUserVo;
-import com.dandandog.common.model.MapperPageDataModel;
 import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageSeverity;
@@ -35,7 +33,7 @@ public class AuthUserController extends FacesController {
     @Override
     public void onEntry() {
         putViewScope("vo", new AuthUserVo());
-        putViewScope("dataModel", MapperPageDataModel.getInstance(new AuthUserPageAdapter(), AuthUserVo.class));
+        putViewScope("dataModel", userFacet.page());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
 

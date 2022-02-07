@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/admin/template.xhtml"
+                template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="title">#{msg['blog']['userManagement']}</ui:define>
     <ui:define name="viewname">
@@ -40,19 +40,19 @@
                         <h:outputText value="#{type.title}"/>
                     </p:column>
                     <p:column headerText="#{msg['blog']['userState']}"
-                              field="status" filterMatchMode="equals">
+                              field="state" filterMatchMode="equals">
                         <f:facet name="filter">
                             <p:selectOneMenu onchange="PF('user_dataTable').filter()"
-                                             converter="#{userStatusConverter}"
+                                             converter="#{userStateConverter}"
                                              styleClass="ui-column-filter">
                                 <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
                                               noSelectionOption="true"/>
-                                <f:selectItems value="#{viewScope.statuses}" var="status"
-                                               itemLabel="#{status.title}"
-                                               itemValue="#{status}"/>
+                                <f:selectItems value="#{viewScope.states}" var="state"
+                                               itemLabel="#{state.title}"
+                                               itemValue="#{state}"/>
                             </p:selectOneMenu>
                         </f:facet>
-                        <framework:tags value="#{element.status}"/>
+                        <framework:tags value="#{element.state}"/>
                     </p:column>
                     <p:column headerText="#{msg['blog']['userGender']}"
                               field="gender" filterMatchMode="equals">
@@ -110,10 +110,10 @@
                     <p:inputText id="email" value="#{viewScope.vo.email}" disabled="true"/>
                 </framework:label>
 
-                <framework:label target="status" value="#{msg['blog']['userState']}" styleClass="p-col-6">
-                    <p:selectOneMenu id="status" value="#{viewScope.vo.status}">
-                        <f:selectItems value="#{viewScope.statuses}" var="status"
-                                       itemLabel="#{status.title}" itemValue="#{status}"/>
+                <framework:label target="state" value="#{msg['blog']['userState']}" styleClass="p-col-6">
+                    <p:selectOneMenu id="state" value="#{viewScope.vo.state}">
+                        <f:selectItems value="#{viewScope.statees}" var="state"
+                                       itemLabel="#{state.title}" itemValue="#{state}"/>
                     </p:selectOneMenu>
                 </framework:label>
 

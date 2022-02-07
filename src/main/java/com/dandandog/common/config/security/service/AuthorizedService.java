@@ -71,16 +71,13 @@ public class AuthorizedService implements UserDetailsService {
         BlogPersonal personal = personalService.lambdaQuery().eq(AuditableEntity::getCreator, authUser.getUsername()).one();
         UserCredentials user = MapperUtil.mergeTo(UserCredentials.class, authUser, personal);
 
-        String userType = findUserType(user);
-        Collection<GrantedAuthority> type = AuthorityUtils.createAuthorityList(userType);
+        Collection<GrantedAuthority> type = findUserType(authUser);
         user.getAuthorities().addAll(type);
 
-        String[] roleArr = findUserRoles(user.getId());
-        Collection<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(roleArr);
+        Collection<GrantedAuthority> roles = findUserRoles(authUser);
         user.getAuthorities().addAll(roles);
 
-        String[] permArr = findRolePerms(user.getId());
-        Collection<GrantedAuthority> perms = AuthorityUtils.createAuthorityList(permArr);
+        Collection<GrantedAuthority> perms = findUserPerms(authUser);
         user.getAuthorities().addAll(perms);
 
         return user;
@@ -90,19 +87,21 @@ public class AuthorizedService implements UserDetailsService {
         return StrUtil.addPrefixIfNot(roleCode, "ROLE_");
     }
 
-    private String findUserType(UserCredentials user) {
-        return buildRole(user.getType().name());
+    private Collection<GrantedAuthority> findUserType(AuthUser user) {
+        String userType = buildRole(user.getType().name());
+        return AuthorityUtils.createAuthorityList(userType);
     }
 
-    private String[] findUserRoles(String userId) {
-        List<AuthRole> roles = roleService.findByUser(userId);
-        return roles.stream().map(r -> buildRole(r.getCode())).toArray(String[]::new);
+    private Collection<GrantedAuthority> findUserRoles(AuthUser user) {
+        List<AuthRole> roles = roleService.findByUser(user.getId());
+        String[] roleArr = roles.stream().map(r -> buildRole(r.getCode())).toArray(String[]::new);
+        return AuthorityUtils.createAuthorityList(roleArr);
     }
 
-    private String[] findRolePerms(String userId) {
-        List<AuthResource> resources = resourceService.findByUser(userId);
-        return resources.stream().map(AuthResource::getPerms).toArray(String[]::new);
+    private Collection<GrantedAuthority> findUserPerms(AuthUser user) {
+        List<AuthResource> resources = resourceService.findByUser(user.getId());
+        String[] permArr = resources.stream().map(AuthResource::getPerms).toArray(String[]::new);
+        return AuthorityUtils.createAuthorityList(permArr);
     }
-
 
 }

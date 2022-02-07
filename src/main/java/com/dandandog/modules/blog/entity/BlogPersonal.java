@@ -16,6 +16,8 @@ import lombok.Setter;
 @TableName("blog_personal")
 public class BlogPersonal extends AuditableEntity {
 
+    private String username;
+
     private String nickname;
 
     private String email;

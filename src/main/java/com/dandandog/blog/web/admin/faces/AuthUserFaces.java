@@ -2,7 +2,9 @@ package com.dandandog.blog.web.admin.faces;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.dandandog.blog.web.admin.faces.adapter.AuthUserPageAdapter;
 import com.dandandog.blog.web.admin.faces.vo.AuthUserVo;
+import com.dandandog.common.model.MapperPageDataModel;
 import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.mapstruct.context.BaseContext;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
@@ -15,6 +17,7 @@ import com.dandandog.modules.auth.service.AuthUserService;
 import com.dandandog.modules.blog.entity.BlogPersonal;
 import com.dandandog.modules.blog.service.BlogPersonalService;
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.LazyDataModel;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +50,10 @@ public class AuthUserFaces {
     @Resource
     private BlogPersonalService personalService;
 
+    public LazyDataModel<AuthUserVo> page() {
+        return MapperPageDataModel.getInstance(new AuthUserPageAdapter(), AuthUserVo.class, pageInfo());
+    }
+
     public Optional<AuthUserVo> getOptById(String id) {
         return Optional.ofNullable(userService.getById(id)).map(entity -> MapperUtil.map(entity, AuthUserVo.class, info()));
     }
@@ -57,6 +64,16 @@ public class AuthUserFaces {
 
     public void removeByIds(String[] ids) {
         userService.removeByIds(Arrays.asList(ids));
+    }
+
+    public BaseContext<AuthUserVo> pageInfo() {
+        return new BaseContext<AuthUserVo>() {
+            @Override
+            public void after(AuthUserVo target, Class<AuthUserVo> t) {
+                BlogPersonal one = personalService.lambdaQuery().eq(BlogPersonal::getUsername, target.getUsername()).one();
+                MapperUtil.mergeTo(target, one);
+            }
+        };
     }
 
     @Transactional
@@ -93,7 +110,7 @@ public class AuthUserFaces {
         personalService.save(personal);
     }
 
-    public int count() {
+    public long count() {
         return userService.count();
     }
 }

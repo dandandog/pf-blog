@@ -102,7 +102,8 @@
                         <f:facet name="header">
                             <div class="ui-input-icon-left" style="width:100%">
                                 <i class="pi pi-search"/>
-                                <p:inputText id="globalFilter" onkeyup="PF('dict_tree').filter()"
+                                <p:inputText id="globalFilter"
+                                             onkeyup="if(event.keyCode == 13){PF('dict_tree').filter()}"
                                              placeholder="#{msg['framework']['enterKeyword']}"/>
                             </div>
                         </f:facet>

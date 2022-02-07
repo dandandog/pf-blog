@@ -14,7 +14,6 @@ import lombok.Setter;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFileWrapper;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,11 +49,6 @@ public class GuestFileUpload {
     private UploadedFileWrapper value;
 
     private static final String REGEX = "[^0-9]";
-
-    @GetMapping("/api/test")
-    public String test() {
-        return "hello world";
-    }
 
 
     @PostMapping("/api/upload")

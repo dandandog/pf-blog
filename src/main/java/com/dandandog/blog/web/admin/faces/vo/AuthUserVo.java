@@ -4,6 +4,7 @@ import com.dandandog.framework.common.model.IVo;
 import com.dandandog.modules.auth.entity.AuthRole;
 import com.dandandog.modules.auth.entity.enums.UserState;
 import com.dandandog.modules.auth.entity.enums.UserType;
+import com.dandandog.modules.blog.entity.enums.GenderType;
 import lombok.Data;
 import org.primefaces.model.DualListModel;
 
@@ -36,5 +37,21 @@ public class AuthUserVo implements IVo {
     private LocalDateTime operatedTime;
 
     private DualListModel<AuthRole> roles = new DualListModel<>();
+
+    private String nickname;
+
+    private String email;
+
+    private String phone;
+
+    private GenderType gender;
+
+    private String avatarUrl;
+
+    private String motto;
+
+    private String homepage;
+
+    private String address;
 
 }

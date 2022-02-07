@@ -64,6 +64,8 @@ spring:
         pool-prepared-statements: true
         filters: stat,wall
         async-init: true
+  main:
+    allow-circular-references: true
 
 mybatis-plus:
   type-aliases-package: com.dandandog.blog.**.entity

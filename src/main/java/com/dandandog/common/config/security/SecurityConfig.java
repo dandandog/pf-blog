@@ -1,8 +1,5 @@
-package com.dandandog.common.config;
+package com.dandandog.common.config.security;
 
-import com.dandandog.common.config.security.AuthenticationProvider;
-import com.dandandog.common.config.security.FacesFailureHandler;
-import com.dandandog.common.config.security.FacesSuccessHandler;
 import com.dandandog.common.config.security.service.AuthorizedService;
 import com.dandandog.framework.faces.config.properties.PageProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    @Autowired
     public void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }

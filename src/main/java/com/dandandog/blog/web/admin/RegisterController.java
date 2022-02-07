@@ -19,7 +19,7 @@ public class RegisterController extends FacesController {
 
     @Override
     public void onEntry() {
-        int count = authUserFaces.count();
+        long count = authUserFaces.count();
         UserType type = count == 0 ? UserType.ADMIN : UserType.USER;
         putViewScope("user", new AuthUser(type));
     }

@@ -55,8 +55,8 @@ public class BlogMetasFaces {
     public void saveOrUpdate(IVo vo) {
         BlogMeta entity = MapperUtil.map(vo, BlogMeta.class);
         if (ObjectUtil.isNotEmpty(entity.getId())) {
-            int count = metasContentsService.lambdaQuery().eq(BlogMetasContent::getMetaId, entity.getId()).count();
-            entity.setCount(count);
+            Long count = metasContentsService.lambdaQuery().eq(BlogMetasContent::getMetaId, entity.getId()).count();
+            entity.setCount(count.intValue());
         }
         metasService.saveOrUpdate(entity);
     }

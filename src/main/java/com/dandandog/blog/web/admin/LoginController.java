@@ -33,7 +33,7 @@ public class LoginController extends FacesController {
         if (!isConn) {
             redirectInternal("/install");
         } else {
-            int count = userService.count();
+            long count = userService.count();
             if (count == 0) {
                 redirectInternal("/register");
             }

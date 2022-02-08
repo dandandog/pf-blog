@@ -1,6 +1,6 @@
 package com.dandandog.common.utils;
 
-import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.common.model.ITree;
 import com.dandandog.framework.common.model.IVo;
@@ -26,15 +26,14 @@ public class TreeUtil {
         return idMap;
     }
 
-    public static <T extends IVo> String[] selectedId(TreeNode[] mulSelected, T... defId) {
-        List<T> selectedList = Optional.ofNullable(mulSelected).map(treeNodes ->
+    public static <T extends IVo> String[] selectedId(TreeNode[] mulSelected, TreeNode... sinSelected) {
+        TreeNode[] newArr = ArrayUtil.append(mulSelected, sinSelected);
+        List<T> selectedList = Optional.ofNullable(newArr).map(treeNodes ->
                 Arrays.stream(treeNodes)
                         .map(TreeNode::getData)
                         .map(o -> ((T) o))
                         .collect(Collectors.toList())).orElse(Lists.newArrayList());
-
-        return CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(defId))
-                .stream().map(IVo::getId).toArray(String[]::new);
+        return selectedList.stream().map(IVo::getId).toArray(String[]::new);
     }
 
 

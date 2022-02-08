@@ -67,10 +67,10 @@
                 color: #e9ecef;
             }
 
-
             .root-Tree {
                 height: calc(100vh - 350px);
-                border: 1px solid #e9ecef;
+                border-left: 1px solid #e9ecef;
+                border-right: 1px solid #e9ecef;
             }
 
             @media (max-width: 760px) {
@@ -95,21 +95,27 @@
                                  selection="#{viewScope.selectedNode}" filterEvent="enter"
                                  styleClass="root-Tree">
                         <p:ajax event="select" listener="#{controller.onNodeSelect}" process="@this"
-                                update="@widgetVar(dict_dataTable)"/>
+                                update="@widgetVar(dict_dataTable)" global="false"/>
                         <p:ajax event="unselect" listener="#{controller.onNodeUnselect}" process="@this"
-                                update="@widgetVar(dict_dataTable)"/>
-
+                                update="@widgetVar(dict_dataTable)" global="false"/>
+                        <p:ajax event="expand" listener="#{controller.onNodeExpand}" process="@this"
+                                update="@widgetVar(dict_dataTable)" global="false"/>
+                        <p:ajax event="collapse" listener="#{controller.onNodeCollapse}" process="@this"
+                                update="@widgetVar(dict_dataTable)" global="false"/>
                         <f:facet name="header">
-                            <div class="ui-input-icon-left" style="width:100%">
+                            <div class="ui-input-icon-left" style="width:100%;margin-bottom: 1px;">
                                 <i class="pi pi-search"/>
-                                <p:inputText id="globalFilter"
+                                <p:inputText id="globalFilter" onkeydown="if(event.keyCode == 13) return false"
                                              onkeyup="if(event.keyCode == 13){PF('dict_tree').filter()}"
                                              placeholder="#{msg['framework']['enterKeyword']}"/>
                             </div>
                         </f:facet>
 
-                        <p:column headerText="#{msg['blog']['name']}" filterable="true" filterBy="name"
+                        <p:column filterable="true" filterBy="name"
                                   styleClass="tree-column">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['blog']['name']}"/>
+                            </f:facet>
                             <f:facet name="filter">
                                 <p:inputText style="display: none"/>
                             </f:facet>

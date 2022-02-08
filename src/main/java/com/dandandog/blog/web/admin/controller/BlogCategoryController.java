@@ -9,8 +9,6 @@ import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
-import com.dandandog.framework.faces.model.tree.TreeConfig;
-import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.modules.blog.entity.BlogMeta;
 import com.dandandog.modules.blog.entity.enums.MetaType;
 import org.primefaces.model.TreeNode;
@@ -32,32 +30,32 @@ public class BlogCategoryController extends FacesController {
 
     @Override
     public void onEntry() {
-        putViewScope("rootTable", getDataModel(null));
+//        putViewScope("rootTable", getDataModel(null));
 
         putViewScope("vo", new BlogCategoryVo());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", new TreeNode[0]);
     }
 
-    public TreeNode getDataModel(BlogCategoryVo vo) {
-        TreeDataModel dataModel = getViewScope("dataModel");
-        TreeConfig params = new TreeConfig();
-        if (dataModel == null) {
-            dataModel = metasFaces.findDataModel(BlogCategoryVo.class);
-        }
-        if (vo != null) {
-            params.setUnSelectable(new String[] {vo.getId()});
-            params.setSelected(new String[] {vo.getParentId()});
-        }
-        putViewScope("dataModel", dataModel);
-        return dataModel.createRoot(params);
-    }
+//    public TreeNode getDataModel(BlogCategoryVo vo) {
+//        TreeDataModel dataModel = getViewScope("dataModel");
+//        TreeConfig params = new TreeConfig();
+//        if (dataModel == null) {
+//            dataModel = metasFaces.findDataModel(BlogCategoryVo.class);
+//        }
+//        if (vo != null) {
+//            params.setUnSelectable(new String[] {vo.getId()});
+//            params.setSelected(new String[] {vo.getParentId()});
+//        }
+//        putViewScope("dataModel", dataModel);
+//        return dataModel.createRoot(params);
+//    }
 
 
     public void add() {
         BlogCategoryVo vo = new BlogCategoryVo();
         putViewScope("vo", vo);
-        putViewScope("rootTree", getDataModel(null));
+//        putViewScope("rootTree", getDataModel(null));
     }
 
     public void edit() {
@@ -65,7 +63,7 @@ public class BlogCategoryController extends FacesController {
         IVo vo = metasFaces.getOptById(selected.getId(), MetaType.CATEGORY)
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("vo", vo);
-        putViewScope("rootTree", getDataModel((BlogCategoryVo) vo));
+//        putViewScope("rootTree", getDataModel((BlogCategoryVo) vo));
     }
 
     @MessageRequired(type = MessageType.SAVE)
@@ -77,7 +75,7 @@ public class BlogCategoryController extends FacesController {
 
     @MessageRequired(type = MessageType.DELETE)
     public void delete() {
-        BlogCategoryVo selected = getViewScope("sinSelected");
+        TreeNode selected = getViewScope("sinSelected");
         TreeNode[] mulSelected = getViewScope("mulSelected");
         String[] idList = TreeUtil.selectedId(mulSelected, selected);
         metasFaces.removeByIds(idList);

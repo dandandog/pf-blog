@@ -6,10 +6,12 @@ import com.dandandog.blog.web.admin.faces.vo.AuthResourceVo;
 import com.dandandog.common.model.MapperTreeDataModel;
 import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
+import com.dandandog.framework.faces.model.tree.TreeNodeState;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import com.dandandog.framework.mybatis.entity.BaseEntity;
 import com.dandandog.modules.auth.entity.AuthResource;
 import com.dandandog.modules.auth.service.AuthResourceService;
+import org.primefaces.model.TreeNode;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -28,13 +30,21 @@ public class AuthResourceFaces {
     private AuthResourceService resourceService;
 
 
+    public TreeDataModel findDataModel() {
+        return MapperTreeDataModel.getInstance(new AuthResourceTreeAdapter(), AuthResourceVo.class);
+    }
+
+    public TreeNode initNodeTree(TreeDataModel dataModel, TreeNodeState state) {
+        if (dataModel == null) {
+            dataModel = findDataModel();
+        }
+        return dataModel.createRoot(state);
+    }
+
     public Optional<AuthResourceVo> getOptById(String id) {
         return Optional.ofNullable(resourceService.getById(id)).map(entity -> MapperUtil.map(entity, AuthResourceVo.class));
     }
 
-    public TreeDataModel findDataModel() {
-        return MapperTreeDataModel.getInstance(new AuthResourceTreeAdapter(), AuthResourceVo.class);
-    }
 
     @Transactional
     public void saveOrUpdate(AuthResourceVo vo) {
@@ -50,6 +60,8 @@ public class AuthResourceFaces {
     public void updateByFiled(String id, String field, Object newValue) {
         resourceService.update(new UpdateWrapper<AuthResource>().set(field, newValue).eq("id", id));
     }
+
+
 }
 
 

@@ -1,6 +1,7 @@
 package com.dandandog.blog.web.admin.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import com.dandandog.blog.web.admin.faces.DictFaces;
 import com.dandandog.blog.web.admin.faces.vo.DictNodeVo;
 import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
@@ -9,11 +10,9 @@ import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
-import com.dandandog.framework.faces.model.tree.TreeNodeConfig;
+import com.dandandog.framework.faces.model.tree.TreeNodeState;
 import com.google.common.collect.Lists;
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.NodeSelectEvent;
-import org.primefaces.event.NodeUnselectEvent;
+import org.primefaces.event.*;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.stereotype.Controller;
@@ -34,6 +33,7 @@ public class ConfigDictController extends FacesController {
 
     @Override
     public void onEntry() {
+        initTreeState();
         putViewScope("rootTree", getDataModel());
         putViewScope("node", new DictNodeVo());
         putViewScope("value", new DictValueVo());
@@ -42,9 +42,19 @@ public class ConfigDictController extends FacesController {
         putViewScope("mulSelected", Lists.newArrayList());
     }
 
-    public TreeNode getDataModel(TreeNodeConfig... configs) {
+    public void initTreeState() {
+        TreeNodeState state = getSessionScope("treeState");
+        if (state == null) {
+            state = TreeNodeState.builder().build();
+        }
+        state.setEdit(false);
+        putSessionScope("treeState", state);
+    }
+
+    public TreeNode getDataModel() {
         TreeDataModel dataModel = getViewScope("dataModel");
-        return dictFacet.initNodeTree(dataModel, configs);
+        TreeNodeState state = getSessionScope("treeState");
+        return dictFacet.initNodeTree(dataModel, state);
     }
 
     public void addNode() {
@@ -58,10 +68,9 @@ public class ConfigDictController extends FacesController {
         DictNodeVo selected = (DictNodeVo) selectedNode.getData();
         DictNodeVo node = dictFacet.getNodeById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
-        TreeNodeConfig config = TreeNodeConfig.builder().rowKey(selectedNode.getRowKey())
-                .expand(true).selected(true).selectable(false).build();
+        putSessionScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode}).edit(true).build());
         putViewScope("node", node);
-        putViewScope("inputTree", getDataModel(config));
+        putViewScope("inputTree", getDataModel());
     }
 
     @MessageRequired(type = MessageType.SAVE)
@@ -83,11 +92,28 @@ public class ConfigDictController extends FacesController {
         DictNodeVo node = (DictNodeVo) selectedNode.getData();
         Collection<DictValueVo> list = dictFacet.list(node.getId());
         putViewScope("list", list);
+        putSessionScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode}).build());
     }
 
     public void onNodeUnselect(NodeUnselectEvent event) {
         putViewScope("list", null);
+        putSessionScope("treeState", TreeNodeState.builder().build());
     }
+
+    public void onNodeExpand(NodeExpandEvent event) {
+        TreeNodeState treeState = getSessionScope("treeState");
+        TreeNode expandNode = event.getTreeNode();
+        TreeNode[] newExpandNodes = ArrayUtil.append(treeState.getExpandNodes(), expandNode);
+        putSessionScope("treeState", TreeNodeState.builder().selectedNodes(newExpandNodes).build());
+    }
+
+    public void onNodeCollapse(NodeCollapseEvent event) {
+        TreeNodeState treeState = getSessionScope("treeState");
+        TreeNode expandNode = event.getTreeNode();
+        TreeNode[] newExpandNodes = ArrayUtil.removeEle(treeState.getExpandNodes(), expandNode);
+        putSessionScope("treeState", TreeNodeState.builder().selectedNodes(newExpandNodes).build());
+    }
+
 
     public void add() {
         DictValueVo vo = new DictValueVo();
@@ -108,14 +134,12 @@ public class ConfigDictController extends FacesController {
         DictValueVo vo = getViewScope("vo");
         dictFacet.saveOrUpdateValue(vo);
 
-        TreeNodeConfig config = TreeNodeConfig.builder().rowKey(vo.getNode().getRowKey())
-                .expand(true).selected(true).selectable(true).build();
-        DictNodeVo node = (DictNodeVo) vo.getNode().getData();
-        Collection<DictValueVo> list = dictFacet.list(node.getId());
+        TreeNode node = vo.getNode();
+        DictNodeVo data = (DictNodeVo) node.getData();
+        Collection<DictValueVo> list = dictFacet.list(data.getId());
 
-
-        putViewScope("rootTree", getDataModel(config));
-        putViewScope("selectedNode", vo.getNode());
+        putViewScope("rootTree", getDataModel());
+        putViewScope("selectedNode", node);
         putViewScope("list", list);
     }
 

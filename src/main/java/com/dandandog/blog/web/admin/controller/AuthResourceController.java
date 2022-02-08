@@ -9,8 +9,8 @@ import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
-import com.dandandog.framework.faces.model.tree.TreeConfig;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
+import com.dandandog.framework.faces.model.tree.TreeNodeState;
 import com.dandandog.modules.auth.entity.enums.ResourceTarget;
 import com.dandandog.modules.auth.entity.enums.ResourceType;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,8 @@ public class AuthResourceController extends FacesController {
 
     @Override
     public void onEntry() {
-        putViewScope("rootTable", getDataModel(null));
+        initTreeState();
+        putViewScope("rootTable", getDataModel());
 
         putViewScope("vo", new AuthResourceVo());
         putViewScope("sinSelected", null);
@@ -49,34 +50,35 @@ public class AuthResourceController extends FacesController {
         putViewScope("icons", IconUtil.findAll());
     }
 
-
-    public TreeNode getDataModel(AuthResourceVo vo) {
-        TreeDataModel dataModel = getViewScope("dataModel");
-        TreeConfig params = new TreeConfig();
-        if (dataModel == null) {
-            dataModel = resourceFaces.findDataModel();
+    public void initTreeState() {
+        TreeNodeState state = getSessionScope("treeState");
+        if (state == null) {
+            state = TreeNodeState.builder().build();
         }
-        if (vo != null) {
-            params.setUnSelectable(new String[] {vo.getId()});
-            params.setSelected(new String[] {vo.getParentId()});
-        }
-        putViewScope("dataModel", dataModel);
-        return dataModel.createRoot(params);
+        state.setEdit(false);
+        putSessionScope("treeState", state);
     }
 
+    public TreeNode getDataModel() {
+        TreeDataModel dataModel = getViewScope("dataModel");
+        TreeNodeState state = getSessionScope("treeState");
+        return resourceFaces.initNodeTree(dataModel, state);
+    }
 
     public void add() {
         AuthResourceVo vo = new AuthResourceVo();
         putViewScope("vo", vo);
-        putViewScope("rootTree", getDataModel(null));
+        putViewScope("rootTree", getDataModel());
     }
 
     public void edit() {
-        AuthResourceVo selected = getViewScope("sinSelected");
-        AuthResourceVo vo = resourceFaces.getOptById(selected.getId())
+        TreeNode selectedNode = getViewScope("sinSelected");
+        AuthResourceVo data = (AuthResourceVo) selectedNode.getData();
+        AuthResourceVo vo = resourceFaces.getOptById(data.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
+        putSessionScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode}).edit(true).build());
         putViewScope("vo", vo);
-        putViewScope("rootTree", getDataModel(vo));
+        putViewScope("rootTree", getDataModel());
     }
 
     @MessageRequired(type = MessageType.SAVE)
@@ -88,7 +90,7 @@ public class AuthResourceController extends FacesController {
 
     @MessageRequired(type = MessageType.DELETE)
     public void delete() {
-        AuthResourceVo selected = getViewScope("sinSelected");
+        TreeNode selected = getViewScope("sinSelected");
         TreeNode[] mulSelected = getViewScope("mulSelected");
         String[] idList = TreeUtil.selectedId(mulSelected, selected);
         resourceFaces.removeByIds(idList);

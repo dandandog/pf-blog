@@ -10,7 +10,6 @@ import com.dandandog.blog.web.admin.faces.BlogMetasFaces;
 import com.dandandog.blog.web.admin.faces.DictFaces;
 import com.dandandog.blog.web.admin.faces.vo.BlogArticleVo;
 import com.dandandog.blog.web.admin.faces.vo.BlogAttachVo;
-import com.dandandog.blog.web.admin.faces.vo.BlogCategoryVo;
 import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
 import com.dandandog.common.utils.UploadUtil;
 import com.dandandog.framework.common.model.IVo;
@@ -18,9 +17,6 @@ import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
-import com.dandandog.framework.faces.model.tree.TreeConfig;
-import com.dandandog.framework.faces.model.tree.TreeDataModel;
-import com.dandandog.framework.faces.model.tree.TreeFaces;
 import com.dandandog.modules.blog.entity.BlogConfig;
 import com.dandandog.modules.blog.entity.BlogConfigContent;
 import com.dandandog.modules.blog.entity.enums.ContentState;
@@ -30,7 +26,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.TreeNode;
 import org.primefaces.model.file.UploadedFile;
 import org.springframework.stereotype.Controller;
 
@@ -81,26 +76,12 @@ public class BlogArticleController extends FacesController {
         return getViewScope("dataModel");
     }
 
-    public TreeNode getTreeDataModel(TreeFaces tree) {
-        TreeDataModel dataModel = getViewScope("treeDataModel");
-
-        if (dataModel == null) {
-            dataModel = metasFaces.findDataModel(BlogCategoryVo.class);
-        }
-        TreeConfig params = new TreeConfig();
-        if (tree != null) {
-            params.setUnSelectable(new String[] {tree.getId()});
-            params.setSelected(new String[] {tree.getParentId()});
-        }
-        putViewScope("treeDataModel", dataModel);
-        return dataModel.createRoot(params);
-    }
 
 
     public void add() {
         BlogArticleVo vo = new BlogArticleVo();
         putViewScope("vo", vo);
-        putViewScope("categories", getTreeDataModel(null));
+//        putViewScope("categories", getTreeDataModel(null));
         putViewScope("fields", findFields(null));
     }
 
@@ -110,7 +91,7 @@ public class BlogArticleController extends FacesController {
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         Map<DictValueVo, BlogConfig> fields = findFields(vo.getId());
         putViewScope("vo", vo);
-        putViewScope("categories", getTreeDataModel((TreeFaces) vo.getCategoryNode().getData()));
+       // putViewScope("categories", getTreeDataModel((TreeFaces) vo.getCategoryNode().getData()));
         putViewScope("fields", fields);
     }
 

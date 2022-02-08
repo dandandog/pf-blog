@@ -2,8 +2,8 @@ package com.dandandog.blog.web.admin.faces.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dandandog.blog.web.admin.faces.vo.AuthResourceVo;
+import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.mapstruct.IMapper;
-import com.dandandog.framework.mybatis.entity.BaseEntity;
 import com.dandandog.framework.mybatis.utils.MybatisUtil;
 import com.dandandog.modules.auth.entity.AuthResource;
 import org.mapstruct.Mapper;
@@ -33,7 +33,7 @@ public interface AuthResourceMapper extends IMapper<AuthResource, AuthResourceVo
 
     @Named("resourceParent")
     default String resourceParent(TreeNode parent) {
-        return parent != null && parent.getData() != null ? ((BaseEntity) parent.getData()).getId() : null;
+        return parent != null && parent.getData() != null ? ((IEntity) parent.getData()).getId() : null;
     }
 
 

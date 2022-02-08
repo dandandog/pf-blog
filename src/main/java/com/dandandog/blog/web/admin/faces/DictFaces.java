@@ -1,7 +1,6 @@
 package com.dandandog.blog.web.admin.faces;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dandandog.blog.web.admin.faces.adapter.DictNodeAdapter;
 import com.dandandog.blog.web.admin.faces.vo.DictNodeVo;
@@ -9,10 +8,8 @@ import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
 import com.dandandog.common.model.MapperTreeDataModel;
 import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.faces.annotation.Faces;
-import com.dandandog.framework.faces.model.tree.TreeConfig;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
-import com.dandandog.framework.faces.model.tree.TreeFaces;
-import com.dandandog.framework.faces.model.tree.TreeNodeConfig;
+import com.dandandog.framework.faces.model.tree.TreeNodeState;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import com.dandandog.modules.config.entity.DictNode;
 import com.dandandog.modules.config.entity.DictValue;
@@ -44,24 +41,11 @@ public class DictFaces {
         return MapperTreeDataModel.getInstance(new DictNodeAdapter(), DictNodeVo.class);
     }
 
-    public TreeNode initTree(TreeDataModel dataModel, TreeFaces... selected) {
-        TreeConfig config = new TreeConfig();
+    public TreeNode initNodeTree(TreeDataModel dataModel, TreeNodeState state) {
         if (dataModel == null) {
             dataModel = findDataModel();
         }
-        if (ArrayUtil.isNotEmpty(selected)) {
-            config.setUnSelectable(Arrays.stream(selected).map(TreeFaces::getId).toArray(String[]::new));
-            config.setSelected(Arrays.stream(selected).map(TreeFaces::getParentId).toArray(String[]::new));
-        }
-        return dataModel.createRoot(config);
-    }
-
-
-    public TreeNode initNodeTree(TreeDataModel dataModel, TreeNodeConfig... config) {
-        if (dataModel == null) {
-            dataModel = findDataModel();
-        }
-        return dataModel.createRoot(config);
+        return dataModel.createRoot(state);
     }
 
 
@@ -85,7 +69,7 @@ public class DictFaces {
 
     public void saveOrUpdateNode(DictNodeVo node) {
         DictNode entity = MapperUtil.map(node, DictNode.class);
-        dictNodeService.save(entity);
+        dictNodeService.saveOrUpdate(entity);
     }
 
     @Transactional

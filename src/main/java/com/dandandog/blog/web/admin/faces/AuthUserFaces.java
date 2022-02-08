@@ -1,6 +1,5 @@
 package com.dandandog.blog.web.admin.faces;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.dandandog.blog.web.admin.faces.adapter.AuthUserPageAdapter;
 import com.dandandog.blog.web.admin.faces.vo.AuthUserVo;
@@ -10,7 +9,6 @@ import com.dandandog.framework.mapstruct.context.BaseContext;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
 import com.dandandog.modules.auth.entity.AuthRole;
 import com.dandandog.modules.auth.entity.AuthUser;
-import com.dandandog.modules.auth.entity.AuthUserRole;
 import com.dandandog.modules.auth.service.AuthRoleService;
 import com.dandandog.modules.auth.service.AuthUserRoleService;
 import com.dandandog.modules.auth.service.AuthUserService;
@@ -26,7 +24,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @Author: JohnnyLiu
@@ -55,7 +52,7 @@ public class AuthUserFaces {
     }
 
     public Optional<AuthUserVo> getOptById(String id) {
-        return Optional.ofNullable(userService.getById(id)).map(entity -> MapperUtil.map(entity, AuthUserVo.class, info()));
+        return Optional.ofNullable(userService.getById(id)).map(entity -> MapperUtil.map(entity, AuthUserVo.class, pageInfo()));
     }
 
     public Optional<AuthUserVo> getOptByUserName(String username) {
@@ -78,14 +75,18 @@ public class AuthUserFaces {
 
     @Transactional
     public void saveOrUpdate(AuthUserVo vo) {
-        AuthUser entity = MapperUtil.map(vo, AuthUser.class);
-        userService.saveOrUpdate(entity);
-        List<AuthRole> roles = vo.getRoles().getTarget();
-        userRoleService.lambdaUpdate().eq(AuthUserRole::getUserId, entity.getId()).remove();
-        List<AuthUserRole> userRoles = CollUtil.emptyIfNull(roles).stream()
-                .map(role -> new AuthUserRole(entity.getId(), role.getId(), role.getCode()))
-                .collect(Collectors.toList());
-        userRoleService.saveBatch(userRoles);
+        AuthUser userEntity = MapperUtil.map(vo, AuthUser.class);
+        userService.saveOrUpdate(userEntity);
+
+        BlogPersonal personalEntity = MapperUtil.map(vo, BlogPersonal.class);
+        personalService.lambdaUpdate().eq(BlogPersonal::getUsername, userEntity.getUsername()).update(personalEntity);
+
+//        List<AuthRole> roles = vo.getRoles().getTarget();
+//        userRoleService.lambdaUpdate().eq(AuthUserRole::getUserId, entity.getId()).remove();
+//        List<AuthUserRole> userRoles = CollUtil.emptyIfNull(roles).stream()
+//                .map(role -> new AuthUserRole(entity.getId(), role.getId(), role.getCode()))
+//                .collect(Collectors.toList());
+//        userRoleService.saveBatch(userRoles);
     }
 
     private BaseContext<AuthUserVo> info() {

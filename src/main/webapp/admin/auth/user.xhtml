@@ -37,7 +37,7 @@
                                                itemValue="#{type}"/>
                             </p:selectOneMenu>
                         </f:facet>
-                        <h:outputText value="#{type.title}"/>
+                        <h:outputText value="#{element.type.title}"/>
                     </p:column>
                     <p:column headerText="#{msg['blog']['userState']}"
                               field="state" filterMatchMode="equals">
@@ -94,32 +94,20 @@
                     <framework:upload id="avatar" value="#{viewScope.vo.avatarUrl}"/>
                 </framework:label>
                 <framework:label target="nickname" value="#{msg['blog']['nickname']}" styleClass="p-col-6">
-                    <p:inputText id="nickname" value="#{viewScope.vo.nickname}" disabled="true"/>
+                    <p:inputText id="nickname" value="#{viewScope.vo.nickname}"/>
                 </framework:label>
                 <framework:label target="gender" value="#{msg['blog']['userGender']}" styleClass="p-col-6">
-                    <p:selectOneMenu id="gender" value="#{viewScope.vo.gender}" disabled="true">
+                    <p:selectOneMenu id="gender" value="#{viewScope.vo.gender}">
                         <f:selectItems value="#{viewScope.genders}" var="gender"
                                        itemLabel="#{gender.title}" itemValue="#{gender}"/>
                     </p:selectOneMenu>
                 </framework:label>
                 <framework:label target="mobile" value="#{msg['blog']['phone']}" styleClass="p-col-6">
-                    <p:inputMask id="mobile" value="#{viewScope.vo.phone}" mask="999-999-99999" disabled="true"/>
+                    <p:inputMask id="mobile" value="#{viewScope.vo.phone}" mask="999-999-99999"/>
                 </framework:label>
 
                 <framework:label target="email" value="#{msg['blog']['email']}" styleClass="p-col-6">
-                    <p:inputText id="email" value="#{viewScope.vo.email}" disabled="true"/>
-                </framework:label>
-
-                <framework:label target="state" value="#{msg['blog']['userState']}" styleClass="p-col-6">
-                    <p:selectOneMenu id="state" value="#{viewScope.vo.state}">
-                        <f:selectItems value="#{viewScope.statees}" var="state"
-                                       itemLabel="#{state.title}" itemValue="#{state}"/>
-                    </p:selectOneMenu>
-                </framework:label>
-
-                <framework:label target="role" value="#{msg['blog']['userRole']}">
-                    <p:pickList id="role" value="#{viewScope.vo.roles}" var="role" itemLabel="#{role.name}"
-                                itemValue="#{role}" responsive="true" converter="#{authRoleConverter}"/>
+                    <p:inputText id="email" value="#{viewScope.vo.email}"/>
                 </framework:label>
 
                 <framework:label target="remark" value="#{msg['blog']['remark']}">

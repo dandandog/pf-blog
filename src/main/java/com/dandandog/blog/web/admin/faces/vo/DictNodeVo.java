@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 public class DictNodeVo extends TreeFaces implements IVo {
 
-    private int seq = 1;
+    private String level;
 
     private String name;
 

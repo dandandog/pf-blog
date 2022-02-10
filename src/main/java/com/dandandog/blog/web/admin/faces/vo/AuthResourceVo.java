@@ -7,8 +7,6 @@ import com.dandandog.modules.auth.entity.enums.ResourceType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -27,17 +25,13 @@ public class AuthResourceVo extends TreeFaces implements IVo {
     @NotNull
     private ResourceType type = ResourceType.CATALOG;
 
-    private String icon = "user";
-
-    @Min(0)
-    @Max(999)
-    private Integer seq = 0;
+    private String icon;
 
     private boolean display = false;
 
     private ResourceTarget target = ResourceTarget.CURR_PAGE;
 
-    private String level = "0";
+    private String level;
 
     private boolean leaf = true;
 

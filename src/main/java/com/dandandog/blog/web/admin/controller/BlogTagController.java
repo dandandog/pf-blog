@@ -42,7 +42,7 @@ public class BlogTagController extends FacesController {
 
     public Collection<?> list() {
         Wrapper<BlogMeta> queryWrapper = new LambdaQueryWrapper<BlogMeta>().eq(BlogMeta::getType, MetaType.TAG)
-                .orderByAsc(BlogMeta::getSeq).orderByDesc(AuditableEntity::getOperatedTime);
+                .orderByDesc(AuditableEntity::getOperatedTime);
         return metasFaces.list(queryWrapper, MetaType.TAG);
     }
 

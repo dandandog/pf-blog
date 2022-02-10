@@ -12,6 +12,6 @@ import com.dandandog.modules.config.entity.DictNode;
 public class DictNodeAdapter extends AbstractTreeAdapter<DictNode> {
     @Override
     public void conditions(QueryWrapper<DictNode> queryWrapper) {
-        queryWrapper.lambda().orderByAsc(DictNode::getSeq).orderByAsc(AuditableEntity::getCreatedTime);
+        queryWrapper.lambda().orderByAsc(AuditableEntity::getCreatedTime);
     }
 }

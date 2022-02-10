@@ -6,42 +6,36 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
-    <ui:define name="title">#{msg['blog']['resourceManagement']}</ui:define>
+    <ui:define name="title">#{msg['blog']['resourceManage']}</ui:define>
 
     <ui:define name="viewname">
         <li>#{msg['blog']['auth']}</li>
         <li>/</li>
-        <li>#{msg['blog']['resourceManagement']}</li>
+        <li>#{msg['blog']['resourceManage']}</li>
     </ui:define>
     <ui:define name="content">
         <div class="card">
             <h:form id="resource_form" prependId="false">
                 <framework:treeTable id="resource" formDialogId="resource"
                                      headText="#{msg['blog']['resourceManagement']}"
-                                     value="#{viewScope.rootTable}" editable="false"
+                                     value="#{viewScope.rootTable}" editable="true"
+                                     selectionMode="multiple"
                                      singleSelection="#{viewScope.sinSelected}"
                                      multipleSelection="#{viewScope.mulSelected}">
 
                     <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
                             update="@widgetVar(resource_dataTable)"/>
 
-                    <p:column headerText="#{msg['blog']['title']}" width="200">
+                    <p:column headerText="#{msg['blog']['level']}" width="150">
+                        <h:outputText value="#{element.level}"/>
+
+                    </p:column>
+
+                    <p:column headerText="#{msg['blog']['title']}" width="200" responsivePriority="5">
                         <p:outputPanel layout="inline" style="vertical-align: middle;">
                             <i class="pi pi-#{element.icon} p-mr-2"/>
                             <h:outputText value="#{element.title}"/>
                         </p:outputPanel>
-                    </p:column>
-
-                    <p:column headerText="#{msg['blog']['seq']}" field="seq" filterable="false"
-                              sortable="flase" width="60" responsivePriority="5">
-                        <p:cellEditor>
-                            <f:facet name="output">
-                                <h:outputText value="#{element.seq}"/>
-                            </f:facet>
-                            <f:facet name="input">
-                                <p:inputNumber value="#{element.seq}" styleClass="ui-column-filter"/>
-                            </f:facet>
-                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="#{msg['blog']['resourceType']}"
@@ -57,8 +51,10 @@
                                 <framework:tags value="#{element.display}" type="bool"/>
                             </f:facet>
                             <f:facet name="input">
-
-                                <p:toggleSwitch value="#{element.display}"/>
+                                <p:selectOneMenu value="#{element.display}">
+                                    <f:selectItem itemValue="true" itemLabel="是"/>
+                                    <f:selectItem itemValue="false" itemLabel="否"/>
+                                </p:selectOneMenu>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -75,7 +71,8 @@
     </ui:define>
     <ui:define name="dialog">
         <h:form id="dialogForm">
-            <framework:dialog id="resource" value="#{viewScope.vo}" saveUpdate="@widgetVar(resource_treeTable)">
+            <framework:dialog id="resource" value="#{viewScope.vo}" saveComplete="location.reload()"
+                              saveUpdate="@widgetVar(resource_treeTable)">
                 <framework:label target="parent" value="#{msg['blog']['parent']}">
                     <p:tree id="parent" widgetVar="parent" value="#{viewScope.rootTree}"
                             style="max-height: 250px; overflow: auto"
@@ -87,18 +84,30 @@
                     </p:tree>
                 </framework:label>
 
-                <framework:label target="title" value="#{msg['blog']['title']}" styleClass="p-col-12 p-md-6"
+                <framework:label target="title" value="#{msg['blog']['title']}" styleClass="p-col-12 p-md-6">
+                    <p:inputText id="title"
+                                 value="#{viewScope.vo.title}"
+                                 required="true"/>
+
+                </framework:label>
+                <framework:label target="icon" value="#{msg['blog']['icon']}" styleClass="p-col-12 p-md-6"
                                  indicateRequired="true">
-                    <div class="ui-inputgroup">
+                    <p:outputPanel class="ui-inputgroup">
+                        <p:outputPanel styleClass="ui-input-icon-left" style="width: 100%">
+                            <i class="pi pi-#{viewScope.vo.icon}"/>
+                            <p:inputText id="icon" value="#{viewScope.vo.icon}"
+                                         label="#{msg['blog']['title']}" readonly="true"/>
+                        </p:outputPanel>
+
                         <p:commandButton widgetVar="iconBtn" id="iconBtn" immediate="true"
-                                         icon="pi pi-#{viewScope.vo.icon}"/>
+                                         icon="pi pi-ellipsis-h"/>
                         <p:overlayPanel widgetVar="iconPanel" for="iconBtn"
                                         style="width:500px; height: 500px; overflow-y: auto"
                                         dynamic="true">
                             <div id="icons-grid" class="p-grid p-ac-center">
                                 <p:repeat value="#{viewScope.icons}" var="icon">
                                     <p:commandButton icon="pi pi-#{icon}" title="#{icon}" label="#{icon}"
-                                                     update="@widgetVar(iconBtn)" process="@this"
+                                                     update="@(.ui-input-icon-left)" process="@this"
                                                      oncomplete="PF('iconPanel').hide()"
                                                      styleClass="ui-button-secondary ui-button-flat p-col-12 p-md-2">
                                         <f:setPropertyActionListener value="#{icon}" target="#{viewScope.vo.icon}"/>
@@ -106,9 +115,7 @@
                                 </p:repeat>
                             </div>
                         </p:overlayPanel>
-                        <p:inputText id="title" value="#{viewScope.vo.title}" label="#{msg['blog']['title']}"
-                                     required="true" title="#{msg['blog']['title']}"/>
-                    </div>
+                    </p:outputPanel>
                 </framework:label>
 
                 <framework:label target="resourceType" value="#{msg['blog']['resourceType']}"
@@ -129,7 +136,7 @@
                 </framework:label>
 
                 <framework:label widgetVar="perms" target="perms"
-                                 value="#{msg['blog']['perms']}" styleClass="p-col-12 p-md-6">
+                                 value="#{msg['blog']['perms']}">
                     <p:inputText id="perms" value="#{viewScope.vo.perms}" required="true"/>
                 </framework:label>
 

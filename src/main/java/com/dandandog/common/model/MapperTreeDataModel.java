@@ -5,6 +5,7 @@ import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.common.adapter.AbstractTreeAdapter;
+import com.dandandog.framework.common.model.ITree;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.framework.faces.model.tree.TreeFaces;
 import com.dandandog.framework.faces.model.tree.TreeNodeState;
@@ -64,42 +65,47 @@ public class MapperTreeDataModel<F extends BaseEntity, T extends TreeFaces> impl
         List<F> fList = adapter.queryList();
         List<T> tList = mapperAll(fList);
         TreeNode root = new DefaultTreeNode(null, null);
-        setTreeLeaf(root, tList, Optional.ofNullable(state).orElse(TreeNodeState.builder().build()));
+        loadTreeLeaf(root, tList, Optional.ofNullable(state).orElse(TreeNodeState.builder().build()));
         return root;
     }
 
-    public final void setTreeLeaf(TreeNode root, List<T> source, TreeNodeState state) {
-        setTreeState(root, state);
+    public final void loadTreeLeaf(TreeNode root, List<T> source, TreeNodeState state) {
+        resetTreeState(root, state);
         for (T resource : source) {
             TreeNode node = new DefaultTreeNode(resource, root);
-            setTreeLeaf(node, resource.getChildren(), state);
+            loadTreeLeaf(node, resource.getChildren(), state);
             if (!root.isSelectable()) {
                 node.setSelectable(root.isSelectable());
             }
         }
     }
 
-    private void setTreeState(TreeNode root, TreeNodeState state) {
+    private void resetTreeState(TreeNode root, TreeNodeState state) {
         if (ObjectUtil.isNotNull(state)) {
             if (ArrayUtil.isNotEmpty(state.getSelectedNodes())) {
                 for (TreeNode node : state.getSelectedNodes()) {
+                    ITree parent = (ITree) root.getData();
+                    ITree target = (ITree) node.getData();
+                    if (parent == null || target == null) {
+                        continue;
+                    }
                     // 已选节点不可选
-                    if (StrUtil.equals(root.getRowKey(), node.getRowKey())) {
+                    if (StrUtil.startWith(parent.getLevel(), target.getLevel())) {
                         root.setSelectable(state.isEdit() ? false : true);
                     }
                     if (state.isEdit()) {
-                        TreeNode parent = node.getParent();
+                        ITree targetParent = (ITree) node.getParent().getData();
                         // 已选节点上级节点标记被选
-                        if (parent != null && StrUtil.equals(root.getRowKey(), parent.getRowKey())) {
+                        if (targetParent != null && StrUtil.equals(parent.getLevel(), targetParent.getLevel())) {
                             root.setSelected(true);
                         }
                     } else {
-                        if (StrUtil.equals(root.getRowKey(), node.getRowKey())) {
+                        if (StrUtil.equals(parent.getLevel(), target.getLevel())) {
                             root.setSelected(true);
                         }
                     }
                     // 被选节点以及上级节点展开(长的RowKey放前，短的放后)
-                    if (StrUtil.startWith(node.getRowKey(), root.getRowKey())) {
+                    if (StrUtil.startWith(target.getLevel(), parent.getLevel())) {
                         root.setExpanded(true);
                     }
                 }

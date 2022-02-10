@@ -47,7 +47,7 @@ public class AuthUserFaces {
     @Resource
     private BlogPersonalService personalService;
 
-    public LazyDataModel<AuthUserVo> page() {
+    public LazyDataModel<AuthUserVo> findDataModel() {
         return MapperPageDataModel.getInstance(new AuthUserPageAdapter(), AuthUserVo.class, pageInfo());
     }
 

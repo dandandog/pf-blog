@@ -33,7 +33,7 @@ public class AuthUserController extends FacesController {
     @Override
     public void onEntry() {
         putViewScope("vo", new AuthUserVo());
-        putViewScope("dataModel", userFacet.page());
+        putViewScope("dataModel", userFacet.findDataModel());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
 

@@ -19,6 +19,10 @@ public class AuthRole extends AuditableEntity {
     private static final long serialVersionUID = 812277922582345463L;
 
     /**
+     * 排序
+     */
+    private int seq;
+    /**
      * 角色名称
      */
     private String name;
@@ -27,18 +31,9 @@ public class AuthRole extends AuditableEntity {
      */
     private String code;
     /**
-     * 角色级别
-     */
-    private Integer level;
-    /**
-     * 数据范围
-     */
-    private Integer dataScope;
-    /**
      * 备注
      */
     private String remark;
-
 
 
 }

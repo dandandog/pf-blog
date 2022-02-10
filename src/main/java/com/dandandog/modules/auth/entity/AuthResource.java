@@ -46,10 +46,6 @@ public class AuthResource extends AuditableEntity implements ITree {
      */
     private String icon;
     /**
-     * 排序
-     */
-    private int seq = 0;
-    /**
      * 是否显示
      */
     private boolean display;

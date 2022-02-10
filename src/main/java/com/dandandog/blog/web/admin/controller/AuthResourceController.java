@@ -51,17 +51,16 @@ public class AuthResourceController extends FacesController {
     }
 
     public void initTreeState() {
-        TreeNodeState state = getSessionScope("treeState");
+        TreeNodeState state = getViewScope("treeState");
         if (state == null) {
             state = TreeNodeState.builder().build();
         }
-        state.setEdit(false);
-        putSessionScope("treeState", state);
+        putViewScope("treeState", state);
     }
 
     public TreeNode getDataModel() {
         TreeDataModel dataModel = getViewScope("dataModel");
-        TreeNodeState state = getSessionScope("treeState");
+        TreeNodeState state = getViewScope("treeState");
         return resourceFaces.initNodeTree(dataModel, state);
     }
 
@@ -76,7 +75,7 @@ public class AuthResourceController extends FacesController {
         AuthResourceVo data = (AuthResourceVo) selectedNode.getData();
         AuthResourceVo vo = resourceFaces.getOptById(data.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
-        putSessionScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode}).edit(true).build());
+        putViewScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode}).edit(true).build());
         putViewScope("vo", vo);
         putViewScope("rootTree", getDataModel());
     }

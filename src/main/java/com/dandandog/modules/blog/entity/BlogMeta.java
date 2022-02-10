@@ -49,9 +49,9 @@ public class BlogMeta extends AuditableEntity implements ITree {
     private int count;
 
     /**
-     * 排序
+     * 层级
      */
-    private int seq;
+    private String level;
 
 
 }

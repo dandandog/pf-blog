@@ -25,5 +25,5 @@ public class BlogCategoryVo extends TreeFaces implements IVo {
 
     private int count;
 
-    private int seq;
+    private String level;
 }

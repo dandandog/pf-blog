@@ -1,5 +1,6 @@
 package com.dandandog.blog.web.admin.faces;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dandandog.blog.web.admin.faces.adapter.AuthResourceTreeAdapter;
 import com.dandandog.blog.web.admin.faces.vo.AuthResourceVo;
@@ -8,7 +9,6 @@ import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.framework.faces.model.tree.TreeNodeState;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
-import com.dandandog.framework.mybatis.entity.BaseEntity;
 import com.dandandog.modules.auth.entity.AuthResource;
 import com.dandandog.modules.auth.service.AuthResourceService;
 import org.primefaces.model.TreeNode;
@@ -49,7 +49,10 @@ public class AuthResourceFaces {
     @Transactional
     public void saveOrUpdate(AuthResourceVo vo) {
         AuthResource entity = MapperUtil.map(vo, AuthResource.class);
-        resourceService.lambdaUpdate().set(AuthResource::isLeaf, false).eq(BaseEntity::getId, entity.getParentId());
+        TreeNode parent = vo.getParent();
+        if (entity.getId() == null) {
+            entity.setLevel(StrUtil.join("_", parent.getRowKey(), parent.getChildCount()));
+        }
         resourceService.saveOrUpdate(entity);
     }
 

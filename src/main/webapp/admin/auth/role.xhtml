@@ -6,11 +6,11 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
-    <ui:define name="title">#{msg['blog']['roleManagement']}</ui:define>
+    <ui:define name="title">#{msg['blog']['roleManage']}</ui:define>
     <ui:define name="viewname">
         <li>#{msg['blog']['auth']}</li>
         <li>/</li>
-        <li>#{msg['blog']['roleManagement']}</li>
+        <li>#{msg['blog']['roleManage']}</li>
     </ui:define>
     <ui:define name="content">
         <div class="card">
@@ -20,10 +20,21 @@
                                      value="#{controller.dataModel}"
                                      singleSelection="#{viewScope.sinSelected}"
                                      multipleSelection="#{viewScope.mulSelected}">
+                    <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
+                            update="@widgetVar(resource_dataTable)"/>
+
+                    <p:column headerText="#{msg['blog']['seq']}" field="seq" filterMatchMode="contains" width="80">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{element.seq}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputNumber value="#{element.seq}" decimalPlaces="0"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
                     <p:column headerText="#{msg['blog']['name']}" field="name" filterMatchMode="contains"/>
                     <p:column headerText="#{msg['blog']['code']}" field="code" filterMatchMode="contains"/>
-                    <p:column headerText="#{msg['blog']['dataScope']}" field="code" filterMatchMode="exact"/>
-                    <p:column headerText="#{msg['blog']['level']}" field="level" filterMatchMode="exact"/>
                     <p:column headerText="#{msg['framework']['operatedTime']}" sortBy="operatedTime"
                               sortable="true" width="150"
                               sortOrder="desc" sortPriority="1">
@@ -40,23 +51,13 @@
     <ui:define name="dialog">
         <h:form id="dialogform">
             <framework:dialog id="role" value="#{viewScope.vo}" saveUpdate="@widgetVar(role_dataTable)">
+
                 <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6">
                     <p:inputText id="name" value="#{viewScope.vo.name}" required="true"/>
                 </framework:label>
 
                 <framework:label target="code" value="#{msg['blog']['code']}" styleClass="p-col-6">
                     <p:inputText id="code" value="#{viewScope.vo.code}" required="true"/>
-                </framework:label>
-
-                <framework:label target="dataScope" value="#{msg['blog']['dataScope']}" styleClass="p-col-6">
-                    <p:selectOneMenu id="dataScope" value="#{viewScope.vo.dataScope}">
-                        <f:selectItems value="#{viewScope.dataScopes}" var="dataScope"
-                                       itemLabel="#{msg['roleEnum'][dataScope.name]}" itemValue="#{dataScope}"/>
-                    </p:selectOneMenu>
-                </framework:label>
-
-                <framework:label target="level" value="#{msg['blog']['level']}" styleClass="p-col-6">
-                    <p:inputText id="level" value="#{viewScope.vo.level}"/>
                 </framework:label>
 
                 <framework:label target="perms" value="#{msg['blog']['perms']}">

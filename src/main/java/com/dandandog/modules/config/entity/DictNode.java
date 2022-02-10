@@ -42,7 +42,7 @@ public class DictNode extends AuditableEntity implements ITree {
     /**
      * 排序
      */
-    private int seq = 1;
+    private String level;
 
 
     /**

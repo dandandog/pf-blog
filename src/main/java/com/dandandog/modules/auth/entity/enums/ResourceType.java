@@ -12,17 +12,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum ResourceType implements BaseEnum<Integer> {
 
     /**
-     * 目录
-     */
-    CATALOG(0),
-    /**
      * 菜单
      */
-    MENU(1),
+    MENU(0),
     /**
      * 按钮
      */
-    BUTTON(2);
+    BUTTON(1);
 
     private final int value;
 

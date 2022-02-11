@@ -51,7 +51,12 @@ public class AuthResourceFaces {
         AuthResource entity = MapperUtil.map(vo, AuthResource.class);
         TreeNode parent = vo.getParent();
         if (entity.getId() == null) {
-            entity.setLevel(StrUtil.join("_", parent.getRowKey(), parent.getChildCount()));
+            if (parent == null) {
+                long count = resourceService.lambdaQuery().isNull(AuthResource::getParentId).count() + 1;
+                entity.setLevel(Long.toString(count));
+            } else {
+                entity.setLevel(StrUtil.join("_", parent.getRowKey(), parent.getChildCount()));
+            }
         }
         resourceService.saveOrUpdate(entity);
     }

@@ -23,7 +23,6 @@ public interface AuthResourceMapper extends IMapper<AuthResource, AuthResourceVo
     @Mapping(target = "parent", source = "parentId", qualifiedByName = "resourceParent")
     AuthResourceVo mapTo(AuthResource resource);
 
-
     @Named("resourceParent")
     default TreeNode resourceParent(String parentId) {
         BaseMapper<AuthResource> baseMapper = MybatisUtil.getOneMappersByModelClass(AuthResource.class);

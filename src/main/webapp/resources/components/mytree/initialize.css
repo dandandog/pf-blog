@@ -1,0 +1,45 @@
+.tree-column-right {
+    margin: .2rem;
+    display: block;
+    float: right;
+}
+
+.tree-column {
+    padding: .45rem .45rem !important;
+}
+
+.ui-treetable-data .tree-column {
+    border: transparent !important;
+}
+
+.opts {
+    display: inline;
+}
+
+.opts a {
+    color: #6c757d;
+}
+
+.opts a:hover {
+    color: #4b4c4d;
+}
+
+.ui-state-highlight .opts a {
+    color: #ffffff;
+}
+
+.ui-state-highlight .opts a:hover {
+    color: #e9ecef;
+}
+
+.root-Tree {
+    height: calc(100vh - 350px);
+    border-left: 1px solid #e9ecef;
+    border-right: 1px solid #e9ecef;
+}
+
+@media (max-width: 760px) {
+    .root-Tree {
+        height: auto;
+    }
+}

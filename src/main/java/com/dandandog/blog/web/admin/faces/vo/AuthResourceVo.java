@@ -23,7 +23,7 @@ public class AuthResourceVo extends TreeFaces implements IVo {
     private String perms;
 
     @NotNull
-    private ResourceType type = ResourceType.CATALOG;
+    private ResourceType type = ResourceType.MENU;
 
     private String icon;
 
@@ -34,5 +34,14 @@ public class AuthResourceVo extends TreeFaces implements IVo {
     private String level;
 
     private boolean leaf = true;
+
+
+    public AuthResourceVo(ResourceType type) {
+        this.type = type;
+    }
+
+    public AuthResourceVo() {
+
+    }
 
 }

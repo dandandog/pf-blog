@@ -40,7 +40,7 @@ public class AuthResource extends AuditableEntity implements ITree {
     /**
      * 类型（0：目录; 1：菜单; 2：按钮）
      */
-    private ResourceType type = ResourceType.CATALOG;
+    private ResourceType type;
     /**
      * 图标
      */
@@ -52,7 +52,7 @@ public class AuthResource extends AuditableEntity implements ITree {
     /**
      * 打开方式
      */
-    private ResourceTarget target = ResourceTarget.CURR_PAGE;
+    private ResourceTarget target;
     /**
      * 层级
      */

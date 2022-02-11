@@ -16,7 +16,6 @@ import lombok.Setter;
 @Setter
 @TableName("auth_role")
 public class AuthRole extends AuditableEntity {
-    private static final long serialVersionUID = 812277922582345463L;
 
     /**
      * 排序

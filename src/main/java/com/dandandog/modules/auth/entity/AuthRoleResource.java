@@ -19,7 +19,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @TableName("auth_role_resource")
 public class AuthRoleResource extends BaseEntity {
-    private static final long serialVersionUID = -87971289520291131L;
 
     /**
      * 角色uuid

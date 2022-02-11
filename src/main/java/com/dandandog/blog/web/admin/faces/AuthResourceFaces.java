@@ -52,7 +52,7 @@ public class AuthResourceFaces {
         TreeNode parent = vo.getParent();
         if (entity.getId() == null) {
             if (parent == null) {
-                long count = resourceService.lambdaQuery().isNull(AuthResource::getParentId).count() + 1;
+                long count = resourceService.lambdaQuery().isNull(AuthResource::getParentId).count();
                 entity.setLevel(Long.toString(count));
             } else {
                 entity.setLevel(StrUtil.join("_", parent.getRowKey(), parent.getChildCount()));

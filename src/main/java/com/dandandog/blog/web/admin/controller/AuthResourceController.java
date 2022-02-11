@@ -41,9 +41,9 @@ public class AuthResourceController extends FacesController {
     @Override
     public void onEntry() {
         initTreeState();
-        putViewScope("rootTree", getDataModel());
 
         putViewScope("vo", new AuthResourceVo());
+        putViewScope("rootTree", getDataModel());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", new TreeNode[0]);
 

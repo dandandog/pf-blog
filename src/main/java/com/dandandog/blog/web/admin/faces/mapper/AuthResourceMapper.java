@@ -1,5 +1,6 @@
 package com.dandandog.blog.web.admin.faces.mapper;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dandandog.blog.web.admin.faces.vo.AuthResourceVo;
 import com.dandandog.framework.common.model.IEntity;
@@ -15,13 +16,14 @@ import org.primefaces.model.TreeNode;
 /**
  * @author Johnny
  */
-@Mapper
+@Mapper(imports = {StrUtil.class})
 public interface AuthResourceMapper extends IMapper<AuthResource, AuthResourceVo> {
 
 
     @Override
     @Mapping(target = "parent", source = "parentId", qualifiedByName = "resourceParent")
     AuthResourceVo mapTo(AuthResource resource);
+
 
     @Named("resourceParent")
     default TreeNode resourceParent(String parentId) {
@@ -32,6 +34,7 @@ public interface AuthResourceMapper extends IMapper<AuthResource, AuthResourceVo
 
     @Named("resourceParent")
     default String resourceParent(TreeNode parent) {
+
         return parent != null && parent.getData() != null ? ((IEntity) parent.getData()).getId() : null;
     }
 

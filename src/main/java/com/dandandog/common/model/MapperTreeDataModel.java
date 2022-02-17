@@ -14,7 +14,6 @@ import com.dandandog.framework.mapstruct.FromToKey;
 import com.dandandog.framework.mapstruct.IMapper;
 import com.dandandog.framework.mapstruct.context.BaseContext;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
-import com.dandandog.framework.mybatis.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.model.DefaultTreeNode;
@@ -30,7 +29,7 @@ import java.util.stream.Collectors;
  * @Date: 2021/10/29 17:22
  */
 @SuppressWarnings("ALL")
-public class MapperTreeDataModel<F extends BaseEntity, T extends TreeFaces> implements TreeDataModel {
+public class MapperTreeDataModel<F extends ITree, T extends TreeFaces> implements TreeDataModel {
 
     @Setter
     @Getter
@@ -48,11 +47,11 @@ public class MapperTreeDataModel<F extends BaseEntity, T extends TreeFaces> impl
         this.context = context;
     }
 
-    public static <F extends BaseEntity, T extends TreeFaces> MapperTreeDataModel<F, T> getInstance(AbstractTreeAdapter<F> adapter, Class<T> tClass) {
+    public static <F extends ITree, T extends TreeFaces> MapperTreeDataModel<F, T> getInstance(AbstractTreeAdapter<F> adapter, Class<T> tClass) {
         return getInstance(adapter, tClass, null);
     }
 
-    public static <F extends BaseEntity, T extends TreeFaces> MapperTreeDataModel<F, T> getInstance(AbstractTreeAdapter<F> adapter, Class<T> tClass, BaseContext<T> context) {
+    public static <F extends ITree, T extends TreeFaces> MapperTreeDataModel<F, T> getInstance(AbstractTreeAdapter<F> adapter, Class<T> tClass, BaseContext<T> context) {
         Class<F> fClass = (Class<F>) ClassUtil.getTypeArgument(adapter.getClass(), 0);
         MapperTreeDataModel<F, T> dataModel = new MapperTreeDataModel<>(fClass, tClass, context);
         dataModel.setAdapter(adapter);
@@ -73,6 +72,7 @@ public class MapperTreeDataModel<F extends BaseEntity, T extends TreeFaces> impl
         resetTreeState(root, state);
         for (T resource : source) {
             TreeNode node = new DefaultTreeNode(resource, root);
+            adapter.updateLevel(node.getRowKey(), resource);
             loadTreeLeaf(node, resource.getChildren(), state);
             if (!root.isSelectable()) {
                 node.setSelectable(root.isSelectable());
@@ -109,6 +109,9 @@ public class MapperTreeDataModel<F extends BaseEntity, T extends TreeFaces> impl
                         root.setExpanded(true);
                     }
                 }
+            }
+            if (state.isExpandAll()) {
+                root.setExpanded(true);
             }
         }
     }

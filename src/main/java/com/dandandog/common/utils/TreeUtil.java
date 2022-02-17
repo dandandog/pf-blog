@@ -1,6 +1,7 @@
 package com.dandandog.common.utils;
 
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.common.model.ITree;
 import com.dandandog.framework.common.model.IVo;
@@ -34,6 +35,11 @@ public class TreeUtil {
                         .map(o -> ((T) o))
                         .collect(Collectors.toList())).orElse(Lists.newArrayList());
         return selectedList.stream().map(IVo::getId).toArray(String[]::new);
+    }
+
+    public static <T extends ITree> int getIndex(T t) {
+        int i = StrUtil.lastIndexOfIgnoreCase(t.getLevel(), StrUtil.UNDERLINE);
+        return NumberUtil.parseInt(StrUtil.sub(t.getLevel(), 0, i));
     }
 
 

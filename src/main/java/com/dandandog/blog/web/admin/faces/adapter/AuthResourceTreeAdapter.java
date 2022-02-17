@@ -3,6 +3,7 @@ package com.dandandog.blog.web.admin.faces.adapter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dandandog.common.adapter.AbstractTreeAdapter;
 import com.dandandog.modules.auth.entity.AuthResource;
+import com.dandandog.modules.auth.entity.enums.ResourceType;
 
 /**
  * @Author: JohnnyLiu
@@ -12,6 +13,6 @@ public class AuthResourceTreeAdapter extends AbstractTreeAdapter<AuthResource> {
 
     @Override
     public void conditions(QueryWrapper<AuthResource> queryWrapper) {
-        queryWrapper.lambda().orderByAsc(AuthResource::getLevel);
+        queryWrapper.lambda().eq(AuthResource::getType, ResourceType.MENU).orderByAsc(AuthResource::getLevel);
     }
 }

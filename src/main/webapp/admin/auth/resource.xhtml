@@ -13,7 +13,7 @@
         <h:outputStylesheet library="components" name="/mytree/initialize.css"/>
         <h:outputScript>
             $(function () {
-                initTree(PF('resource_tree').jq[0])
+                initTree(PF('resource_menu').jq[0])
             })
         </h:outputScript>
         <h:outputStylesheet>
@@ -31,7 +31,7 @@
         <h:form id="resource_form" prependId="false">
             <p:outputPanel styleClass="p-grid p-nogutter">
                 <p:outputPanel styleClass="p-col-12 p-md-2">
-                    <p:treeTable id="resource_tree" widgetVar="resource_tree" value="#{viewScope.rootTree}"
+                    <p:treeTable id="resource_menu" widgetVar="resource_menu" value="#{viewScope.rootTree}"
                                  var="element"
                                  selectionMode="single" nodeVar="nodeVar" showGridlines="false"
                                  selection="#{viewScope.selectedNode}" filterEvent="enter"
@@ -40,15 +40,15 @@
                                 update="@widgetVar(resource_dataTable)" global="false"/>
                         <p:ajax event="unselect" listener="#{controller.onNodeUnselect}" process="@this"
                                 update="@widgetVar(resource_dataTable)" global="false"/>
-                        <p:ajax event="expand" listener="#{controller.onNodeExpand}" process="@this"
+                        <p:ajax event="expand" process="@this"
                                 update="@widgetVar(resource_dataTable)" global="false"/>
-                        <p:ajax event="collapse" listener="#{controller.onNodeCollapse}" process="@this"
+                        <p:ajax event="collapse" process="@this"
                                 update="@widgetVar(resource_dataTable)" global="false"/>
                         <f:facet name="header">
                             <div class="ui-input-icon-left" style="width:100%;margin-bottom: 1px;">
                                 <i class="pi pi-search"/>
                                 <p:inputText id="globalFilter" onkeydown="if(event.keyCode == 13) return false"
-                                             onkeyup="if(event.keyCode == 13){PF('resource_tree').filter()}"
+                                             onkeyup="if(event.keyCode == 13){PF('resource_menu').filter()}"
                                              placeholder="#{msg['framework']['enterKeyword']}"/>
                             </div>
                         </f:facet>
@@ -56,37 +56,36 @@
                         <p:column filterable="true" filterBy="title"
                                   styleClass="tree-column">
                             <f:facet name="header">
-                                <p:outputPanel layout="block" styleClass="p-text-center">
-                                    <h:outputText value="#{msg['blog']['menu']}"/>
-                                </p:outputPanel>
-
+                                <h:outputText value="#{msg['blog']['menu']}"/>
                             </f:facet>
                             <f:facet name="filter">
                                 <p:inputText style="display: none"/>
                             </f:facet>
-
+                            <i class="pi pi-#{element.icon} p-mr-3"/>
                             <h:outputText value="#{element.title}"/>
                             <p:outputPanel layout="inline" styleClass="tree-column-right">
-                                <c:set var="simplePath"
-                                       value="#{fn:replace(element.path, nodeVar.parent.data.path , '')}"/>
+
                                 <h:outputText styleClass="sub-title"
-                                              value="#{fn:replace(simplePath, '/' , '')}"/>
+                                              value="#{element.code}"/>
                                 <p:outputPanel styleClass="opts" style="display: none">
                                     <p:commandLink
-                                            action="#{controller.editNode}" process="@this"
+                                            action="#{controller.edit}" process="@this"
                                             update="@widgetVar(resource_dialog)"
                                             oncomplete="PF('resource_dialog').show()"
                                             styleClass="p-md-3">
                                         <i class="pi pi-pencil"/>
                                         <f:setPropertyActionListener value="#{nodeVar}"
                                                                      target="#{viewScope.selectedNode}"/>
+                                        <f:param name="resourceType" value="MENU"/>
+
                                     </p:commandLink>
                                     <p:commandLink
-                                            action="#{controller.deleteNode}" process="@this"
-                                            update="@widgetVar(resource_tree)" oncomplete="location.reload()">
+                                            action="#{controller.delete}" process="@this"
+                                            update="@widgetVar(resource_menu)" oncomplete="location.reload()">
                                         <i class="pi pi-trash"/>
                                         <f:setPropertyActionListener value="#{nodeVar}"
                                                                      target="#{viewScope.selectedNode}"/>
+                                        <f:param name="resourceType" value="MENU"/>
                                         <p:confirm type="popup" header="#{msg['framework']['message']}"
                                                    message="#{msg['framework']['confirmDeletion']}"
                                                    icon="pi pi-exclamation-triangle"/>
@@ -96,19 +95,44 @@
                         </p:column>
                     </p:treeTable>
                     <p:commandButton value="#{msg['framework']['add']}" icon="pi pi-plus" style="width: 100%"
-                                     action="#{controller.addNode}" update="@widgetVar(resource_dialog)"
+                                     action="#{controller.add}" update="@widgetVar(resource_dialog)"
                                      oncomplete="PF('resource_dialog').show()">
                         <f:param name="resourceType" value="MENU"/>
                     </p:commandButton>
+                </p:outputPanel>
+
+                <p:outputPanel styleClass="p-col-12 p-md-10">
+                    <framework:dataTable id="resource" formDialogId="resource"
+                                         headText="#{msg['blog']['dictManagement']}"
+                                         value="#{viewScope.list}" draggableRows="true"
+                                         singleSelection="#{viewScope.sinSelected}"
+                                         multipleSelection="#{viewScope.mulSelected}">
+                        <p:ajax event="rowReorder" listener="#{controller.onRowReorder}" global="false"
+                                update="@widgetVar(resource_dataTable)"/>
+
+                        <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
+                                update="@widgetVar(resource_dataTable)"/>
+
+
+                        <p:column headerText="#{msg['blog']['level']}" width="200"
+                                  field="level" filterable="false" filterMatchMode="equals"/>
+
+                        <p:column headerText="#{msg['blog']['title']}" width="200"
+                                  field="title" filterable="false" filterMatchMode="equals"/>
+                        <p:column headerText="#{msg['blog']['perms']}" width="100" responsivePriority="2"
+                                  field="perms" filterable="false" filterMatchMode="equals"/>
+                        <p:column headerText="#{msg['blog']['display']}" width="100" responsivePriority="3"
+                                  field="display" filterable="false" filterMatchMode="equals"/>
+                    </framework:dataTable>
                 </p:outputPanel>
             </p:outputPanel>
         </h:form>
     </ui:define>
     <ui:define name="dialog">
         <h:form id="dialog_form">
-            <framework:dialog id="resource" value="#{viewScope.vo}" saveComplete="location.reload()"
-                              saveUpdate="@widgetVar(resource_treeTable)"
-                              saveMethod="#{controller.saveNode}">
+            <framework:dialog id="resource" value="#{viewScope.vo}"
+                              saveComplete="#{viewScope.vo.type eq 'MENU' ? 'location.reload()' : ''}"
+                              saveUpdate="@widgetVar(resource_dataTable)">
                 <framework:label target="parent" value="#{msg['blog']['parent']}">
                     <p:tree id="parent" widgetVar="parent" value="#{viewScope.rootTree}"
                             style="max-height: 250px; overflow: auto"
@@ -127,13 +151,23 @@
                     </p:tree>
                 </framework:label>
 
+                <framework:label widgetVar="path" target="path"
+                                 value="#{viewScope.vo.type eq 'MENU' ? msg['blog']['path'] : msg['blog']['perms']}"
+                                 styleClass="p-col-12 p-md-6 resource-path">
+                    <div class="ui-inputgroup">
+                        <div class="ui-inputgroup-addon ">#{viewScope.path}</div>
+                        <p:inputText id="path" value="#{viewScope.vo.code}" required="true"/>
+                    </div>
+                </framework:label>
+
                 <framework:label target="title" value="#{msg['blog']['title']}" styleClass="p-col-12 p-md-6">
                     <p:inputText id="title"
                                  value="#{viewScope.vo.title}"
                                  required="true"/>
-
                 </framework:label>
-                <framework:label target="icon" value="#{msg['blog']['icon']}" styleClass="p-col-12 p-md-6"
+
+                <framework:label rendered="#{viewScope.vo.type eq 'MENU'}" target="icon" value="#{msg['blog']['icon']}"
+                                 styleClass="p-col-12 p-md-6"
                                  indicateRequired="true">
                     <p:outputPanel class="ui-inputgroup">
                         <p:outputPanel styleClass="ui-input-icon-left" style="width: 100%">
@@ -161,7 +195,7 @@
                     </p:outputPanel>
                 </framework:label>
 
-                <framework:label widgetVar="target" target="target"
+                <framework:label rendered="#{viewScope.vo.type eq 'MENU'}" widgetVar="target" target="target"
                                  value="#{msg['blog']['resourceTarget']}" styleClass="p-col-12 p-md-6">
                     <p:selectOneMenu id="target" value="#{viewScope.vo.target}" autoWidth="true">
                         <f:selectItems value="#{viewScope.targets}" var="target"
@@ -169,13 +203,7 @@
                     </p:selectOneMenu>
                 </framework:label>
 
-                <framework:label widgetVar="path" target="path" value="#{msg['blog']['path']}"
-                                 styleClass="p-col-12 p-md-6 resource-path">
-                    <div class="ui-inputgroup">
-                        <div class="ui-inputgroup-addon ">#{viewScope.path}</div>
-                        <p:inputText id="path" value="#{viewScope.vo.path}" required="true"/>
-                    </div>
-                </framework:label>
+
             </framework:dialog>
         </h:form>
     </ui:define>

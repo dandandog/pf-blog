@@ -22,6 +22,10 @@ public class AuthResource extends AuditableEntity implements ITree {
     private static final long serialVersionUID = 916304099916723584L;
 
     /**
+     * 唯一标识
+     */
+    private String code;
+    /**
      * 菜单标题
      */
     private String title;

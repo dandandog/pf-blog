@@ -39,7 +39,7 @@ spring:
     basename: framework-messages, blog-messages_zh
   application:
     version: 1.2.0
-    name: 泡芙博客
+    name: 胖虎博客
   profiles:
     active: @profileActive@
     include: datasource

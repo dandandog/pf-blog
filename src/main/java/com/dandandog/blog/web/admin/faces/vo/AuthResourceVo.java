@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 
 @Data
@@ -18,12 +17,13 @@ public class AuthResourceVo extends TreeFaces implements IVo {
     @NotBlank
     private String title;
 
+    private String code;
+
     private String path;
 
     private String perms;
 
-    @NotNull
-    private ResourceType type = ResourceType.MENU;
+    private ResourceType type;
 
     private String icon;
 

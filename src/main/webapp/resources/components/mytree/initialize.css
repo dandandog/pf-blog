@@ -38,6 +38,11 @@
     border-right: 1px solid #e9ecef;
 }
 
+.root-Tree th {
+    text-align: center;
+}
+
+
 @media (max-width: 760px) {
     .root-Tree {
         height: auto;

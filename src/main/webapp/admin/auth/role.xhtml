@@ -7,6 +7,21 @@
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="title">#{msg['blog']['roleManage']}</ui:define>
+    <ui:define name="head">
+        <h:outputScript>
+
+
+
+            function onSelectRows() {
+                const count = PF('role_dataTable').getSelectedRowsCount();
+                if (count === 1) {
+                    PF('authButton').enable()
+                } else {
+                    PF('authButton').disable()
+                }
+            }
+        </h:outputScript>
+    </ui:define>
     <ui:define name="viewname">
         <li>#{msg['blog']['auth']}</li>
         <li>/</li>
@@ -17,17 +32,18 @@
             <h:form id="contentform" prependId="false">
                 <framework:dataTable id="role" formDialogId="role" lazy="true"
                                      headText="#{msg['blog']['roleManagement']}"
-                                     value="#{controller.dataModel}"
+                                     value="#{controller.dataModel}" onRowClick="onSelectRows()"
                                      singleSelection="#{viewScope.sinSelected}"
                                      multipleSelection="#{viewScope.mulSelected}">
 
                     <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
                             update="@widgetVar(resource_dataTable)"/>
                     <f:facet name="toolbar">
-                        <p:commandButton widgetVar="operate_button" value="#{msg['blog']['operate']}"
+                        <p:commandButton value="#{msg['blog']['auth']}"
+                                         widgetVar="authButton" disabled="true"
                                          action="#{controller.auth}"
-                                         update="@widgetVar(perms_dialog)" oncomplete="PF('perms_dialog').show()"/>
-
+                                         update="@widgetVar(perms_dialog)"
+                                         oncomplete="PF('perms_dialog').show()"/>
                     </f:facet>
                     <p:column headerText="#{msg['blog']['seq']}" field="seq" filterMatchMode="contains" width="80">
                         <p:cellEditor>
@@ -56,7 +72,7 @@
     </ui:define>
     <ui:define name="dialog">
         <h:form id="dialog_form">
-            <framework:dialog id="role" value="#{viewScope.vo}" saveUpdate="@widgetVar(role_dataTable)">
+            <framework:dialog id="role" value="#{viewScope.vo}" saveUpdate="role:dataTable">
 
                 <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6">
                     <p:inputText id="name" value="#{viewScope.vo.name}" required="true"/>

@@ -37,13 +37,13 @@
                                  selection="#{viewScope.selectedNode}" filterEvent="enter"
                                  styleClass="root-Tree">
                         <p:ajax event="select" listener="#{controller.onNodeSelect}" process="@this"
-                                update="@widgetVar(resource_dataTable)" global="false"/>
+                                update="resource:dataTable" global="false"/>
                         <p:ajax event="unselect" listener="#{controller.onNodeUnselect}" process="@this"
-                                update="@widgetVar(resource_dataTable)" global="false"/>
+                                update="resource:dataTable" global="false"/>
                         <p:ajax event="expand" process="@this"
-                                update="@widgetVar(resource_dataTable)" global="false"/>
+                                update="resource:dataTable" global="false"/>
                         <p:ajax event="collapse" process="@this"
-                                update="@widgetVar(resource_dataTable)" global="false"/>
+                                update="resource:dataTable" global="false"/>
                         <f:facet name="header">
                             <div class="ui-input-icon-left" style="width:100%;margin-bottom: 1px;">
                                 <i class="pi pi-search"/>
@@ -108,7 +108,7 @@
                                          singleSelection="#{viewScope.sinSelected}"
                                          multipleSelection="#{viewScope.mulSelected}">
                         <p:ajax event="rowReorder" listener="#{controller.onRowReorder}" global="false"
-                                update="@widgetVar(resource_dataTable)"/>
+                                update="resource:dataTable"/>
 
                         <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
                                 update="@widgetVar(resource_dataTable)"/>

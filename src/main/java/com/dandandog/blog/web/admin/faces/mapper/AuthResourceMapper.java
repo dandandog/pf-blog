@@ -34,9 +34,6 @@ public interface AuthResourceMapper extends IMapper<AuthResource, AuthResourceVo
 
     @Named("resourceParent")
     default String resourceParent(TreeNode parent) {
-
         return parent != null && parent.getData() != null ? ((IEntity) parent.getData()).getId() : null;
     }
-
-
 }

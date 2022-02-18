@@ -5009,45 +5009,6 @@
                     "oldName": ""
                   }
                 ]
-              },
-              {
-                "objectType": "Index_MYSQL",
-                "name": "uk_level",
-                "type": "UNIQUE",
-                "method": "BTREE",
-                "comment": "",
-                "oldName": "",
-                "online": false,
-                "keyBlockSize": 0,
-                "parser": "",
-                "algorithm": "",
-                "lock": "",
-                "collation": "",
-                "cardinality": "",
-                "packed": "",
-                "fields": [
-                  {
-                    "objectType": "IndexField_MYSQL",
-                    "name": "code",
-                    "keyLength": 0,
-                    "order": "",
-                    "oldName": ""
-                  },
-                  {
-                    "objectType": "IndexField_MYSQL",
-                    "name": "level",
-                    "keyLength": 0,
-                    "order": "",
-                    "oldName": ""
-                  },
-                  {
-                    "objectType": "IndexField_MYSQL",
-                    "name": "del",
-                    "keyLength": 0,
-                    "order": "",
-                    "oldName": ""
-                  }
-                ]
               }
             ],
             "primaryKey": {

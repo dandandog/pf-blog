@@ -21,6 +21,8 @@ public class AuthRoleVo implements IVo {
 
     private LocalDateTime operatedTime;
 
-    private TreeNode[] resourceNodes = new TreeNode[0];
+    private TreeNode[] accesses = new TreeNode[0];
+
+    private String[] operates = new String[0];
 
 }

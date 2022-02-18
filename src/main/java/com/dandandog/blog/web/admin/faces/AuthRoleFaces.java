@@ -14,6 +14,7 @@ import com.dandandog.framework.mybatis.entity.AuditableEntity;
 import com.dandandog.modules.auth.entity.AuthResource;
 import com.dandandog.modules.auth.entity.AuthRole;
 import com.dandandog.modules.auth.entity.AuthRoleResource;
+import com.dandandog.modules.auth.entity.enums.ResourceType;
 import com.dandandog.modules.auth.service.AuthResourceService;
 import com.dandandog.modules.auth.service.AuthRoleResourceService;
 import com.dandandog.modules.auth.service.AuthRoleService;
@@ -23,6 +24,8 @@ import org.primefaces.model.TreeNode;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -61,7 +64,7 @@ public class AuthRoleFaces {
         roleService.saveOrUpdate(entity);
 
         roleResourceService.lambdaUpdate().eq(AuthRoleResource::getRoleId, entity.getId()).remove();
-        List<AuthResource> resources = nodeConvertedToEntity(vo.getResourceNodes());
+        List<AuthResource> resources = nodeConvertedToEntity(vo.getAccesses());
         List<AuthRoleResource> roleResources = CollUtil.emptyIfNull(resources).stream()
                 .map(resource -> new AuthRoleResource(entity.getId(), entity.getCode(), resource.getId()))
                 .collect(Collectors.toList());
@@ -78,7 +81,7 @@ public class AuthRoleFaces {
             protected void after(AuthRoleVo target, Class<AuthRoleVo> t) {
                 List<AuthResource> resources = resourceService.findByRole(target.getId());
                 TreeNode[] nodes = entityConvertedToNode(resources);
-                target.setResourceNodes(nodes);
+                target.setAccesses(nodes);
             }
         };
     }
@@ -118,5 +121,20 @@ public class AuthRoleFaces {
 
     public void updateByFiled(String id, String field, Object newValue) {
         roleService.update(new UpdateWrapper<AuthRole>().set(field, newValue).eq("id", id));
+    }
+
+    public List<SelectItem> findOperates(TreeNode[] nodes) {
+        List<SelectItem> operates = new ArrayList<>();
+        for (TreeNode node : nodes) {
+            AuthResourceVo resourceVo = (AuthResourceVo) node.getData();
+            List<AuthResource> list = resourceService.lambdaQuery().eq(AuthResource::getType, ResourceType.BUTTON)
+                    .likeRight(AuthResource::getLevel, resourceVo.getLevel()).orderByAsc(AuthResource::getLevel).list();
+            if (CollUtil.isNotEmpty(list)) {
+                SelectItemGroup group = new SelectItemGroup(resourceVo.getTitle());
+                group.setSelectItems(list.stream().map(resource -> new SelectItem(resource.getId(), resource.getTitle())).toArray(SelectItem[]::new));
+                operates.add(group);
+            }
+        }
+        return operates;
     }
 }

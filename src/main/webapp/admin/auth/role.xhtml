@@ -20,9 +20,15 @@
                                      value="#{controller.dataModel}"
                                      singleSelection="#{viewScope.sinSelected}"
                                      multipleSelection="#{viewScope.mulSelected}">
+
                     <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
                             update="@widgetVar(resource_dataTable)"/>
+                    <f:facet name="toolbar">
+                        <p:commandButton widgetVar="operate_button" value="#{msg['blog']['operate']}"
+                                         action="#{controller.auth}"
+                                         update="@widgetVar(perms_dialog)" oncomplete="PF('perms_dialog').show()"/>
 
+                    </f:facet>
                     <p:column headerText="#{msg['blog']['seq']}" field="seq" filterMatchMode="contains" width="80">
                         <p:cellEditor>
                             <f:facet name="output">
@@ -49,7 +55,7 @@
         </div>
     </ui:define>
     <ui:define name="dialog">
-        <h:form id="dialogform">
+        <h:form id="dialog_form">
             <framework:dialog id="role" value="#{viewScope.vo}" saveUpdate="@widgetVar(role_dataTable)">
 
                 <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6">
@@ -60,24 +66,43 @@
                     <p:inputText id="code" value="#{viewScope.vo.code}" required="true"/>
                 </framework:label>
 
-                <framework:label target="perms" value="#{msg['blog']['perms']}">
-                    <h:outputText rendered="#{fn:length(viewScope.rootTree.children) == 0}"
-                                  value="#{msg['framework']['noRecords']}" style="line-height: 30px;"/>
-                    <p:tree id="perms" rendered="#{fn:length(viewScope.rootTree.children) != 0}" widgetVar="perms"
-                            value="#{viewScope.rootTree}" style="max-height: 250px; overflow: auto"
-                            selectionMode="checkbox"
-                            var="node" datakey="#{node.id}" selection="#{viewScope.vo.resourceNodes}">
-                        <p:treeNode>
-                            <h:outputText value="#{node.title}"/>
-                        </p:treeNode>
-                    </p:tree>
-                </framework:label>
-
                 <framework:label target="remark" value="#{msg['blog']['remark']}">
                     <p:inputTextarea id="remark" value="#{viewScope.vo.remark}" autoResize="false"/>
                 </framework:label>
 
             </framework:dialog>
         </h:form>
+        <h:form id="perms_form">
+            <framework:dialog id="perms" value="#{viewScope.vo}" saveUpdate="@widgetVar(role_dataTable)">
+                <framework:label target="menu" value="#{msg['blog']['access']}">
+                    <h:outputText rendered="#{fn:length(viewScope.rootTree.children) == 0}"
+                                  value="#{msg['framework']['noRecords']}" style="line-height: 30px;"/>
+                    <p:tree id="menu" rendered="#{fn:length(viewScope.rootTree.children) != 0}" widgetVar="perms"
+                            value="#{viewScope.rootTree}" style="max-height: 250px; overflow: auto"
+                            selectionMode="checkbox"
+                            var="node" datakey="#{node.id}" selection="#{viewScope.vo.accesses}">
+                        <p:ajax event="select" listener="#{controller.onSelect}" process="@this"
+                                update="@(.operate_panel)" global="false"/>
+
+                        <p:ajax event="unselect" listener="#{controller.onSelect}" process="@this"
+                                update="@(.operate_panel)" global="false"/>
+                        <p:treeNode>
+                            <h:outputText value="#{node.title}"/>
+                        </p:treeNode>
+                    </p:tree>
+                </framework:label>
+
+                <p:outputPanel id="operate_panel" styleClass="operate_panel">
+                    <framework:label target="operate" value="#{msg['blog']['operate']}">
+                        <p:selectManyCheckbox id="operate" value="#{viewScope.vo.operates}"
+                                              columns="4" styleClass="grid-checkbox" layout="responsive">
+                            <f:selectItems value="#{viewScope.operates}" var="operate" itemLabel="#{operate}"
+                                           itemValue="#{operate}"/>
+                        </p:selectManyCheckbox>
+                    </framework:label>
+                </p:outputPanel>
+            </framework:dialog>
+        </h:form>
+
     </ui:define>
 </ui:composition>

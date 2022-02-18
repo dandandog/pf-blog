@@ -6,11 +6,11 @@ import com.dandandog.blog.web.admin.faces.adapter.DictNodeAdapter;
 import com.dandandog.blog.web.admin.faces.vo.DictNodeVo;
 import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
 import com.dandandog.common.model.MapperTreeDataModel;
-import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.faces.model.tree.TreeDataModel;
 import com.dandandog.framework.faces.model.tree.TreeNodeState;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
+import com.dandandog.framework.mybatis.entity.BaseEntity;
 import com.dandandog.modules.config.entity.DictNode;
 import com.dandandog.modules.config.entity.DictValue;
 import com.dandandog.modules.config.service.DictNodeService;
@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @Author: JohnnyLiu
@@ -51,7 +50,19 @@ public class DictFaces {
 
     public Collection<DictValueVo> list(String nodeId) {
         List<DictValue> list = dictValueService.lambdaQuery().eq(DictValue::getNodeId, nodeId).orderByAsc(DictValue::getSeq).list();
-        return MapperUtil.mapToAll(list, DictValueVo.class);
+        Collection<DictValueVo> dictValueVos = MapperUtil.mapToAll(list, DictValueVo.class);
+        updateBySort(dictValueVos);
+        return dictValueVos;
+    }
+
+    public void updateBySort(Collection<DictValueVo> list) {
+        for (int i = 0; i < list.size(); i++) {
+            DictValueVo vo = CollUtil.get(list, i);
+            if (!Objects.equals(i, vo.getSeq())) {
+                vo.setSeq(i);
+                dictValueService.lambdaUpdate().set(DictValue::getSeq, i).eq(BaseEntity::getId, vo.getId()).update();
+            }
+        }
     }
 
 
@@ -79,10 +90,10 @@ public class DictFaces {
     }
 
     @Transactional
-    public void removeByNodeIds(String... ids) {
-        for (String nodeId : ids) {
-            dictValueService.lambdaUpdate().eq(DictValue::getNodeId, nodeId).remove();
-            dictNodeService.removeById(nodeId);
+    public void removeByNode(DictNodeVo... selectedNode) {
+        for (DictNodeVo vo : selectedNode) {
+            dictNodeService.lambdaUpdate().likeRight(DictNode::getLevel, vo.getLevel()).remove();
+            dictValueService.lambdaUpdate().eq(DictValue::getNodeId, vo.getId()).remove();
         }
     }
 
@@ -95,15 +106,5 @@ public class DictFaces {
         dictValueService.update(new UpdateWrapper<DictValue>().set(field, newValue).eq("id", rowKey));
     }
 
-    public void removeByNode(TreeNode... selectedNode) {
-        Collection<TreeNode> removeNode = findRemoveNodeId(new ArrayList<>(Arrays.asList(selectedNode)));
-        String[] removeIds = removeNode.stream().map(node -> (IEntity) node.getData()).map(IEntity::getId).toArray(String[]::new);
-        removeByNodeIds(removeIds);
-    }
-
-    private Collection<TreeNode> findRemoveNodeId(List<TreeNode> nodes) {
-        return CollUtil.addAll(nodes, nodes.stream()
-                .flatMap(node -> findRemoveNodeId(node.getChildren()).stream()).collect(Collectors.toList()));
-    }
 
 }

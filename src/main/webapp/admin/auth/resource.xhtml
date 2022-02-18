@@ -114,15 +114,17 @@
                                 update="@widgetVar(resource_dataTable)"/>
 
 
-                        <p:column headerText="#{msg['blog']['level']}" width="200"
-                                  field="level" filterable="false" filterMatchMode="equals"/>
+                        <p:column headerText="#{msg['blog']['seq']}" width="200"
+                                  field="level" filterable="false" sortable="false">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
 
                         <p:column headerText="#{msg['blog']['title']}" width="200"
-                                  field="title" filterable="false" filterMatchMode="equals"/>
+                                  field="title" filterable="false" sortable="false" filterMatchMode="equals"/>
                         <p:column headerText="#{msg['blog']['perms']}" width="100" responsivePriority="2"
-                                  field="perms" filterable="false" filterMatchMode="equals"/>
+                                  field="perms" filterable="false" sortable="false" filterMatchMode="equals"/>
                         <p:column headerText="#{msg['blog']['display']}" width="100" responsivePriority="3"
-                                  field="display" filterable="false" filterMatchMode="equals"/>
+                                  field="display" filterable="false" sortable="false" filterMatchMode="equals"/>
                     </framework:dataTable>
                 </p:outputPanel>
             </p:outputPanel>

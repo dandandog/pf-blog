@@ -90,31 +90,27 @@
                 <p:outputPanel styleClass="p-col-12 p-md-10">
                     <framework:dataTable id="dict" formDialogId="dict"
                                          headText="#{msg['blog']['dictManagement']}"
-                                         value="#{viewScope.list}"
+                                         value="#{viewScope.list}" draggableRows="true"
                                          singleSelection="#{viewScope.sinSelected}"
                                          multipleSelection="#{viewScope.mulSelected}">
                         <p:ajax event="cellEdit" listener="#{controller.cellEdit}" global="false"
                                 update="@widgetVar(dict_dataTable)"/>
 
+                        <p:ajax event="rowReorder" listener="#{controller.onRowReorder}" global="false"
+                                update="@widgetVar(dict_dataTable)"/>
+
                         <p:column headerText="#{msg['blog']['seq']}" width="80"
-                                  field="seq" filterable="false" filterMatchMode="equals">
-                            <p:cellEditor>
-                                <f:facet name="output">
-                                    <h:outputText value="#{element.seq}"/>
-                                </f:facet>
-                                <f:facet name="input">
-                                    <p:inputNumber value="#{element.seq}" styleClass="ui-column-filter"/>
-                                </f:facet>
-                            </p:cellEditor>
+                                  field="seq" filterable="false" sortable="false" filterMatchMode="equals">
+                            <h:outputText value="#{index+1}"/>
                         </p:column>
                         <p:column headerText="#{msg['blog']['label']}" width="200"
-                                  field="label" filterable="false" filterMatchMode="equals"/>
+                                  field="label" filterable="false" sortable="false" filterMatchMode="equals"/>
                         <p:column headerText="#{msg['blog']['value']}" width="100" responsivePriority="2"
-                                  field="value" filterable="false" filterMatchMode="equals"/>
+                                  field="value" filterable="false" sortable="false" filterMatchMode="equals"/>
                         <p:column headerText="#{msg['blog']['enable']}" width="100" responsivePriority="3"
-                                  field="enable" filterable="false" filterMatchMode="equals"/>
+                                  field="enable" filterable="false" sortable="false" filterMatchMode="equals"/>
                         <p:column headerText="#{msg['blog']['remark']}" responsivePriority="4"
-                                  field="remark" filterable="false" filterMatchMode="contains"/>
+                                  field="remark" filterable="false" sortable="false" filterMatchMode="contains"/>
                     </framework:dataTable>
                 </p:outputPanel>
             </p:outputPanel>

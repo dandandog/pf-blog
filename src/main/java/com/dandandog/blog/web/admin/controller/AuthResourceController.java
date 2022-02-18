@@ -64,24 +64,24 @@ public class AuthResourceController extends FacesController {
     }
 
     public void initTreeState() {
-        TreeNodeState state = getSessionScope("treeState");
+        TreeNodeState state = getViewScope("treeState");
         if (state == null) {
             state = TreeNodeState.builder().build();
         }
         state.setEdit(false);
         state.setExpandAll(true);
-        putSessionScope("treeState", state);
+        putViewScope("treeState", state);
     }
 
     public TreeNode getDataModel() {
         TreeDataModel dataModel = getViewScope("dataModel");
-        TreeNodeState state = getSessionScope("treeState");
+        TreeNodeState state = getViewScope("treeState");
         putPath(state);
         return resourceFaces.initNodeTree(dataModel, state);
     }
 
     public Collection<AuthResourceVo> getButtonList() {
-        TreeNodeState state = getSessionScope("treeState");
+        TreeNodeState state = getViewScope("treeState");
         if (ArrayUtil.isNotEmpty(state.getSelectedNodes())) {
             TreeNode selectedNode = state.getSelectedNodes()[0];
             return resourceFaces.findButton(selectedNode);
@@ -91,10 +91,10 @@ public class AuthResourceController extends FacesController {
 
     public void add() {
         ResourceType resourceType = getParams("resourceType");
-        TreeNodeState state = getSessionScope("treeState");
+        TreeNodeState state = getViewScope("treeState");
 
         putViewScope("vo", new AuthResourceVo(resourceType));
-        putSessionScope("treeState", TreeNodeState.builder().selectedNodes(state.getSelectedNodes())
+        putViewScope("treeState", TreeNodeState.builder().selectedNodes(state.getSelectedNodes())
                 .edit(Boolean.FALSE).expandAll(Boolean.FALSE).build());
         putViewScope("rootTree", getDataModel());
     }
@@ -109,7 +109,7 @@ public class AuthResourceController extends FacesController {
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
 
         putViewScope("vo", vo);
-        putSessionScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode})
+        putViewScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode})
                 .edit(!Objects.equals(ResourceType.BUTTON, resourceType)).expandAll(Boolean.FALSE).build());
         putViewScope("rootTree", getDataModel());
     }
@@ -141,9 +141,9 @@ public class AuthResourceController extends FacesController {
             TreeNode selectedNode = getViewScope("selectedNode");
             selected = (AuthResourceVo) selectedNode.getData();
         }
-        AuthResourceVo[] vos = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected))
+        AuthResourceVo[] delVos = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected))
                 .toArray(new AuthResourceVo[0]);
-        resourceFaces.remove(vos);
+        resourceFaces.remove(delVos);
         onEntry();
     }
 
@@ -153,24 +153,24 @@ public class AuthResourceController extends FacesController {
 
     public void onNodeSelect(NodeSelectEvent event) {
         TreeNode selectedNode = event.getTreeNode();
-        putSessionScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode}).build());
+        putViewScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode}).build());
         putViewScope("list", getButtonList());
     }
 
     public void onNodeUnselect(NodeUnselectEvent event) {
-        putSessionScope("treeState", TreeNodeState.builder().build());
+        putViewScope("treeState", TreeNodeState.builder().build());
         putViewScope("list", null);
     }
 
     public void onParentSelect(NodeSelectEvent event) {
         TreeNode selectedNode = event.getTreeNode();
-        TreeNodeState state = getSessionScope("treeState");
+        TreeNodeState state = getViewScope("treeState");
         state.setSelectedNodes(new TreeNode[] {selectedNode});
         putPath(state);
     }
 
     public void onParentUnselect(NodeUnselectEvent event) {
-        TreeNodeState state = getSessionScope("treeState");
+        TreeNodeState state = getViewScope("treeState");
         state.setSelectedNodes(null);
         putPath(state);
     }

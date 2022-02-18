@@ -13,6 +13,5 @@ import org.mapstruct.Mapping;
 public interface AuthRoleMapper extends IMapper<AuthRole, AuthRoleVo> {
 
     @Override
-    @Mapping(target = "operatedTime", ignore = true)
     AuthRole mapFrom(AuthRoleVo authRoleVo);
 }

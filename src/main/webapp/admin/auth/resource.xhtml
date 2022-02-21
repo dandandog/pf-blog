@@ -11,11 +11,7 @@
     <ui:define name="head">
         <h:outputScript library="components" name="/mytree/initialize.js"/>
         <h:outputStylesheet library="components" name="/mytree/initialize.css"/>
-        <h:outputScript>
-            $(function () {
-                initTree(PF('resource_menu').jq[0])
-            })
-        </h:outputScript>
+
         <h:outputStylesheet>
             body .ui-inputgroup .ui-inputgroup-addon {
                 min-width: unset !important;
@@ -30,7 +26,12 @@
     <ui:define name="content">
         <h:form id="resource_form" prependId="false">
             <p:outputPanel styleClass="p-grid p-nogutter">
-                <p:outputPanel styleClass="p-col-12 p-md-2">
+                <p:outputPanel id="resource_menu_panel" styleClass="p-col-12 p-md-2">
+                    <h:outputScript>
+                        $(function () {
+                            initTree(PF('resource_menu').jq[0])
+                        })
+                    </h:outputScript>
                     <p:treeTable id="resource_menu" widgetVar="resource_menu" value="#{viewScope.rootTree}"
                                  var="element"
                                  selectionMode="single" nodeVar="nodeVar" showGridlines="false"
@@ -81,7 +82,7 @@
                                     </p:commandLink>
                                     <p:commandLink
                                             action="#{controller.delete}" process="@this"
-                                            update="@widgetVar(resource_menu)" oncomplete="location.reload()">
+                                            update="resource_menu_panel" oncomplete="location.reload()">
                                         <i class="pi pi-trash"/>
                                         <f:setPropertyActionListener value="#{nodeVar}"
                                                                      target="#{viewScope.selectedNode}"/>

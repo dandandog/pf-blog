@@ -71,26 +71,27 @@ public class AuthRoleController extends FacesController {
 
     public void edit() {
         AuthRoleVo selected = getViewScope("sinSelected");
-        AuthRoleVo vo = roleFaces.getOptById(selected.getId())
-                .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
+        AuthRoleVo vo = editEntity(selected, null);
         putViewScope("vo", vo);
     }
 
     public void auth() {
         List<AuthRoleVo> selectedList = getViewScope("mulSelected");
-        AuthRoleVo selected = CollUtil.isNotEmpty(selectedList) ? selectedList.get(0) : new AuthRoleVo();
-        AuthRoleVo vo = roleFaces.getOptById(selected.getId())
-                .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
+        AuthRoleVo vo = editEntity(null, selectedList);
         putViewScope("vo", vo);
-
+        putAuth(vo);
     }
 
-    private void putAuth(AuthRoleVo selected) {
-
-
-        putViewScope("treeState", TreeNodeState.builder().selectedNodes(selected.getAccesses()).build());
-        putViewScope("rootTree", getTreeDataModel());
-        putViewScope("sinSelected", selected);
+    private AuthRoleVo editEntity(AuthRoleVo selected, List<AuthRoleVo> selectedList) {
+        AuthRoleVo vo = new AuthRoleVo();
+        if (CollUtil.isNotEmpty(selectedList)) {
+            selected = selectedList.get(0);
+        }
+        if (selected != null) {
+            vo = roleFaces.getOptById(selected.getId())
+                    .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
+        }
+        return vo;
     }
 
 
@@ -115,9 +116,19 @@ public class AuthRoleController extends FacesController {
 
     public void onSelect(AbstractAjaxBehaviorEvent event) {
         AuthRoleVo selected = getViewScope("sinSelected");
+        putOperate(selected);
+    }
+
+    private void putOperate(AuthRoleVo selected) {
         List<SelectItem> operates = roleFaces.findOperates(selected.getAccesses());
         putViewScope("operates", operates);
     }
 
+    private void putAuth(AuthRoleVo selected) {
+        putViewScope("treeState", TreeNodeState.builder().selectedNodes(selected.getAccesses()).build());
+        putViewScope("rootTree", getTreeDataModel());
+        putViewScope("sinSelected", selected);
+        putOperate(selected);
+    }
 
 }

@@ -10,11 +10,6 @@
     <ui:define name="head">
         <h:outputScript library="components" name="/mytree/initialize.js"/>
         <h:outputStylesheet library="components" name="/mytree/initialize.css"/>
-        <h:outputScript>
-            $(function () {
-                initTree(PF('dict_tree').jq[0])
-            })
-        </h:outputScript>
     </ui:define>
     <ui:define name="viewname">
         <li>#{msg['blog']['config']}</li>
@@ -24,7 +19,12 @@
     <ui:define name="content">
         <h:form id="dict_form" prependId="false">
             <p:outputPanel styleClass="p-grid p-nogutter">
-                <p:outputPanel styleClass="p-col-12 p-md-2">
+                <p:outputPanel id="dict_tree_panel" styleClass="p-col-12 p-md-2">
+                    <h:outputScript>
+                        $(function () {
+                            initTree(PF('dict_tree').jq[0])
+                        })
+                    </h:outputScript>
                     <p:treeTable id="dict_tree" widgetVar="dict_tree" value="#{viewScope.rootTree}" var="element"
                                  selectionMode="single" nodeVar="nodeVar" showGridlines="false"
                                  selection="#{viewScope.selectedNode}" filterEvent="enter"
@@ -70,7 +70,7 @@
                                     </p:commandLink>
                                     <p:commandLink
                                             action="#{controller.deleteNode}" process="@this"
-                                            update="@widgetVar(dict_tree)" oncomplete="location.reload()">
+                                            update="dict_tree_panel" oncomplete="location.reload()">
                                         <i class="pi pi-trash"/>
                                         <f:setPropertyActionListener value="#{nodeVar}"
                                                                      target="#{viewScope.selectedNode}"/>
@@ -120,7 +120,7 @@
     <ui:define name="dialog">
         <h:form id="node_form">
             <framework:dialog id="dict_node" value="#{viewScope.node}" saveMethod="#{controller.saveNode}"
-                              saveUpdate="@widgetVar(dict_tree)" saveComplete="location.reload()">
+                              saveUpdate="dict_tree_panel" saveComplete="location.reload()">
                 <p:tree widgetVar="parent_tree" value="#{viewScope.inputTree}" var="node" selectionMode="single"
                         selection="#{viewScope.node.parent}" filterBy="#{node.name}">
                     <p:treeNode>

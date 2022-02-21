@@ -51,7 +51,7 @@ public class AuthResourceController extends FacesController {
         initTreeState();
 
         putViewScope("vo", new AuthResourceVo());
-        putViewScope("rootTree", getDataModel());
+        putViewScope("rootTree", getTreeModel());
         putViewScope("list", getButtonList());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
@@ -73,11 +73,11 @@ public class AuthResourceController extends FacesController {
         putViewScope("treeState", state);
     }
 
-    public TreeNode getDataModel() {
-        TreeDataModel dataModel = getViewScope("dataModel");
+    public TreeNode getTreeModel() {
+        TreeDataModel treeModel = getViewScope("treeModel");
         TreeNodeState state = getViewScope("treeState");
         putPath(state);
-        return resourceFaces.initNodeTree(dataModel, state);
+        return resourceFaces.initNodeTree(treeModel, state);
     }
 
     public Collection<AuthResourceVo> getButtonList() {
@@ -96,7 +96,7 @@ public class AuthResourceController extends FacesController {
         putViewScope("vo", new AuthResourceVo(resourceType));
         putViewScope("treeState", TreeNodeState.builder().selectedNodes(state.getSelectedNodes())
                 .edit(Boolean.FALSE).expandAll(Boolean.FALSE).build());
-        putViewScope("rootTree", getDataModel());
+        putViewScope("rootTree", getTreeModel());
     }
 
     public void edit() {
@@ -111,7 +111,7 @@ public class AuthResourceController extends FacesController {
         putViewScope("vo", vo);
         putViewScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode})
                 .edit(!Objects.equals(ResourceType.BUTTON, resourceType)).expandAll(Boolean.FALSE).build());
-        putViewScope("rootTree", getDataModel());
+        putViewScope("rootTree", getTreeModel());
     }
 
 

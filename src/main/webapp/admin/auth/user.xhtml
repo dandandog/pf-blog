@@ -12,78 +12,94 @@
         <li>#{msg['blog']['userManage']}</li>
     </ui:define>
     <ui:define name="content">
-        <div class="card">
-            <h:form id="user_form" prependId="false">
-                <framework:dataTable id="user" formDialogId="user" lazy="true"
-                                     headText="#{msg['blog']['userManagement']}" addSupported="false"
-                                     value="#{controller.dataModel}"
-                                     singleSelection="#{viewScope.sinSelected}"
-                                     multipleSelection="#{viewScope.mulSelected}">
+        <h:form id="user_form" prependId="false">
+            <p:outputPanel styleClass="p-grid p-nogutter">
+                <p:outputPanel id="resource_menu_panel" styleClass="p-col-12 p-md-2">
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:inputText/>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                    <p:dataTable value="#{viewScope.roles}" var="element">
+                        <p:column headerText="角色">
 
-                    <p:column headerText="#{msg['blog']['nickname']}" field="nickname"
-                              filterMatchMode="contains">
-                        <framework:avatar user="#{element}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['blog']['userType']}"
-                              field="type" filterMatchMode="equals">
-                        <f:facet name="filter">
-                            <p:selectOneMenu onchange="PF('user_dataTable').filter()"
-                                             converter="#{userTypeConverter}"
-                                             styleClass="ui-column-filter">
-                                <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
-                                              noSelectionOption="true"/>
-                                <f:selectItems value="#{viewScope.types}" var="type"
-                                               itemLabel="#{type.title}"
-                                               itemValue="#{type}"/>
-                            </p:selectOneMenu>
-                        </f:facet>
-                        <h:outputText value="#{element.type.title}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['blog']['userState']}"
-                              field="state" filterMatchMode="equals">
-                        <f:facet name="filter">
-                            <p:selectOneMenu onchange="PF('user_dataTable').filter()"
-                                             converter="#{userStateConverter}"
-                                             styleClass="ui-column-filter">
-                                <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
-                                              noSelectionOption="true"/>
-                                <f:selectItems value="#{viewScope.states}" var="state"
-                                               itemLabel="#{state.title}"
-                                               itemValue="#{state}"/>
-                            </p:selectOneMenu>
-                        </f:facet>
-                        <framework:tags value="#{element.state}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['blog']['userGender']}"
-                              field="gender" filterMatchMode="equals">
-                        <f:facet name="filter">
-                            <p:selectOneMenu onchange="PF('user_dataTable').filter()"
-                                             converter="#{userGenderConverter}"
-                                             styleClass="ui-column-filter">
-                                <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
-                                              noSelectionOption="true"/>
-                                <f:selectItems value="#{viewScope.genders}" var="gender"
-                                               itemLabel="#{gender.title}"
-                                               itemValue="#{gender}"/>
-                            </p:selectOneMenu>
-                        </f:facet>
-                        <framework:tags value="#{element.gender}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['blog']['phone']}" field="phone" filterMatchMode="contains"/>
-                    <p:column headerText="#{msg['blog']['email']}" field="email" filterMatchMode="contains"/>
-                    <p:column headerText="#{msg['framework']['operatedTime']}" sortBy="operatedTime"
-                              sortable="true" width="150"
-                              sortOrder="desc" sortPriority="1">
-                        <h:outputText value="#{element.operatedTime}">
-                            <f:convertDateTime type="localDateTime"
-                                               pattern="#{msg['format']['localDateTime']}"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="#{msg['blog']['remark']}" field="remark" filterable="false"
-                              sortable="false"/>
-                </framework:dataTable>
-            </h:form>
-        </div>
+                            <h:outputText value="#{element.name}"/>
+
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:outputPanel styleClass="p-col-12 p-md-10">
+                    <framework:dataTable id="user" formDialogId="user" lazy="true"
+                                         headText="#{msg['blog']['userManagement']}" addSupported="false"
+                                         value="#{controller.dataModel}"
+                                         singleSelection="#{viewScope.sinSelected}"
+                                         multipleSelection="#{viewScope.mulSelected}">
+
+                        <p:column headerText="#{msg['blog']['nickname']}" field="nickname"
+                                  filterMatchMode="contains">
+                            <framework:avatar user="#{element}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['blog']['userType']}"
+                                  field="type" filterMatchMode="equals">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('user_dataTable').filter()"
+                                                 converter="#{userTypeConverter}"
+                                                 styleClass="ui-column-filter">
+                                    <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
+                                                  noSelectionOption="true"/>
+                                    <f:selectItems value="#{viewScope.types}" var="type"
+                                                   itemLabel="#{type.title}"
+                                                   itemValue="#{type}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <h:outputText value="#{element.type.title}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['blog']['userState']}"
+                                  field="state" filterMatchMode="equals">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('user_dataTable').filter()"
+                                                 converter="#{userStateConverter}"
+                                                 styleClass="ui-column-filter">
+                                    <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
+                                                  noSelectionOption="true"/>
+                                    <f:selectItems value="#{viewScope.states}" var="state"
+                                                   itemLabel="#{state.title}"
+                                                   itemValue="#{state}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <framework:tags value="#{element.state}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['blog']['userGender']}"
+                                  field="gender" filterMatchMode="equals">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('user_dataTable').filter()"
+                                                 converter="#{userGenderConverter}"
+                                                 styleClass="ui-column-filter">
+                                    <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
+                                                  noSelectionOption="true"/>
+                                    <f:selectItems value="#{viewScope.genders}" var="gender"
+                                                   itemLabel="#{gender.title}"
+                                                   itemValue="#{gender}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <framework:tags value="#{element.gender}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['blog']['phone']}" field="phone" filterMatchMode="contains"/>
+                        <p:column headerText="#{msg['blog']['email']}" field="email" filterMatchMode="contains"/>
+                        <p:column headerText="#{msg['framework']['operatedTime']}" sortBy="operatedTime"
+                                  sortable="true" width="150"
+                                  sortOrder="desc" sortPriority="1">
+                            <h:outputText value="#{element.operatedTime}">
+                                <f:convertDateTime type="localDateTime"
+                                                   pattern="#{msg['format']['localDateTime']}"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['blog']['remark']}" field="remark" filterable="false"
+                                  sortable="false"/>
+                    </framework:dataTable>
+                </p:outputPanel>
+            </p:outputPanel>
+        </h:form>
     </ui:define>
 
     <ui:define name="dialog">

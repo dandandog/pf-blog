@@ -1,0 +1,24 @@
+.left-table {
+    height: calc(100vh - 350px);
+    border-left: 1px solid #e9ecef;
+    border-right: 1px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.left-table th {
+    text-align: center;
+}
+
+.left-table [role='columnheader'] {
+    padding: 0.45rem 0.45rem;
+}
+
+.left-table [role='gridcell'] {
+    border: transparent !important;
+}
+
+@media (max-width: 760px) {
+    .left-table {
+        height: auto;
+    }
+}

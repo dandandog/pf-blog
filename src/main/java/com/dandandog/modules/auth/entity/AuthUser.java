@@ -1,5 +1,7 @@
 package com.dandandog.modules.auth.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dandandog.framework.mybatis.entity.AuditableEntity;
 import com.dandandog.modules.auth.entity.enums.UserState;
@@ -36,6 +38,7 @@ public class AuthUser extends AuditableEntity {
     /**
      * 密码
      */
+    @TableField(updateStrategy = FieldStrategy.NOT_NULL)
     private String password;
 
     /**
@@ -68,4 +71,11 @@ public class AuthUser extends AuditableEntity {
      */
     private LocalDateTime expiredTime;
 
+
+    public String getPasswordSalt() {
+        if (this.salt != null) {
+            return this.password + this.salt;
+        }
+        return this.password;
+    }
 }

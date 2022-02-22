@@ -67,7 +67,11 @@ spring:
   main:
     allow-circular-references: true
 
-mybatis-plus:
+mybatis-plus:global-config:
+  db-config:
+    select-strategy: DEFAULT
+    insert-strategy: DEFAULT
+    update-strategy: IGNORED
   type-aliases-package: com.dandandog.blog.**.entity
   typeEnumsPackage: com.dandandog.blog.**.entity.enums
   configuration:

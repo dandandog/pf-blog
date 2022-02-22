@@ -3,21 +3,20 @@ package com.dandandog.blog.web.admin.controller;
 import cn.hutool.core.collection.CollUtil;
 import com.dandandog.blog.web.admin.faces.AuthRoleFaces;
 import com.dandandog.blog.web.admin.faces.AuthUserFaces;
+import com.dandandog.blog.web.admin.faces.vo.AuthRoleVo;
 import com.dandandog.blog.web.admin.faces.vo.AuthUserVo;
 import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
-import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
-import com.dandandog.framework.faces.model.tree.TreeDataModel;
-import com.dandandog.framework.faces.model.tree.TreeNodeState;
 import com.dandandog.modules.auth.entity.enums.UserState;
 import com.dandandog.modules.auth.entity.enums.UserType;
 import com.dandandog.modules.blog.entity.enums.GenderType;
 import com.google.common.collect.Lists;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.TreeNode;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
@@ -40,10 +39,10 @@ public class AuthUserController extends FacesController {
     @Override
     public void onEntry() {
         putViewScope("vo", new AuthUserVo());
-        putViewScope("dataModel", userFacet.findDataModel());
+        putViewScope("dataModel", userFacet.findDataModel(null));
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
-//        putViewScope("rootTree", roleFaces.list());
+        putViewScope("roles", roleFaces.list());
 
         putViewScope("genders", GenderType.values());
         putViewScope("statuses", UserState.values());
@@ -54,14 +53,12 @@ public class AuthUserController extends FacesController {
         return getViewScope("dataModel");
     }
 
-    public TreeNode getTreeRoot() {
-        TreeDataModel treeModel = getViewScope("treeModel");
-        TreeNodeState state = getViewScope("treeState");
-        return roleFaces.initNodeTree(treeModel, state);
+    public void add() {
+        AuthUserVo vo = new AuthUserVo();
+        vo.setType(UserType.USER);
+        putViewScope("vo", vo);
     }
 
-
-    @MessageRequired(type = MessageType.OPERATION, severity = MessageSeverity.ERROR)
     public void edit() {
         AuthUserVo selected = getViewScope("sinSelected");
         AuthUserVo vo = userFacet.getOptById(selected.getId())
@@ -83,5 +80,16 @@ public class AuthUserController extends FacesController {
                 .stream().map(IVo::getId).toArray(String[]::new);
         userFacet.removeByIds(idList);
     }
+
+
+    public void onRowSelect(SelectEvent<AuthRoleVo> event) {
+        AuthRoleVo vo = event.getObject();
+        putViewScope("dataModel", userFacet.findDataModel(vo.getId()));
+    }
+
+    public void onRowUnSelect(UnselectEvent<AuthRoleVo> event) {
+        putViewScope("dataModel", userFacet.findDataModel(null));
+    }
+
 
 }

@@ -32,19 +32,19 @@
     color: #e9ecef;
 }
 
-.root-Tree {
+.left-tree {
     height: calc(100vh - 350px);
     border-left: 1px solid #e9ecef;
     border-right: 1px solid #e9ecef;
 }
 
-.root-Tree th {
+.left-tree th {
     text-align: center;
 }
 
 
 @media (max-width: 760px) {
-    .root-Tree {
+    .left-tree {
         height: auto;
     }
 }

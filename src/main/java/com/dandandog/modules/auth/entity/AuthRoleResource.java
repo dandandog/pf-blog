@@ -26,11 +26,6 @@ public class AuthRoleResource extends BaseEntity {
     private String roleId;
 
     /**
-     * 角色uuid
-     */
-    private String roleCode;
-
-    /**
      * 菜单uuid
      */
     private String resId;

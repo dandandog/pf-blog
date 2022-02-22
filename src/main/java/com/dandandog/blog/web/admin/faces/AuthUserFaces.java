@@ -1,20 +1,19 @@
 package com.dandandog.blog.web.admin.faces;
 
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.dandandog.blog.web.admin.faces.adapter.AuthUserPageAdapter;
 import com.dandandog.blog.web.admin.faces.vo.AuthUserVo;
 import com.dandandog.common.model.MapperPageDataModel;
 import com.dandandog.framework.faces.annotation.Faces;
 import com.dandandog.framework.mapstruct.context.BaseContext;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
-import com.dandandog.modules.auth.entity.AuthRole;
 import com.dandandog.modules.auth.entity.AuthUser;
-import com.dandandog.modules.auth.service.AuthRoleService;
+import com.dandandog.modules.auth.entity.AuthUserRole;
 import com.dandandog.modules.auth.service.AuthUserRoleService;
 import com.dandandog.modules.auth.service.AuthUserService;
 import com.dandandog.modules.blog.entity.BlogPersonal;
 import com.dandandog.modules.blog.service.BlogPersonalService;
-import org.primefaces.model.DualListModel;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @Author: JohnnyLiu
@@ -36,9 +36,6 @@ public class AuthUserFaces {
     private AuthUserService userService;
 
     @Resource
-    private AuthRoleService roleService;
-
-    @Resource
     private AuthUserRoleService userRoleService;
 
     @Resource
@@ -47,8 +44,8 @@ public class AuthUserFaces {
     @Resource
     private BlogPersonalService personalService;
 
-    public LazyDataModel<AuthUserVo> findDataModel() {
-        return MapperPageDataModel.getInstance(new AuthUserPageAdapter(), AuthUserVo.class, pageInfo());
+    public LazyDataModel<AuthUserVo> findDataModel(String roleId) {
+        return MapperPageDataModel.getInstance(new AuthUserPageAdapter(roleId), AuthUserVo.class, pageInfo());
     }
 
     public Optional<AuthUserVo> getOptById(String id) {
@@ -76,27 +73,31 @@ public class AuthUserFaces {
     @Transactional
     public void saveOrUpdate(AuthUserVo vo) {
         AuthUser userEntity = MapperUtil.map(vo, AuthUser.class);
-        userService.saveOrUpdate(userEntity);
+        saveAndUpdateEntity(userEntity);
 
         BlogPersonal personalEntity = MapperUtil.map(vo, BlogPersonal.class);
         personalService.lambdaUpdate().eq(BlogPersonal::getUsername, userEntity.getUsername()).update(personalEntity);
 
-//        List<AuthRole> roles = vo.getRoles().getTarget();
-//        userRoleService.lambdaUpdate().eq(AuthUserRole::getUserId, entity.getId()).remove();
-//        List<AuthUserRole> userRoles = CollUtil.emptyIfNull(roles).stream()
-//                .map(role -> new AuthUserRole(entity.getId(), role.getId(), role.getCode()))
-//                .collect(Collectors.toList());
-//        userRoleService.saveBatch(userRoles);
+        userRoleService.lambdaUpdate().eq(AuthUserRole::getUserId, userEntity.getId()).remove();
+        List<AuthUserRole> userRoles = vo.getRoles().stream().map(roleId -> new AuthUserRole(userEntity.getId(), roleId))
+                .collect(Collectors.toList());
+        userRoleService.saveBatch(userRoles);
     }
+
+
+    public void saveAndUpdateEntity(AuthUser userEntity) {
+        if (StrUtil.isNotBlank(userEntity.getPassword())) {
+            userEntity.setSalt(RandomUtil.randomString(6));
+            userEntity.setPassword(passwordEncoder.encode(userEntity.getPasswordSalt()));
+        }
+        userService.saveOrUpdate(userEntity);
+    }
+
 
     private BaseContext<AuthUserVo> info() {
         return new BaseContext<AuthUserVo>() {
             @Override
             protected void after(AuthUserVo vo, Class<AuthUserVo> t) {
-                List<AuthRole> source = roleService.list();
-                List<AuthRole> target = roleService.findByUser(vo.getId());
-                source.removeAll(target);
-                vo.setRoles(new DualListModel<>(source, target));
             }
         };
     }

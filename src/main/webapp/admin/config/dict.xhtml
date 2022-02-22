@@ -8,8 +8,8 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">#{msg['blog']['dictManage']}</ui:define>
     <ui:define name="head">
-        <h:outputScript library="components" name="/mytree/initialize.js"/>
-        <h:outputStylesheet library="components" name="/mytree/initialize.css"/>
+        <h:outputScript library="components" name="/leftTree/initialize.js"/>
+        <h:outputStylesheet library="components" name="/leftTree/initialize.css"/>
     </ui:define>
     <ui:define name="viewname">
         <li>#{msg['blog']['config']}</li>
@@ -28,7 +28,7 @@
                     <p:treeTable id="dict_tree" widgetVar="dict_tree" value="#{viewScope.rootTree}" var="element"
                                  selectionMode="single" nodeVar="nodeVar" showGridlines="false"
                                  selection="#{viewScope.selectedNode}" filterEvent="enter"
-                                 styleClass="root-Tree">
+                                 styleClass="left-tree">
                         <p:ajax event="select" listener="#{controller.onNodeSelect}" process="@this"
                                 update="@widgetVar(dict_dataTable)" global="false"/>
                         <p:ajax event="unselect" listener="#{controller.onNodeUnselect}" process="@this"

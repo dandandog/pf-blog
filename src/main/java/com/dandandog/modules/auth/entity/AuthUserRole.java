@@ -26,10 +26,6 @@ public class AuthUserRole extends BaseEntity {
      * 角色uuid
      */
     private String roleId;
-    /**
-     * 角色唯一标识
-     */
-    private String roleCode;
 
 
 }

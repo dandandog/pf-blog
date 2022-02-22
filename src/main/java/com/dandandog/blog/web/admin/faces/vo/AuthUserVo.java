@@ -1,15 +1,16 @@
 package com.dandandog.blog.web.admin.faces.vo;
 
 import com.dandandog.framework.common.model.IVo;
-import com.dandandog.modules.auth.entity.AuthRole;
+import com.dandandog.framework.mapstruct.model.MapperUrl;
 import com.dandandog.modules.auth.entity.enums.UserState;
 import com.dandandog.modules.auth.entity.enums.UserType;
 import com.dandandog.modules.blog.entity.enums.GenderType;
+import com.google.common.collect.Lists;
 import lombok.Data;
-import org.primefaces.model.DualListModel;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Author: JohnnyLiu
@@ -36,7 +37,7 @@ public class AuthUserVo implements IVo {
 
     private LocalDateTime operatedTime;
 
-    private DualListModel<AuthRole> roles = new DualListModel<>();
+    private List<String> roles = Lists.newArrayList();
 
     private String nickname;
 
@@ -46,7 +47,7 @@ public class AuthUserVo implements IVo {
 
     private GenderType gender;
 
-    private String avatarUrl;
+    private MapperUrl avatarUrl;
 
     private String motto;
 

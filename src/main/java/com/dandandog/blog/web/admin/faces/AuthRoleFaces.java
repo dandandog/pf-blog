@@ -70,11 +70,11 @@ public class AuthRoleFaces {
         List<AuthRoleResource> source = Lists.newArrayList();
         List<AuthResource> resources = nodeConvertedToEntity(vo.getAccesses());
         source.addAll(CollUtil.emptyIfNull(resources).stream()
-                .map(resource -> new AuthRoleResource(entity.getId(), entity.getCode(), resource.getId()))
+                .map(resource -> new AuthRoleResource(entity.getId(), resource.getId()))
                 .collect(Collectors.toList()));
 
         source.addAll(Arrays.stream(ArrayUtil.nullToEmpty(vo.getOperates()))
-                .map(resourceId -> new AuthRoleResource(entity.getId(), entity.getCode(), resourceId))
+                .map(resourceId -> new AuthRoleResource(entity.getId(), resourceId))
                 .collect(Collectors.toList()));
         roleResourceService.saveBatch(CollUtil.removeNull(source));
     }

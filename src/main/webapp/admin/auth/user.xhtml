@@ -6,6 +6,9 @@
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="title">#{msg['blog']['userManage']}</ui:define>
+    <ui:define name="head">
+        <h:outputStylesheet library="components" name="/leftTable/initialize.css"/>
+    </ui:define>
     <ui:define name="viewname">
         <li>#{msg['blog']['auth']}</li>
         <li>/</li>
@@ -15,77 +18,53 @@
         <h:form id="user_form" prependId="false">
             <p:outputPanel styleClass="p-grid p-nogutter">
                 <p:outputPanel id="resource_menu_panel" styleClass="p-col-12 p-md-2">
-                    <p:toolbar>
-                        <p:toolbarGroup>
-                            <p:inputText/>
-                        </p:toolbarGroup>
-                    </p:toolbar>
-                    <p:dataTable value="#{viewScope.roles}" var="element">
-                        <p:column headerText="角色">
+                    <p:dataTable value="#{viewScope.roles}" widgetVar="leftTable" var="element" selectionMode="single"
+                                 selection="#{viewScope.select}" rowKey="#{element.id}"
+                                 styleClass="left-table">
+                        <f:facet name="header">
+                            <div class="ui-input-icon-left" style="width:100%;margin-bottom: 1px;">
+                                <i class="pi pi-search"/>
+                                <p:inputText id="globalFilter"
+                                             onkeydown="if(event.keyCode == 13) return false"
+                                             onkeyup="if(event.keyCode == 13){PF('leftTable').filter()}"
+                                             placeholder="#{msg['framework']['enterKeyword']}"/>
+                            </div>
+                        </f:facet>
 
-                            <h:outputText value="#{element.name}"/>
+                        <p:ajax event="rowSelect" listener="#{controller.onRowSelect}" update="user:dataTable"
+                                global="false"/>
+                        <p:ajax event="rowUnselect" listener="#{controller.onRowUnSelect}" update="user:dataTable"
+                                global="false"/>
 
+                        <p:column field="name" headerText=" #{msg['blog']['nickname']}" filterable="true"
+                                  sortable="false">
+                            <f:facet name="filter">
+                                <p:inputText style="display: none"/>
+                            </f:facet>
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>
                 <p:outputPanel styleClass="p-col-12 p-md-10">
                     <framework:dataTable id="user" formDialogId="user" lazy="true"
-                                         headText="#{msg['blog']['userManagement']}" addSupported="false"
+                                         headText="#{msg['blog']['userManagement']}"
                                          value="#{controller.dataModel}"
                                          singleSelection="#{viewScope.sinSelected}"
                                          multipleSelection="#{viewScope.mulSelected}">
 
                         <p:column headerText="#{msg['blog']['nickname']}" field="nickname"
-                                  filterMatchMode="contains">
+                                  filterable="false">
                             <framework:avatar user="#{element}"/>
                         </p:column>
-                        <p:column headerText="#{msg['blog']['userType']}"
-                                  field="type" filterMatchMode="equals">
-                            <f:facet name="filter">
-                                <p:selectOneMenu onchange="PF('user_dataTable').filter()"
-                                                 converter="#{userTypeConverter}"
-                                                 styleClass="ui-column-filter">
-                                    <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
-                                                  noSelectionOption="true"/>
-                                    <f:selectItems value="#{viewScope.types}" var="type"
-                                                   itemLabel="#{type.title}"
-                                                   itemValue="#{type}"/>
-                                </p:selectOneMenu>
-                            </f:facet>
-                            <h:outputText value="#{element.type.title}"/>
-                        </p:column>
                         <p:column headerText="#{msg['blog']['userState']}"
-                                  field="state" filterMatchMode="equals">
-                            <f:facet name="filter">
-                                <p:selectOneMenu onchange="PF('user_dataTable').filter()"
-                                                 converter="#{userStateConverter}"
-                                                 styleClass="ui-column-filter">
-                                    <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
-                                                  noSelectionOption="true"/>
-                                    <f:selectItems value="#{viewScope.states}" var="state"
-                                                   itemLabel="#{state.title}"
-                                                   itemValue="#{state}"/>
-                                </p:selectOneMenu>
-                            </f:facet>
+                                  field="state" filterable="false">
                             <framework:tags value="#{element.state}"/>
                         </p:column>
-                        <p:column headerText="#{msg['blog']['userGender']}"
-                                  field="gender" filterMatchMode="equals">
-                            <f:facet name="filter">
-                                <p:selectOneMenu onchange="PF('user_dataTable').filter()"
-                                                 converter="#{userGenderConverter}"
-                                                 styleClass="ui-column-filter">
-                                    <f:selectItem itemLabel="#{msg['framework']['all']}" itemValue="#{null}"
-                                                  noSelectionOption="true"/>
-                                    <f:selectItems value="#{viewScope.genders}" var="gender"
-                                                   itemLabel="#{gender.title}"
-                                                   itemValue="#{gender}"/>
-                                </p:selectOneMenu>
-                            </f:facet>
+                        <p:column headerText="#{msg['blog']['gender']}"
+                                  field="gender" filterable="false">
                             <framework:tags value="#{element.gender}"/>
                         </p:column>
-                        <p:column headerText="#{msg['blog']['phone']}" field="phone" filterMatchMode="contains"/>
-                        <p:column headerText="#{msg['blog']['email']}" field="email" filterMatchMode="contains"/>
+                        <p:column headerText="#{msg['blog']['phone']}" field="phone" filterable="false"/>
+                        <p:column headerText="#{msg['blog']['email']}" field="email" filterable="false"/>
                         <p:column headerText="#{msg['framework']['operatedTime']}" sortBy="operatedTime"
                                   sortable="true" width="150"
                                   sortOrder="desc" sortPriority="1">
@@ -106,24 +85,62 @@
         <h:form id="dialogform">
             <framework:dialog id="user" value="#{viewScope.vo}"
                               saveUpdate="@widgetVar(user_dataTable)">
+
                 <framework:label target="avatar" value="#{msg['blog']['avatar']}" styleClass="p-col-12">
                     <framework:upload id="avatar" value="#{viewScope.vo.avatarUrl}"/>
                 </framework:label>
                 <framework:label target="nickname" value="#{msg['blog']['nickname']}" styleClass="p-col-6">
                     <p:inputText id="nickname" value="#{viewScope.vo.nickname}"/>
                 </framework:label>
-                <framework:label target="gender" value="#{msg['blog']['userGender']}" styleClass="p-col-6">
+
+                <framework:label target="username" value="#{msg['blog']['username']}" styleClass="p-col-6">
+                    <p:inputText id="username" value="#{viewScope.vo.username}"/>
+                </framework:label>
+
+                <framework:label target="password1" value="#{msg['framework']['inputPassword']}"
+                                 styleClass="p-col-12 p-md-6" rendered="#{viewScope.vo.id eq null}">
+                    <p:password id="password1" match="@widgetVar(password2)"
+                                autocomplete="new-password" required="true"
+                                validatorMessage="#{msg['validation']['passwordFormat']}"
+                                label="#{msg['framework']['inputPassword']}"
+                                value="#{viewScope.vo.password}">
+                        <f:validateRegex
+                                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^\&amp;*?]).{8,20}$"/>
+                    </p:password>
+                </framework:label>
+
+
+                <framework:label target="password2" value="#{msg['framework']['confirmPassword']}"
+                                 styleClass="p-col-12 p-md-6" rendered="#{viewScope.vo.id eq null}">
+                    <p:password id="password2" widgetVar="password2" autocomplete="new-password"
+                                required="true" value="#{viewScope.vo.password}"/>
+                </framework:label>
+
+
+                <framework:label target="gender" value="#{msg['blog']['gender']}" styleClass="p-col-6">
                     <p:selectOneMenu id="gender" value="#{viewScope.vo.gender}">
                         <f:selectItems value="#{viewScope.genders}" var="gender"
                                        itemLabel="#{gender.title}" itemValue="#{gender}"/>
                     </p:selectOneMenu>
                 </framework:label>
+
                 <framework:label target="mobile" value="#{msg['blog']['phone']}" styleClass="p-col-6">
                     <p:inputMask id="mobile" value="#{viewScope.vo.phone}" mask="999-999-99999"/>
                 </framework:label>
 
                 <framework:label target="email" value="#{msg['blog']['email']}" styleClass="p-col-6">
                     <p:inputText id="email" value="#{viewScope.vo.email}"/>
+                </framework:label>
+
+
+                <framework:label target="role" value="#{msg['blog']['userRole']}" styleClass="p-col-12">
+                    <p:selectCheckboxMenu id="role" value="#{viewScope.vo.roles}"
+                                          label="#{msg['framework']['pleaseChoose']}"
+                                          multiple="true" filter="true" filterMatchMode="startsWith"
+                                          panelStyle="width: 30rem" scrollHeight="250">
+                        <f:selectItems value="#{viewScope.roles}" var="role" itemLabel="#{role.name}"
+                                       itemValue="#{role.id}"/>
+                    </p:selectCheckboxMenu>
                 </framework:label>
 
                 <framework:label target="remark" value="#{msg['blog']['remark']}">

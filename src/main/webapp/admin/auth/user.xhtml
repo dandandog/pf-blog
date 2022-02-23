@@ -3,6 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="title">#{msg['blog']['userManage']}</ui:define>
@@ -51,20 +52,25 @@
                                          singleSelection="#{viewScope.sinSelected}"
                                          multipleSelection="#{viewScope.mulSelected}">
 
-                        <p:column headerText="#{msg['blog']['nickname']}" field="nickname"
+                        <p:column headerText="#{msg['blog']['username']}" field="nickname"
                                   filterable="false">
                             <framework:avatar user="#{element}"/>
                         </p:column>
+                        <p:column headerText="#{msg['blog']['nickname']}"
+                                  field="nickname" filterable="false"/>
                         <p:column headerText="#{msg['blog']['userState']}"
                                   field="state" filterable="false">
                             <framework:tags value="#{element.state}"/>
                         </p:column>
-                        <p:column headerText="#{msg['blog']['gender']}"
-                                  field="gender" filterable="false">
-                            <framework:tags value="#{element.gender}"/>
+                        <p:column headerText="#{msg['blog']['userRole']}"
+                                  field="roleId" filterable="false">
+                            <p:repeat value="#{viewScope.roles}" var="role">
+                                <p:tag value="#{role.name}" rendered="#{fn:contains(element.roleIds,role.id)}"
+                                       styleClass="p-mr-1"
+                                       severity="success"/>
+                            </p:repeat>
                         </p:column>
-                        <p:column headerText="#{msg['blog']['phone']}" field="phone" filterable="false"/>
-                        <p:column headerText="#{msg['blog']['email']}" field="email" filterable="false"/>
+
                         <p:column headerText="#{msg['framework']['operatedTime']}" sortBy="operatedTime"
                                   sortable="true" width="150"
                                   sortOrder="desc" sortPriority="1">
@@ -82,19 +88,23 @@
     </ui:define>
 
     <ui:define name="dialog">
+        <h:form id="password_dialogform">
+            <framework:dialog id="user" value="#{viewScope.vo}"
+                              saveMethod="#{controller.updatePwd}"
+                              saveUpdate="@widgetVar(user_dataTable)">
+
+            </framework:dialog>
+        </h:form>
         <h:form id="dialogform">
             <framework:dialog id="user" value="#{viewScope.vo}"
                               saveUpdate="@widgetVar(user_dataTable)">
 
-                <framework:label target="avatar" value="#{msg['blog']['avatar']}" styleClass="p-col-12">
-                    <framework:upload id="avatar" value="#{viewScope.vo.avatarUrl}"/>
-                </framework:label>
-                <framework:label target="nickname" value="#{msg['blog']['nickname']}" styleClass="p-col-6">
-                    <p:inputText id="nickname" value="#{viewScope.vo.nickname}"/>
+                <framework:label target="username" value="#{msg['blog']['username']}" styleClass="p-col-6">
+                    <p:inputText id="username" value="#{viewScope.vo.username}" required="true"/>
                 </framework:label>
 
-                <framework:label target="username" value="#{msg['blog']['username']}" styleClass="p-col-6">
-                    <p:inputText id="username" value="#{viewScope.vo.username}"/>
+                <framework:label target="username" value="#{msg['blog']['nickname']}" styleClass="p-col-6">
+                    <p:inputText id="name" value="#{viewScope.vo.nickname}" required="true"/>
                 </framework:label>
 
                 <framework:label target="password1" value="#{msg['framework']['inputPassword']}"
@@ -105,7 +115,7 @@
                                 label="#{msg['framework']['inputPassword']}"
                                 value="#{viewScope.vo.password}">
                         <f:validateRegex
-                                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^\&amp;*?]).{8,20}$"/>
+                                pattern="^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z._~!@#$^\&amp;*]+$)(?![a-z0-9]+$)(?![a-z._~!@#$^\&amp;*]+$)(?![0-9._~!@#$^\&amp;*]+$)[a-zA-Z0-9._~!@#$^\&amp;*]{8,20}$"/>
                     </p:password>
                 </framework:label>
 
@@ -117,24 +127,8 @@
                 </framework:label>
 
 
-                <framework:label target="gender" value="#{msg['blog']['gender']}" styleClass="p-col-6">
-                    <p:selectOneMenu id="gender" value="#{viewScope.vo.gender}">
-                        <f:selectItems value="#{viewScope.genders}" var="gender"
-                                       itemLabel="#{gender.title}" itemValue="#{gender}"/>
-                    </p:selectOneMenu>
-                </framework:label>
-
-                <framework:label target="mobile" value="#{msg['blog']['phone']}" styleClass="p-col-6">
-                    <p:inputMask id="mobile" value="#{viewScope.vo.phone}" mask="999-999-99999"/>
-                </framework:label>
-
-                <framework:label target="email" value="#{msg['blog']['email']}" styleClass="p-col-6">
-                    <p:inputText id="email" value="#{viewScope.vo.email}"/>
-                </framework:label>
-
-
                 <framework:label target="role" value="#{msg['blog']['userRole']}" styleClass="p-col-12">
-                    <p:selectCheckboxMenu id="role" value="#{viewScope.vo.roles}"
+                    <p:selectCheckboxMenu id="role" value="#{viewScope.vo.roleIds}"
                                           label="#{msg['framework']['pleaseChoose']}"
                                           multiple="true" filter="true" filterMatchMode="startsWith"
                                           panelStyle="width: 30rem" scrollHeight="250">

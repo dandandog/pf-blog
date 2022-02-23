@@ -18,7 +18,7 @@ import org.apache.ibatis.annotations.Select;
  */
 @Mapper
 public interface AuthUserDao extends BaseMapper<AuthUser> {
-    @Select("select au.* from auth_user au left join auth_user_role aur on au.id = aur.user_id ${ew.customSqlSegment}")
+    @Select("select distinct au.* from auth_user au left join auth_user_role aur on au.id = aur.user_id ${ew.customSqlSegment}")
     IPage<AuthUser> pageJoinByRole(Page<AuthUser> page, @Param(Constants.WRAPPER) Wrapper<AuthUser> wrapper);
 
 

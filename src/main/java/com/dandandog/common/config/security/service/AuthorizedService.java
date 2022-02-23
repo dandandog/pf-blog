@@ -100,7 +100,7 @@ public class AuthorizedService implements UserDetailsService {
 
     private Collection<GrantedAuthority> findUserPerms(AuthUser user) {
         List<AuthResource> resources = resourceService.findByUser(user.getId());
-        String[] permArr = resources.stream().map(AuthResource::getPerms).toArray(String[]::new);
+        String[] permArr = resources.stream().map(res -> StrUtil.emptyToDefault(res.getPath(), res.getPerms())).toArray(String[]::new);
         return AuthorityUtils.createAuthorityList(permArr);
     }
 

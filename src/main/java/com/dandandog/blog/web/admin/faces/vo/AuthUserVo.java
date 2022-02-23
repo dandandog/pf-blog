@@ -8,7 +8,6 @@ import com.dandandog.modules.blog.entity.enums.GenderType;
 import com.google.common.collect.Lists;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,10 +20,10 @@ public class AuthUserVo implements IVo {
 
     private String id;
 
-    @NotEmpty
+    private String nickname;
+
     private String username;
 
-    @NotEmpty
     private String password;
 
     private UserState state;
@@ -37,9 +36,7 @@ public class AuthUserVo implements IVo {
 
     private LocalDateTime operatedTime;
 
-    private List<String> roles = Lists.newArrayList();
-
-    private String nickname;
+    private List<String> roleIds = Lists.newArrayList();
 
     private String email;
 

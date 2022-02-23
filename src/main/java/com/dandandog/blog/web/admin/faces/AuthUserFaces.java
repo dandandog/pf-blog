@@ -45,11 +45,11 @@ public class AuthUserFaces {
     private BlogPersonalService personalService;
 
     public LazyDataModel<AuthUserVo> findDataModel(String roleId) {
-        return MapperPageDataModel.getInstance(new AuthUserPageAdapter(roleId), AuthUserVo.class, pageInfo());
+        return MapperPageDataModel.getInstance(new AuthUserPageAdapter(roleId), AuthUserVo.class, info());
     }
 
     public Optional<AuthUserVo> getOptById(String id) {
-        return Optional.ofNullable(userService.getById(id)).map(entity -> MapperUtil.map(entity, AuthUserVo.class, pageInfo()));
+        return Optional.ofNullable(userService.getById(id)).map(entity -> MapperUtil.map(entity, AuthUserVo.class, info()));
     }
 
     public Optional<AuthUserVo> getOptByUserName(String username) {
@@ -75,11 +75,8 @@ public class AuthUserFaces {
         AuthUser userEntity = MapperUtil.map(vo, AuthUser.class);
         saveAndUpdateEntity(userEntity);
 
-        BlogPersonal personalEntity = MapperUtil.map(vo, BlogPersonal.class);
-        personalService.lambdaUpdate().eq(BlogPersonal::getUsername, userEntity.getUsername()).update(personalEntity);
-
         userRoleService.lambdaUpdate().eq(AuthUserRole::getUserId, userEntity.getId()).remove();
-        List<AuthUserRole> userRoles = vo.getRoles().stream().map(roleId -> new AuthUserRole(userEntity.getId(), roleId))
+        List<AuthUserRole> userRoles = vo.getRoleIds().stream().map(roleId -> new AuthUserRole(userEntity.getId(), roleId))
                 .collect(Collectors.toList());
         userRoleService.saveBatch(userRoles);
     }
@@ -88,6 +85,7 @@ public class AuthUserFaces {
     public void saveAndUpdateEntity(AuthUser userEntity) {
         if (StrUtil.isNotBlank(userEntity.getPassword())) {
             userEntity.setSalt(RandomUtil.randomString(6));
+            userEntity.setPwdRestTime(LocalDateTime.now());
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPasswordSalt()));
         }
         userService.saveOrUpdate(userEntity);
@@ -98,6 +96,10 @@ public class AuthUserFaces {
         return new BaseContext<AuthUserVo>() {
             @Override
             protected void after(AuthUserVo vo, Class<AuthUserVo> t) {
+                List<String> roleIds = userRoleService.lambdaQuery()
+                        .eq(AuthUserRole::getUserId, vo.getId()).list()
+                        .stream().map(AuthUserRole::getRoleId).collect(Collectors.toList());
+                vo.setRoleIds(roleIds);
             }
         };
     }

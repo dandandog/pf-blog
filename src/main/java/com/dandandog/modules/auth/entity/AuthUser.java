@@ -31,7 +31,12 @@ public class AuthUser extends AuditableEntity {
     }
 
     /**
-     * 用户名
+     * 姓名
+     */
+    private String nickname;
+
+    /**
+     * 登入账号
      */
     private String username;
 

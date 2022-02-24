@@ -18,8 +18,6 @@ public class BlogPersonal extends AuditableEntity {
 
     private String username;
 
-    private String nickname;
-
     private String email;
 
     private String phone;
@@ -38,7 +36,7 @@ public class BlogPersonal extends AuditableEntity {
 
     }
 
-    public BlogPersonal(String nickname) {
-        this.nickname = nickname;
+    public BlogPersonal(String username) {
+        this.username = username;
     }
 }

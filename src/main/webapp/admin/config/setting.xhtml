@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/admin/template.xhtml"
+                xmlns:framework="http://java.sun.com/jsf/composite/components">
+    <ui:define name="head">
+        <h:outputStylesheet>
+            .label {
+                padding-bottom: 8px !important;
+            }
+        </h:outputStylesheet>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="config_form" prependId="false">
+            <p:panel header="#{msg['blog']['basicSetting']}" styleClass="card" style="max-width: 800px;margin: auto;">
+                <p:outputPanel
+                        styleClass="ui-fluid p-formgrid p-grid">
+                    <ui:include src="../include/repeatFields.xhtml">
+                        <ui:param name="fields" value="#{viewScope.fields.keySet()}"/>
+                    </ui:include>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:outputPanel layout="block" style="text-align: right">
+                        <p:commandButton value="#{msg['framework']['save']}" icon="pi pi-save"
+                                         action="#{controller.save}"
+                                         process="@form"
+                                         update="@form"/>
+                    </p:outputPanel>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

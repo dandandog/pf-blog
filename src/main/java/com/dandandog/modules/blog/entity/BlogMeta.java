@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("blog_metas")
+@TableName("blog_meta")
 public class BlogMeta extends AuditableEntity implements ITree {
 
     /**

@@ -2,9 +2,9 @@ package com.dandandog.blog.web.admin.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
-import com.dandandog.blog.web.admin.faces.DictFaces;
-import com.dandandog.blog.web.admin.faces.vo.DictNodeVo;
-import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
+import com.dandandog.blog.web.admin.faces.ConfigDictFaces;
+import com.dandandog.blog.web.admin.faces.vo.ConfigDictNodeVo;
+import com.dandandog.blog.web.admin.faces.vo.ConfigDictValueVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
@@ -29,15 +29,15 @@ import java.util.List;
 public class ConfigDictController extends FacesController {
 
     @Resource
-    private DictFaces dictFacet;
+    private ConfigDictFaces dictFacet;
 
     @Override
     public void onEntry() {
         initTreeState();
         putViewScope("rootTree", getDataModel());
         putViewScope("list", getValueList());
-        putViewScope("node", new DictNodeVo());
-        putViewScope("value", new DictValueVo());
+        putViewScope("node", new ConfigDictNodeVo());
+        putViewScope("value", new ConfigDictValueVo());
         putViewScope("sinSelected", null);
         putViewScope("selectedNode", new DefaultTreeNode());
         putViewScope("mulSelected", Lists.newArrayList());
@@ -59,15 +59,15 @@ public class ConfigDictController extends FacesController {
     }
 
     public void addNode() {
-        DictNodeVo node = new DictNodeVo();
+        ConfigDictNodeVo node = new ConfigDictNodeVo();
         putViewScope("node", node);
         putViewScope("inputTree", getDataModel());
     }
 
     public void editNode() {
         TreeNode selectedNode = getViewScope("selectedNode");
-        DictNodeVo selected = (DictNodeVo) selectedNode.getData();
-        DictNodeVo node = dictFacet.getNodeById(selected.getId())
+        ConfigDictNodeVo selected = (ConfigDictNodeVo) selectedNode.getData();
+        ConfigDictNodeVo node = dictFacet.getNodeById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode}).edit(true).build());
         putViewScope("node", node);
@@ -76,7 +76,7 @@ public class ConfigDictController extends FacesController {
 
     @MessageRequired(type = MessageType.SAVE)
     public void saveNode() {
-        DictNodeVo node = getViewScope("node");
+        ConfigDictNodeVo node = getViewScope("node");
         dictFacet.saveOrUpdateNode(node);
         onEntry();
     }
@@ -84,15 +84,15 @@ public class ConfigDictController extends FacesController {
     @MessageRequired(type = MessageType.DELETE)
     public void deleteNode() {
         TreeNode selectedNode = getViewScope("selectedNode");
-        DictNodeVo selected = (DictNodeVo) selectedNode.getData();
+        ConfigDictNodeVo selected = (ConfigDictNodeVo) selectedNode.getData();
         dictFacet.removeByNode(selected);
         onEntry();
     }
 
     public void onNodeSelect(NodeSelectEvent event) {
         TreeNode selectedNode = event.getTreeNode();
-        DictNodeVo node = (DictNodeVo) selectedNode.getData();
-        Collection<DictValueVo> list = dictFacet.list(node.getId());
+        ConfigDictNodeVo node = (ConfigDictNodeVo) selectedNode.getData();
+        Collection<ConfigDictValueVo> list = dictFacet.list(node.getId());
         putViewScope("list", list);
         putViewScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode}).build());
     }
@@ -118,14 +118,14 @@ public class ConfigDictController extends FacesController {
 
 
     public void add() {
-        DictValueVo vo = new DictValueVo();
+        ConfigDictValueVo vo = new ConfigDictValueVo();
         putViewScope("vo", vo);
         putViewScope("inputTree", getDataModel());
     }
 
     public void edit() {
-        DictValueVo selected = getViewScope("sinSelected");
-        DictValueVo vo = dictFacet.getOptById(selected.getId())
+        ConfigDictValueVo selected = getViewScope("sinSelected");
+        ConfigDictValueVo vo = dictFacet.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("vo", vo);
         putViewScope("inputTree", getDataModel());
@@ -133,12 +133,12 @@ public class ConfigDictController extends FacesController {
 
     @MessageRequired(type = MessageType.SAVE)
     public void save() {
-        DictValueVo vo = getViewScope("vo");
+        ConfigDictValueVo vo = getViewScope("vo");
         dictFacet.saveOrUpdateValue(vo);
 
         TreeNode node = vo.getNode();
-        DictNodeVo data = (DictNodeVo) node.getData();
-        Collection<DictValueVo> list = dictFacet.list(data.getId());
+        ConfigDictNodeVo data = (ConfigDictNodeVo) node.getData();
+        Collection<ConfigDictValueVo> list = dictFacet.list(data.getId());
 
         putViewScope("rootTree", getDataModel());
         putViewScope("selectedNode", node);
@@ -147,28 +147,28 @@ public class ConfigDictController extends FacesController {
 
     @MessageRequired(type = MessageType.DELETE)
     public void delete() {
-        DictValueVo selected = getViewScope("sinSelected");
-        List<DictValueVo> selectedList = getViewScope("mulSelected");
+        ConfigDictValueVo selected = getViewScope("sinSelected");
+        List<ConfigDictValueVo> selectedList = getViewScope("mulSelected");
         String[] delEntity = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected))
-                .stream().map(DictValueVo::getId).toArray(String[]::new);
+                .stream().map(ConfigDictValueVo::getId).toArray(String[]::new);
         dictFacet.removeByIds(delEntity);
         onEntry();
     }
 
-    public void cellEdit(CellEditEvent<DictValueVo> event) {
+    public void cellEdit(CellEditEvent<ConfigDictValueVo> event) {
         dictFacet.updateByFiled(event.getRowKey(), event.getColumn().getField(), event.getNewValue());
     }
 
     public void onRowReorder(ReorderEvent event) {
-        List<DictValueVo> list = getViewScope("list");
+        List<ConfigDictValueVo> list = getViewScope("list");
         dictFacet.updateBySort(list);
     }
 
-    public Collection<DictValueVo> getValueList() {
+    public Collection<ConfigDictValueVo> getValueList() {
         TreeNodeState state = getViewScope("treeState");
         if (ArrayUtil.isNotEmpty(state.getSelectedNodes())) {
             TreeNode selectedNode = state.getSelectedNodes()[0];
-            DictNodeVo node = (DictNodeVo) selectedNode.getData();
+            ConfigDictNodeVo node = (ConfigDictNodeVo) selectedNode.getData();
             return dictFacet.list(node.getId());
         }
         return null;

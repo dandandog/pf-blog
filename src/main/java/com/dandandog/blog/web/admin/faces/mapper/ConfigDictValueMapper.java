@@ -1,13 +1,13 @@
 package com.dandandog.blog.web.admin.faces.mapper;
 
-import com.dandandog.blog.web.admin.faces.vo.DictNodeVo;
-import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
+import com.dandandog.blog.web.admin.faces.vo.ConfigDictNodeVo;
+import com.dandandog.blog.web.admin.faces.vo.ConfigDictValueVo;
 import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.mapstruct.IMapper;
 import com.dandandog.framework.mapstruct.utils.MapperUtil;
-import com.dandandog.modules.config.entity.DictNode;
-import com.dandandog.modules.config.entity.DictValue;
-import com.dandandog.modules.config.service.DictNodeService;
+import com.dandandog.modules.config.entity.ConfigDictNode;
+import com.dandandog.modules.config.entity.ConfigDictValue;
+import com.dandandog.modules.config.service.ConfigDictNodeService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -22,20 +22,20 @@ import java.util.Optional;
  * @Date: 2021/9/6 13:12
  */
 @Mapper
-public abstract class ConfigDictValueMapper implements IMapper<DictValue, DictValueVo> {
+public abstract class ConfigDictValueMapper implements IMapper<ConfigDictValue, ConfigDictValueVo> {
 
     @Resource
-    private DictNodeService nodeService;
+    private ConfigDictNodeService nodeService;
 
     @Override
     @Mapping(target = "node", source = "nodeId", qualifiedByName = "findNodeById")
-    public abstract DictValueVo mapTo(DictValue setDictValue);
+    public abstract ConfigDictValueVo mapTo(ConfigDictValue setDictValue);
 
 
     @Named("findNodeById")
     public TreeNode findNodeById(String nodeId) {
-        DictNode entity = nodeService.getById(nodeId);
-        return new DefaultTreeNode(MapperUtil.map(entity, DictNodeVo.class));
+        ConfigDictNode entity = nodeService.getById(nodeId);
+        return new DefaultTreeNode(MapperUtil.map(entity, ConfigDictNodeVo.class));
     }
 
     @Named("findNodeById")

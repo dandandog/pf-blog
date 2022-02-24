@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.dandandog.blog.web.admin.faces.BlogConfigFaces;
 import com.dandandog.blog.web.admin.faces.BlogContentFaces;
 import com.dandandog.blog.web.admin.faces.BlogMetasFaces;
-import com.dandandog.blog.web.admin.faces.DictFaces;
+import com.dandandog.blog.web.admin.faces.ConfigDictFaces;
 import com.dandandog.blog.web.admin.faces.vo.BlogArticleVo;
 import com.dandandog.blog.web.admin.faces.vo.BlogAttachVo;
-import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
+import com.dandandog.blog.web.admin.faces.vo.ConfigDictValueVo;
 import com.dandandog.common.utils.UploadUtil;
 import com.dandandog.framework.common.model.IVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
@@ -21,7 +21,7 @@ import com.dandandog.modules.blog.entity.BlogConfig;
 import com.dandandog.modules.blog.entity.BlogConfigContent;
 import com.dandandog.modules.blog.entity.enums.ContentState;
 import com.dandandog.modules.blog.entity.enums.MetaType;
-import com.dandandog.modules.config.entity.DictValue;
+import com.dandandog.modules.config.entity.ConfigDictValue;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import org.primefaces.event.FileUploadEvent;
@@ -50,7 +50,7 @@ public class BlogArticleController extends FacesController {
     private BlogContentFaces contentFaces;
 
     @Resource
-    private DictFaces dictFaces;
+    private ConfigDictFaces dictFaces;
 
     @Resource
     private BlogConfigFaces contentConfigFaces;
@@ -66,9 +66,9 @@ public class BlogArticleController extends FacesController {
         putViewScope("statuses", ContentState.values());
     }
 
-    public Map<DictValueVo, BlogConfig> findFields(String contentId) {
+    public Map<ConfigDictValueVo, BlogConfig> findFields(String contentId) {
         String KEYS = "article";
-        Multimap<String, DictValue> values = dictFaces.getValueByCodes(KEYS);
+        Multimap<String, ConfigDictValue> values = dictFaces.getValueByCodes(KEYS);
         return contentConfigFaces.findByValue(values.get(KEYS), contentId);
     }
 
@@ -89,7 +89,7 @@ public class BlogArticleController extends FacesController {
         BlogArticleVo selected = getViewScope("sinSelected");
         BlogArticleVo vo = contentFaces.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
-        Map<DictValueVo, BlogConfig> fields = findFields(vo.getId());
+        Map<ConfigDictValueVo, BlogConfig> fields = findFields(vo.getId());
         putViewScope("vo", vo);
        // putViewScope("categories", getTreeDataModel((TreeFaces) vo.getCategoryNode().getData()));
         putViewScope("fields", fields);
@@ -98,7 +98,7 @@ public class BlogArticleController extends FacesController {
     @MessageRequired(type = MessageType.SAVE)
     public void save() {
         BlogArticleVo vo = getViewScope("vo");
-        Map<DictValueVo, BlogConfigContent> fields = getViewScope("fields");
+        Map<ConfigDictValueVo, BlogConfigContent> fields = getViewScope("fields");
         contentFaces.saveOrUpdate(vo, fields.values());
     }
 

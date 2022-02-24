@@ -1,7 +1,7 @@
 package com.dandandog.modules.config.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dandandog.modules.config.entity.DictNode;
+import com.dandandog.modules.config.entity.ConfigDictNode;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,6 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2020-11-21 16:40:45
  */
 @Mapper
-public interface DictNodeDao extends BaseMapper<DictNode> {
+public interface ConfigDictNodeDao extends BaseMapper<ConfigDictNode> {
 
 }

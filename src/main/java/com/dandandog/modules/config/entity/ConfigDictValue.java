@@ -13,8 +13,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("dict_value")
-public class DictValue extends AuditableEntity {
+@TableName("config_dict_value")
+public class ConfigDictValue extends AuditableEntity {
 
 
     /**

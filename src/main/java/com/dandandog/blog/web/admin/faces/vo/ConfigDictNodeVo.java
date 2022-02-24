@@ -12,7 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DictNodeVo extends TreeFaces implements IVo {
+public class ConfigDictNodeVo extends TreeFaces implements IVo {
 
     private String level;
 

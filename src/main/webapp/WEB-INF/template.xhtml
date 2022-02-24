@@ -11,6 +11,8 @@
       xmlns:p="http://primefaces.org/ui"
       lang="#{p:language()}" xml:lang="#{p:language()}">
 
+<c:set var="viewNames" value="#{menuView.viewName[request.requestURI]}"/>
+
 <h:head>
     <f:facet name="first">
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -21,7 +23,7 @@
         <link href="#{resource['blog/images/favicon-32x32.png']}" rel="icon" type="image/png" sizes="32x32"/>
         <link href="#{resource['blog/images/favicon-16x16.png']}" rel="icon" type="image/png" sizes="16x16"/>
     </f:facet>
-    <title><ui:insert name="title">Fast Code</ui:insert></title>
+    <title><ui:insert name="title">#{viewNames.get(viewNames.size()-1)}</ui:insert></title>
 
     <h:outputScript name="locales/locale-#{p:language()}.js" library="primefaces"/>
     <h:outputScript name="js/layout.js" library="ecuador-layout"/>
@@ -57,9 +59,12 @@
                                     <i class="pi pi-home"/>
                                 </a>
                             </li>
-                            <li>/</li>
-                            #{menuView.viewName[request.requestURI]}
-
+                            <ui:insert name="viewname">
+                                <p:repeat value="#{menuView.viewName[request.requestURI]}" var="viewname">
+                                    <li>/</li>
+                                    <li>#{viewname}</li>
+                                </p:repeat>
+                            </ui:insert>
                         </ul>
                     </div>
                 </div>

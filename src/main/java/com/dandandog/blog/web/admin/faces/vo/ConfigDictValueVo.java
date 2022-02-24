@@ -10,7 +10,7 @@ import org.primefaces.model.TreeNode;
  * @Date: 2021/9/6 11:54
  */
 @Data
-public class DictValueVo implements IVo {
+public class ConfigDictValueVo implements IVo {
 
     private String id;
 

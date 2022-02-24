@@ -1,14 +1,14 @@
 package com.dandandog.blog.web.admin.controller;
 
 import com.dandandog.blog.web.admin.faces.BlogConfigFaces;
-import com.dandandog.blog.web.admin.faces.DictFaces;
-import com.dandandog.blog.web.admin.faces.vo.DictValueVo;
+import com.dandandog.blog.web.admin.faces.ConfigDictFaces;
+import com.dandandog.blog.web.admin.faces.vo.ConfigDictValueVo;
 import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.modules.blog.entity.BlogConfig;
 import com.dandandog.modules.blog.entity.BlogConfigGlobal;
-import com.dandandog.modules.config.entity.DictValue;
+import com.dandandog.modules.config.entity.ConfigDictValue;
 import com.google.common.collect.Multimap;
 import org.springframework.stereotype.Controller;
 
@@ -24,7 +24,7 @@ public class BlogConfigGlobalController extends FacesController {
 
 
     @Resource
-    private DictFaces dictFaces;
+    private ConfigDictFaces dictFaces;
 
     @Resource
     private BlogConfigFaces configFaces;
@@ -33,8 +33,8 @@ public class BlogConfigGlobalController extends FacesController {
     @Override
     public void onEntry() {
         String KEYS = "basic";
-        Multimap<String, DictValue> values = dictFaces.getValueByCodes(KEYS);
-        Map<DictValueVo, BlogConfig> fields = configFaces.findByValue(values.get(KEYS));
+        Multimap<String, ConfigDictValue> values = dictFaces.getValueByCodes(KEYS);
+        Map<ConfigDictValueVo, BlogConfig> fields = configFaces.findByValue(values.get(KEYS));
         putViewScope("fields", fields);
     }
 

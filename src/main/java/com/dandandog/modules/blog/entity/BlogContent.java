@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("blog_contents")
+@TableName("blog_content")
 public class BlogContent extends AuditableEntity {
 
 

@@ -16,10 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @Author: JohnnyLiu
@@ -39,7 +36,7 @@ public class MenuView {
     private MenuModel model;
 
     @Getter
-    private final Map<String, List<String>> viewName = Maps.newHashMap();
+    private final Map<String, Collection<String>> viewName = Maps.newHashMap();
 
     public void initialize() {
         model = new DefaultMenuModel();
@@ -54,19 +51,22 @@ public class MenuView {
     public List<MenuElement> buildMenu(Multimap<String, AuthResource> multimap, List<String> params, DefaultSubMenu subMenu, String parentId) {
         Collection<AuthResource> authResources = multimap.removeAll(parentId);
         List<MenuElement> target = Lists.newArrayList();
+
         for (AuthResource resource : authResources) {
             MenuElement element = resource.isLeaf() ? createMenuItem(resource) : createSubMenu(resource);
+            List<String> view = new ArrayList<>(params);
             if (element instanceof DefaultSubMenu) {
-                DefaultSubMenu menu = (DefaultSubMenu) element;
-                params.add(menu.getLabel());
-                buildMenu(multimap, params, menu, resource.getId());
                 if (subMenu == null) {
+                    params = Lists.newArrayList();
                     target.add(element);
                 }
+                DefaultSubMenu menu = (DefaultSubMenu) element;
+                view.add(menu.getLabel());
+                buildMenu(multimap, view, menu, resource.getId());
             } else {
                 DefaultMenuItem item = (DefaultMenuItem) element;
-                params.add((String) item.getValue());
-                viewName.put("/blog" + item.getOutcome() + ".faces", params);
+                view.add((String) item.getValue());
+                viewName.put("/blog" + item.getOutcome() + ".faces", view);
             }
             if (subMenu != null) {
                 subMenu.getElements().add(element);

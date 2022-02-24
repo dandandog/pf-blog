@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@TableName("blog_comments")
+@TableName("blog_comment")
 public class BlogComment extends BaseEntity {
 
 

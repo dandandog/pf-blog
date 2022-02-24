@@ -16,8 +16,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("dict_node")
-public class DictNode extends AuditableEntity implements ITree {
+@TableName("config_dict_node")
+public class ConfigDictNode extends AuditableEntity implements ITree {
 
 
     /**

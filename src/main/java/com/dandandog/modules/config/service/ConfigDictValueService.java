@@ -1,7 +1,7 @@
 package com.dandandog.modules.config.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dandandog.modules.config.entity.DictValue;
+import com.dandandog.modules.config.entity.ConfigDictValue;
 import com.google.common.collect.Multimap;
 
 /**
@@ -10,9 +10,9 @@ import com.google.common.collect.Multimap;
  * @author makejava
  * @since 2020-11-21 16:40:42
  */
-public interface DictValueService extends IService<DictValue> {
+public interface ConfigDictValueService extends IService<ConfigDictValue> {
 
-    Multimap<String, DictValue> findByNodeCodes(String... codes);
+    Multimap<String, ConfigDictValue> findByNodeCodes(String... codes);
 
 
 }

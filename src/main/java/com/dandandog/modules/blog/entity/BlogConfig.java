@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-@TableName("blog_configs")
+@TableName("blog_config")
 public class BlogConfig extends AuditableEntity {
 
     /**

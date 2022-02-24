@@ -13,7 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("blog_metas_contents")
+@TableName("blog_meta_content")
 public class BlogMetasContent extends BaseEntity {
 
     private String contentId;

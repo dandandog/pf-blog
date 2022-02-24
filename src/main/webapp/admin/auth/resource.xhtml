@@ -7,21 +7,14 @@
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
-    <ui:define name="title">#{msg['blog']['resourceManage']}</ui:define>
     <ui:define name="head">
         <h:outputScript library="components" name="/leftTree/initialize.js"/>
         <h:outputStylesheet library="components" name="/leftTree/initialize.css"/>
-
         <h:outputStylesheet>
             body .ui-inputgroup .ui-inputgroup-addon {
                 min-width: unset !important;
             }
         </h:outputStylesheet>
-    </ui:define>
-    <ui:define name="viewname">
-        <li>#{msg['blog']['auth']}</li>
-        <li>/</li>
-        <li>#{msg['blog']['resourceManage']}</li>
     </ui:define>
     <ui:define name="content">
         <h:form id="resource_form" prependId="false">

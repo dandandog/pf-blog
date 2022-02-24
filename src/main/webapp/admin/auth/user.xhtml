@@ -6,14 +6,8 @@
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
-    <ui:define name="title">#{msg['blog']['userManage']}</ui:define>
     <ui:define name="head">
         <h:outputStylesheet library="components" name="/leftTable/initialize.css"/>
-    </ui:define>
-    <ui:define name="viewname">
-        <li>#{msg['blog']['auth']}</li>
-        <li>/</li>
-        <li>#{msg['blog']['userManage']}</li>
     </ui:define>
     <ui:define name="content">
         <h:form id="user_form" prependId="false">

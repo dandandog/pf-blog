@@ -92,7 +92,7 @@ public class ConfigDictController extends FacesController {
     public void onNodeSelect(NodeSelectEvent event) {
         TreeNode selectedNode = event.getTreeNode();
         ConfigDictNodeVo node = (ConfigDictNodeVo) selectedNode.getData();
-        Collection<ConfigDictValueVo> list = dictFacet.list(node.getId());
+        Collection<ConfigDictValueVo> list = dictFacet.findValueByNode(node.getId());
         putViewScope("list", list);
         putViewScope("treeState", TreeNodeState.builder().selectedNodes(new TreeNode[] {selectedNode}).build());
     }
@@ -138,7 +138,7 @@ public class ConfigDictController extends FacesController {
 
         TreeNode node = vo.getNode();
         ConfigDictNodeVo data = (ConfigDictNodeVo) node.getData();
-        Collection<ConfigDictValueVo> list = dictFacet.list(data.getId());
+        Collection<ConfigDictValueVo> list = dictFacet.findValueByNode(data.getId());
 
         putViewScope("rootTree", getDataModel());
         putViewScope("selectedNode", node);
@@ -169,7 +169,7 @@ public class ConfigDictController extends FacesController {
         if (ArrayUtil.isNotEmpty(state.getSelectedNodes())) {
             TreeNode selectedNode = state.getSelectedNodes()[0];
             ConfigDictNodeVo node = (ConfigDictNodeVo) selectedNode.getData();
-            return dictFacet.list(node.getId());
+            return dictFacet.findValueByNode(node.getId());
         }
         return null;
     }

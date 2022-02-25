@@ -54,10 +54,10 @@
                 </framework:label>
 
                 <framework:label target="options" value="#{msg['blog']['options']}" styleClass="p-col-6">
-                    <p:selectOneRadio value="#{viewScope.vo.options}">
-                        <f:selectItems value="#{viewScope.dicts}" var="dict" itemLabel="#{dict.title}"
+                    <p:selectOneMenu value="#{viewScope.vo.options}">
+                        <f:selectItems value="#{viewScope.dictNodes}" var="dict" itemLabel="#{dict.name}"
                                        itemValue="#{dict.code}"/>
-                    </p:selectOneRadio>
+                    </p:selectOneMenu>
                 </framework:label>
             </framework:dialog>
         </h:form>

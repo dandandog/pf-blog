@@ -8,6 +8,7 @@ import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
+import com.dandandog.modules.config.entity.ConfigDictNode;
 import com.dandandog.modules.config.entity.enums.InputType;
 import com.dandandog.modules.config.service.ConfigDictNodeService;
 import com.google.common.collect.Lists;
@@ -39,7 +40,7 @@ public class ConfigSettingController extends FacesController {
         putViewScope("mulSelected", Lists.newArrayList());
 
         putViewScope("types", InputType.values());
-        putViewScope("dictNodes", dictNodeService.list());
+        putViewScope("dictNodes", dictNodeService.lambdaQuery().isNull(ConfigDictNode::getParentId).list());
     }
 
     public void add() {

@@ -1,7 +1,7 @@
 package com.dandandog.blog.web.admin.faces.vo;
 
 import com.dandandog.framework.common.model.IVo;
-import com.dandandog.modules.blog.entity.enums.InputType;
+import com.dandandog.modules.config.entity.enums.InputType;
 import lombok.Getter;
 import lombok.Setter;
 

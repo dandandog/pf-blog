@@ -1,5 +1,6 @@
 package com.dandandog.blog.views;
 
+import com.dandandog.blog.web.admin.faces.AuthResourceFaces;
 import com.dandandog.common.utils.TreeUtil;
 import com.dandandog.framework.common.utils.SecurityUtil;
 import com.dandandog.modules.auth.entity.AuthResource;
@@ -31,6 +32,9 @@ public class MenuView {
 
     @Resource
     private AuthResourceService resourceService;
+
+    @Resource
+    private AuthResourceFaces resourceFaces;
 
     @Getter
     private MenuModel model;

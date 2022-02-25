@@ -1,4 +1,4 @@
-package com.dandandog.modules.blog.entity.enums;
+package com.dandandog.modules.config.entity.enums;
 
 import com.dandandog.framework.common.utils.LocaleUtil;
 import com.dandandog.framework.common.utils.MessageUtil;

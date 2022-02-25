@@ -3,33 +3,63 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/admin/template.xhtml"
+                template="/WEB-INF/template.xhtml"
                 xmlns:framework="http://java.sun.com/jsf/composite/components">
     <ui:define name="head">
-        <h:outputStylesheet>
-            .label {
-                padding-bottom: 8px !important;
-            }
-        </h:outputStylesheet>
+
     </ui:define>
     <ui:define name="content">
-        <h:form id="config_form" prependId="false">
-            <p:panel header="#{msg['blog']['basicSetting']}" styleClass="card" style="max-width: 800px;margin: auto;">
-                <p:outputPanel
-                        styleClass="ui-fluid p-formgrid p-grid">
-                    <ui:include src="../include/repeatFields.xhtml">
-                        <ui:param name="fields" value="#{viewScope.fields.keySet()}"/>
-                    </ui:include>
-                </p:outputPanel>
-                <f:facet name="footer">
-                    <p:outputPanel layout="block" style="text-align: right">
-                        <p:commandButton value="#{msg['framework']['save']}" icon="pi pi-save"
-                                         action="#{controller.save}"
-                                         process="@form"
-                                         update="@form"/>
-                    </p:outputPanel>
-                </f:facet>
-            </p:panel>
+        <h:form id="setting_form" prependId="false">
+            <framework:dataTable id="setting" formDialogId="setting"
+                                 headText="#{msg['blog']['settingManagement']}"
+                                 value="#{viewScope.list}"
+                                 singleSelection="#{viewScope.sinSelected}"
+                                 multipleSelection="#{viewScope.mulSelected}">
+
+                <p:column field="code"/>
+                <p:column field="name"/>
+                <p:column field="type"/>
+                <p:column field="global"/>
+
+            </framework:dataTable>
+        </h:form>
+    </ui:define>
+    <ui:define name="dialog">
+        <h:form id="dialog_form">
+            <framework:dialog id="setting" value="#{viewScope.vo}"
+                              saveUpdate="@widgetVar(setting_dataTable)">
+
+                <framework:label target="name" value="#{msg['blog']['name']}" styleClass="p-col-6">
+                    <p:inputText id="name" value="#{viewScope.vo.name}" required="true"/>
+                </framework:label>
+
+                <framework:label target="code" value="#{msg['blog']['code']}" styleClass="p-col-6">
+                    <p:inputText id="code" value="#{viewScope.vo.code}" required="true"/>
+                </framework:label>
+
+                <framework:label target="inputType" value="#{msg['blog']['inputType']}" styleClass="p-col-6">
+                    <p:selectOneMenu value="#{viewScope.vo.type}" converter="inputTypeConverter">
+                        <f:selectItems value="#{viewScope.types}" var="type" itemLabel="#{type.title}"
+                                       itemValue="#{type}"/>
+                    </p:selectOneMenu>
+                </framework:label>
+
+
+                <framework:label target="global" value="#{msg['blog']['global']}" styleClass="p-col-6">
+                    <p:selectOneRadio value="#{viewScope.vo.global}">
+                        <f:selectItem itemValue="#{null}" itemLabel="#{msg['framework']['all']}"/>
+                        <f:selectItem itemValue="#{true}" itemLabel="#{msg['framework']['yes']}"/>
+                        <f:selectItem itemValue="#{false}" itemLabel="#{msg['framework']['no']}"/>
+                    </p:selectOneRadio>
+                </framework:label>
+
+                <framework:label target="options" value="#{msg['blog']['options']}" styleClass="p-col-6">
+                    <p:selectOneRadio value="#{viewScope.vo.options}">
+                        <f:selectItems value="#{viewScope.dicts}" var="dict" itemLabel="#{dict.title}"
+                                       itemValue="#{dict.code}"/>
+                    </p:selectOneRadio>
+                </framework:label>
+            </framework:dialog>
         </h:form>
     </ui:define>
 </ui:composition>

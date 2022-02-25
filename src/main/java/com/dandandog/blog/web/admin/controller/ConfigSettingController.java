@@ -8,7 +8,8 @@ import com.dandandog.framework.faces.annotation.MessageRequired;
 import com.dandandog.framework.faces.annotation.MessageType;
 import com.dandandog.framework.faces.controller.FacesController;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
-import com.dandandog.modules.blog.entity.enums.InputType;
+import com.dandandog.modules.config.entity.enums.InputType;
+import com.dandandog.modules.config.service.ConfigDictNodeService;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Controller;
 
@@ -24,17 +25,21 @@ public class ConfigSettingController extends FacesController {
 
 
     @Resource
-    private ConfigSettingFaces configSettingFaces;
+    private ConfigSettingFaces settingFaces;
+
+    @Resource
+    private ConfigDictNodeService dictNodeService;
 
 
     @Override
     public void onEntry() {
         putViewScope("vo", new ConfigSettingVo());
-        putViewScope("list", configSettingFaces.list());
+        putViewScope("list", settingFaces.list());
         putViewScope("sinSelected", null);
         putViewScope("mulSelected", Lists.newArrayList());
 
-        putViewScope("inputTypes", InputType.values());
+        putViewScope("types", InputType.values());
+        putViewScope("dictNodes", dictNodeService.list());
     }
 
     public void add() {
@@ -44,7 +49,7 @@ public class ConfigSettingController extends FacesController {
 
     public void edit() {
         ConfigSettingVo selected = getViewScope("sinSelected");
-        ConfigSettingVo vo = configSettingFaces.getOptById(selected.getId())
+        ConfigSettingVo vo = settingFaces.getOptById(selected.getId())
                 .orElseThrow(() -> new MessageResolvableException("error.dataNotFound"));
         putViewScope("vo", vo);
     }
@@ -52,7 +57,7 @@ public class ConfigSettingController extends FacesController {
     @MessageRequired(type = MessageType.SAVE)
     public void save() {
         ConfigSettingVo vo = getViewScope("vo");
-        configSettingFaces.saveOrUpdate(vo);
+        settingFaces.saveOrUpdate(vo);
     }
 
     @MessageRequired(type = MessageType.DELETE)
@@ -61,6 +66,6 @@ public class ConfigSettingController extends FacesController {
         List<ConfigSettingVo> selectedList = getViewScope("mulSelected");
         String[] idList = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected))
                 .stream().map(IVo::getId).toArray(String[]::new);
-        configSettingFaces.removeByIds(idList);
+        settingFaces.removeByIds(idList);
     }
 }

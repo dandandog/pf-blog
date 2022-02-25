@@ -47,13 +47,14 @@ public class ConfigDictFaces {
         return dataModel.createRoot(state);
     }
 
-
-    public Collection<ConfigDictValueVo> list(String nodeId) {
+    public Collection<ConfigDictValueVo> findValueByNode(String nodeId) {
         List<ConfigDictValue> list = dictValueService.lambdaQuery().eq(ConfigDictValue::getNodeId, nodeId).orderByAsc(ConfigDictValue::getSeq).list();
         Collection<ConfigDictValueVo> dictValueVos = MapperUtil.mapToAll(list, ConfigDictValueVo.class);
         updateBySort(dictValueVos);
         return dictValueVos;
     }
+
+
 
     public void updateBySort(Collection<ConfigDictValueVo> list) {
         for (int i = 0; i < list.size(); i++) {

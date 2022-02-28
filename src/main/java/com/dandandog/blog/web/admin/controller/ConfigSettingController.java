@@ -59,6 +59,7 @@ public class ConfigSettingController extends FacesController {
     public void save() {
         ConfigSettingVo vo = getViewScope("vo");
         settingFaces.saveOrUpdate(vo);
+        onEntry();
     }
 
     @MessageRequired(type = MessageType.DELETE)
@@ -68,5 +69,6 @@ public class ConfigSettingController extends FacesController {
         String[] idList = CollUtil.defaultIfEmpty(selectedList, Lists.newArrayList(selected))
                 .stream().map(IVo::getId).toArray(String[]::new);
         settingFaces.removeByIds(idList);
+        onEntry();
     }
 }

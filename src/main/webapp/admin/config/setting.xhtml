@@ -16,10 +16,10 @@
                                  singleSelection="#{viewScope.sinSelected}"
                                  multipleSelection="#{viewScope.mulSelected}">
 
-                <p:column field="code"/>
-                <p:column field="name"/>
-                <p:column field="type"/>
-                <p:column field="global"/>
+                <p:column field="code" headerText="#{msg['blog']['code']}"/>
+                <p:column field="name" headerText="#{msg['blog']['name']}"/>
+                <p:column field="type" headerText="#{msg['blog']['type']}"/>
+                <p:column field="global" headerText="#{msg['blog']['global']}"/>
 
             </framework:dataTable>
         </h:form>
@@ -55,6 +55,8 @@
 
                 <framework:label target="options" value="#{msg['blog']['options']}" styleClass="p-col-6">
                     <p:selectOneMenu value="#{viewScope.vo.options}">
+                        <f:selectItem itemLabel="#{msg['framework']['pleaseChoose']}"
+                                      itemValue="#{null}"/>
                         <f:selectItems value="#{viewScope.dictNodes}" var="dict" itemLabel="#{dict.name}"
                                        itemValue="#{dict.code}"/>
                     </p:selectOneMenu>
